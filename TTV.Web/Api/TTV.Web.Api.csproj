@@ -1,0 +1,26 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net7.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <UserSecretsId>7b39ae7b-50a4-4f40-bf75-4fd8e343d7da</UserSecretsId>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="AutoMapper" Version="12.0.1" />
+    <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="12.0.1" />
+    <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="7.0.9" />
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="6.5.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="7.0.9" />
+
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\TTV.Application\TTV.Application.csproj" />
+    <ProjectReference Include="..\..\TTV.Domain\TTV.Domain.csproj" />
+    <ProjectReference Include="..\..\TTV.Infrastructure\TTV.Infrastructure.csproj" />
+    <ProjectReference Include="..\Shared\TTV.Web.Shared.csproj" />
+  </ItemGroup>
+
+</Project>

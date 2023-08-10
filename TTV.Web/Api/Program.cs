@@ -4,7 +4,7 @@ using Microsoft.IdentityModel.Tokens;
 using TTV.Application;
 using TTV.Domain.DomainServices;
 using TTV.Infrastructure.DataAccess;
-using TTV.Web.Api;
+using TTV.Web.Api.AutoMapper;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -35,7 +35,7 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
         };
     });
 
-builder.Services.AddScoped<ICourseDataService, CourseDataService>();
+builder.Services.AddScoped<ILessonDataService, LessonDataService>();
 builder.Services.AddScoped<IUnitOfWorkFactory, UnitOfWorkFactory>();
 builder.Services.AddAutoMapper(typeof(AutoMapperProfile));
 

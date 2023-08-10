@@ -1,43 +1,33 @@
-﻿@page "/courses"
+﻿@page "/lessons"
 @using Microsoft.AspNetCore.Components.WebAssembly.Authentication;
 @using TTV.Web.Shared;
 @inject HttpClient Http
 
-<PageTitle>Tesla Tuition Videos - Courses</PageTitle>
+<PageTitle>Tesla Tuition Videos - Lessons</PageTitle>
 
-<h1>Courses</h1>
+<h1>Lessons</h1>
 
-@if (courses == null)
+@if (lessons == null)
 {
     <p><em>Loading...</em></p>
 }
 else
 {
-    <AuthorizeView>
-        <Authorized>
-            <dl>
-                @foreach (var claim in @context.User.Claims)
-                {
-                    <dt>@claim.Type</dt>
-                    <dd>@claim.Value</dd>
-                }
-            </dl>
-        </Authorized>
-    </AuthorizeView>
-
     <table class="table">
         <thead>
             <tr>
                 <th>Title</th>
                 <th>Description</th>
+                <th>Type</th>
             </tr>
         </thead>
         <tbody>
-            @foreach (var course in courses)
+            @foreach (var lesson in lessons)
             {
                 <tr>
-                    <td>@course.Title</td>
-                    <td>@course.Description</td>
+                    <td>@lesson.Title</td>
+                    <td>@lesson.Description</td>
+                    <td>@lesson.LessonType.Name</td>
                 </tr>
             }
         </tbody>
@@ -45,13 +35,13 @@ else
 }
 
 @code {
-    private CourseDto[]? courses;
+    private LessonDto[]? lessons;
 
     protected override async Task OnInitializedAsync()
     {
         try
         {
-            courses = await Http.GetFromJsonAsync<CourseDto[]>("api/Course");
+            lessons = await Http.GetFromJsonAsync<LessonDto[]>("api/Lesson");
         }
         catch (AccessTokenNotAvailableException exception)
         {

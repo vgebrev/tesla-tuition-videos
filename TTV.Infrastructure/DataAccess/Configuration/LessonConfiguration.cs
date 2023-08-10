@@ -10,7 +10,6 @@ internal class LessonConfiguration : IEntityTypeConfiguration<Lesson>
     {
         entity.HasKey(lesson => lesson.Id);
         entity.Property(lesson => lesson.Id).HasColumnName($"{nameof(Lesson)}{nameof(Lesson.Id)}");
-        entity.HasOne(lesson => lesson.Chapter).WithMany(chapter => chapter.Lessons).OnDelete(DeleteBehavior.Restrict);
         entity.Property(lesson => lesson.LessonType).HasConversion<int>().HasColumnName($"{nameof(LessonType)}Id");
         entity.HasOne(typeof(LookupEntity<LessonType>)).WithMany()
             .HasPrincipalKey(nameof(LookupEntity<LessonType>.Id))

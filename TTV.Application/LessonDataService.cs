@@ -5,21 +5,21 @@ using TTV.Web.Shared;
 
 namespace TTV.Application;
 
-public class CourseDataService : ICourseDataService
+public class LessonDataService : ILessonDataService
 {
     private readonly IUnitOfWorkFactory unitOfWorkFactory;
     private readonly IMapper mapper;
 
-    public CourseDataService(IUnitOfWorkFactory unitOfWorkFactory, IMapper mapper)
+    public LessonDataService(IUnitOfWorkFactory unitOfWorkFactory, IMapper mapper)
     {
         this.unitOfWorkFactory = unitOfWorkFactory;
         this.mapper = mapper;
     }
 
-    public async Task<IEnumerable<CourseDto>> GetCoursesAsync()
+    public async Task<IEnumerable<LessonDto>> GetLessonsAsync()
     {
         using var unitOfWork = await unitOfWorkFactory.CreateAsync();
-        var courses = await unitOfWork.GetRepository<Course>().GetAsync();
-        return mapper.Map<IEnumerable<CourseDto>>(courses);
+        var lessons = await unitOfWork.GetRepository<Lesson>().GetAsync();
+        return mapper.Map<IEnumerable<LessonDto>>(lessons);
     }
 }

@@ -15,102 +15,94 @@ namespace TTV.DatabaseDeploy
 
         public async Task<SampleData> PopulateAsync()
         {
-            Console.WriteLine("Running migrations.");
-            await dataContext.Database.MigrateAsync();
-            if (dataContext.Courses.Any())
+            await using var transaction = await dataContext.Database.BeginTransactionAsync();
+            try
             {
-                Console.WriteLine("Courses already exist, will not populate.");
-                return this;
-            }
+                Console.WriteLine("Running migrations.");
+                await dataContext.Database.MigrateAsync();
 
-            var courses = new List<Course>()
+                Console.WriteLine("Syncing Data.");
+                await SetIdentityInsertAsync<Lesson>(true);
+                SyncLessons();
+
+                Console.WriteLine("Saving changes.");
+                await dataContext.SaveChangesAsync();
+                await SetIdentityInsertAsync<Lesson>(false);
+                await transaction.CommitAsync();
+            }
+            catch (Exception)
             {
-                new Course() 
-                { 
-                    Title = "Grade 11 IEB Electromagnetism Physics Course", 
-                    Description = "This is the description of an example grade 11 physics test course",
-                    Chapters = new HashSet<Chapter>()
-                    {
-                        new Chapter()
-                        {
-                            SequenceNumber = 1,
-                            Title = "Chapter 1: Don't put toasters in the bath tub",
-                            Description = "Description of the example chapter 1",
-                            Lessons = new HashSet<Lesson>()
-                            {
-                                new Lesson()
-                                {
-                                    SequenceNumber = 1,
-                                    Title = "Video 1.1: Turbines go brrrrrr",
-                                    Description = "Description of the example video lesson",
-                                    LessonType = LessonType.Video,
-                                },
-                                new Lesson()
-                                {
-                                    SequenceNumber = 2,
-                                    Title = "Worksheet 1.1: Do your homework!",
-                                    Description = "Description of the example worksheet lesson",
-                                    LessonType = LessonType.Worksheet,
-                                }
-                            }
-                        },
-                        new Chapter()
-                        {
-                            SequenceNumber = 2,
-                            Title = "Chapter 2: Magnets how do they work?",
-                            Description = "We'll probably never know",
-                            Lessons = new HashSet<Lesson>()
-                            {
-                                new Lesson()
-                                {
-                                    SequenceNumber = 1,
-                                    Title = "Video 2.1: Opposites attract",
-                                    Description = "Description of the second example video lesson",
-                                    LessonType = LessonType.Video,
-                                },
-                            }
-                        }
-                    }
-                },
-                new Course() 
-                { 
-                    Title = "Grade 12 CAPS Organic Chemistry Course", 
-                    Description = "This is the description of an example grade 12 chemistry course" 
-                },
-                new Course() 
-                { 
-                    Title = "Grade 12 CAPS Momentum and Impulse Physics Course", 
-                    Description = "This is the description of the grade 12 chemi course" ,
-                    Chapters = new HashSet<Chapter>()
-                    {
-                        new Chapter()
-                        {
-                            SequenceNumber = 1,
-                            Title = "Chapter 1: Cannons and Ballistic Missiles",
-                            Description = "Learn about blowing things up from a safe distance",
-                            Lessons = new HashSet<Lesson>()
-                            {
-                                new Lesson()
-                                {
-                                    SequenceNumber = 1,
-                                    Title = "Video 1.1: Cannon goes BOOM!",
-                                    Description = "Gun powder was invented in China",
-                                    LessonType = LessonType.Video,
-                                },
-                            }
-                        }
-                    }
-                }
+                await transaction.RollbackAsync();
+                throw;
+            }
+            return this;
+        }
+
+        private async Task SetIdentityInsertAsync<TEntity>(bool enabled) where TEntity : BaseEntity
+        {
+            var entityType = dataContext.Model.FindEntityType(typeof(TEntity)) ?? throw new InvalidOperationException($"Entity type {typeof(TEntity)} not found in model.");
+            var sql = $"SET IDENTITY_INSERT [{entityType.GetSchema()}].[{entityType.GetTableName()}] {(enabled ? "ON" : "OFF")}";
+            await dataContext.Database.ExecuteSqlRawAsync(sql);
+        }
+
+        public void SyncLessons()
+        {
+            Console.WriteLine("\tSyncing Lessons.");
+            var source = new List<Lesson>()
+            {
+                new Lesson() { Id = 1, Title = "Finding the Resultant of Multiple Forces", LessonType = LessonType.Video },
+                new Lesson() { Id = 2, Title = "Components of Angled Forces", LessonType = LessonType.Video },
+                new Lesson() { Id = 3, Title = "Forces in Equilibrium", LessonType = LessonType.Video },
+                new Lesson() { Id = 4, Title = "Forces on an Inclined Surface", LessonType = LessonType.Video },
+                new Lesson() { Id = 5, Title = "The Force of Normal", LessonType = LessonType.Video },
+                new Lesson() { Id = 6, Title = "Frictional Forces", LessonType = LessonType.Video },
+                new Lesson() { Id = 7, Title = "Coefficients of Friction", LessonType = LessonType.Video },
+                new Lesson() { Id = 8, Title = "Newton's First Law of Motion", LessonType = LessonType.Video },
+                new Lesson() { Id = 9, Title = "Newton's Second Law of Motion", LessonType = LessonType.Video },
+                new Lesson() { Id = 10, Title = "Newton's 2nd Law Questions Involving Simultaneous Equations", LessonType = LessonType.Video },
+                new Lesson() { Id = 11, Title = "Newton's Third Law of Motion", LessonType = LessonType.Video },
+                new Lesson() { Id = 12, Title = "Newton's Law of Universal Gravitation", LessonType = LessonType.Video },
+                new Lesson() { Id = 13, Title = "Electrostatics Part 1", Description = "Revision of basics, Coulomb's Law (theory and calculations.)", LessonType = LessonType.Video },
+                new Lesson() { Id = 14, Title = "Electrostatics Part 2", Description = "Electric fields, electric field strength at a point (theory and calculations), other electrostatics calculations.", LessonType = LessonType.Video },
+                new Lesson() { Id = 15, Title = "Electric Circuits Part 1", Description = "Potential difference, current, resistance, EMF, ammeters, voltmeters, Ohm’s Law, Ohmic vs. non-Ohmic conductors.",LessonType = LessonType.Video },
+                new Lesson() { Id = 16, Title = "Electric Circuits Part 2", Description = "Series circuits, parallel circuits and combination circuits.", LessonType = LessonType.Video },
+                new Lesson() { Id = 17, Title = "Electric Circuits Part 3", Description = "The effect of adding/removing resistors in series/parallel, electrical power, cost of electricity using kilowatthours, electric circuits calculations.", LessonType = LessonType.Video },
+                new Lesson() { Id = 18, Title = "Converting Moles Between Different Substances in a Chemical Reaction", LessonType = LessonType.Video },
+                new Lesson() { Id = 19, Title = "Limiting Reagents", LessonType = LessonType.Video },
+                new Lesson() { Id = 20, Title = "Percentage Purity", LessonType = LessonType.Video },
+                new Lesson() { Id = 21, Title = "Percentage Yield", LessonType = LessonType.Video },
+                new Lesson() { Id = 22, Title = "Polar and Non-Polar Bonds vs Polar and Non-Polar Molecules", LessonType = LessonType.Video },
+                new Lesson() { Id = 23, Title = "Intermolecular Forces", LessonType = LessonType.Video },
+                new Lesson() { Id = 24, Title = "Determining Molecular Shape using the VSEPR Theory", LessonType = LessonType.Video },
+                new Lesson() { Id = 25, Title = "Energy and Chemical Change", LessonType = LessonType.Video },
             };
 
-            foreach (var course in courses)
+            var existingLessons = dataContext.Lessons.ToList();
+
+            foreach (var sourceLesson in source)
             {
-                Console.WriteLine($"Adding course {course.Description}.");
-                dataContext.Courses.Add(course);
+                var existingLesson = existingLessons.FirstOrDefault(l => l.Id == sourceLesson.Id);
+
+                if (existingLesson == null)
+                {
+                    Console.WriteLine($"\t\tAdding lesson ({sourceLesson.Id}) {sourceLesson.Title}.");
+                    dataContext.Lessons.Add(sourceLesson);
+                }
+                else
+                {
+                    Console.WriteLine($"\t\tUpdating lesson ({sourceLesson.Id}) {sourceLesson.Title}.");
+                    dataContext.Entry(existingLesson).CurrentValues.SetValues(sourceLesson);
+                }
             }
-            Console.WriteLine("Saving changes.");
-            await dataContext.SaveChangesAsync();
-            return this;
+
+            foreach (var existingLesson in existingLessons)
+            {
+                if (!source.Any(l => l.Id == existingLesson.Id))
+                {
+                    Console.WriteLine($"\t\tRemoving lesson ({existingLesson.Id}) {existingLesson.Title}.");
+                    dataContext.Lessons.Remove(existingLesson);
+                }
+            }
         }
     }
 }

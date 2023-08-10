@@ -8,18 +8,18 @@ namespace TTV.Web.Api.Controllers;
 [Route("api/[controller]")]
 [ApiController]
 [Authorize]
-public class CourseController : ControllerBase
+public class LessonController : ControllerBase
 {
-    private readonly ICourseDataService dataService;
+    private readonly ILessonDataService dataService;
 
-    public CourseController(ICourseDataService dataService)
+    public LessonController(ILessonDataService dataService)
     {
         this.dataService = dataService;
     }
 
     [HttpGet]
-    public async Task<IEnumerable<CourseDto>> GetCoursesAsync()
+    public async Task<IEnumerable<LessonDto>> GetCoursesAsync()
     {
-        return await dataService.GetCoursesAsync();
+        return await dataService.GetLessonsAsync();
     }
 }

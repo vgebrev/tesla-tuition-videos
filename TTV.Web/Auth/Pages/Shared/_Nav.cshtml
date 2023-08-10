@@ -8,25 +8,32 @@
 }
 
 <div class="nav-page">
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark" data-bs-theme="dark">
+        <div class="container-fluid">
 
-        <a href="~/" class="navbar-brand">
             <img src="~/ttv-logo.svg" class="icon-banner ms-3">
-            <span class="h1">Tesla Tuition Videos</span>
-        </a>
+            <a href="~/" class="navbar-brand">
+                <span class="h2">Tesla Tuition Videos</span>
+            </a>
 
-        @if (!string.IsNullOrWhiteSpace(name))
-        {
-            <ul class="navbar-nav mr-auto">
-                <li class="nav-item dropdown">
-                    <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">@name <b class="caret"></b></a>
-                    
-                    <div class="dropdown-menu">
-                        <a class="dropdown-item" asp-page="/Account/Logout/Index">Logout</a>
-                    </div>
-              </li>
-            </ul>
-        }
-    
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="navbar">
+                @if (!string.IsNullOrWhiteSpace(name))
+                {
+                    <ul class="navbar-nav ms-md-auto">
+                        <li class="nav-item dropdown">
+                            <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">@name <b class="caret"></b></a>
+
+                            <div class="dropdown-menu">
+                                <a class="dropdown-item" asp-page="/Account/Logout/Index">Log out</a>
+                            </div>
+                        </li>
+                    </ul>
+                }
+            </div>
+        </div>
     </nav>
 </div>

@@ -1,0 +1,61 @@
+﻿@page "/courses"
+@using Microsoft.AspNetCore.Components.WebAssembly.Authentication;
+@using TTV.Web.Shared;
+@inject HttpClient Http
+
+<PageTitle>Tesla Tuition Videos - Courses</PageTitle>
+
+<h1>Courses</h1>
+
+@if (courses == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <AuthorizeView>
+        <Authorized>
+            <dl>
+                @foreach (var claim in @context.User.Claims)
+                {
+                    <dt>@claim.Type</dt>
+                    <dd>@claim.Value</dd>
+                }
+            </dl>
+        </Authorized>
+    </AuthorizeView>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Title</th>
+                <th>Description</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var course in courses)
+            {
+                <tr>
+                    <td>@course.Title</td>
+                    <td>@course.Description</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+@code {
+    private CourseDto[]? courses;
+
+    protected override async Task OnInitializedAsync()
+    {
+        try
+        {
+            courses = await Http.GetFromJsonAsync<CourseDto[]>("api/Course");
+        }
+        catch (AccessTokenNotAvailableException exception)
+        {
+            exception.Redirect();
+        }
+    }
+}

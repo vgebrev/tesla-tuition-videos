@@ -123,17 +123,17 @@ public class Index : PageModel
         var request = await _interaction.GetAuthorizationContextAsync(returnUrl);
         if (request != null)
         {
-            return CreateConsentViewModel(model, returnUrl, request);
+            return CreateConsentViewModel(model, request);
         }
         else
         {
-            _logger.LogError("No consent request matching request: {0}", returnUrl);
+            _logger.LogError("No consent request matching request: {ReturnUrl}", returnUrl);
         }
         return null;
     }
 
     private ViewModel CreateConsentViewModel(
-        InputModel model, string returnUrl,
+        InputModel model,
         AuthorizationRequest request)
     {
         var vm = new ViewModel
@@ -141,12 +141,11 @@ public class Index : PageModel
             ClientName = request.Client.ClientName ?? request.Client.ClientId,
             ClientUrl = request.Client.ClientUri,
             ClientLogoUrl = request.Client.LogoUri,
-            AllowRememberConsent = request.Client.AllowRememberConsent
-        };
-
-        vm.IdentityScopes = request.ValidatedResources.Resources.IdentityResources
+            AllowRememberConsent = request.Client.AllowRememberConsent,
+            IdentityScopes = request.ValidatedResources.Resources.IdentityResources
             .Select(x => CreateScopeViewModel(x, model?.ScopesConsented == null || model.ScopesConsented?.Contains(x.Name) == true))
-            .ToArray();
+            .ToArray()
+        };
 
         var resourceIndicators = request.Parameters.GetValues(OidcConstants.AuthorizeRequest.Resource) ?? Enumerable.Empty<string>();
         var apiResources = request.ValidatedResources.Resources.ApiResources.Where(x => resourceIndicators.Contains(x.Name));
@@ -176,7 +175,7 @@ public class Index : PageModel
         return vm;
     }
 
-    private ScopeViewModel CreateScopeViewModel(IdentityResource identity, bool check)
+    private static ScopeViewModel CreateScopeViewModel(IdentityResource identity, bool check)
     {
         return new ScopeViewModel
         {
@@ -210,7 +209,7 @@ public class Index : PageModel
         };
     }
 
-    private ScopeViewModel GetOfflineAccessScope(bool check)
+    private static ScopeViewModel GetOfflineAccessScope(bool check)
     {
         return new ScopeViewModel
         {

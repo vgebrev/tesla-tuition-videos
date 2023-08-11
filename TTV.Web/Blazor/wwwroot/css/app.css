@@ -1,4 +1,9 @@
-﻿body {
+﻿@font-face {
+    font-family: 'Ethnocentric';
+    src: url('../lib/fonts/ethnocentric rg.otf') format('opentype');
+}
+
+body {
     padding-top: 120px;
 }
 
@@ -38,4 +43,12 @@
 
 .icon-banner {
     width: 32px;
+}
+
+.icon-banner-lg {
+    width: 64px;
+}
+
+.brand-text {
+    font-family: Ethnocentric, "Open Sans";
 }

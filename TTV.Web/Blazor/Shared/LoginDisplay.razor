@@ -2,24 +2,22 @@
 @using Microsoft.AspNetCore.Components.WebAssembly.Authentication
 @inject NavigationManager Navigation
 
-<ul class="navbar-nav ms-md-auto me-3">
-    <AuthorizeView>
-        <Authorized>
-            <li class="nav-item dropdown">
-                <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">@context.User.Identity?.Name <b class="caret"></b></a>
+<AuthorizeView>
+    <Authorized>
+        <li class="nav-item dropdown">
+            <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">@context.User.Identity?.Name <b class="caret"></b></a>
 
-                <div class="dropdown-menu">
-                    <button class="dropdown-item" @onclick="BeginLogOut">Log out</button>
-                </div>
-            </li>
-        </Authorized>
-        <NotAuthorized>
-            <li class="nav-item">
-                <a class="nav-link" href="authentication/login">Log in</a>
-            </li>
-        </NotAuthorized>
-    </AuthorizeView>
-</ul>
+            <div class="dropdown-menu">
+                <button class="dropdown-item" @onclick="BeginLogOut">Log out</button>
+            </div>
+        </li>
+    </Authorized>
+    <NotAuthorized>
+        <li class="nav-item">
+            <a class="nav-link" href="authentication/login">Log in</a>
+        </li>
+    </NotAuthorized>
+</AuthorizeView>
 
 @code {
     private void BeginLogOut()

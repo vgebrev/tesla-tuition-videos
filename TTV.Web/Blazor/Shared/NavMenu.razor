@@ -2,7 +2,7 @@
     <div class="container">
         <img src="img/ttv-logo.svg" class="icon-banner ms-3">
         <a href="/" class="navbar-brand">
-            <span class="h3">Tesla Tuition Videos</span>
+            <span class="brand-text h3">Tesla Tuition Videos</span>
         </a>
 
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -10,10 +10,10 @@
         </button>
 
         <div class="collapse navbar-collapse" id="navbar">
-            <ul class="navbar-nav">
+            <ul class="navbar-nav ms-md-auto">
                 <NavLink class="nav-link" href="lessons" Match="NavLinkMatch.All">Lessons</NavLink>
+                <LoginDisplay />
             </ul>
-            <LoginDisplay />
         </div>
     </div>
 </nav>

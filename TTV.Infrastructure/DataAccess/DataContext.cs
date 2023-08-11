@@ -10,10 +10,11 @@ public class DataContext : DbContext
     public DataContext(DbContextOptions<DataContext> options) : base(options) { }
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        modelBuilder.HasDefaultSchema("ttv");
         base.OnModelCreating(modelBuilder);
         modelBuilder.HasEnumLookup<LessonType>();
         modelBuilder.ApplyConfigurationsFromAssembly(typeof(DataContext).Assembly);
     }
     public DbSet<Lesson> Lessons { get; set; } = default!;
+    public DbSet<Tag> Tags { get; set; } = default!;
+    public DbSet<TagCategory> TagCategories { get; set; } = default!;
 }

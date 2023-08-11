@@ -1,0 +1,52 @@
+﻿@using TTV.Web.Shared;
+@inject HttpClient Http
+
+<div class="card text-white bg-secondary">
+    <div class="card-header"><i class="bi bi-sliders"></i> Filters</div>
+    <div class="card-body">
+        <SpinLoader IsLoading="IsLoading"></SpinLoader>
+        @if (tagFilterItems != null)
+        {
+            <div class="d-flex justify-content-between">
+                <button type="button" class="btn btn-sm btn-outline-primary m-1"><i class="bi bi-check me-1"></i> Apply</button>
+                <button type="button" class="btn btn-sm btn-outline-primary m-1"><i class="bi bi-x me-1"></i> Clear</button>
+            </div>
+            foreach (var categoryGroup in tagFilterItems.GroupBy(t => t.Tag.Category))
+            {
+                <h5 class="card-title">@categoryGroup.Key.Name</h5>
+                <ul class="list-group list-group-flush">
+                    @foreach (var filterItem in categoryGroup)
+                    {
+                        var tag = filterItem.Tag;
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            <div class="form-check form-switch">
+                                <input class="form-check-input" type="checkbox" @bind="filterItem.IsSelected" id="filter-item-@tag.Id">
+                                <label class="form-check-label" for="filter-item-@tag.Id">@tag.Name</label>
+                            </div>
+                            <span class="badge bg-primary rounded-pill">@tag.LessonCount</span>
+                        </li>
+                    }
+                </ul>
+            }
+
+        }
+    </div>
+</div>
+
+@code {
+    private TagDto[]? tags;
+    private TagFilterItem[]? tagFilterItems;
+    private bool IsLoading => tags == null;
+
+    protected override async Task OnInitializedAsync()
+    {
+        tags = await Http.GetFromJsonAsync<TagDto[]>("api/Tag");
+        tagFilterItems = tags?.Select(t => new TagFilterItem { Tag = t, IsSelected = false }).ToArray() ?? Array.Empty<TagFilterItem>();
+    }
+
+    record TagFilterItem
+    {
+        public TagDto Tag { get; set; } = new();
+        public bool IsSelected { get; set; }
+    }
+}

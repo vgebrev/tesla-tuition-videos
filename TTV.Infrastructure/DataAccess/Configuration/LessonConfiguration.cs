@@ -13,7 +13,7 @@ internal class LessonConfiguration : IEntityTypeConfiguration<Lesson>
         entity.HasOne(typeof(LookupEntity<LessonType>)).WithMany()
             .HasPrincipalKey(nameof(LookupEntity<LessonType>.Id))
             .HasForeignKey(nameof(Lesson.LessonType)).OnDelete(DeleteBehavior.Restrict);
-        entity.HasMany(lesson => lesson.Tags).WithMany().UsingEntity<Dictionary<string, object>>($"{nameof(Lesson)}{nameof(Tag)}",
+        entity.HasMany(lesson => lesson.Tags).WithMany(tag => tag.Lessons).UsingEntity<Dictionary<string, object>>($"{nameof(Lesson)}{nameof(Tag)}",
             l => l.HasOne<Tag>().WithMany().HasForeignKey($"{nameof(Tag)}{nameof(Tag.Id)}").OnDelete(DeleteBehavior.Restrict),
             t => t.HasOne<Lesson>().WithMany().HasForeignKey($"{nameof(Lesson)}{nameof(Lesson.Id)}").OnDelete(DeleteBehavior.Restrict));
         entity.ToTable(nameof(Lesson));

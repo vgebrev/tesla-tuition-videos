@@ -5,34 +5,42 @@
 
 <PageTitle>Tesla Tuition Videos - Lessons</PageTitle>
 
-<h1>Lessons</h1>
+<div class="row justify-content-center">
+    <div class="col text-center">
+        <h1 class="header-white">Lessons</h1>
+    </div>
+</div>
 
-@if (lessons == null)
-{
-    <p><em>Loading...</em></p>
-}
-else
-{
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Title</th>
-                <th>Description</th>
-                <th>Type</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var lesson in lessons)
+<div class="row">
+    <div class="col-3">
+        <TagFilter></TagFilter>
+    </div>
+    <div class="col">
+        <div class="row">
+            <div class="col-12">
+                <LessonSearch></LessonSearch>
+            </div>
+        </div>
+
+        <div class="row row-cols-2 g-3">
+            @if (lessons == null)
             {
-                <tr>
-                    <td>@lesson.Title</td>
-                    <td>@lesson.Description</td>
-                    <td>@lesson.LessonType.Name</td>
-                </tr>
+                <div class="col text-center">
+                    <SpinLoader IsLoading="true"></SpinLoader>
+                </div>
             }
-        </tbody>
-    </table>
-}
+            else
+            {
+                @foreach (var lesson in lessons)
+                {
+                    <div class="col">
+                        <LessonCard Lesson="lesson"></LessonCard>
+                    </div>
+                }
+            }
+        </div>
+    </div>
+</div>
 
 @code {
     private LessonDto[]? lessons;

@@ -19,7 +19,7 @@ public class LessonDataService : ILessonDataService
     public async Task<IEnumerable<LessonDto>> GetLessonsAsync()
     {
         using var unitOfWork = await unitOfWorkFactory.CreateAsync();
-        var lessons = await unitOfWork.GetRepository<Lesson>().GetAsync();
+        var lessons = await unitOfWork.GetRepository<Lesson>().GetAsync(includeProperties: $"{nameof(Lesson.Tags)}.{nameof(Tag.Category)}");
         return mapper.Map<IEnumerable<LessonDto>>(lessons);
     }
 }

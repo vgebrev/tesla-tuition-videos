@@ -4,7 +4,7 @@
 }
 
 body {
-    padding-top: 120px;
+    padding-top: 70px;
 }
 
 #blazor-error-ui {
@@ -51,4 +51,8 @@ body {
 
 .brand-text {
     font-family: Ethnocentric, "Open Sans";
+}
+
+.header-white {
+    color: rgb(var(--bs-white-rgb, 1));
 }

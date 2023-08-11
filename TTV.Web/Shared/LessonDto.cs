@@ -2,9 +2,10 @@
 {
     public record LessonDto
     {
-        public int Id { get; set; } 
-        public string Title { get; set; } = string.Empty;
-        public string Description { get; set; } = string.Empty;
-        public LookupDto LessonType { get; set; } = default!;
+        public int Id { get; init; } 
+        public string Title { get; init; } = string.Empty;
+        public string Description { get; init; } = string.Empty;
+        public LookupDto LessonType { get; init; } = default!;
+        public TagDto[] Tags { get; init; } = default!;
     }
 }

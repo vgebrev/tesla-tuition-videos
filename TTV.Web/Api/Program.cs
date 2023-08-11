@@ -36,6 +36,7 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     });
 
 builder.Services.AddScoped<ILessonDataService, LessonDataService>();
+builder.Services.AddScoped<ITagDataService, TagDataService>();
 builder.Services.AddScoped<IUnitOfWorkFactory, UnitOfWorkFactory>();
 builder.Services.AddAutoMapper(typeof(AutoMapperProfile));
 

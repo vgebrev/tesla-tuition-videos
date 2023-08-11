@@ -1,0 +1,29 @@
+﻿@using TTV.Web.Shared;
+<div class="card border-primary">
+    <div class="card-body">
+        <h5 class="card-title"><i class="bi bi-book me-2"></i>@Lesson.Title</h5>
+        <p class="card-text">@Lesson.Description</p>
+        @foreach (var tag in Lesson.Tags)
+        {
+           <span class="badge @GetBackground(tag.Category.Priority) mx-1">@tag.Name</span> 
+        }
+        
+    </div>
+    <div class="card-footer">
+        <a href="lesson/@Lesson.Id" class="card-link">View Lesson</a>
+    </div>
+</div>
+
+@code {
+    [Parameter]
+    public LessonDto Lesson { get; set; } = new();
+
+    private string GetBackground(int priority) => priority switch
+    {
+        0 => "bg-primary",
+        1 => "bg-info",
+        2 => "bg-secondary",
+        3 => "bg-dark",
+        _ => "bg-light"
+    };
+}

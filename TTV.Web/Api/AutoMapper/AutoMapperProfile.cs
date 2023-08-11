@@ -11,6 +11,9 @@ public class AutoMapperProfile : Profile
         CreateMap<Lesson, LessonDto>();
         CreateMap<LessonType, LookupDto>()
             .ConvertUsing<EnumToLookupDtoConverter<LessonType>>();
+        CreateMap<Tag, TagDto>()
+            .ForMember(dto => dto.LessonCount, (x) => x.MapFrom(src => src.Lessons.Count));
+        CreateMap<TagCategory, TagCategoryDto>();
     }
 }
 

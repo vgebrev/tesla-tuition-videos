@@ -4,8 +4,8 @@ namespace TTV.Domain.DomainServices;
 
 public interface IUnitOfWork : IDisposable
 {
-    public Task StartAsync();
-    public Task EndAsync();
+    public Task StartAsync(CancellationToken cancellationToken = default);
+    public Task EndAsync(CancellationToken cancellationToken = default);
     public IRepository<TEntity> GetRepository<TEntity>() 
         where TEntity : BaseEntity;
 }

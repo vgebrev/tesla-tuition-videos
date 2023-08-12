@@ -16,9 +16,9 @@ namespace TTV.Web.Api.Controllers
         }
 
         [HttpGet]
-        public async Task<IEnumerable<TagDto>> GetTagsAsync()
+        public async Task<IEnumerable<TagDto>> GetTagsAsync(CancellationToken cancellationToken = default)
         {
-            return await dataService.GetTagsAsync();
+            return await dataService.GetTagsAsync(cancellationToken);
         }
     }
 }

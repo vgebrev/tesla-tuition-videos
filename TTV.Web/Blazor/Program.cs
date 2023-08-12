@@ -1,11 +1,12 @@
+using Fluxor;
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 using TTV.Web.Blazor;
+using TTV.Web.Blazor.Services;
 
 var builder = WebAssemblyHostBuilder.CreateDefault(args);
 builder.RootComponents.Add<App>("#app");
 builder.RootComponents.Add<HeadOutlet>("head::after");
-
 
 builder.Services.AddHttpClient("TTV Web API", client => client.BaseAddress = new Uri(builder.Configuration["Local:ApiRootUri"] ?? ""))
     .AddHttpMessageHandler<ApiAuthorizationMessageHandler>()
@@ -19,5 +20,15 @@ builder.Services.AddOidcAuthentication(options =>
 {
     builder.Configuration.Bind("Local", options.ProviderOptions);
 });
+builder.Services.AddFluxor(options => 
+{
+    options.ScanAssemblies(typeof(Program).Assembly);
+#if DEBUG
+    options.UseReduxDevTools();
+#endif    
+});
+
+builder.Services.AddScoped<ILessonDataService, LessonDataService>();
+builder.Services.AddScoped<ITagDataService, TagDataService>();
 
 await builder.Build().RunAsync();

@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using TTV.Domain.DomainServices;
 using TTV.Domain.Entities;
+using TTV.Domain.Specifications;
 using TTV.Web.Shared;
 
 namespace TTV.Application;
@@ -16,10 +17,17 @@ public class LessonDataService : ILessonDataService
         this.mapper = mapper;
     }
 
-    public async Task<IEnumerable<LessonDto>> GetLessonsAsync()
+    public async Task<IEnumerable<LessonDto>> GetLessonsAsync(CancellationToken cancellationToken = default)
     {
-        using var unitOfWork = await unitOfWorkFactory.CreateAsync();
-        var lessons = await unitOfWork.GetRepository<Lesson>().GetAsync(includeProperties: $"{nameof(Lesson.Tags)}.{nameof(Tag.Category)}");
+        using var unitOfWork = await unitOfWorkFactory.CreateAsync(cancellationToken);
+        var lessons = await unitOfWork.GetRepository<Lesson>().GetAsync(includeProperties: $"{nameof(Lesson.Tags)}.{nameof(Tag.Category)}", cancellationToken: cancellationToken);
+        return mapper.Map<IEnumerable<LessonDto>>(lessons);
+    }
+
+    public async Task<IEnumerable<LessonDto>> SearchLessonsAsync(SearchLessonsDto searchDto, CancellationToken cancellationToken = default)
+    {
+        using var unitOfWork = await unitOfWorkFactory.CreateAsync(cancellationToken);
+        var lessons = await unitOfWork.GetRepository<Lesson>().GetAsync(new LessonSearchSpecification(searchDto.SearchText, searchDto.SearchTagsIds) , cancellationToken: cancellationToken);
         return mapper.Map<IEnumerable<LessonDto>>(lessons);
     }
 }

@@ -16,9 +16,9 @@ namespace TTV.Infrastructure.DataAccess
         {
             this.dbContextFactory = dbContextFactory;
         }
-        public async Task<IUnitOfWork> CreateAsync()
+        public async Task<IUnitOfWork> CreateAsync(CancellationToken cancellationToken = default)
         {
-            return new UnitOfWork(await dbContextFactory.CreateDbContextAsync());
+            return new UnitOfWork(await dbContextFactory.CreateDbContextAsync(cancellationToken));
         }
     }
 }

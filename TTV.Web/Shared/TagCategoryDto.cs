@@ -1,9 +1,8 @@
-﻿namespace TTV.Web.Shared
+﻿namespace TTV.Web.Shared;
+
+public record TagCategoryDto
 {
-    public record TagCategoryDto
-    {
-        public int Id { get; init; }
-        public string Name { get; init; } = string.Empty;
-        public int Priority { get; init; }
-    }
+    public int Id { get; init; }
+    public string Name { get; init; } = string.Empty;
+    public int Priority { get; init; }
 }

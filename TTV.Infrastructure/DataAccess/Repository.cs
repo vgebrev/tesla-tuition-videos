@@ -24,20 +24,24 @@ public class Repository<TEntity> : IRepository<TEntity>
         dbSet.Remove(entity);
     }
 
-    public virtual async Task<IEnumerable<TEntity>> GetAsync(ISpecification<TEntity> specification)
+    public virtual async Task<IEnumerable<TEntity>> GetAsync(ISpecification<TEntity> specification, CancellationToken cancellationToken = default)
     {
-        return await GetAsync(specification.Filter, specification.Sort, specification.IncludeProperties);
+        return await GetAsync(specification.Filters, specification.Sort, specification.IncludeProperties, cancellationToken);
     }
 
     public virtual async Task<IEnumerable<TEntity>> GetAsync(
-        Expression<Func<TEntity, bool>>? filter,
+        Expression<Func<TEntity, bool>>[]? filters,
         Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>>? sort,
-        string? includeProperties)
+        string? includeProperties,
+        CancellationToken cancellationToken = default)
     {
-        IQueryable<TEntity> query = dbSet;
-        if (filter != null)
+        IQueryable<TEntity> query = dbSet.TagWithCallSite();
+        if (filters != null)
         {
-            query = query.Where(filter);
+            foreach (var filter in filters)
+            {
+                query = query.Where(filter);
+            }
         }
 
         if (!string.IsNullOrEmpty(includeProperties))
@@ -51,22 +55,22 @@ public class Repository<TEntity> : IRepository<TEntity>
 
         if (sort != null)
         {
-            return await sort(query).ToListAsync();
+            return await sort(query).ToListAsync(cancellationToken);
         }
         else
         {
-            return await query.ToListAsync();
+            return await query.ToListAsync(cancellationToken);
         }
     }
 
-    public virtual async Task<TEntity?> GetAsync(int id)
+    public virtual async Task<TEntity?> GetAsync(int id, CancellationToken cancellationToken = default)
     {
-        return await dbSet.FindAsync(id);
+        return await dbSet.FindAsync(id, cancellationToken);
     }
 
-    public virtual async Task InsertAsync(TEntity entity)
+    public virtual async Task InsertAsync(TEntity entity, CancellationToken cancellationToken = default)
     {
-        await dbSet.AddAsync(entity);
+        await dbSet.AddAsync(entity, cancellationToken);
     }
 
     public virtual void Update(TEntity entity)

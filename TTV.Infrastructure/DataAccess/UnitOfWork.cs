@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Storage;
 using System.Collections;
+using System.Threading;
 using TTV.Domain.DomainServices;
 using TTV.Domain.Entities;
 
@@ -37,18 +38,18 @@ public class UnitOfWork : IUnitOfWork
         GC.SuppressFinalize(this);
     }
 
-    public async Task EndAsync()
+    public async Task EndAsync(CancellationToken cancellationToken = default)
     {
         try
         {
-            await dataContext.SaveChangesAsync();
+            await dataContext.SaveChangesAsync(cancellationToken);
             if (transaction is not null)
-                await transaction.CommitAsync();
+                await transaction.CommitAsync(cancellationToken);
         }
         catch
         {
             if (transaction is not null)
-                await transaction.RollbackAsync();
+                await transaction.RollbackAsync(cancellationToken);
             throw;
         }
     }
@@ -65,8 +66,8 @@ public class UnitOfWork : IUnitOfWork
         return (IRepository<TEntity>?)repositories[entityType] ?? throw new InvalidCastException();
     }
 
-    public async Task StartAsync()
+    public async Task StartAsync(CancellationToken cancellationToken = default)
     {
-        transaction = await this.dataContext.Database.BeginTransactionAsync();
+        transaction = await this.dataContext.Database.BeginTransactionAsync(cancellationToken);
     }
 }

@@ -6,16 +6,17 @@ namespace TTV.Domain.DomainServices;
 public interface IRepository<TEntity> 
     where TEntity : BaseEntity
 {
-    public Task<IEnumerable<TEntity>> GetAsync(ISpecification<TEntity> specification);
+    public Task<IEnumerable<TEntity>> GetAsync(ISpecification<TEntity> specification, CancellationToken cancellationToken = default);
 
     public Task<IEnumerable<TEntity>> GetAsync(
-        Expression<Func<TEntity, bool>>? filter = null,
+        Expression<Func<TEntity, bool>>[]? filters = null,
         Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>>? sort = null,
-        string? includeProperties = null);
+        string? includeProperties = null,
+        CancellationToken cancellationToken = default);
 
-    public Task<TEntity?> GetAsync(int id);
+    public Task<TEntity?> GetAsync(int id, CancellationToken cancellationToken = default);
 
-    public Task InsertAsync(TEntity entity);
+    public Task InsertAsync(TEntity entity, CancellationToken cancellationToken = default);
 
     public void Delete(TEntity entity);
 

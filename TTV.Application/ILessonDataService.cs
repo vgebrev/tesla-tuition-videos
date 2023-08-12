@@ -4,6 +4,8 @@ namespace TTV.Application
 {
     public interface ILessonDataService
     {
-        Task<IEnumerable<LessonDto>> GetLessonsAsync();
+        Task<IEnumerable<LessonDto>> GetLessonsAsync(CancellationToken cancellationToken = default);
+
+        Task<IEnumerable<LessonDto>> SearchLessonsAsync(SearchLessonsDto searchDto, CancellationToken cancellationToken = default);
     }
 }

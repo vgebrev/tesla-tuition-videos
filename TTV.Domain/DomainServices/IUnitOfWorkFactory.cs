@@ -2,5 +2,5 @@
 
 public interface IUnitOfWorkFactory
 {
-    public Task<IUnitOfWork> CreateAsync();
+    public Task<IUnitOfWork> CreateAsync(CancellationToken cancellationToken = default);
 }

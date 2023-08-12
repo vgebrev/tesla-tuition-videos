@@ -16,10 +16,10 @@ namespace TTV.Application
             this.mapper = mapper;
         }
 
-        public async Task<IEnumerable<TagDto>> GetTagsAsync()
+        public async Task<IEnumerable<TagDto>> GetTagsAsync(CancellationToken cancellationToken = default)
         {
-            using var unitOfWork = await unitOfWorkFactory.CreateAsync();
-            var tags = await unitOfWork.GetRepository<Tag>().GetAsync(includeProperties: $"{nameof(Tag.Category)},{nameof(Tag.Lessons)}");
+            using var unitOfWork = await unitOfWorkFactory.CreateAsync(cancellationToken);
+            var tags = await unitOfWork.GetRepository<Tag>().GetAsync(includeProperties: $"{nameof(Tag.Category)},{nameof(Tag.Lessons)}", cancellationToken: cancellationToken);
             return mapper.Map<IEnumerable<TagDto>>(tags);
         }
     }

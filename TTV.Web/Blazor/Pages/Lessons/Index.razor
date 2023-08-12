@@ -1,7 +1,10 @@
-﻿@page "/lessons"
+﻿@inherits Fluxor.Blazor.Web.Components.FluxorComponent
+@page "/lessons"
+@using Fluxor;
 @using Microsoft.AspNetCore.Components.WebAssembly.Authentication;
+@using TTV.Web.Blazor.Store.Lessons;
+@using TTV.Web.Blazor.Store.Lessons.Actions;
 @using TTV.Web.Shared;
-@inject HttpClient Http
 
 <PageTitle>Tesla Tuition Videos - Lessons</PageTitle>
 
@@ -22,38 +25,43 @@
             </div>
         </div>
 
-        <div class="row row-cols-2 g-3">
-            @if (lessons == null)
-            {
+        @if (LessonsState.Value.Lessons == null)
+        {
+            <div class="row">
                 <div class="col text-center">
                     <SpinLoader IsLoading="true"></SpinLoader>
                 </div>
-            }
-            else
-            {
-                @foreach (var lesson in lessons)
+            </div>
+        }
+        else
+        {
+            <div class="row row-cols-2 g-3">
+
+                @foreach (var lesson in LessonsState.Value.Lessons)
                 {
                     <div class="col">
                         <LessonCard Lesson="lesson"></LessonCard>
                     </div>
                 }
-            }
-        </div>
+            </div>
+        }
     </div>
 </div>
 
 @code {
-    private LessonDto[]? lessons;
+    [Inject]
+    private IState<LessonsState> LessonsState { get; set; } = default!;
+    [Inject]
+    private IDispatcher Dispatcher { get; set; } = default!;
 
-    protected override async Task OnInitializedAsync()
+    private bool IsLoading => LessonsState.Value.IsLoadingLessons;
+
+    protected override void OnInitialized()
     {
-        try
+        base.OnInitialized();
+        if (LessonsState.Value.Lessons == null)
         {
-            lessons = await Http.GetFromJsonAsync<LessonDto[]>("api/Lesson");
-        }
-        catch (AccessTokenNotAvailableException exception)
-        {
-            exception.Redirect();
+            Dispatcher.Dispatch(new SearchLessonsRequest() { SearchText = LessonsState.Value.SearchText, SearchTags = LessonsState.Value.SearchTags });
         }
     }
 }

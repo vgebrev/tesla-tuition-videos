@@ -1,11 +1,33 @@
-﻿<div class="form-group d-flex mb-3">
+﻿@using Fluxor;
+@using TTV.Web.Blazor.Store.Lessons;
+@using TTV.Web.Blazor.Store.Lessons.Actions;
+@inherits Fluxor.Blazor.Web.Components.FluxorComponent
+
+<div class="form-group d-flex mb-3">
     <div class="form-floating flex-fill me-2">
-        <input type="text" class="form-control" id="lesson-search-text" placeholder="Search lessons..." />
+        <input type="text" class="form-control" id="lesson-search-text" @bind-value="searchText" placeholder="Search lessons..." />
         <label for="lesson-search-text">Search lessons...</label>
     </div>
-    <button class="btn btn-outline-primary"><i class="bi bi-search me-1"></i> Search</button>
+    <button class="btn btn-outline-primary" @onclick="SearchClicked"><i class="bi bi-search me-1"></i> Search</button>
 </div>
 
 @code {
+    [Inject]
+    private IState<LessonsState> LessonsState { get; set; } = default!;
 
+    [Inject]
+    private IDispatcher Dispatcher { get; set; } = default!;
+
+    string? searchText;
+
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+        searchText = LessonsState.Value.SearchText;
+    }
+
+    private void SearchClicked()
+    {
+        Dispatcher.Dispatch(new SearchLessonsRequest() { SearchText = searchText, SearchTags = LessonsState.Value.SearchTags });
+    }
 }

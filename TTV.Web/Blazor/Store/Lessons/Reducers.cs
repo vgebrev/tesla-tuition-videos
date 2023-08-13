@@ -18,6 +18,10 @@ public static class Reducers
         };
 
     [ReducerMethod]
+    public static LessonsState ReduceSetSearchTags(LessonsState state, SetSearchTags action) =>
+        state with { SearchTags = action.SearchTags };
+
+    [ReducerMethod]
     public static LessonsState ReduceSearchLessonsRequest(LessonsState state, SearchLessonsRequest action) =>
         state with
         {

@@ -1,5 +1,4 @@
 ﻿@using Fluxor;
-@using TTV.Web.Blazor.Models;
 @using TTV.Web.Blazor.Store.Lessons;
 @using TTV.Web.Blazor.Store.Lessons.Actions;
 @using TTV.Web.Shared;
@@ -12,22 +11,22 @@
         {
             <div class="text-center"><SpinLoader IsLoading="IsLoading"></SpinLoader></div>
         }
-        @if (CheckItems != null)
+        @if (TagChecks != null)
         {
             <div class="d-flex justify-content-between">
                 <button type="button" class="btn btn-sm btn-outline-primary m-1" @onclick="ApplyFilter"><i class="bi bi-check me-1"></i> Apply</button>
                 <button type="button" class="btn btn-sm btn-outline-primary m-1" @onclick="ClearFilter"><i class="bi bi-x me-1"></i> Clear</button>
             </div>
-            foreach (var categoryGroup in CheckItems.GroupBy(t => t.Item.Category))
+            foreach (var categoryGroup in TagChecks.GroupBy(t => t.Tag.Category))
             {
                 <h5 class="card-title">@categoryGroup.Key.Name</h5>
                 <ul class="list-group list-group-flush">
                     @foreach (var item in categoryGroup)
                     {
-                        var tag = item.Item;
+                        var tag = item.Tag;
                         <li class="list-group-item d-flex justify-content-between align-items-center">
                             <div class="form-check form-switch">
-                                <input class="form-check-input" type="checkbox" @bind="item.IsChecked" id="filter-item-@tag.Id">
+                                <input class="form-check-input" type="checkbox" @bind="item.IsChecked" @oninput="() => TagCheckInput(item)" id="filter-item-@tag.Id">
                                 <label class="form-check-label" for="filter-item-@tag.Id">@tag.Name</label>
                             </div>
                             <span class="badge bg-primary rounded-pill">@tag.LessonCount</span>
@@ -49,7 +48,7 @@
 
     private bool IsLoading => LessonsState.Value.IsLoadingTags;
 
-    private CheckItem<TagDto>[]? CheckItems { get; set; }
+    private TagCheck[]? TagChecks { get; set; }
 
 
     protected override void OnInitialized()
@@ -61,42 +60,57 @@
         }
         else
         {
-            InitCheckItems(LessonsState.Value.Tags);
+            InitTagChecks(LessonsState.Value.Tags);
         }
 
-        ActionSubscriber.SubscribeToAction<GetTagsResponse>(this, (action) => InitCheckItems(action.Tags));
+        ActionSubscriber.SubscribeToAction<GetTagsResponse>(this, (action) => InitTagChecks(action.Tags));
     }
 
-    private void InitCheckItems(TagDto[]? tags)
+    private void InitTagChecks(TagDto[]? tags)
     {
-        CheckItems = tags?.Select(tag => new CheckItem<TagDto>
+        TagChecks = tags?.Select(tag => new TagCheck
             {
-                Item = tag,
+                Tag = tag,
                 IsChecked = LessonsState.Value.SearchTags?.Contains(tag) ?? false
             }).ToArray();
     }
 
+    private void TagCheckInput(TagCheck tagCheck)
+    {
+        var checkedTags = TagChecks?.Where(x => 
+            (x.Tag != tagCheck.Tag && x.IsChecked) ||
+            (x.Tag == tagCheck.Tag && !x.IsChecked) // oninput fires before onchange, so at this point IsChecked is the opposite of what we need
+            ).Select(x => x.Tag).ToArray();
+        Dispatcher.Dispatch(new SetSearchTags() { SearchTags = checkedTags });
+    }
+
     private void ApplyFilter()
     {
-        var tags = CheckItems?.Where(x => x.IsChecked).Select(x => x.Item).ToArray();
+        var tags = TagChecks?.Where(x => x.IsChecked).Select(x => x.Tag).ToArray();
         Dispatcher.Dispatch(new SearchLessonsRequest() { SearchText = LessonsState.Value.SearchText, SearchTags = tags });
     }
 
     private void ClearFilter()
     {
-        if (CheckItems == null)
+        if (TagChecks == null)
             return;
 
-        foreach (var item in CheckItems)
+        foreach (var item in TagChecks)
         {
             item.IsChecked = false;
         };
-        Dispatcher.Dispatch(new SearchLessonsRequest() { SearchText = LessonsState.Value.SearchText, SearchTags = null });
+        Dispatcher.Dispatch(new SearchLessonsRequest() { SearchText = null, SearchTags = null });
     }
 
     protected override void Dispose(bool disposing)
     {
         ActionSubscriber.UnsubscribeFromAllActions(this);
         base.Dispose(disposing);
+    }
+
+    public record TagCheck
+    {
+        public bool IsChecked { get; set; }
+        public TagDto Tag { get; init; } = default!;
     }
 }

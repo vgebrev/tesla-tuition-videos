@@ -25,25 +25,29 @@
             </div>
         </div>
 
-        @if (LessonsState.Value.Lessons == null)
+        @if (LessonsState.Value.Lessons != null)
         {
-            <div class="row">
-                <div class="col text-center">
-                    <SpinLoader IsLoading="true"></SpinLoader>
-                </div>
-            </div>
-        }
-        else
-        {
-            <div class="row row-cols-2 g-3">
+            @if (LessonsState.Value.Lessons.Length > 0)
+            {
+                <div class="row row-cols-2 g-3">
 
-                @foreach (var lesson in LessonsState.Value.Lessons)
-                {
-                    <div class="col">
-                        <LessonCard Lesson="lesson"></LessonCard>
+                    @foreach (var lesson in LessonsState.Value.Lessons)
+                    {
+                        <div class="col">
+                            <LessonCard Lesson="lesson"></LessonCard>
+                        </div>
+                    }
+                </div>
+            }
+            else
+            {
+                <div class="row">
+                    <div class="col text-center">
+                        No lessons match your search.
+                        <p class="text-muted">Please try again with different search terms or filters.</p>
                     </div>
-                }
-            </div>
+                </div>
+            }
         }
     </div>
 </div>

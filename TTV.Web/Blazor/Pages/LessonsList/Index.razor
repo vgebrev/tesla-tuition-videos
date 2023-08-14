@@ -2,8 +2,8 @@
 @page "/lessons"
 @using Fluxor;
 @using Microsoft.AspNetCore.Components.WebAssembly.Authentication;
-@using TTV.Web.Blazor.Store.Lessons;
-@using TTV.Web.Blazor.Store.Lessons.Actions;
+@using TTV.Web.Blazor.Pages.LessonsList.Store;
+@using TTV.Web.Blazor.Pages.LessonsList.Store.Actions;
 @using TTV.Web.Shared;
 
 <PageTitle>Tesla Tuition Videos - Lessons</PageTitle>
@@ -67,7 +67,7 @@
 
 @code {
     [Inject]
-    private IState<LessonsState> LessonsState { get; set; } = default!;
+    private IState<LessonsListState> LessonsState { get; set; } = default!;
     [Inject]
     private IDispatcher Dispatcher { get; set; } = default!;
 

@@ -1,11 +1,10 @@
 ﻿@inherits Fluxor.Blazor.Web.Components.FluxorComponent
 @page "/lesson/{lessonId:int}"
 @using Fluxor;
-@using TTV.Web.Blazor.Pages.LessonsList
-@using TTV.Web.Blazor.Store.Lesson;
-@using TTV.Web.Blazor.Store.Lesson.Actions;
-@using TTV.Web.Blazor.Store;
-@using TTV.Web.Shared;
+@using TTV.Web.Shared
+@using TTV.Web.Blazor.Pages.LessonDetail.Store
+@using TTV.Web.Blazor.Pages.LessonDetail.Store.Actions
+
 
 
 <PageTitle>@Title</PageTitle>
@@ -36,7 +35,7 @@
 
 @code {
     [Inject]
-    private IState<LessonState> LessonState { get; set; } = default!;
+    private IState<LessonDetailState> LessonState { get; set; } = default!;
     [Inject]
     private IDispatcher Dispatcher { get; set; } = default!;
 

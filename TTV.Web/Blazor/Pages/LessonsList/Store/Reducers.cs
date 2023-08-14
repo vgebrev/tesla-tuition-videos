@@ -1,16 +1,17 @@
 ﻿using Fluxor;
-using TTV.Web.Blazor.Store.Lessons.Actions;
+using TTV.Web.Blazor.Pages.LessonsList.Store.Actions;
+using TTV.Web.Blazor.Shared.Store;
 
-namespace TTV.Web.Blazor.Store.Lessons;
+namespace TTV.Web.Blazor.Pages.LessonsList.Store;
 
 public static class Reducers
 {
     [ReducerMethod(typeof(GetTagsRequest))]
-    public static LessonsState ReduceGetTagsRequest(LessonsState state) =>
+    public static LessonsListState ReduceGetTagsRequest(LessonsListState state) =>
         state with { IsLoadingTags = true };
 
     [ReducerMethod]
-    public static LessonsState ReduceGetTagsResponse(LessonsState state, GetTagsResponse action) =>
+    public static LessonsListState ReduceGetTagsResponse(LessonsListState state, GetTagsResponse action) =>
         state with
         {
             Tags = action.Tags,
@@ -19,7 +20,7 @@ public static class Reducers
         };
 
     [ReducerMethod]
-    public static LessonsState ReduceGetTagsError(LessonsState state, GetTagsError action) =>
+    public static LessonsListState ReduceGetTagsError(LessonsListState state, GetTagsError action) =>
         state with
         {
             TagsError = new ErrorState { IsError = true, ErrorMessage = action.ErrorMessage },
@@ -27,11 +28,11 @@ public static class Reducers
         };
 
     [ReducerMethod]
-    public static LessonsState ReduceSetSearchTags(LessonsState state, SetSearchTags action) =>
+    public static LessonsListState ReduceSetSearchTags(LessonsListState state, SetSearchTags action) =>
         state with { SearchTags = action.SearchTags };
 
     [ReducerMethod]
-    public static LessonsState ReduceSearchLessonsRequest(LessonsState state, SearchLessonsRequest action) =>
+    public static LessonsListState ReduceSearchLessonsRequest(LessonsListState state, SearchLessonsRequest action) =>
         state with
         {
             SearchTags = action.SearchTags,
@@ -40,7 +41,8 @@ public static class Reducers
         };
 
     [ReducerMethod]
-    public static LessonsState ReduceSearchLessonsResponse(LessonsState state, SearchLessonsResponse action) {
+    public static LessonsListState ReduceSearchLessonsResponse(LessonsListState state, SearchLessonsResponse action)
+    {
         return state with
         {
             Lessons = action.Lessons,
@@ -50,7 +52,7 @@ public static class Reducers
     }
 
     [ReducerMethod]
-    public static LessonsState ReduceSearchLessonsError(LessonsState state, SearchLessonsError action) =>
+    public static LessonsListState ReduceSearchLessonsError(LessonsListState state, SearchLessonsError action) =>
         state with
         {
             LessonsError = new ErrorState { IsError = true, ErrorMessage = action.ErrorMessage },

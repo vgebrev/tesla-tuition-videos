@@ -1,10 +1,11 @@
 ﻿using Fluxor;
+using TTV.Web.Blazor.Shared.Store;
 using TTV.Web.Shared;
 
-namespace TTV.Web.Blazor.Store.Lesson;
+namespace TTV.Web.Blazor.Pages.LessonDetail.Store;
 
 [FeatureState]
-public record LessonState
+public record LessonDetailState
 {
     public bool IsLoading { get; init; }
     public LessonDto? Lesson { get; init; } = null;

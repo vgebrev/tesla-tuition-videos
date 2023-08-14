@@ -1,6 +1,6 @@
 ﻿@using Fluxor;
-@using TTV.Web.Blazor.Store.Lessons;
-@using TTV.Web.Blazor.Store.Lessons.Actions;
+@using TTV.Web.Blazor.Pages.LessonsList.Store;
+@using TTV.Web.Blazor.Pages.LessonsList.Store.Actions;
 @inherits Fluxor.Blazor.Web.Components.FluxorComponent
 
 <div class="form-group d-flex">
@@ -15,7 +15,7 @@
 
 @code {
     [Inject]
-    private IState<LessonsState> LessonsState { get; set; } = default!;
+    private IState<LessonsListState> LessonsState { get; set; } = default!;
 
     [Inject]
     private IDispatcher Dispatcher { get; set; } = default!;

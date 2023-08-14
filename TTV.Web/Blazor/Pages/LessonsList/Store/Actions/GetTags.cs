@@ -1,6 +1,6 @@
 ﻿using TTV.Web.Shared;
 
-namespace TTV.Web.Blazor.Store.Lessons.Actions;
+namespace TTV.Web.Blazor.Pages.LessonsList.Store.Actions;
 
 public record GetTagsRequest
 {

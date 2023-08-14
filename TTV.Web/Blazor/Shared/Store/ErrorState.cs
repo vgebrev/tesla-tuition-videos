@@ -1,4 +1,4 @@
-﻿namespace TTV.Web.Blazor.Store;
+﻿namespace TTV.Web.Blazor.Shared.Store;
 
 public record ErrorState
 {

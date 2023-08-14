@@ -1,9 +1,10 @@
 ﻿using Fluxor;
+using TTV.Web.Blazor.Pages.LessonsList.Store.Actions;
 using TTV.Web.Blazor.Services;
-using TTV.Web.Blazor.Store.Lessons.Actions;
+using TTV.Web.Blazor.Shared.Store;
 using TTV.Web.Shared;
 
-namespace TTV.Web.Blazor.Store.Lessons;
+namespace TTV.Web.Blazor.Pages.LessonsList.Store;
 
 public class Effects
 {
@@ -41,10 +42,10 @@ public class Effects
                 SearchText = action.SearchText
             });
             dispatcher.Dispatch(new SearchLessonsResponse() { Lessons = lessons });
-        } 
+        }
         catch (Exception)
         {
-            dispatcher.Dispatch(new SearchLessonsError() { ErrorMessage = Consts.DefaultErrorMessage});
+            dispatcher.Dispatch(new SearchLessonsError() { ErrorMessage = Consts.DefaultErrorMessage });
         }
     }
 }

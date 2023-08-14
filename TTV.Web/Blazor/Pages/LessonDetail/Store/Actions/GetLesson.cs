@@ -1,6 +1,6 @@
 ﻿using TTV.Web.Shared;
 
-namespace TTV.Web.Blazor.Store.Lesson.Actions;
+namespace TTV.Web.Blazor.Pages.LessonDetail.Store.Actions;
 
 public record GetLessonRequest
 {

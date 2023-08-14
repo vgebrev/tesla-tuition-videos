@@ -20,7 +20,7 @@ public static class ApplicationBuilderExtensions
                 }
             }
 
-            await next.Invoke();
+            await next();
         });
         return app;
     }

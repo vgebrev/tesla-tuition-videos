@@ -1,7 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Storage;
+﻿using Microsoft.EntityFrameworkCore.Storage;
 using System.Collections;
-using System.Threading;
 using TTV.Domain.DomainServices;
 using TTV.Domain.Entities;
 

@@ -1,0 +1,30 @@
+﻿@using Microsoft.AspNetCore.Components.WebAssembly.Authentication;
+@using Microsoft.Extensions.Options;
+<video oncontextmenu="return false;" controls controlslist="nodownload" class="w-100">
+    <source src="@VideoUri" type="video/mp4" />
+</video>
+
+@code {
+    [Inject]
+    IOptionsSnapshot<LocalConfig> Config { get; set; } = default!;
+    [Inject] 
+    IAccessTokenProvider TokenProvider { get; set; } = default!;
+    [Parameter]
+    public int VideoId { get; set; }
+
+    private string VideoUri { get; set; } = string.Empty;
+    private string AccessToken { get; set; } = string.Empty;
+
+    protected override async Task OnInitializedAsync()
+    {
+        await base.OnInitializedAsync();
+        var accessTokenResult = await TokenProvider.RequestAccessToken();
+        AccessToken = string.Empty;
+        if (accessTokenResult.TryGetToken(out var token))
+        {
+            AccessToken = token.Value;
+            VideoUri += $"{Config.Value.ApiRootUri}/api/video/{VideoId}/intro?access_token={AccessToken}";
+            StateHasChanged();
+        }
+    }
+}

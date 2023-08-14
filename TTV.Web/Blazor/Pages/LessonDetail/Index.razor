@@ -1,0 +1,57 @@
+﻿@inherits Fluxor.Blazor.Web.Components.FluxorComponent
+@page "/lesson/{lessonId:int}"
+@using Fluxor;
+@using TTV.Web.Blazor.Pages.LessonsList
+@using TTV.Web.Blazor.Store.Lesson;
+@using TTV.Web.Blazor.Store.Lesson.Actions;
+@using TTV.Web.Blazor.Store;
+@using TTV.Web.Shared;
+
+
+<PageTitle>@Title</PageTitle>
+
+@if (IsLoading)
+{
+    <ProgressLoader IsLoading="IsLoading"></ProgressLoader>
+}
+
+@if (Error.IsError)
+{
+    <ErrorCard Error="Error"></ErrorCard>
+}
+
+@if (Lesson != null)
+{
+    <div class="card border-primary">
+        <div class="card-header bg-secondary"><h5 class="card-title text-center mb-0">@Lesson.Title</h5></div>
+        <div class="card-body">
+            <VideoPlayer VideoId="1"></VideoPlayer>
+            <p class="card-text">@Lesson.Description</p>
+            <TagBadges Tags="Lesson.Tags"></TagBadges>
+        </div>
+        <div class="card-footer">
+        </div>
+    </div>
+}
+
+@code {
+    [Inject]
+    private IState<LessonState> LessonState { get; set; } = default!;
+    [Inject]
+    private IDispatcher Dispatcher { get; set; } = default!;
+
+    [Parameter]
+    public int LessonId { get; set; }
+
+    private bool IsLoading => LessonState.Value.IsLoading;
+    private LessonDto? Lesson => LessonState.Value.Lesson;
+    private ErrorState Error => LessonState.Value.Error;
+
+    private string Title => $"Tesla Tuition Videos {(Lesson != null ? $" - {Lesson.Title}" : string.Empty)}";
+
+    protected override void OnParametersSet()
+    {
+        base.OnParametersSet();
+        Dispatcher.Dispatch(new GetLessonRequest() { LessonId = LessonId });
+    }
+}

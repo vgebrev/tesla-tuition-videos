@@ -67,6 +67,7 @@ try
     app.UseHttpsRedirection();
 
     app.UseCors();
+    app.UseQueryStringAuthentication();
     app.UseAuthentication();
     app.UseAuthorization();
 

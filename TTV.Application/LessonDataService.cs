@@ -24,10 +24,21 @@ public class LessonDataService : ILessonDataService
         return mapper.Map<IEnumerable<LessonDto>>(lessons);
     }
 
+    public async Task<LessonDto> GetLessonAsync(int lessonId, CancellationToken cancellationToken = default)
+    {
+        using var unitOfWork = await unitOfWorkFactory.CreateAsync(cancellationToken);
+        var lesson = await unitOfWork.GetRepository<Lesson>()
+            .GetAsync(lessonId,
+                includeProperties: $"{nameof(Lesson.Tags)}.{nameof(Tag.Category)}",
+                cancellationToken: cancellationToken);
+        return mapper.Map<LessonDto>(lesson);
+    }
+
+
     public async Task<IEnumerable<LessonDto>> SearchLessonsAsync(SearchLessonsDto searchDto, CancellationToken cancellationToken = default)
     {
         using var unitOfWork = await unitOfWorkFactory.CreateAsync(cancellationToken);
-        var lessons = await unitOfWork.GetRepository<Lesson>().GetAsync(new LessonSearchSpecification(searchDto.SearchText, searchDto.SearchTagsIds) , cancellationToken: cancellationToken);
+        var lessons = await unitOfWork.GetRepository<Lesson>().GetAsync(new LessonSearchSpecification(searchDto.SearchText, searchDto.SearchTagsIds), cancellationToken: cancellationToken);
         return mapper.Map<IEnumerable<LessonDto>>(lessons);
     }
 }

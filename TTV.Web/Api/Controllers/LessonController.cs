@@ -23,6 +23,12 @@ public class LessonController : ControllerBase
         return await dataService.GetLessonsAsync(cancellationToken);
     }
 
+    [HttpGet("{lessonId}")]
+    public async Task<LessonDto> GetLessonAsync([FromRoute]int lessonId, CancellationToken cancellationToken)
+    {
+        logger.LogInformation("{Method}({LessonId})", nameof(GetLessonAsync), lessonId);
+        return await dataService.GetLessonAsync(lessonId, cancellationToken);
+    }
     [HttpPost("search")]
     public async Task<IEnumerable<LessonDto>> SearchLessonsAsync([FromBody] SearchLessonsDto searchDto, CancellationToken cancellationToken)
     {

@@ -13,6 +13,12 @@ public class LessonDataService : ILessonDataService
         this.httpClient = httpClient;
     }
 
+    public async Task<LessonDto> GetLessonAsync(int lessonId)
+    {
+        var lesson = await httpClient.GetFromJsonAsync<LessonDto>($"api/lesson/{lessonId}") ?? throw new ArgumentException($"Lesson doesn't exist", nameof(lessonId));
+        return lesson;
+    }
+
     public async Task<LessonDto[]> SearchLessonsAsync(SearchLessonsDto dto)
     {
         var httpResponse = await httpClient.PostAsJsonAsync("api/lesson/search", dto);

@@ -7,7 +7,6 @@ namespace TTV.Web.Blazor.Store.Lessons;
 
 public class Effects
 {
-    private const string DefaultErrorMessage = "Something went wrong. Please refresh the page or try again.";
     private readonly ITagDataService tagDataService;
     private readonly ILessonDataService lessonDataService;
 
@@ -27,7 +26,7 @@ public class Effects
         }
         catch (Exception)
         {
-            dispatcher.Dispatch(new GetTagsError() { ErrorMessage = DefaultErrorMessage });
+            dispatcher.Dispatch(new GetTagsError() { ErrorMessage = Consts.DefaultErrorMessage });
         }
     }
 
@@ -45,7 +44,7 @@ public class Effects
         } 
         catch (Exception)
         {
-            dispatcher.Dispatch(new SearchLessonsError() { ErrorMessage = DefaultErrorMessage});
+            dispatcher.Dispatch(new SearchLessonsError() { ErrorMessage = Consts.DefaultErrorMessage});
         }
     }
 }

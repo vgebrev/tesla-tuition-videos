@@ -1,4 +1,5 @@
 ﻿using System.Linq.Expressions;
+using System.Security.Cryptography.X509Certificates;
 using TTV.Domain.Entities;
 
 namespace TTV.Domain.DomainServices;
@@ -14,7 +15,7 @@ public interface IRepository<TEntity>
         string? includeProperties = null,
         CancellationToken cancellationToken = default);
 
-    public Task<TEntity?> GetAsync(int id, CancellationToken cancellationToken = default);
+    public Task<TEntity?> GetAsync(int id, string? includeProperties, CancellationToken cancellationToken = default);
 
     public Task InsertAsync(TEntity entity, CancellationToken cancellationToken = default);
 

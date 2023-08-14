@@ -1,0 +1,20 @@
+﻿@using TTV.Web.Shared;
+
+@foreach (var tag in Tags)
+{
+    <span class="badge @GetTagBackground(tag.Category.Priority) mx-1">@tag.Name</span>
+}
+
+@code {
+    [Parameter]
+    public TagDto[] Tags { get; set; } = Array.Empty<TagDto>();
+
+    private string GetTagBackground(int priority) => priority switch
+    {
+        0 => "bg-primary",
+        1 => "bg-info",
+        2 => "bg-secondary",
+        3 => "bg-dark",
+        _ => "bg-light"
+    };
+}

@@ -273,3 +273,4 @@ nouns.txt
 *.feature.cs
 **/Logs/*
 *.jfm
+*.mp4

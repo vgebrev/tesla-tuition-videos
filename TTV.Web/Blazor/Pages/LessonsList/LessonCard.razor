@@ -1,0 +1,16 @@
+﻿@using TTV.Web.Shared;
+<div class="card border-primary">
+    <div class="card-header bg-secondary"><h5 class="card-title text-center mb-0">@Lesson.Title</h5></div>
+    <div class="card-body">
+        <p class="card-text">@Lesson.Description</p>
+        <TagBadges Tags="Lesson.Tags"></TagBadges>
+    </div>
+    <div class="card-footer">
+        <a href="lesson/@Lesson.Id" class="card-link">View Lesson</a>
+    </div>
+</div>
+
+@code {
+    [Parameter]
+    public LessonDto Lesson { get; set; } = new();
+}

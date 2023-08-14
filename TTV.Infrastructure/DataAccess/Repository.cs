@@ -65,7 +65,7 @@ public class Repository<TEntity> : IRepository<TEntity>
 
     public virtual async Task<TEntity?> GetAsync(int id, CancellationToken cancellationToken = default)
     {
-        return await dbSet.FindAsync(id, cancellationToken);
+        return await dbSet.FindAsync(new object?[] { id }, cancellationToken: cancellationToken);
     }
 
     public virtual async Task InsertAsync(TEntity entity, CancellationToken cancellationToken = default)

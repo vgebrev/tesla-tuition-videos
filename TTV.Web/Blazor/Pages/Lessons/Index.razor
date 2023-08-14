@@ -24,6 +24,11 @@
                 <LessonSearch></LessonSearch>
             </div>
         </div>
+        <div class="row">
+            <div class="col-12 my-1 min-height-16">
+                <ProgressLoader IsLoading="LessonsState.Value.IsLoadingLessons"></ProgressLoader>
+            </div>
+        </div>
 
         @if (LessonsState.Value.Lessons != null)
         {

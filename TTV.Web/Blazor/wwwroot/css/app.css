@@ -56,3 +56,7 @@ body {
 .header-white {
     color: rgb(var(--bs-white-rgb, 1));
 }
+
+.min-height-16 {
+   min-height: 16px;
+}

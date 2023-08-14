@@ -1,0 +1,19 @@
+﻿@if (IsLoading)
+{
+    <div class="progress">
+        <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuenow="@Value" aria-valuemin="@Min" aria-valuemax="@Max" style="width: @Width"></div>
+    </div>
+}
+
+@code {
+    [Parameter]
+    public bool IsLoading { get; set; }
+    [Parameter]
+    public int Value { get; set; } = 100;
+    [Parameter]
+    public int Min { get; set; } = 0;
+    [Parameter]
+    public int Max { get; set; } = 100;
+
+    private string Width => $"{100 * Value / (Max - Min)}%";
+}

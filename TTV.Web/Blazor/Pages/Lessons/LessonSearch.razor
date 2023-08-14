@@ -3,20 +3,13 @@
 @using TTV.Web.Blazor.Store.Lessons.Actions;
 @inherits Fluxor.Blazor.Web.Components.FluxorComponent
 
-<div class="form-group d-flex mb-3">
+<div class="form-group d-flex">
     <div class="form-floating flex-fill me-2">
-        <input type="text" class="form-control" id="lesson-search-text" @bind="searchText" @bind:event="oninput" @onkeypress="KeyPressed" placeholder="Search lessons..." disabled="@LessonsState.Value.IsLoadingLessons" />
-        <label for="lesson-search-text">Search lessons...</label>
+        <input type="text" class="form-control" id="lesson-search-text" @bind="searchText" @bind:event="oninput" @onkeypress="KeyPressed" placeholder="Search lessons..." />
+        <label for="lesson-search-text">Search lessons</label>
     </div>
-    <button class="btn btn-outline-primary" @onclick="SearchClicked" disabled="@LessonsState.Value.IsLoadingLessons">
-        @if (LessonsState.Value.IsLoadingLessons)
-        {
-            <SpinLoader IsLoading="LessonsState.Value.IsLoadingLessons"></SpinLoader>
-        }
-        else
-        {
-            <i class="bi bi-search me-1"></i> <span>Search</span>
-        }
+    <button class="btn btn-outline-primary" @onclick="SearchClicked">
+        <i class="bi bi-search me-1"></i> <span>Search</span>
     </button>
 </div>
 

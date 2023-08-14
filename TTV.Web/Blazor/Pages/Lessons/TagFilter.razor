@@ -11,22 +11,21 @@
         {
             <div class="text-center"><SpinLoader IsLoading="IsLoading"></SpinLoader></div>
         }
-        @if (TagChecks != null)
+        @if (Tags != null)
         {
             <div class="d-flex justify-content-between">
                 <button type="button" class="btn btn-sm btn-outline-primary m-1" @onclick="ApplyFilter"><i class="bi bi-check me-1"></i> Apply</button>
                 <button type="button" class="btn btn-sm btn-outline-primary m-1" @onclick="ClearFilter"><i class="bi bi-x me-1"></i> Clear</button>
             </div>
-            foreach (var categoryGroup in TagChecks.GroupBy(t => t.Tag.Category))
+            foreach (var categoryGroup in Tags.GroupBy(t => t.Category))
             {
                 <h5 class="card-title">@categoryGroup.Key.Name</h5>
                 <ul class="list-group list-group-flush">
-                    @foreach (var item in categoryGroup)
+                    @foreach (var tag in categoryGroup)
                     {
-                        var tag = item.Tag;
                         <li class="list-group-item d-flex justify-content-between align-items-center">
                             <div class="form-check form-switch">
-                                <input class="form-check-input" type="checkbox" @bind="item.IsChecked" @oninput="() => TagCheckInput(item)" id="filter-item-@tag.Id">
+                                <input class="form-check-input" type="checkbox" checked="@IsChecked(tag)" @onchange="(e) => TagToggled(e, tag)" id="filter-item-@tag.Id">
                                 <label class="form-check-label" for="filter-item-@tag.Id">@tag.Name</label>
                             </div>
                             <span class="badge bg-primary rounded-pill">@tag.LessonCount</span>
@@ -43,13 +42,10 @@
     private IState<LessonsState> LessonsState { get; set; } = default!;
     [Inject]
     private IDispatcher Dispatcher { get; set; } = default!;
-    [Inject]
-    private IActionSubscriber ActionSubscriber { get; set; } = default!;
 
     private bool IsLoading => LessonsState.Value.IsLoadingTags;
-
-    private TagCheck[]? TagChecks { get; set; }
-
+    private TagDto[]? Tags => LessonsState.Value.Tags;
+    private bool IsChecked(TagDto tag) => LessonsState.Value.SearchTags?.Contains(tag) ?? false;
 
     protected override void OnInitialized()
     {
@@ -58,59 +54,35 @@
         {
             Dispatcher.Dispatch(new GetTagsRequest());
         }
-        else
+    }
+
+    private void TagToggled(ChangeEventArgs e, TagDto toggledTag)
+    {
+        bool isChecked = (bool)(e.Value ?? false);
+
+        var searchTags = new List<TagDto>(LessonsState.Value.SearchTags ?? Array.Empty<TagDto>());
+
+        if (!searchTags.Contains(toggledTag) && isChecked)
         {
-            InitTagChecks(LessonsState.Value.Tags);
+            searchTags.Add(toggledTag);
         }
 
-        ActionSubscriber.SubscribeToAction<GetTagsResponse>(this, (action) => InitTagChecks(action.Tags));
-    }
+        if (searchTags.Contains(toggledTag) && !isChecked)
+        {
+            searchTags.Remove(toggledTag);
+        }
 
-    private void InitTagChecks(TagDto[]? tags)
-    {
-        TagChecks = tags?.Select(tag => new TagCheck
-            {
-                Tag = tag,
-                IsChecked = LessonsState.Value.SearchTags?.Contains(tag) ?? false
-            }).ToArray();
-    }
-
-    private void TagCheckInput(TagCheck tagCheck)
-    {
-        var checkedTags = TagChecks?.Where(x => 
-            (x.Tag != tagCheck.Tag && x.IsChecked) ||
-            (x.Tag == tagCheck.Tag && !x.IsChecked) // oninput fires before onchange, so at this point IsChecked is the opposite of what we need
-            ).Select(x => x.Tag).ToArray();
-        Dispatcher.Dispatch(new SetSearchTags() { SearchTags = checkedTags });
+        Dispatcher.Dispatch(new SetSearchTags() { SearchTags = searchTags.ToArray() });
     }
 
     private void ApplyFilter()
     {
-        var tags = TagChecks?.Where(x => x.IsChecked).Select(x => x.Tag).ToArray();
+        var tags = Tags?.Where(IsChecked).ToArray();
         Dispatcher.Dispatch(new SearchLessonsRequest() { SearchText = LessonsState.Value.SearchText, SearchTags = tags });
     }
 
     private void ClearFilter()
     {
-        if (TagChecks == null)
-            return;
-
-        foreach (var item in TagChecks)
-        {
-            item.IsChecked = false;
-        };
         Dispatcher.Dispatch(new SearchLessonsRequest() { SearchText = null, SearchTags = null });
-    }
-
-    protected override void Dispose(bool disposing)
-    {
-        ActionSubscriber.UnsubscribeFromAllActions(this);
-        base.Dispose(disposing);
-    }
-
-    public record TagCheck
-    {
-        public bool IsChecked { get; set; }
-        public TagDto Tag { get; init; } = default!;
     }
 }

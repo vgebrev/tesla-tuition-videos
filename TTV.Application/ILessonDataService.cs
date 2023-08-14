@@ -1,11 +1,10 @@
 ﻿using TTV.Web.Shared;
 
-namespace TTV.Application
-{
-    public interface ILessonDataService
-    {
-        Task<IEnumerable<LessonDto>> GetLessonsAsync(CancellationToken cancellationToken = default);
+namespace TTV.Application;
 
-        Task<IEnumerable<LessonDto>> SearchLessonsAsync(SearchLessonsDto searchDto, CancellationToken cancellationToken = default);
-    }
+public interface ILessonDataService
+{
+    Task<IEnumerable<LessonDto>> GetLessonsAsync(CancellationToken cancellationToken = default);
+
+    Task<IEnumerable<LessonDto>> SearchLessonsAsync(SearchLessonsDto searchDto, CancellationToken cancellationToken = default);
 }

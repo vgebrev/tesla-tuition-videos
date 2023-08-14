@@ -14,6 +14,15 @@ public static class Reducers
         state with
         {
             Tags = action.Tags,
+            TagsError = new(),
+            IsLoadingTags = false
+        };
+
+    [ReducerMethod]
+    public static LessonsState ReduceGetTagsError(LessonsState state, GetTagsError action) =>
+        state with
+        {
+            TagsError = new ErrorState { IsError = true, ErrorMessage = action.ErrorMessage },
             IsLoadingTags = false
         };
 
@@ -35,7 +44,16 @@ public static class Reducers
         return state with
         {
             Lessons = action.Lessons,
+            LessonsError = new(),
             IsLoadingLessons = false
         };
     }
+
+    [ReducerMethod]
+    public static LessonsState ReduceSearchLessonsError(LessonsState state, SearchLessonsError action) =>
+        state with
+        {
+            LessonsError = new ErrorState { IsError = true, ErrorMessage = action.ErrorMessage },
+            IsLoadingLessons = false
+        };
 }

@@ -9,8 +9,9 @@
     <div class="card-body">
         @if (IsLoading)
         {
-            <div class="text-center"><SpinLoader IsLoading="IsLoading"></SpinLoader></div>
+            <ProgressLoader IsLoading="IsLoading"></ProgressLoader>
         }
+        <ErrorCard Error="LessonsState.Value.TagsError"></ErrorCard>
         @if (Tags != null)
         {
             <div class="d-flex justify-content-between">

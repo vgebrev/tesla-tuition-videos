@@ -29,6 +29,14 @@
                 <ProgressLoader IsLoading="LessonsState.Value.IsLoadingLessons"></ProgressLoader>
             </div>
         </div>
+        @if (LessonsState.Value.LessonsError.IsError)
+        {
+            <div class="row">
+                <div class="col-7 mb-3 mx-auto">
+                    <ErrorCard Error="LessonsState.Value.LessonsError"></ErrorCard>
+                </div>
+            </div>
+        }
 
         @if (LessonsState.Value.Lessons != null)
         {

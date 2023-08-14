@@ -7,6 +7,7 @@ namespace TTV.Web.Blazor.Store.Lessons;
 
 public class Effects
 {
+    private const string DefaultErrorMessage = "Something went wrong. Please refresh the page or try again.";
     private readonly ITagDataService tagDataService;
     private readonly ILessonDataService lessonDataService;
 
@@ -19,18 +20,32 @@ public class Effects
     [EffectMethod(typeof(GetTagsRequest))]
     public async Task HandleGetTagsRequest(IDispatcher dispatcher)
     {
-        var tags = await tagDataService.GetTagsAsync();
-        dispatcher.Dispatch(new GetTagsResponse() { Tags = tags });
+        try
+        {
+            var tags = await tagDataService.GetTagsAsync();
+            dispatcher.Dispatch(new GetTagsResponse() { Tags = tags });
+        }
+        catch (Exception)
+        {
+            dispatcher.Dispatch(new GetTagsError() { ErrorMessage = DefaultErrorMessage });
+        }
     }
 
     [EffectMethod]
     public async Task HandleSearchLessonsRequest(SearchLessonsRequest action, IDispatcher dispatcher)
     {
-        var lessons = await lessonDataService.SearchLessonsAsync(new SearchLessonsDto()
+        try
         {
-            SearchTagsIds = action.SearchTags?.Select(tag => tag.Id).ToArray(),
-            SearchText = action.SearchText
-        });
-        dispatcher.Dispatch(new SearchLessonsResponse() { Lessons = lessons });
+            var lessons = await lessonDataService.SearchLessonsAsync(new SearchLessonsDto()
+            {
+                SearchTagsIds = action.SearchTags?.Select(tag => tag.Id).ToArray(),
+                SearchText = action.SearchText
+            });
+            dispatcher.Dispatch(new SearchLessonsResponse() { Lessons = lessons });
+        } 
+        catch (Exception)
+        {
+            dispatcher.Dispatch(new SearchLessonsError() { ErrorMessage = DefaultErrorMessage});
+        }
     }
 }

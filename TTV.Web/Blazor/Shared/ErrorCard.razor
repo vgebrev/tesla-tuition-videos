@@ -1,0 +1,14 @@
+﻿@using TTV.Web.Blazor.Store;
+@if (Error.IsError)
+{
+    <div class="card border-danger">
+        <div class="card-body">
+            <p class="card-text">@Error.ErrorMessage</p>
+        </div>
+    </div>
+}
+
+@code {
+    [Parameter]
+    public ErrorState Error { get; set; } = new();
+}

@@ -11,3 +11,8 @@ public record GetTagsResponse
     public TagDto[] Tags { get; init; } = Array.Empty<TagDto>();
 }
 
+public record GetTagsError
+{
+    public string ErrorMessage { get; init; } = string.Empty;
+}
+

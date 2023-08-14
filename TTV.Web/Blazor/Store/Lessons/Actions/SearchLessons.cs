@@ -12,3 +12,8 @@ public record SearchLessonsResponse
 {
     public LessonDto[] Lessons { get; init; } = Array.Empty<LessonDto>();
 }
+
+public record SearchLessonsError
+{
+    public string ErrorMessage { get; init; } = string.Empty;
+}

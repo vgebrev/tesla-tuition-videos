@@ -13,8 +13,8 @@ builder.Services.AddHttpClient("TTV Web API", client => client.BaseAddress = new
     .AddHttpMessageHandler<AntiforgeryHandler>();
     
 builder.Services.AddScoped(sp => sp.GetRequiredService<IHttpClientFactory>().CreateClient("TTV Web API"));
-builder.Services.AddTransient<AntiforgeryHandler>();
 builder.Services.AddTransient<ApiAuthorizationMessageHandler>();
+builder.Services.AddTransient<AntiforgeryHandler>();
 builder.Services.Configure<LocalConfig>(builder.Configuration.GetSection("Local"));
 builder.Services.AddOidcAuthentication(options =>
 {

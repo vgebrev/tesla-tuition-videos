@@ -7,8 +7,9 @@
 @code {
     [Inject]
     IOptionsSnapshot<LocalConfig> Config { get; set; } = default!;
-    [Inject] 
+    [Inject]
     IAccessTokenProvider TokenProvider { get; set; } = default!;
+
     [Parameter]
     public int VideoId { get; set; }
 
@@ -18,13 +19,11 @@
     protected override async Task OnInitializedAsync()
     {
         await base.OnInitializedAsync();
+        VideoUri = $"{Config.Value.ApiRootUri}/api/video/{VideoId}";
         var accessTokenResult = await TokenProvider.RequestAccessToken();
-        AccessToken = string.Empty;
         if (accessTokenResult.TryGetToken(out var token))
         {
-            AccessToken = token.Value;
-            VideoUri += $"{Config.Value.ApiRootUri}/api/video/{VideoId}/intro?access_token={AccessToken}";
-            StateHasChanged();
+            VideoUri += $"?access_token={token.Value}";
         }
     }
 }

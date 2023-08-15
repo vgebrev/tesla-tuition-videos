@@ -5,12 +5,13 @@ using Serilog;
 using TTV.Application;
 using TTV.Domain.DomainServices;
 using TTV.Infrastructure.DataAccess;
+using TTV.Infrastructure.Video;
 using TTV.Web.Api;
 using TTV.Web.Api.AutoMapper;
 
 Log.Logger = new LoggerConfiguration()
     .WriteTo.Console()
-    .WriteTo.File("Logs/log.txt", rollingInterval: RollingInterval.Day)
+    .WriteTo.File("Logs/log.txt", rollingInterval: RollingInterval.Day, shared: true)
     .Enrich.FromLogContext()
     .CreateLogger();
 
@@ -49,11 +50,16 @@ try
                 ValidTypes = new[] { "at+jwt" },
             };
         });
+    builder.Services.AddAutoMapper(typeof(AutoMapperProfile));
+    builder.Services.AddHttpContextAccessor();
 
     builder.Services.AddScoped<ILessonDataService, LessonDataService>();
     builder.Services.AddScoped<ITagDataService, TagDataService>();
     builder.Services.AddScoped<IUnitOfWorkFactory, UnitOfWorkFactory>();
-    builder.Services.AddAutoMapper(typeof(AutoMapperProfile));
+    builder.Services.AddScoped<IUserIdentityService, ClaimsIdentityService>();
+    builder.Services.AddScoped<IVideoStreamLoader, VideoStreamLoader>();
+
+    builder.Services.Configure<FileSystemSettings>(builder.Configuration.GetSection(nameof(FileSystemSettings)));
 
     var app = builder.Build();
     app.UseSerilogRequestLogging();

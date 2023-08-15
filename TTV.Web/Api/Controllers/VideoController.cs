@@ -1,44 +1,29 @@
-﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
+using TTV.Domain.DomainServices;
+using TTV.Infrastructure.Video;
 
-namespace TTV.Web.Api.Controllers
+namespace TTV.Web.Api.Controllers;
+
+[Route("api/[controller]")]
+[ApiController]
+public class VideoController : ControllerBase
 {
-    [Route("api/[controller]")]
-    [ApiController]
-    public class VideoController : ControllerBase
+    private readonly ILogger<VideoController> logger;
+    private readonly IVideoStreamLoader videoStreamLoader;
+    private readonly IUserIdentityService userIdentityService;
+
+    public VideoController(ILogger<VideoController> logger, IVideoStreamLoader videoStreamLoader, IUserIdentityService userIdentityService)
     {
-        private readonly ILogger<VideoController> logger;
-        private readonly IWebHostEnvironment webHostEnvironment;
+        this.logger = logger;
+        this.videoStreamLoader = videoStreamLoader;
+        this.userIdentityService = userIdentityService;
+    }
 
-        public VideoController(ILogger<VideoController> logger, IWebHostEnvironment webHostEnvironment)
-        {
-            this.logger = logger;
-            this.webHostEnvironment = webHostEnvironment;
-        }
-
-        [HttpGet("{videoId}")]
-        [Authorize]
-        public IResult GetVideoStream([FromRoute] int videoId)
-        {
-            logger.LogInformation("{Method}({VideoId})", nameof(GetVideoStream), videoId);
-
-            // TODO: Link to lessons
-            var filename = "TTV-Lesson-Placeholder.mp4";
-            var path = Path.Combine(webHostEnvironment.ContentRootPath, "Videos", filename);
-            var stream = System.IO.File.OpenRead(path);
-            return Results.File(stream, contentType: "video/mp4", fileDownloadName: Path.GetFileName(path), enableRangeProcessing: true);
-        }
-
-        [HttpGet("{videoId}/intro")]
-        public IResult GetVideoIntroStream([FromRoute] int videoId)
-        {
-            logger.LogInformation("{Method}({VideoId})", nameof(GetVideoIntroStream), videoId);
-
-            // TODO: Link to lessons
-            var filename = "TTV-Intro-Placeholder.mp4";
-            var path = Path.Combine(webHostEnvironment.ContentRootPath, "Videos", filename);
-            var stream = System.IO.File.OpenRead(path);
-            return Results.File(stream, contentType: "video/mp4", fileDownloadName: Path.GetFileName(path), enableRangeProcessing: true);
-        }
+    [HttpGet("{videoId}")]
+    public async Task<IResult> GetVideoStreamAsync([FromRoute] int videoId, CancellationToken cancellationToken = default)
+    {
+        logger.LogInformation("{Method}({VideoId})", nameof(GetVideoStreamAsync), videoId);
+        var videoInfo = await videoStreamLoader.LoadAsync(videoId, userIdentityService.Email, cancellationToken);
+        return Results.File(videoInfo.Stream, contentType: "video/mp4", fileDownloadName: videoInfo.Filename, enableRangeProcessing: true);
     }
 }

@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using TTV.Domain.DomainServices;
-using TTV.Infrastructure.Video;
+using TTV.Infrastructure.Videos;
 
 namespace TTV.Web.Api.Controllers;
 

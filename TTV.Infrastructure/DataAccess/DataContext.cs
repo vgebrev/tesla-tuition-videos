@@ -12,9 +12,11 @@ public class DataContext : DbContext
     {
         base.OnModelCreating(modelBuilder);
         modelBuilder.HasEnumLookup<LessonType>();
+        modelBuilder.HasEnumLookup<VideoType>();
         modelBuilder.ApplyConfigurationsFromAssembly(typeof(DataContext).Assembly);
     }
     public DbSet<Lesson> Lessons { get; set; } = default!;
     public DbSet<Tag> Tags { get; set; } = default!;
     public DbSet<TagCategory> TagCategories { get; set; } = default!;
+    public DbSet<Video> Videos { get; set; } = default!;
 }

@@ -10,5 +10,6 @@ public class Lesson : BaseEntity
     public string Title { get; set; } = string.Empty;
     public string Description { get; set; } = string.Empty;
     public LessonType LessonType { get; set; }
-    public ICollection<Tag> Tags { get; set; }
+    public Video Video { get; set; } = default!;
+    public virtual ICollection<Tag> Tags { get; set; }
 }

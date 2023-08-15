@@ -1,4 +1,4 @@
-﻿namespace TTV.Infrastructure.Video
+﻿namespace TTV.Infrastructure.Videos
 {
     public record FileSystemSettings
     {

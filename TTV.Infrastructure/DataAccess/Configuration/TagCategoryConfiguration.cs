@@ -2,14 +2,13 @@
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using TTV.Domain.Entities;
 
-namespace TTV.Infrastructure.DataAccess.Configuration
+namespace TTV.Infrastructure.DataAccess.Configuration;
+
+internal class TagCategoryConfiguration : IEntityTypeConfiguration<TagCategory>
 {
-    public class TagCategoryConfiguration : IEntityTypeConfiguration<TagCategory>
+    public void Configure(EntityTypeBuilder<TagCategory> entity)
     {
-        public void Configure(EntityTypeBuilder<TagCategory> entity)
-        {
-            entity.HasKey(tagCategory => tagCategory.Id);
-            entity.ToTable(nameof(TagCategory));
-        }
+        entity.HasKey(tagCategory => tagCategory.Id);
+        entity.ToTable(nameof(TagCategory));
     }
 }

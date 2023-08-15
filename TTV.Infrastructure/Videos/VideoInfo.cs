@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace TTV.Infrastructure.Video
+namespace TTV.Infrastructure.Videos
 {
     public record VideoInfo
     {

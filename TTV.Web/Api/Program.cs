@@ -5,7 +5,7 @@ using Serilog;
 using TTV.Application;
 using TTV.Domain.DomainServices;
 using TTV.Infrastructure.DataAccess;
-using TTV.Infrastructure.Video;
+using TTV.Infrastructure.Videos;
 using TTV.Web.Api;
 using TTV.Web.Api.AutoMapper;
 

@@ -1,7 +1,7 @@
 ﻿using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 
-namespace TTV.Infrastructure.Video;
+namespace TTV.Infrastructure.Videos;
 
 public class VideoStreamLoader : IVideoStreamLoader
 {

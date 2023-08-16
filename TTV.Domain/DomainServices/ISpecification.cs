@@ -7,7 +7,7 @@ namespace TTV.Domain.DomainServices
         where TEntity : BaseEntity
     {
         public Expression<Func<TEntity, bool>>[]? Filters { get; set; }
-        public Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>> Sort { get; set; }
-        public string IncludeProperties { get; set; }
+        public Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>>? Sort { get; set; }
+        public string? IncludeProperties { get; set; }
     }
 }

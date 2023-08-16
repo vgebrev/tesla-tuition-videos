@@ -9,7 +9,7 @@ public record GetLessonRequest
 
 public record GetLessonResponse
 {
-    public LessonDto Lesson { get; init; } = default!;
+    public LessonDto Lesson { get; init; } = new();
 }
 
 public record GetLessonError

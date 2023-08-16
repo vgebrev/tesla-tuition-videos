@@ -8,7 +8,7 @@
         }
 
         public string Name { get; set; } = string.Empty;
-        public TagCategory Category { get; set; } = default!;
+        public TagCategory Category { get; set; } = new();
         public ICollection<Lesson> Lessons { get; set; }
     }
 }

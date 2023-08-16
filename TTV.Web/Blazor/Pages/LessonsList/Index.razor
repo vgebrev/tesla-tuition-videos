@@ -1,10 +1,15 @@
-﻿@inherits Fluxor.Blazor.Web.Components.FluxorComponent
-@page "/lessons"
+﻿@page "/lessons"
+
 @using Fluxor;
 @using Microsoft.AspNetCore.Components.WebAssembly.Authentication;
 @using TTV.Web.Blazor.Pages.LessonsList.Store;
 @using TTV.Web.Blazor.Pages.LessonsList.Store.Actions;
 @using TTV.Web.Shared;
+
+@inherits Fluxor.Blazor.Web.Components.FluxorComponent
+
+@inject IState<LessonsListState> State
+@inject IDispatcher Dispatcher
 
 <PageTitle>Tesla Tuition Videos - Lessons</PageTitle>
 
@@ -26,25 +31,25 @@
         </div>
         <div class="row">
             <div class="col-12 my-1 min-height-16">
-                <ProgressLoader IsLoading="LessonsState.Value.IsLoadingLessons"></ProgressLoader>
+                <ProgressLoader IsLoading="IsLoading"></ProgressLoader>
             </div>
         </div>
-        @if (LessonsState.Value.LessonsError.IsError)
+        @if (State.Value.LessonsError.IsError)
         {
             <div class="row">
                 <div class="col-7 mb-3 mx-auto">
-                    <ErrorCard Error="LessonsState.Value.LessonsError"></ErrorCard>
+                    <ErrorCard Error="State.Value.LessonsError"></ErrorCard>
                 </div>
             </div>
         }
 
-        @if (LessonsState.Value.Lessons != null)
+        @if (State.Value.Lessons != null)
         {
-            @if (LessonsState.Value.Lessons.Length > 0)
+            @if (State.Value.Lessons.Length > 0)
             {
                 <div class="row row-cols-2 g-3">
 
-                    @foreach (var lesson in LessonsState.Value.Lessons)
+                    @foreach (var lesson in State.Value.Lessons)
                     {
                         <div class="col">
                             <LessonCard Lesson="lesson"></LessonCard>
@@ -66,19 +71,14 @@
 </div>
 
 @code {
-    [Inject]
-    private IState<LessonsListState> LessonsState { get; set; } = default!;
-    [Inject]
-    private IDispatcher Dispatcher { get; set; } = default!;
-
-    private bool IsLoading => LessonsState.Value.IsLoadingLessons;
+    private bool IsLoading => State.Value.IsLoadingLessons;
 
     protected override void OnInitialized()
     {
         base.OnInitialized();
-        if (LessonsState.Value.Lessons == null)
+        if (State.Value.Lessons == null)
         {
-            Dispatcher.Dispatch(new SearchLessonsRequest() { SearchText = LessonsState.Value.SearchText, SearchTags = LessonsState.Value.SearchTags });
+            Dispatcher.Dispatch(new SearchLessonsRequest() { SearchText = State.Value.SearchText, SearchTags = State.Value.SearchTags });
         }
     }
 }

@@ -15,8 +15,8 @@ public class DataContext : DbContext
         modelBuilder.HasEnumLookup<VideoType>();
         modelBuilder.ApplyConfigurationsFromAssembly(typeof(DataContext).Assembly);
     }
-    public DbSet<Lesson> Lessons { get; set; } = default!;
-    public DbSet<Tag> Tags { get; set; } = default!;
-    public DbSet<TagCategory> TagCategories { get; set; } = default!;
-    public DbSet<Video> Videos { get; set; } = default!;
+    public DbSet<Lesson> Lessons { get; set; }
+    public DbSet<Tag> Tags { get; set; }
+    public DbSet<TagCategory> TagCategories { get; set; }
+    public DbSet<Video> Videos { get; set; }
 }

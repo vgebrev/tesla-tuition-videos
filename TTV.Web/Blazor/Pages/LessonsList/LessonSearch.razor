@@ -1,7 +1,12 @@
 ﻿@using Fluxor;
 @using TTV.Web.Blazor.Pages.LessonsList.Store;
 @using TTV.Web.Blazor.Pages.LessonsList.Store.Actions;
+
 @inherits Fluxor.Blazor.Web.Components.FluxorComponent
+
+@inject IState<LessonsListState> State
+@inject IDispatcher Dispatcher
+@inject IActionSubscriber ActionSubscriber
 
 <div class="form-group d-flex">
     <div class="form-floating flex-fill me-2">
@@ -14,21 +19,12 @@
 </div>
 
 @code {
-    [Inject]
-    private IState<LessonsListState> LessonsState { get; set; } = default!;
-
-    [Inject]
-    private IDispatcher Dispatcher { get; set; } = default!;
-
-    [Inject]
-    private IActionSubscriber ActionSubscriber { get; set; } = default!;
-
     string? searchText;
 
     protected override void OnInitialized()
     {
         base.OnInitialized();
-        searchText = LessonsState.Value.SearchText;
+        searchText = State.Value.SearchText;
         ActionSubscriber.SubscribeToAction<SearchLessonsRequest>(this, action => searchText = action.SearchText);
     }
 
@@ -42,7 +38,7 @@
 
     private void SearchClicked()
     {
-        Dispatcher.Dispatch(new SearchLessonsRequest() { SearchText = searchText, SearchTags = LessonsState.Value.SearchTags });
+        Dispatcher.Dispatch(new SearchLessonsRequest() { SearchText = searchText, SearchTags = State.Value.SearchTags });
     }
 
     protected override void Dispose(bool disposing)

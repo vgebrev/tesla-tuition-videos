@@ -35,7 +35,7 @@ public class Repository<TEntity> : IRepository<TEntity>
         string? includeProperties,
         CancellationToken cancellationToken = default)
     {
-        IQueryable<TEntity> query = dbSet.TagWithCallSite().TagWith($"Getting list of {typeof(TEntity)} entities.");
+        IQueryable<TEntity> query = dbSet.TagWith($"Getting list of {typeof(TEntity)} entities.").AsNoTracking();
         if (filters != null)
         {
             foreach (var filter in filters)
@@ -65,7 +65,7 @@ public class Repository<TEntity> : IRepository<TEntity>
 
     public virtual async Task<TEntity?> GetAsync(int id, string? includeProperties, CancellationToken cancellationToken = default)
     {
-        IQueryable<TEntity> query = dbSet.TagWithCallSite().TagWith($"Getting {typeof(TEntity)} by Id.");
+        IQueryable<TEntity> query = dbSet.TagWith($"Getting {typeof(TEntity)} by Id.").AsNoTracking();
         
         if (!string.IsNullOrEmpty(includeProperties))
         {

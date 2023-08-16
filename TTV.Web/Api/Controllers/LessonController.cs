@@ -37,6 +37,7 @@ public class LessonController : ControllerBase
         }
         return Ok(lesson.ToLessonDto());
     }
+
     [HttpPost("search")]
     public async Task<IEnumerable<LessonDto>> SearchLessonsAsync([FromBody] SearchLessonsDto searchDto, CancellationToken cancellationToken)
     {

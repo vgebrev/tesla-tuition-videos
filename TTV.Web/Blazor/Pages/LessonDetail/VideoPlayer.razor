@@ -1,15 +1,14 @@
 ﻿@using Microsoft.AspNetCore.Components.WebAssembly.Authentication;
 @using Microsoft.Extensions.Options;
+
+@inject IOptionsSnapshot<LocalConfig> Config
+@inject IAccessTokenProvider TokenProvider
+
 <video oncontextmenu="return false;" controls controlslist="nodownload" class="w-100">
     <source src="@VideoUri" type="video/mp4" />
 </video>
 
 @code {
-    [Inject]
-    IOptionsSnapshot<LocalConfig> Config { get; set; } = default!;
-    [Inject]
-    IAccessTokenProvider TokenProvider { get; set; } = default!;
-
     [Parameter]
     public int VideoId { get; set; }
 

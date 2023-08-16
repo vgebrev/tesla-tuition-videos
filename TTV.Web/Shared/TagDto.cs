@@ -4,7 +4,7 @@ public record TagDto
 {
     public int Id { get; init; }
     public string Name { get; init; } = string.Empty;
-    public TagCategoryDto Category { get; init; } = default!;
+    public TagCategoryDto Category { get; init; } = new();
     public int LessonCount { get; init; }
 }
 

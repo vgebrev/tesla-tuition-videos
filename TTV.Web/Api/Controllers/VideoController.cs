@@ -23,8 +23,12 @@ public class VideoController : ControllerBase
     public async Task<IResult> GetVideoStreamAsync([FromRoute] int videoId, CancellationToken cancellationToken = default)
     {
         logger.LogInformation("{Method}({VideoId})", nameof(GetVideoStreamAsync), videoId);
-        var videoInfo = await videoStreamLoader.LoadAsync(videoId, userIdentityService.Email, cancellationToken);
+        var stream = await videoStreamLoader.LoadAsync(videoId, userIdentityService.Email, cancellationToken);
+        if (stream == Stream.Null)
+        {
+            return Results.NotFound();
+        }
 
-        return Results.File(videoInfo.Stream, contentType: "video/mp4", fileDownloadName: videoInfo.Filename, enableRangeProcessing: true);
+        return Results.File(stream, contentType: "video/mp4", enableRangeProcessing: true);
     }
 }

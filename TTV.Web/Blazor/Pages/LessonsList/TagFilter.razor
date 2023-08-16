@@ -5,6 +5,9 @@
 
 @inherits Fluxor.Blazor.Web.Components.FluxorComponent;
 
+@inject IState<LessonsListState> LessonsState
+@inject IDispatcher Dispatcher
+
 <div class="card text-white bg-secondary">
     <div class="card-header"><i class="bi bi-sliders"></i> Filters</div>
     <div class="card-body">
@@ -40,11 +43,6 @@
 </div>
 
 @code {
-    [Inject]
-    private IState<LessonsListState> LessonsState { get; set; } = default!;
-    [Inject]
-    private IDispatcher Dispatcher { get; set; } = default!;
-
     private bool IsLoading => LessonsState.Value.IsLoadingTags;
     private TagDto[]? Tags => LessonsState.Value.Tags;
     private bool IsChecked(TagDto tag) => LessonsState.Value.SearchTags?.Contains(tag) ?? false;

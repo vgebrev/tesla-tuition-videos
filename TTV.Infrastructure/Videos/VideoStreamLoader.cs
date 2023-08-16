@@ -14,21 +14,20 @@ public class VideoStreamLoader : IVideoStreamLoader
     {
         this.logger = logger;
         this.dataService = dataService;
-        this.settings = config.Value;
+        settings = config.Value;
     }
-    public async Task<VideoInfo> LoadAsync(int videoId, string? userEmail, CancellationToken cancellationToken = default)
-    {        
+    public async Task<Stream> LoadAsync(int videoId, string? userEmail, CancellationToken cancellationToken = default)
+    {
         logger.LogInformation("{MethodName}({LessonID}, {UserEmail})", nameof(LoadAsync), videoId, userEmail);
         var video = await dataService.GetVideoAsync(videoId, cancellationToken);
+        if (video == null)
+        {
+            return Stream.Null;
+        }
         // TODO: Link to lessons and ownership to determine whether to serve the full lesson or just the intro
         var chosenVideo = string.IsNullOrEmpty(userEmail) ? video.Intro : video;
         var path = Path.Combine(settings.VideosPath, chosenVideo?.RelativePath ?? string.Empty, chosenVideo?.Filename ?? string.Empty);
         var stream = File.OpenRead(path);
-        return new VideoInfo
-        {
-            Id = videoId,
-            Filename = chosenVideo?.Filename ?? "Video.mp4",
-            Stream = stream,
-        };
+        return stream;
     }
 }

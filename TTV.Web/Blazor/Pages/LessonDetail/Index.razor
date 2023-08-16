@@ -1,11 +1,14 @@
-﻿@inherits Fluxor.Blazor.Web.Components.FluxorComponent
-@page "/lesson/{lessonId:int}"
+﻿@page "/lesson/{lessonId:int}"
+
 @using Fluxor;
 @using TTV.Web.Shared
 @using TTV.Web.Blazor.Pages.LessonDetail.Store
 @using TTV.Web.Blazor.Pages.LessonDetail.Store.Actions
 
+@inherits Fluxor.Blazor.Web.Components.FluxorComponent
 
+@inject IState<LessonDetailState> State
+@inject IDispatcher Dispatcher
 
 <PageTitle>@Title</PageTitle>
 
@@ -34,17 +37,12 @@
 }
 
 @code {
-    [Inject]
-    private IState<LessonDetailState> LessonState { get; set; } = default!;
-    [Inject]
-    private IDispatcher Dispatcher { get; set; } = default!;
-
     [Parameter]
     public int LessonId { get; set; }
 
-    private bool IsLoading => LessonState.Value.IsLoading;
-    private LessonDto? Lesson => LessonState.Value.Lesson;
-    private ErrorState Error => LessonState.Value.Error;
+    private bool IsLoading => State.Value.IsLoading;
+    private LessonDto? Lesson => State.Value.Lesson;
+    private ErrorState Error => State.Value.Error;
 
     private string Title => $"Tesla Tuition Videos {(Lesson != null ? $" - {Lesson.Title}" : string.Empty)}";
 

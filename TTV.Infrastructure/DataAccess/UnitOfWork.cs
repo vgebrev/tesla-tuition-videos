@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore.Storage;
-using System.Collections;
 using TTV.Domain.DomainServices;
-using TTV.Domain.Entities;
+using TTV.Domain.DomainServices.Repositories;
+using TTV.Infrastructure.DataAccess.Repositories;
 
 namespace TTV.Infrastructure.DataAccess;
 
@@ -10,12 +10,17 @@ public class UnitOfWork : IUnitOfWork
     private bool disposed = false;
     private IDbContextTransaction? transaction;
     private readonly DataContext dataContext;
-    private readonly Hashtable repositories;
+
+    public ILessonRepository LessonRepository { get; }
+    public ITagRepository TagRepository { get; }
+    public IVideoRepository VideoRepository { get; }
 
     public UnitOfWork(DataContext dataContext)
     {
         this.dataContext = dataContext;
-        repositories = new Hashtable();
+        TagRepository = new TagRepository(dataContext);
+        LessonRepository = new LessonRepository(dataContext);
+        VideoRepository = new VideoRepository(dataContext);
     }
 
     protected virtual void Dispose(bool disposing)
@@ -50,18 +55,6 @@ public class UnitOfWork : IUnitOfWork
                 await transaction.RollbackAsync(cancellationToken);
             throw;
         }
-    }
-
-    public IRepository<TEntity> GetRepository<TEntity>() where TEntity : BaseEntity
-    {
-        var entityType = typeof(TEntity);
-        if (repositories.ContainsKey(entityType))
-            return (IRepository<TEntity>?)repositories[entityType] ?? throw new InvalidCastException();
-
-        var repositoryType = typeof(Repository<>);
-        var repositoryInstance = (IRepository<TEntity>?)Activator.CreateInstance(repositoryType.MakeGenericType(entityType), dataContext) ?? throw new InvalidOperationException();
-        repositories.Add(entityType, repositoryInstance);
-        return (IRepository<TEntity>?)repositories[entityType] ?? throw new InvalidCastException();
     }
 
     public async Task StartAsync(CancellationToken cancellationToken = default)

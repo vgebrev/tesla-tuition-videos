@@ -1,11 +1,14 @@
-﻿using TTV.Domain.Entities;
+﻿using TTV.Domain.DomainServices.Repositories;
 
 namespace TTV.Domain.DomainServices;
 
 public interface IUnitOfWork : IDisposable
 {
-    public Task StartAsync(CancellationToken cancellationToken = default);
-    public Task EndAsync(CancellationToken cancellationToken = default);
-    public IRepository<TEntity> GetRepository<TEntity>() 
-        where TEntity : BaseEntity;
+    Task StartAsync(CancellationToken cancellationToken = default);
+    Task EndAsync(CancellationToken cancellationToken = default);
+    
+    ILessonRepository LessonRepository { get; }
+    ITagRepository TagRepository { get; }
+    IVideoRepository VideoRepository { get; }
+
 }

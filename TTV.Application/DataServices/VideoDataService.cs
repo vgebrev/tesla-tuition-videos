@@ -15,8 +15,7 @@ public class VideoDataService : IVideoDataService
     public async Task<Video?> GetVideoAsync(int videoId, CancellationToken cancellationToken = default)
     {
         using var unitOfWork = await unitOfWorkFactory.CreateAsync(cancellationToken);
-        var video = await unitOfWork.GetRepository<Video>()
-            .GetAsync(videoId, includeProperties: $"{nameof(Video.Intro)}", cancellationToken: cancellationToken);
+        var video = await unitOfWork.VideoRepository.GetByIdAsync(videoId, cancellationToken);
         return video;
     }
 }

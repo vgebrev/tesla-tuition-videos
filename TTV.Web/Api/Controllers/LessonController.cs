@@ -19,13 +19,6 @@ public class LessonController : ControllerBase
         this.dataService = dataService;
     }
 
-    [HttpGet]
-    public async Task<IEnumerable<LessonDto>> GetLessonsAsync(CancellationToken cancellationToken)
-    {
-        var lessons = await dataService.GetLessonsAsync(cancellationToken);
-        return lessons.ToLessonDtoEnumerable();
-    }
-
     [HttpGet("{lessonId}")]
     public async Task<ActionResult<LessonDto>> GetLessonAsync([FromRoute]int lessonId, CancellationToken cancellationToken)
     {

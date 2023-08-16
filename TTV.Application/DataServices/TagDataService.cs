@@ -15,7 +15,7 @@ namespace TTV.Application.DataServices
         public async Task<IEnumerable<Tag>> GetTagsAsync(CancellationToken cancellationToken = default)
         {
             using var unitOfWork = await unitOfWorkFactory.CreateAsync(cancellationToken);
-            var tags = await unitOfWork.GetRepository<Tag>().GetAsync(includeProperties: $"{nameof(Tag.Category)},{nameof(Tag.Lessons)}", cancellationToken: cancellationToken);
+            var tags = await unitOfWork.TagRepository.GetAllAsync(cancellationToken);
             return tags;
         }
     }

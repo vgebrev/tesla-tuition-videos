@@ -111,6 +111,20 @@ namespace TTV.DatabaseDeploy.Migrations
                     b.ToTable("TagCategory", (string)null);
                 });
 
+            modelBuilder.Entity("TTV.Domain.Entities.User", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Email")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("AspNetUsers", "user");
+                });
+
             modelBuilder.Entity("TTV.Domain.Entities.Video", b =>
                 {
                     b.Property<int>("Id")
@@ -183,13 +197,28 @@ namespace TTV.DatabaseDeploy.Migrations
                         new
                         {
                             Id = 1,
-                            Name = "FullLesson"
+                            Name = "Full Lesson"
                         },
                         new
                         {
                             Id = 2,
                             Name = "Intro"
                         });
+                });
+
+            modelBuilder.Entity("UserLesson", b =>
+                {
+                    b.Property<int>("LessonId")
+                        .HasColumnType("int");
+
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("LessonId", "UserId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("UserLesson");
                 });
 
             modelBuilder.Entity("LessonTag", b =>
@@ -249,6 +278,21 @@ namespace TTV.DatabaseDeploy.Migrations
                         .IsRequired();
 
                     b.Navigation("Intro");
+                });
+
+            modelBuilder.Entity("UserLesson", b =>
+                {
+                    b.HasOne("TTV.Domain.Entities.Lesson", null)
+                        .WithMany()
+                        .HasForeignKey("LessonId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("TTV.Domain.Entities.User", null)
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
                 });
 #pragma warning restore 612, 618
         }

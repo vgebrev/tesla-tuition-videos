@@ -94,7 +94,7 @@ public class Index : PageModel
             if (result.Succeeded)
             {
                 var user = await userManager.FindByNameAsync(Input.Username);
-                await events.RaiseAsync(new UserLoginSuccessEvent(user.UserName, user.Id, user.UserName, clientId: context?.Client.ClientId));
+                await events.RaiseAsync(new UserLoginSuccessEvent(user.UserName, user.Id.ToString(), user.UserName, clientId: context?.Client.ClientId));
 
                 if (context != null)
                 {

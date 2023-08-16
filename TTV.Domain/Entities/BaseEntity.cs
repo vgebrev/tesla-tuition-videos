@@ -1,12 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿namespace TTV.Domain.Entities;
 
-namespace TTV.Domain.Entities;
-
-public class BaseEntity
+public class BaseEntity : BaseEntity<int>
 {
-    public int Id { get; set; }
+}
+
+public class BaseEntity<TKey>
+    where TKey : struct, IEquatable<TKey>
+{
+    public TKey Id { get; set; }
 }

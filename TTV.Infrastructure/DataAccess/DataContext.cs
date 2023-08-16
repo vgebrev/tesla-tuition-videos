@@ -19,4 +19,5 @@ public class DataContext : DbContext
     public DbSet<Tag> Tags { get; set; }
     public DbSet<TagCategory> TagCategories { get; set; }
     public DbSet<Video> Videos { get; set; }
+    public DbSet<User> Users { get; set; }
 }

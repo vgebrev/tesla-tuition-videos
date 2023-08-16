@@ -10,7 +10,7 @@ public static class TagCategoryMappings
         return new TagCategoryDto
         {
             Id = category.Id,
-            Name = category.Name            
+            Name = category.Name
         };
     }
 }

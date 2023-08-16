@@ -1,7 +1,6 @@
-﻿namespace TTV.Infrastructure.Videos
+﻿namespace TTV.Infrastructure.Videos;
+
+public interface IVideoStreamLoader
 {
-    public interface IVideoStreamLoader
-    {
-        Task<Stream> LoadLessonVideoStreamAsync(int lessonId, string? userEmail, CancellationToken cancellationToken = default);
-    }
+    Task<Stream> LoadLessonVideoStreamAsync(int lessonId, string? userEmail, CancellationToken cancellationToken = default);
 }

@@ -2,6 +2,10 @@
 
 public class User : BaseEntity<Guid>
 {
+    public User()
+    {
+        OwnedLessons = new HashSet<Lesson>();
+    }
     public string? Email { get; set; }
-    public ICollection<Lesson> OwnedLessons { get; set; } = new HashSet<Lesson>();
+    public virtual ICollection<Lesson> OwnedLessons { get; set; }
 }

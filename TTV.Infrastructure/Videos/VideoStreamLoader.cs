@@ -19,7 +19,6 @@ public class VideoStreamLoader : IVideoStreamLoader
         settings = config.Value;
     }
 
-    /// <remarks>Loads path from cache, to avoid querying the database for every chunk of stream the client requests.</remarks>
     public async Task<Stream> LoadLessonVideoStreamAsync(int lessonId, string? userEmail, CancellationToken cancellationToken = default)
     {
         logger.LogInformation("{MethodName}({LessonID}, {UserEmail})", nameof(LoadLessonVideoStreamAsync), lessonId, userEmail);
@@ -33,6 +32,7 @@ public class VideoStreamLoader : IVideoStreamLoader
         return stream;
     }
 
+    /// <remarks>Loads path from cache once it's loaded from Database, to avoid querying the database for every chunk of stream the client requests.</remarks>
     private async Task<string?> GetVideoPathAsync(int lessonId, string? userEmail, CancellationToken cancellationToken = default)
     {
         if (videoPathCache.TryGetPath(lessonId, userEmail, out var cachedPath))

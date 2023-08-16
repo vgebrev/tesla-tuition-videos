@@ -6,5 +6,6 @@ public record LessonDto
     public string Title { get; init; } = string.Empty;
     public string Description { get; init; } = string.Empty;
     public LookupDto LessonType { get; init; } = default!;
-    public TagDto[] Tags { get; init; } = default!;
+    public SimpleTagDto[] Tags { get; init; } = default!;
+    public int VideoId { get; init; }
 }

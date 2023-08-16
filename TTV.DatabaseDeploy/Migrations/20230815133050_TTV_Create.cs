@@ -159,7 +159,7 @@ namespace TTV.DatabaseDeploy.Migrations
                 columns: new[] { "Id", "Name" },
                 values: new object[,]
                 {
-                    { 1, "FullLesson" },
+                    { 1, "Full Lesson" },
                     { 2, "Intro" }
                 });
 

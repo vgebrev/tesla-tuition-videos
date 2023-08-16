@@ -24,6 +24,7 @@ public class VideoController : ControllerBase
     {
         logger.LogInformation("{Method}({VideoId})", nameof(GetVideoStreamAsync), videoId);
         var videoInfo = await videoStreamLoader.LoadAsync(videoId, userIdentityService.Email, cancellationToken);
+
         return Results.File(videoInfo.Stream, contentType: "video/mp4", fileDownloadName: videoInfo.Filename, enableRangeProcessing: true);
     }
 }

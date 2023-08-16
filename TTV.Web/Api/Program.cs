@@ -2,12 +2,11 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Serilog;
-using TTV.Application;
+using TTV.Application.DataServices;
 using TTV.Domain.DomainServices;
 using TTV.Infrastructure.DataAccess;
 using TTV.Infrastructure.Videos;
 using TTV.Web.Api;
-using TTV.Web.Api.AutoMapper;
 
 Log.Logger = new LoggerConfiguration()
     .WriteTo.Console()
@@ -50,13 +49,13 @@ try
                 ValidTypes = new[] { "at+jwt" },
             };
         });
-    builder.Services.AddAutoMapper(typeof(AutoMapperProfile));
     builder.Services.AddHttpContextAccessor();
 
     builder.Services.AddScoped<ILessonDataService, LessonDataService>();
     builder.Services.AddScoped<ITagDataService, TagDataService>();
     builder.Services.AddScoped<IUnitOfWorkFactory, UnitOfWorkFactory>();
     builder.Services.AddScoped<IUserIdentityService, ClaimsIdentityService>();
+    builder.Services.AddScoped<IVideoDataService, VideoDataService>();
     builder.Services.AddScoped<IVideoStreamLoader, VideoStreamLoader>();
 
     builder.Services.Configure<FileSystemSettings>(builder.Configuration.GetSection(nameof(FileSystemSettings)));

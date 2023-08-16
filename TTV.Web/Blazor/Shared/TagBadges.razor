@@ -2,12 +2,12 @@
 
 @foreach (var tag in Tags)
 {
-    <span class="badge @GetTagBackground(tag.Category.Priority) mx-1">@tag.Name</span>
+    <span class="badge @GetTagBackground(tag.Priority) mx-1">@tag.Name</span>
 }
 
 @code {
     [Parameter]
-    public TagDto[] Tags { get; set; } = Array.Empty<TagDto>();
+    public SimpleTagDto[] Tags { get; set; } = Array.Empty<SimpleTagDto>();
 
     private string GetTagBackground(int priority) => priority switch
     {

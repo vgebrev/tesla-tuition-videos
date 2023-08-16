@@ -1,5 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using TTV.Application;
+using Microsoft.AspNetCore.Mvc.Infrastructure;
+using TTV.Application.DataServices;
+using TTV.Web.Api.MappingExtensions;
 using TTV.Web.Shared;
 
 namespace TTV.Web.Api.Controllers;
@@ -20,19 +22,26 @@ public class LessonController : ControllerBase
     [HttpGet]
     public async Task<IEnumerable<LessonDto>> GetLessonsAsync(CancellationToken cancellationToken)
     {
-        return await dataService.GetLessonsAsync(cancellationToken);
+        var lessons = await dataService.GetLessonsAsync(cancellationToken);
+        return lessons.ToLessonDtoEnumerable();
     }
 
     [HttpGet("{lessonId}")]
-    public async Task<LessonDto> GetLessonAsync([FromRoute]int lessonId, CancellationToken cancellationToken)
+    public async Task<ActionResult<LessonDto>> GetLessonAsync([FromRoute]int lessonId, CancellationToken cancellationToken)
     {
         logger.LogInformation("{Method}({LessonId})", nameof(GetLessonAsync), lessonId);
-        return await dataService.GetLessonAsync(lessonId, cancellationToken);
+        var lesson = await dataService.GetLessonAsync(lessonId, cancellationToken);
+        if (lesson == null)
+        {
+            return NotFound();
+        }
+        return Ok(lesson.ToLessonDto());
     }
     [HttpPost("search")]
     public async Task<IEnumerable<LessonDto>> SearchLessonsAsync([FromBody] SearchLessonsDto searchDto, CancellationToken cancellationToken)
     {
         logger.LogInformation("{Method}({SearchDto})", nameof(SearchLessonsAsync), searchDto);
-        return await dataService.SearchLessonsAsync(searchDto, cancellationToken);
+        var lessons = await dataService.SearchLessonsAsync(searchDto.SearchText, searchDto.SearchTagsIds, cancellationToken);
+        return lessons.ToLessonDtoEnumerable();
     }
 }

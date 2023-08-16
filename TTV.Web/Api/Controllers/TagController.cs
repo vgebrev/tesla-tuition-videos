@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using TTV.Application;
+using TTV.Application.DataServices;
+using TTV.Web.Api.MappingExtensions;
 using TTV.Web.Shared;
 
 namespace TTV.Web.Api.Controllers;
@@ -21,6 +22,7 @@ public class TagController : ControllerBase
     public async Task<IEnumerable<TagDto>> GetTagsAsync(CancellationToken cancellationToken = default)
     {
         logger.LogInformation("{Method}()", nameof(GetTagsAsync));
-        return await dataService.GetTagsAsync(cancellationToken);
+        var tags = await dataService.GetTagsAsync(cancellationToken);
+        return tags.ToTagDtoEnumerable();
     }
 }

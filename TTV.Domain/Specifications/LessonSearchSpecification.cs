@@ -27,7 +27,6 @@ namespace TTV.Domain.Specifications
 
         public Expression<Func<Lesson, bool>>[]? Filters { get; set; }
         public Func<IQueryable<Lesson>, IOrderedQueryable<Lesson>> Sort { get; set; } = default!;
-        public string IncludeProperties { get; set; } = $"{nameof(Lesson.Tags)}.{nameof(Tag.Category)}";
-
+        public string IncludeProperties { get; set; } = $"{nameof(Lesson.Tags)}.{nameof(Tag.Category)},{nameof(Lesson.Video)}";
     }
 }

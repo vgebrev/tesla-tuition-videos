@@ -10,7 +10,7 @@
 
 @code {
     [Parameter]
-    public int VideoId { get; set; }
+    public int LessonId { get; set; }
 
     private string VideoUri { get; set; } = string.Empty;
     private string AccessToken { get; set; } = string.Empty;
@@ -18,7 +18,7 @@
     protected override async Task OnInitializedAsync()
     {
         await base.OnInitializedAsync();
-        VideoUri = $"{Config.Value.ApiRootUri}/api/video/{VideoId}";
+        VideoUri = $"{Config.Value.ApiRootUri}/api/video/{LessonId}";
         var accessTokenResult = await TokenProvider.RequestAccessToken();
         if (accessTokenResult.TryGetToken(out var token))
         {

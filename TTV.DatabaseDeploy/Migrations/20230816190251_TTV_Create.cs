@@ -1,7 +1,9 @@
-﻿using Microsoft.EntityFrameworkCore.Migrations;
+﻿using System;
+using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
+#pragma warning disable CA1814 // Prefer jagged arrays over multidimensional
 
 namespace TTV.DatabaseDeploy.Migrations
 {
@@ -11,6 +13,23 @@ namespace TTV.DatabaseDeploy.Migrations
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
+            // The users table is managed by TTV.Web.Auth
+            //migrationBuilder.EnsureSchema(
+            //    name: "user");
+
+            //migrationBuilder.CreateTable(
+            //    name: "AspNetUsers",
+            //    schema: "user",
+            //    columns: table => new
+            //    {
+            //        Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+            //        Email = table.Column<string>(type: "nvarchar(max)", nullable: true)
+            //    },
+            //    constraints: table =>
+            //    {
+            //        table.PrimaryKey("PK_AspNetUsers", x => x.Id);
+            //    });
+
             migrationBuilder.CreateTable(
                 name: "LessonType",
                 columns: table => new
@@ -50,6 +69,27 @@ namespace TTV.DatabaseDeploy.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Lesson",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Title = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    LessonTypeId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Lesson", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Lesson_LessonType_LessonTypeId",
+                        column: x => x.LessonTypeId,
+                        principalTable: "LessonType",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Tag",
                 columns: table => new
                 {
@@ -70,6 +110,31 @@ namespace TTV.DatabaseDeploy.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "UserLesson",
+                columns: table => new
+                {
+                    LessonId = table.Column<int>(type: "int", nullable: false),
+                    UserId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_UserLesson", x => new { x.LessonId, x.UserId });
+                    table.ForeignKey(
+                        name: "FK_UserLesson_AspNetUsers_UserId",
+                        column: x => x.UserId,
+                        principalSchema: "user",
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_UserLesson_Lesson_LessonId",
+                        column: x => x.LessonId,
+                        principalTable: "Lesson",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Video",
                 columns: table => new
                 {
@@ -78,49 +143,21 @@ namespace TTV.DatabaseDeploy.Migrations
                     VideoTypeId = table.Column<int>(type: "int", nullable: false),
                     Filename = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     RelativePath = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    IntroVideoId = table.Column<int>(type: "int", nullable: true)
+                    VideoId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Video", x => x.Id);
                     table.ForeignKey(
+                        name: "FK_Video_Lesson_VideoId",
+                        column: x => x.VideoId,
+                        principalTable: "Lesson",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
                         name: "FK_Video_VideoType_VideoTypeId",
                         column: x => x.VideoTypeId,
                         principalTable: "VideoType",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_Video_Video_IntroVideoId",
-                        column: x => x.IntroVideoId,
-                        principalTable: "Video",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Lesson",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Title = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    LessonTypeId = table.Column<int>(type: "int", nullable: false),
-                    VideoId = table.Column<int>(type: "int", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Lesson", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Lesson_LessonType_LessonTypeId",
-                        column: x => x.LessonTypeId,
-                        principalTable: "LessonType",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_Lesson_Video_VideoId",
-                        column: x => x.VideoId,
-                        principalTable: "Video",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                 });
@@ -169,11 +206,6 @@ namespace TTV.DatabaseDeploy.Migrations
                 column: "LessonTypeId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Lesson_VideoId",
-                table: "Lesson",
-                column: "VideoId");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_LessonTag_TagId",
                 table: "LessonTag",
                 column: "TagId");
@@ -184,11 +216,14 @@ namespace TTV.DatabaseDeploy.Migrations
                 column: "CategoryId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Video_IntroVideoId",
+                name: "IX_UserLesson_UserId",
+                table: "UserLesson",
+                column: "UserId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Video_VideoId",
                 table: "Video",
-                column: "IntroVideoId",
-                unique: true,
-                filter: "[IntroVideoId] IS NOT NULL");
+                column: "VideoId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Video_VideoTypeId",
@@ -203,22 +238,30 @@ namespace TTV.DatabaseDeploy.Migrations
                 name: "LessonTag");
 
             migrationBuilder.DropTable(
-                name: "Lesson");
-
-            migrationBuilder.DropTable(
-                name: "Tag");
-
-            migrationBuilder.DropTable(
-                name: "LessonType");
+                name: "UserLesson");
 
             migrationBuilder.DropTable(
                 name: "Video");
 
             migrationBuilder.DropTable(
-                name: "TagCategory");
+                name: "Tag");
+
+            // The users table is managed by TTV.Web.Auth
+            //migrationBuilder.DropTable(
+            //    name: "AspNetUsers",
+            //    schema: "user");
+
+            migrationBuilder.DropTable(
+                name: "Lesson");
 
             migrationBuilder.DropTable(
                 name: "VideoType");
+
+            migrationBuilder.DropTable(
+                name: "TagCategory");
+
+            migrationBuilder.DropTable(
+                name: "LessonType");
         }
     }
 }

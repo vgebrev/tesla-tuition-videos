@@ -19,11 +19,11 @@ public class VideoController : ControllerBase
         this.userIdentityService = userIdentityService;
     }
 
-    [HttpGet("{videoId}")]
-    public async Task<IResult> GetVideoStreamAsync([FromRoute] int videoId, CancellationToken cancellationToken = default)
+    [HttpGet("{lessonId}")]
+    public async Task<IResult> GetVideoStreamAsync([FromRoute] int lessonId, CancellationToken cancellationToken = default)
     {
-        logger.LogInformation("{Method}({VideoId})", nameof(GetVideoStreamAsync), videoId);
-        var stream = await videoStreamLoader.LoadAsync(videoId, userIdentityService.Email, cancellationToken);
+        logger.LogInformation("{Method}({LessonId})", nameof(GetVideoStreamAsync), lessonId);
+        var stream = await videoStreamLoader.LoadLessonVideoStreamAsync(lessonId, userIdentityService.Email, cancellationToken);
         if (stream == Stream.Null)
         {
             return Results.NotFound();

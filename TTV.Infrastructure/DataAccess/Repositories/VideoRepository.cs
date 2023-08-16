@@ -12,10 +12,21 @@ public class VideoRepository : IVideoRepository
     {
         this.dataContext = dataContext;
     }
-    public async Task<Video?> GetByIdAsync(int videoId, CancellationToken cancellationToken = default)
+
+    public async Task<Video?> GetLessonVideoForUserAsync(int lessonId, string? userEmail, CancellationToken cancellationToken = default)
     {
-        return await dataContext.Videos.TagWithCallSite()
-            .Include(video => video.Intro)
-            .SingleOrDefaultAsync(video => video.Id == videoId, cancellationToken);
+        var query = dataContext.Videos.TagWithCallSite()
+            .AsNoTracking()
+            .Include(video => video.Lesson)
+            .ThenInclude(lesson => lesson.OwnedBy)
+            .Where(video => video.Lesson.Id == lessonId)
+            .Where(video => video.VideoType == VideoType.Intro || video.Lesson.OwnedBy.Any(user => user.Email == userEmail));
+
+        var videos = await query.Select(video => video).ToListAsync(cancellationToken);
+
+        var intro = videos.FirstOrDefault(video => video.VideoType == VideoType.Intro);
+        var fullLesson = videos.FirstOrDefault(video => video.VideoType == VideoType.FullLesson);
+
+        return fullLesson ?? intro;
     }
 }

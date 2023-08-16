@@ -10,7 +10,7 @@ internal class LessonConfiguration : IEntityTypeConfiguration<Lesson>
     {
         entity.HasKey(lesson => lesson.Id);
         entity.Property(lesson => lesson.LessonType).HasConversion<int>().HasColumnName($"{nameof(LessonType)}Id");
-        entity.HasOne(lesson => lesson.Video).WithMany().OnDelete(DeleteBehavior.Restrict);
+        entity.HasMany(lesson => lesson.Videos).WithOne(video => video.Lesson).IsRequired().OnDelete(DeleteBehavior.Restrict);
         entity.HasOne(typeof(LookupEntity<LessonType>)).WithMany()
             .HasPrincipalKey(nameof(LookupEntity<LessonType>.Id))
             .HasForeignKey(nameof(Lesson.LessonType)).OnDelete(DeleteBehavior.Restrict);

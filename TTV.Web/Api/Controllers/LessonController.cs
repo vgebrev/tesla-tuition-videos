@@ -1,5 +1,4 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Infrastructure;
 using TTV.Application.DataServices;
 using TTV.Web.Api.MappingExtensions;
 using TTV.Web.Shared;

@@ -12,10 +12,10 @@ public class VideoDataService : IVideoDataService
         this.unitOfWorkFactory = unitOfWorkFactory;
     }
 
-    public async Task<Video?> GetVideoAsync(int videoId, CancellationToken cancellationToken = default)
+    public async Task<Video?> GetLessonVideoForUserAsync(int lessonId, string? userEmail, CancellationToken cancellationToken = default)
     {
         using var unitOfWork = await unitOfWorkFactory.CreateAsync(cancellationToken);
-        var video = await unitOfWork.VideoRepository.GetByIdAsync(videoId, cancellationToken);
+        var video = await unitOfWork.VideoRepository.GetLessonVideoForUserAsync(lessonId, userEmail, cancellationToken);
         return video;
     }
 }

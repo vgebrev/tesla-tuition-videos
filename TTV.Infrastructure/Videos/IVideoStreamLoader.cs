@@ -2,6 +2,6 @@
 {
     public interface IVideoStreamLoader
     {
-        Task<Stream> LoadAsync(int lessonId, string? userEmail, CancellationToken cancellationToken = default);
+        Task<Stream> LoadLessonVideoStreamAsync(int lessonId, string? userEmail, CancellationToken cancellationToken = default);
     }
 }

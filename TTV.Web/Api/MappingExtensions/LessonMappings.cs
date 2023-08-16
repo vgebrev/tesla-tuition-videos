@@ -14,7 +14,6 @@ public static class LessonMappings
             Description = lesson.Description,
             LessonType = lesson.LessonType.ToLookupDto(),
             Tags = lesson.Tags.ToSimpleTagDtoEnumerable().ToArray(),
-            VideoId = lesson.Video.Id
         };
     }
 

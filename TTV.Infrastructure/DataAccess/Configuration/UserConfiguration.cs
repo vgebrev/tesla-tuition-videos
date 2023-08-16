@@ -10,7 +10,7 @@ internal class UserConfiguration : IEntityTypeConfiguration<User>
     {
         entity.ToTable(name: "AspNetUsers", schema: "user");
         entity.HasKey(user => user.Id);
-        entity.HasMany(user => user.OwnedLessons).WithMany()
+        entity.HasMany(user => user.OwnedLessons).WithMany(lesson => lesson.OwnedBy)
             .UsingEntity<Dictionary<string, object>>($"{nameof(User)}{nameof(Lesson)}",
                 user => user.HasOne<Lesson>().WithMany().HasForeignKey($"{nameof(Lesson)}{nameof(Lesson.Id)}").OnDelete(DeleteBehavior.Restrict),
                 lesson => lesson.HasOne<User>().WithMany().HasForeignKey($"{nameof(User)}{nameof(User.Id)}").OnDelete(DeleteBehavior.Restrict));

@@ -12,8 +12,8 @@ using TTV.Infrastructure.DataAccess;
 namespace TTV.DatabaseDeploy.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20230816133732_TTV_AddUser")]
-    partial class TTV_AddUser
+    [Migration("20230816190251_TTV_Create")]
+    partial class TTV_Create
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -60,14 +60,9 @@ namespace TTV.DatabaseDeploy.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("VideoId")
-                        .HasColumnType("int");
-
                     b.HasKey("Id");
 
                     b.HasIndex("LessonType");
-
-                    b.HasIndex("VideoId");
 
                     b.ToTable("Lesson", (string)null);
                 });
@@ -140,12 +135,12 @@ namespace TTV.DatabaseDeploy.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("IntroVideoId")
-                        .HasColumnType("int");
-
                     b.Property<string>("RelativePath")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("VideoId")
+                        .HasColumnType("int");
 
                     b.Property<int>("VideoType")
                         .HasColumnType("int")
@@ -153,9 +148,7 @@ namespace TTV.DatabaseDeploy.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("IntroVideoId")
-                        .IsUnique()
-                        .HasFilter("[IntroVideoId] IS NOT NULL");
+                    b.HasIndex("VideoId");
 
                     b.HasIndex("VideoType");
 
@@ -246,14 +239,6 @@ namespace TTV.DatabaseDeploy.Migrations
                         .HasForeignKey("LessonType")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
-
-                    b.HasOne("TTV.Domain.Entities.Video", "Video")
-                        .WithMany()
-                        .HasForeignKey("VideoId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.Navigation("Video");
                 });
 
             modelBuilder.Entity("TTV.Domain.Entities.Tag", b =>
@@ -269,10 +254,11 @@ namespace TTV.DatabaseDeploy.Migrations
 
             modelBuilder.Entity("TTV.Domain.Entities.Video", b =>
                 {
-                    b.HasOne("TTV.Domain.Entities.Video", "Intro")
-                        .WithOne()
-                        .HasForeignKey("TTV.Domain.Entities.Video", "IntroVideoId")
-                        .OnDelete(DeleteBehavior.Restrict);
+                    b.HasOne("TTV.Domain.Entities.Lesson", "Lesson")
+                        .WithMany("Videos")
+                        .HasForeignKey("VideoId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
 
                     b.HasOne("TTV.Infrastructure.DataAccess.Configuration.LookupEntity<TTV.Domain.Entities.VideoType>", null)
                         .WithMany()
@@ -280,7 +266,7 @@ namespace TTV.DatabaseDeploy.Migrations
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.Navigation("Intro");
+                    b.Navigation("Lesson");
                 });
 
             modelBuilder.Entity("UserLesson", b =>
@@ -296,6 +282,11 @@ namespace TTV.DatabaseDeploy.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("TTV.Domain.Entities.Lesson", b =>
+                {
+                    b.Navigation("Videos");
                 });
 #pragma warning restore 612, 618
         }

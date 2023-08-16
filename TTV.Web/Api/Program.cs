@@ -56,6 +56,7 @@ try
     builder.Services.AddScoped<IUnitOfWorkFactory, UnitOfWorkFactory>();
     builder.Services.AddScoped<IUserIdentityService, ClaimsIdentityService>();
     builder.Services.AddScoped<IVideoDataService, VideoDataService>();
+    builder.Services.AddSingleton<IVideoPathCache, VideoPathCache>();
     builder.Services.AddScoped<IVideoStreamLoader, VideoStreamLoader>();
 
     builder.Services.Configure<FileSystemSettings>(builder.Configuration.GetSection(nameof(FileSystemSettings)));

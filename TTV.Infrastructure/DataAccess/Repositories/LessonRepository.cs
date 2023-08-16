@@ -17,7 +17,7 @@ public class LessonRepository : ILessonRepository
         return await dataContext.Lessons.TagWithCallSite()
             .AsNoTracking()
             .Include(lesson => lesson.Tags).ThenInclude(tag => tag.Category)
-            .Include(lesson => lesson.Video)
+            .Include(lesson => lesson.Videos)
             .SingleOrDefaultAsync(lesson => lesson.Id == lessonId, cancellationToken);
     }
 
@@ -36,9 +36,7 @@ public class LessonRepository : ILessonRepository
             query = query.Where(lesson => lesson.Tags.Any(tag => searchTagsIds.Contains(tag.Id)));
         }
 
-        query = query
-            .Include(lesson => lesson.Tags).ThenInclude(tag => tag.Category)
-            .Include(lesson => lesson.Video);
+        query = query.Include(lesson => lesson.Tags).ThenInclude(tag => tag.Category);
 
         return await query.ToListAsync(cancellationToken);
     }

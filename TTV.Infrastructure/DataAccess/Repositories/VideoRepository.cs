@@ -18,7 +18,7 @@ public class VideoRepository : IVideoRepository
         var query = dataContext.Videos.TagWithCallSite()
             .AsNoTracking()
             .Include(video => video.Lesson)
-            .ThenInclude(lesson => lesson.OwnedBy)
+            .ThenInclude(lesson => lesson.OwnedBy.Where(user => user.Email == userEmail))
             .Where(video => video.Lesson.Id == lessonId)
             .Where(video => video.VideoType == VideoType.Intro || video.Lesson.OwnedBy.Any(user => user.Email == userEmail));
 

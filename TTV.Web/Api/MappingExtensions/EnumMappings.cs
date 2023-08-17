@@ -4,7 +4,7 @@ using TTV.Web.Shared;
 
 namespace TTV.Web.Api.MappingExtensions;
 
-public static class EnumMappings
+internal static class EnumMappings
 {
     public static LookupDto ToLookupDto<TEnum>(this TEnum value)
         where TEnum : Enum

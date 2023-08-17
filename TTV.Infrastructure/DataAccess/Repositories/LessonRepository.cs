@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using TTV.Domain.DomainServices;
 using TTV.Domain.DomainServices.Repositories;
 using TTV.Domain.Entities;
 
@@ -7,10 +8,12 @@ namespace TTV.Infrastructure.DataAccess.Repositories;
 public class LessonRepository : ILessonRepository
 {
     private readonly DataContext dataContext;
+    private readonly IUserIdentityService userIdentityService;
 
-    public LessonRepository(DataContext dataContext)
+    public LessonRepository(DataContext dataContext, IUserIdentityService userIdentityService)
     {
         this.dataContext = dataContext;
+        this.userIdentityService = userIdentityService;
     }
     public async Task<Lesson?> GetByIdAsync(int lessonId, CancellationToken cancellationToken = default)
     {
@@ -18,6 +21,7 @@ public class LessonRepository : ILessonRepository
             .AsNoTracking()
             .Include(lesson => lesson.Tags).ThenInclude(tag => tag.Category)
             .Include(lesson => lesson.Videos)
+            .Include(lesson => lesson.OwnedBy.Where(user => user.Email == userIdentityService.Email))
             .SingleOrDefaultAsync(lesson => lesson.Id == lessonId, cancellationToken);
     }
 
@@ -36,7 +40,8 @@ public class LessonRepository : ILessonRepository
             query = query.Where(lesson => lesson.Tags.Any(tag => searchTagsIds.Contains(tag.Id)));
         }
 
-        query = query.Include(lesson => lesson.Tags).ThenInclude(tag => tag.Category);
+        query = query.Include(lesson => lesson.Tags).ThenInclude(tag => tag.Category)
+            .Include(lesson => lesson.OwnedBy.Where(user => user.Email == userIdentityService.Email));
 
         return await query.ToListAsync(cancellationToken);
     }

@@ -3,7 +3,7 @@ using TTV.Web.Shared;
 
 namespace TTV.Web.Api.MappingExtensions;
 
-public static class TagMappings
+internal static class TagMappings
 {
     public static TagDto ToTagDto(this Tag tag)
     {

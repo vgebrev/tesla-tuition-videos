@@ -7,4 +7,5 @@ public record LessonDto
     public string Description { get; init; } = string.Empty;
     public LookupDto LessonType { get; init; } = new();
     public SimpleTagDto[] Tags { get; init; } = Array.Empty<SimpleTagDto>();
+    public UserDto? Owner { get; init; }
 }

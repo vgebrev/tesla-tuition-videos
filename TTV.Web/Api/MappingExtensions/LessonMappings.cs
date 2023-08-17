@@ -3,7 +3,7 @@ using TTV.Web.Shared;
 
 namespace TTV.Web.Api.MappingExtensions;
 
-public static class LessonMappings
+internal static class LessonMappings
 {
     public static LessonDto ToLessonDto(this Lesson lesson)
     {
@@ -14,6 +14,7 @@ public static class LessonMappings
             Description = lesson.Description,
             LessonType = lesson.LessonType.ToLookupDto(),
             Tags = lesson.Tags.ToSimpleTagDtoEnumerable().ToArray(),
+            Owner = lesson.OwnedBy.SingleOrDefault()?.ToUserDto()
         };
     }
 

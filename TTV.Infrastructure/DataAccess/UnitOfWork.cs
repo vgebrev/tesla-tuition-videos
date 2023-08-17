@@ -15,11 +15,11 @@ public class UnitOfWork : IUnitOfWork
     public ITagRepository TagRepository { get; }
     public IVideoRepository VideoRepository { get; }
 
-    public UnitOfWork(DataContext dataContext)
+    public UnitOfWork(DataContext dataContext, IUserIdentityService userIdentityService)
     {
         this.dataContext = dataContext;
         TagRepository = new TagRepository(dataContext);
-        LessonRepository = new LessonRepository(dataContext);
+        LessonRepository = new LessonRepository(dataContext, userIdentityService);
         VideoRepository = new VideoRepository(dataContext);
     }
 

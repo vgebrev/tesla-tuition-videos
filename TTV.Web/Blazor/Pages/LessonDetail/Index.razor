@@ -27,6 +27,7 @@
     <div class="card border-primary">
         <div class="card-header bg-secondary"><h5 class="card-title text-center mb-0">@Lesson.Title</h5></div>
         <div class="card-body">
+            <LimitedAccessCard Lesson="Lesson"></LimitedAccessCard>
             <LessonVideoPlayer LessonId="Lesson.Id"></LessonVideoPlayer>
             <p class="card-text">@Lesson.Description</p>
             <TagBadges Tags="Lesson.Tags"></TagBadges>

@@ -1,0 +1,26 @@
+﻿@using System.Security.Claims;
+@using TTV.Web.Shared;
+<AuthorizeView>
+    <Authorized>
+        @if (context.User.FindFirst("sub")?.Value != Lesson.Owner?.Id.ToString())
+        {
+            <div class="card border-warning mb-3">
+                <div class="card-body">
+                    <p class="card-text">Limited access. Please purchase this lesson to gain full access.</p>
+                </div>
+            </div>
+        }
+    </Authorized>
+    <NotAuthorized>
+        <div class="card border-warning mb-3">
+            <div class="card-body">
+                <p class="card-text">Limited access. Please purchase this lesson to gain full access.</p>
+            </div>
+        </div>
+    </NotAuthorized>
+</AuthorizeView>
+
+@code {
+    [Parameter]
+    public LessonDto Lesson { get; set; } = new();
+}

@@ -17,6 +17,7 @@ public class TagRepository : ITagRepository
         return await dataContext.Tags.TagWithCallSite()
             .AsNoTracking()
             .Include(tag => tag.Category)
+            .Include(tag => tag.Lessons)
             .ToListAsync(cancellationToken);
     }
 }

@@ -8,4 +8,5 @@ public record LessonDto
     public LookupDto LessonType { get; init; } = new();
     public SimpleTagDto[] Tags { get; init; } = Array.Empty<SimpleTagDto>();
     public UserDto? Owner { get; init; }
+    public PriceDto CurrentPrice { get; init; }  = new();
 }

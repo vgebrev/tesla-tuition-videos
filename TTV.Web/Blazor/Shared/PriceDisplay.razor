@@ -1,0 +1,17 @@
+﻿@using TTV.Web.Shared;
+
+@if (Price.PromoAmount != null)
+{
+    @Formatted(Price.PromoAmount.Value) <del class="text-muted">@Formatted(Price.Amount)</del>
+}
+else
+{
+    @Formatted(Price.Amount)
+}
+
+@code {
+    [Parameter]
+    public PriceDto Price { get; set; } = new();
+
+    public string Formatted(decimal amount) => $"R{amount.ToString("0")}";
+}

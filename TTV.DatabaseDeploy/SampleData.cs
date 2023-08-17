@@ -46,7 +46,7 @@ namespace TTV.DatabaseDeploy
         };
 
         private static Lesson[] Lessons { get; } = new Lesson[25]
-{
+        {
             // Physics
             new Lesson() { Id = 1, Title = "Finding the Resultant of Multiple Forces", LessonType = LessonType.Video,
                 Tags = new HashSet<Tag>(){ Tags[0], Tags[2], Tags[3], Tags[11], Tags[12], Tags[14], Tags[16], Tags[17], Tags[18] } },
@@ -100,8 +100,8 @@ namespace TTV.DatabaseDeploy
                 Tags = new HashSet<Tag>(){ Tags[1], Tags[8], Tags[9], Tags[10], Tags[11], Tags[12], Tags[14] } },
             new Lesson() { Id = 25, Title = "Energy and Chemical Change", LessonType = LessonType.Video,
                 Tags = new HashSet<Tag>(){ Tags[1], Tags[8], Tags[9], Tags[10], Tags[11], Tags[12], Tags[14] } },
-        }
-;
+        };
+
         private static Video[] IntroVideos { get;  } = new Video[25]
         {
             new Video() { Id = 1, Filename = "TTV-Intro-Placeholder.mp4", VideoType = VideoType.Intro, Lesson = Lessons[0] },
@@ -160,6 +160,36 @@ namespace TTV.DatabaseDeploy
             new Video() { Id = 50, Filename = "TTV-Lesson-Placeholder.mp4", VideoType = VideoType.FullLesson, Lesson = Lessons[24] }
         };
 
+        private static Price[] Prices { get; } = new Price[25]
+        {
+            new Price() { Id = 1, Amount = 80, Lesson = Lessons[0] },
+            new Price() { Id = 2, Amount = 80, Lesson = Lessons[1] },
+            new Price() { Id = 3, Amount = 80, Lesson = Lessons[2] },
+            new Price() { Id = 4, Amount = 80, Lesson = Lessons[3] },
+            new Price() { Id = 5, Amount = 60, Lesson = Lessons[4] },
+            new Price() { Id = 6, Amount = 80, Lesson = Lessons[5] },
+            new Price() { Id = 7, Amount = 80, Lesson = Lessons[6] },
+            new Price() { Id = 8, Amount = 80, Lesson = Lessons[7] },
+            new Price() { Id = 9, Amount = 80, Lesson = Lessons[8] },
+            new Price() { Id = 10, Amount = 80, Lesson = Lessons[9] },
+            new Price() { Id = 11, Amount = 60, Lesson = Lessons[10] },
+            new Price() { Id = 12, Amount = 100, Lesson = Lessons[11] },
+            new Price() { Id = 13, Amount = 100, Lesson = Lessons[12] },
+            new Price() { Id = 14, Amount = 100, Lesson = Lessons[13] },
+            new Price() { Id = 15, Amount = 80, Lesson = Lessons[14] },
+            new Price() { Id = 16, Amount = 80, Lesson = Lessons[15] },
+            new Price() { Id = 17, Amount = 100, Lesson = Lessons[16] },
+                                
+            new Price() { Id = 18, Amount = 60, Lesson = Lessons[17] },
+            new Price() { Id = 19, Amount = 80, Lesson = Lessons[18] },
+            new Price() { Id = 20, Amount = 80, Lesson = Lessons[19] },
+            new Price() { Id = 21, Amount = 80, Lesson = Lessons[20] },
+            new Price() { Id = 22, Amount = 80, Lesson = Lessons[21] },
+            new Price() { Id = 23, Amount = 100, Lesson = Lessons[22] },
+            new Price() { Id = 24, Amount = 60, Lesson = Lessons[23] },
+            new Price() { Id = 25, Amount = 100, Lesson = Lessons[24] }
+        };
+
         public SampleData(DataContext dataContext)
         {
             this.dataContext = dataContext;
@@ -176,9 +206,8 @@ namespace TTV.DatabaseDeploy
                 Console.WriteLine("Syncing Data.");
                 await SyncEntityAsync(TagCategories);
                 await SyncEntityAsync(Tags);
-                await SyncEntityAsync(Lessons, include: $"{nameof(Lesson.Tags)}", SyncLessonTagsAsynnc);
+                await SyncEntityAsync(Lessons, include: $"{nameof(Lesson.Tags)}", SyncLessonChildEntitiesAsync);
                 await SyncEntityAsync(IntroVideos.Union(LessonVideos), customUpsert: SyncVideoLessonsAsync);
-
                 Console.WriteLine("Committing transaction.");
                 await transaction.CommitAsync();
             }
@@ -216,6 +245,11 @@ namespace TTV.DatabaseDeploy
             {
                 var existingItem = existing.FirstOrDefault(l => l.Id == item.Id);
 
+                if (customUpsert != null)
+                {
+                    await customUpsert(item, existingItem);
+                }
+
                 if (existingItem == null)
                 {
                     Console.WriteLine($"\t\tAdding {typeof(TEntity)} with Id {item.Id}.");
@@ -225,11 +259,6 @@ namespace TTV.DatabaseDeploy
                 {
                     Console.WriteLine($"\t\tUpdating {typeof(TEntity)} with Id {item.Id}.");
                     dataContext.Entry(existingItem).CurrentValues.SetValues(item);
-                }
-
-                if (customUpsert != null)
-                {
-                    await customUpsert(item, existingItem);
                 }
             }
 
@@ -247,11 +276,23 @@ namespace TTV.DatabaseDeploy
             await SetIdentityInsertAsync<TEntity>(false);
         }
 
-        private async Task SyncLessonTagsAsynnc(Lesson source, Lesson? target)
+        private async Task SyncLessonChildEntitiesAsync(Lesson source, Lesson? target)
         {
-            if (target == null)
-                return;
 
+            if (target == null)
+            {
+                return;
+            }
+
+            // Prices
+            var prices = Prices.Where(price => price.Lesson.Id == target.Id);
+            target.Prices.Clear();
+            foreach (var price in prices)
+            {
+                target.Prices.Add(new Price() { Amount = price.Amount, PromoAmount = price.PromoAmount, EffectiveDate = price.EffectiveDate, Lesson = target });
+            }
+
+            // Tags
             var existingTags = await dataContext.Tags.ToListAsync();
 
             foreach (var tag in source.Tags)

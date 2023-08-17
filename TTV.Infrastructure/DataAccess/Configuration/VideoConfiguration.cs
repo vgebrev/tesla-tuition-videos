@@ -13,6 +13,6 @@ internal class VideoConfiguration : IEntityTypeConfiguration<Video>
             .HasPrincipalKey(nameof(LookupEntity<VideoType>.Id))
             .HasForeignKey(nameof(Video.VideoType)).OnDelete(DeleteBehavior.Restrict);
         entity.HasOne(video => video.Lesson).WithMany(lesson => lesson.Videos).HasForeignKey($"{nameof(Video)}Id").OnDelete(DeleteBehavior.Restrict);
-        entity.ToTable($"{nameof(Video)}");
+        entity.ToTable(nameof(Video));
     }
 }

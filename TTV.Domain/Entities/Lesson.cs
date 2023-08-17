@@ -7,6 +7,7 @@ public class Lesson : BaseEntity
         Videos = new HashSet<Video>();
         Tags = new HashSet<Tag>();
         OwnedBy = new HashSet<User>();
+        Prices = new HashSet<Price>();
     }
 
     public string Title { get; set; } = string.Empty;
@@ -15,4 +16,7 @@ public class Lesson : BaseEntity
     public virtual ICollection<Video> Videos { get; set; }
     public virtual ICollection<Tag> Tags { get; set; }
     public virtual ICollection<User> OwnedBy { get; set; }
+    public virtual ICollection<Price> Prices { get; set; }
+    public Price CurrentPrice => Prices.OrderByDescending(price => price.EffectiveDate)
+        .First(price => DateOnly.FromDateTime(DateTime.Today) >= price.EffectiveDate);
 }

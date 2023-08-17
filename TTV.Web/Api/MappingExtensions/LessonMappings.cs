@@ -14,7 +14,8 @@ internal static class LessonMappings
             Description = lesson.Description,
             LessonType = lesson.LessonType.ToLookupDto(),
             Tags = lesson.Tags.ToSimpleTagDtoEnumerable().ToArray(),
-            Owner = lesson.OwnedBy.SingleOrDefault()?.ToUserDto()
+            Owner = lesson.OwnedBy.SingleOrDefault()?.ToUserDto(),
+            CurrentPrice = lesson.CurrentPrice.ToPriceDto()
         };
     }
 

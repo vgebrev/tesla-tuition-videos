@@ -1,6 +1,7 @@
 using Fluxor;
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
+using System.Globalization;
 using TTV.Web.Blazor;
 using TTV.Web.Blazor.Services;
 

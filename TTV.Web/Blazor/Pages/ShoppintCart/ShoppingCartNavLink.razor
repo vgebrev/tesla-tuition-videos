@@ -1,0 +1,10 @@
+﻿@using Fluxor;
+@using TTV.Web.Blazor.Pages.ShoppintCart.Store;
+@inherits Fluxor.Blazor.Web.Components.FluxorComponent
+@inject IState<ShoppingCartState> ShoppingCartState;
+
+<NavLink class="nav-link" href="shopping-cart" Match="NavLinkMatch.All"><i class="bi bi-cart4 me-1"></i> Cart  <span class="badge bg-primary rounded-pill">@ShoppingCartState.Value.Lessons.Length</span></NavLink>
+
+@code {
+
+}

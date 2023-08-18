@@ -1,6 +1,22 @@
-﻿@using TTV.Web.Shared;
+﻿@using Fluxor;
+@using TTV.Web.Blazor.Pages.ShoppintCart.Store;
+@using TTV.Web.Blazor.Pages.ShoppintCart.Store.Actions;
+@using TTV.Web.Shared
 
-<button type="button" @attributes="Attributes"><i class="bi bi-cart4 me-1"></i> Buy Now for <PriceDisplay Price="Lesson.CurrentPrice"></PriceDisplay></button>
+@inherits Fluxor.Blazor.Web.Components.FluxorComponent
+@inject IState<ShoppingCartState> ShoppingCartState;
+@inject IDispatcher Dispatcher;
+
+@if (ShoppingCartState.Value.Lessons.Any(lesson => lesson == Lesson))
+{
+    <span class="text-primary">
+        <i class="bi bi-cart-check"></i> Added to <a href="shopping-cart" class="card-link">cart</a>.
+    </span>
+}
+else
+{
+    <button type="button" @attributes="Attributes" @onclick="AddToCart"><i class="bi bi-cart4 me-1"></i> Buy Now for <PriceDisplay Price="Lesson.CurrentPrice"></PriceDisplay></button>
+}
 
 @code {
     [Parameter]
@@ -8,4 +24,9 @@
 
     [Parameter(CaptureUnmatchedValues = true)]
     public IDictionary<string, object>? Attributes { get; set; } = new Dictionary<string, object>() { { "class", "btn btn-primary" } };
+
+    public void AddToCart()
+    {
+        Dispatcher.Dispatch(new AddLesson() { Lesson = Lesson });
+    }
 }

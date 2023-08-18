@@ -1,0 +1,50 @@
+﻿@using Fluxor;
+@using TTV.Web.Blazor.Pages.ShoppintCart.Store;
+@using TTV.Web.Blazor.Pages.ShoppintCart.Store.Actions;
+@using TTV.Web.Blazor.Services;
+@using TTV.Web.Shared;
+@inherits Fluxor.Blazor.Web.Components.FluxorComponent
+@inject IState<ShoppingCartState> ShoppingCartState;
+@inject IDispatcher Dispatcher;
+@inject AuthenticationStateProvider AuthenticationStateProvider;
+@inject ILessonDataService LessonDataService;
+
+@code {
+    private LessonDto[] lessonsOwnedByUser = Array.Empty<LessonDto>();
+    private async void OnAuthenticationStateChanged(Task<AuthenticationState> task)
+    {
+        var state = await task;
+        if (state.User?.Identity?.IsAuthenticated ?? false)
+        {
+            await RemoveOwnedLessonsFromShoppingCart();
+        }
+    }
+
+    private async Task RemoveOwnedLessonsFromShoppingCart()
+    {
+        try
+        {
+            lessonsOwnedByUser = await LessonDataService.GetLessonsOwnedByCurrentUserAsync();
+        }
+        finally
+        {
+            foreach (var lesson in lessonsOwnedByUser)
+            {
+                Dispatcher.Dispatch(new RemoveLesson() { Lesson = lesson });
+            }
+            Dispatcher.Dispatch(new LocalStorePersistRequest() { Lessons = ShoppingCartState.Value.Lessons });
+        }
+    }
+
+    protected override async Task OnInitializedAsync()
+    {
+        AuthenticationStateProvider.AuthenticationStateChanged += OnAuthenticationStateChanged;
+        await base.OnInitializedAsync();
+    }
+
+    protected override void Dispose(bool disposing)
+    {
+        AuthenticationStateProvider.AuthenticationStateChanged -= OnAuthenticationStateChanged;
+        base.Dispose(disposing);
+    }
+}

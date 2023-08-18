@@ -7,4 +7,5 @@ public interface ILessonRepository
     Task<IEnumerable<Lesson>> SearchAsync(string? searchText, int[]? searchTagsIds, CancellationToken cancellationToken = default);
 
     Task<Lesson?> GetByIdAsync(int lessonId, CancellationToken cancellationToken = default);
+    Task<IEnumerable<Lesson>> GetLessonsOwnedByCurrentUserAsync(CancellationToken cancellationToken = default);
 }

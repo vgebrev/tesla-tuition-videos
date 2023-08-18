@@ -1,10 +1,12 @@
 ﻿@using Fluxor;
 @using TTV.Web.Blazor.Pages.ShoppintCart.Store;
 @using TTV.Web.Blazor.Pages.ShoppintCart.Store.Actions;
+@using TTV.Web.Shared;
 @inherits Fluxor.Blazor.Web.Components.FluxorComponent
 @inject IState<ShoppingCartState> ShoppingCartState;
 @inject IDispatcher Dispatcher;
 
+<RemoveAlreadyOwnedLessons />
 <NavLink class="nav-link" href="shopping-cart" Match="NavLinkMatch.All"><i class="bi bi-cart4"></i> Cart  <span class="badge bg-primary rounded-pill">@ShoppingCartState.Value.Lessons.Length</span></NavLink>
 
 @code {

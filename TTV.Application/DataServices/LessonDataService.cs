@@ -19,6 +19,12 @@ public class LessonDataService : ILessonDataService
         return lesson;
     }
 
+    public async Task<IEnumerable<Lesson>> GetLessonsOwnedByCurrentUserAsync(CancellationToken cancellationToken = default)
+    {
+        using var unitOfWork = await unitOfWorkFactory.CreateAsync(cancellationToken);
+        var lessons = await unitOfWork.LessonRepository.GetLessonsOwnedByCurrentUserAsync(cancellationToken);
+        return lessons;
+    }
 
     public async Task<IEnumerable<Lesson>> SearchLessonsAsync(string? searchText, int[]? searchTagsIds, CancellationToken cancellationToken = default)
     {

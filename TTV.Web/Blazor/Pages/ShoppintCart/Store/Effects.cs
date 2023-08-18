@@ -36,7 +36,6 @@ public class Effects
         try
         {
             var lessons = await localStorageService.GetItemAsync<LessonDto[]>(LocalStorageKey);
-            // TODO: If there's a user logged in, remove lessons that they already own
             dispatcher.Dispatch(new LocalStoreLoadResponse() { Lessons = lessons ?? Array.Empty<LessonDto>() });
         }
         catch (Exception)

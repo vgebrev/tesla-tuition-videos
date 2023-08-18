@@ -19,6 +19,12 @@ public class LessonDataService : ILessonDataService
         return lesson;
     }
 
+    public async Task<LessonDto[]> GetLessonsOwnedByCurrentUserAsync()
+    {
+        var lessons = await httpClient.GetFromJsonAsync<LessonDto[]>("api/lesson/owned") ?? Array.Empty<LessonDto>();
+        return lessons;
+    }
+
     public async Task<LessonDto[]> SearchLessonsAsync(SearchLessonsDto dto)
     {
         var httpResponse = await httpClient.PostAsJsonAsync("api/lesson/search", dto);

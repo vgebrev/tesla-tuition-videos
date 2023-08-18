@@ -25,6 +25,22 @@ public class LessonRepository : ILessonRepository
             .SingleOrDefaultAsync(lesson => lesson.Id == lessonId, cancellationToken);
     }
 
+    public async Task<IEnumerable<Lesson>> GetLessonsOwnedByCurrentUserAsync(CancellationToken cancellationToken = default)
+    {
+        if (userIdentityService.UserId == null)
+        {
+            throw new InvalidOperationException("User is not authenticated.");
+        }
+
+        return await dataContext.Lessons.TagWithCallSite()
+            .AsNoTracking()
+            .Include(lesson => lesson.Tags).ThenInclude(tag => tag.Category)
+            .Include(lesson => lesson.Videos)
+            .Include(lesson => lesson.OwnedBy.Where(user => user.Id == userIdentityService.UserId))
+            .Where(lesson => lesson.OwnedBy.Any(user => user.Id == userIdentityService.UserId))
+            .ToListAsync(cancellationToken);
+    }
+
     public async Task<IEnumerable<Lesson>> SearchAsync(string? searchText, int[]? searchTagsIds, CancellationToken cancellationToken = default)
     {
         var query = dataContext.Lessons.TagWithCallSite()

@@ -14,7 +14,7 @@
     </Authorized>
     <NotAuthorized>
         <li class="nav-item">
-            <a class="nav-link" href="authentication/login">Log in</a>
+            <LogInLink></LogInLink>
         </li>
     </NotAuthorized>
 </AuthorizeView>
@@ -22,6 +22,16 @@
 @code {
     private void BeginLogOut()
     {
-        Navigation.NavigateToLogout("authentication/logout");
+        Navigation.NavigateToLogout("authentication/logout", Navigation.Uri);
+    }
+
+    private void BeginLogIn()
+    {
+        InteractiveRequestOptions requestOptions = new()
+            {
+                Interaction = InteractionType.SignIn,
+                ReturnUrl = Navigation.Uri,
+            };
+        Navigation.NavigateToLogin("authentication/login", requestOptions);
     }
 }

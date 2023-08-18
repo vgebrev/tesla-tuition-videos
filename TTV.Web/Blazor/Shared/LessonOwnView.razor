@@ -1,0 +1,26 @@
+﻿@using TTV.Web.Shared;
+<AuthorizeView>
+    <Authorized>
+        @if ((context.User.FindFirst("sub")?.Value ?? string.Empty) == Lesson.Owner?.Id.ToString())
+        {
+            @Owned
+        }
+        else
+        {
+            @NotOwned
+        }
+    </Authorized>
+    <NotAuthorized>
+        @NotOwned
+    </NotAuthorized>
+</AuthorizeView>
+@code {
+    [Parameter]
+    public LessonDto Lesson { get; set; } = new();
+
+    [Parameter]
+    public RenderFragment? Owned { get; set; }
+
+    [Parameter]
+    public RenderFragment? NotOwned { get; set; }
+}

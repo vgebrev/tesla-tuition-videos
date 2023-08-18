@@ -1,0 +1,11 @@
+﻿@using TTV.Web.Shared;
+
+<button type="button" @attributes="Attributes"><i class="bi bi-cart4 me-1"></i> Buy Now for <PriceDisplay Price="Lesson.CurrentPrice"></PriceDisplay></button>
+
+@code {
+    [Parameter]
+    public LessonDto Lesson { get; set; } = new();
+
+    [Parameter(CaptureUnmatchedValues = true)]
+    public IDictionary<string, object>? Attributes { get; set; } = new Dictionary<string, object>() { { "class", "btn btn-primary" } };
+}

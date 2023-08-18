@@ -7,22 +7,14 @@
     </div>
     <div class="card-footer d-flex justify-content-between">
         <a href="lesson/@Lesson.Id" class="card-link">View Lesson</a>
-        <AuthorizeView>
-            <Authorized>
-                @if (context.User.FindFirst("sub")?.Value != Lesson.Owner?.Id.ToString())
-                {
-                    <a href="#" class="card-link">Buy Now for <PriceDisplay Price="Lesson.CurrentPrice"></PriceDisplay></a>
-                } 
-                else
-                {
-                    <span class="text-primary text-sm">You own this lesson</span>   
-                }
-            </Authorized>
-            <NotAuthorized>
-                <a href="#" class="card-link">Buy Now for <PriceDisplay Price="Lesson.CurrentPrice"></PriceDisplay></a>
-            </NotAuthorized>
-        </AuthorizeView>
-
+        <LessonOwnView Lesson="Lesson">
+            <Owned>
+                <span class="text-primary text-sm">You own this lesson</span>
+            </Owned>
+            <NotOwned>
+                <BuyNowButton Lesson="Lesson"></BuyNowButton>
+            </NotOwned>
+        </LessonOwnView>
     </div>
 </div>
 

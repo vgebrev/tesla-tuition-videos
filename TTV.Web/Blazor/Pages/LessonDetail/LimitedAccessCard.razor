@@ -1,24 +1,20 @@
 ﻿@using System.Security.Claims;
 @using TTV.Web.Shared;
-<AuthorizeView>
-    <Authorized>
-        @if (context.User.FindFirst("sub")?.Value != Lesson.Owner?.Id.ToString())
-        {
-            <div class="card border-warning mb-3">
-                <div class="card-body">
-                    <p class="card-text">Limited access. To get full access, please <a href="#">purchase this lesson for <PriceDisplay Price="Lesson.CurrentPrice"></PriceDisplay></a>.</p>
-                </div>
-            </div>
-        }
-    </Authorized>
-    <NotAuthorized>
+<LessonOwnView Lesson="Lesson">
+    <NotOwned>
         <div class="card border-warning mb-3">
-            <div class="card-body">
-                <p class="card-text">Limited access. To get full access, please <a href="#">purchase this lesson for <PriceDisplay Price="Lesson.CurrentPrice"></PriceDisplay></a>.</p>
+            <div class="card-body pb-2 d-flex align-items-baseline">
+                <p class="card-text me-3">Limited access. Please purchase the lesson for full access. </p>
+                <BuyNowButton Lesson="Lesson" class="btn btn-outline-warning"></BuyNowButton>
+                <AuthorizeView>
+                    <NotAuthorized>
+                        <p class="card-text ms-3">If you have already purchased the lesson, please <LogInLink class="text-warning"></LogInLink>.</p>
+                    </NotAuthorized>
+                </AuthorizeView>
             </div>
         </div>
-    </NotAuthorized>
-</AuthorizeView>
+    </NotOwned>
+</LessonOwnView>
 
 @code {
     [Parameter]

@@ -60,3 +60,7 @@ body {
 .min-height-16 {
    min-height: 16px;
 }
+
+.text-faint {
+    opacity: 0.5;
+}

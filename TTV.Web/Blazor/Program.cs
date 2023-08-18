@@ -1,7 +1,7 @@
+using Blazored.LocalStorage;
 using Fluxor;
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
-using System.Globalization;
 using TTV.Web.Blazor;
 using TTV.Web.Blazor.Services;
 
@@ -28,7 +28,7 @@ builder.Services.AddFluxor(options =>
     options.UseReduxDevTools();
 #endif    
 });
-
+builder.Services.AddBlazoredLocalStorage();
 builder.Services.AddScoped<ILessonDataService, LessonDataService>();
 builder.Services.AddScoped<ITagDataService, TagDataService>();
 

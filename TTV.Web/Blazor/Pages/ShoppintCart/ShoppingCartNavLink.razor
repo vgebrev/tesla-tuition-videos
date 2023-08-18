@@ -1,10 +1,19 @@
 ﻿@using Fluxor;
 @using TTV.Web.Blazor.Pages.ShoppintCart.Store;
+@using TTV.Web.Blazor.Pages.ShoppintCart.Store.Actions;
 @inherits Fluxor.Blazor.Web.Components.FluxorComponent
 @inject IState<ShoppingCartState> ShoppingCartState;
+@inject IDispatcher Dispatcher;
 
 <NavLink class="nav-link" href="shopping-cart" Match="NavLinkMatch.All"><i class="bi bi-cart4"></i> Cart  <span class="badge bg-primary rounded-pill">@ShoppingCartState.Value.Lessons.Length</span></NavLink>
 
 @code {
-
+    protected override void OnAfterRender(bool firstRender)
+    {
+        base.OnAfterRender(firstRender);
+        if (firstRender)
+        {
+            Dispatcher.Dispatch(new LocalStoreLoadRequest());
+        }
+    }
 }

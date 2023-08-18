@@ -7,10 +7,15 @@
 
 @inherits Fluxor.Blazor.Web.Components.FluxorComponent
 
-@inject IState<ShoppingCartState> ShoppingCartState;
+@inject IState<ShoppingCartState> State;
 @inject IDispatcher Dispatcher;
 
 <PageTitle>Tesla Tuition Videos - Shopping Cart</PageTitle>
+
+@if (Error.IsError)
+{
+    <ErrorCard Error="Error"></ErrorCard>
+}
 
 <div class="row justify-content-center">
     <div class="col text-center">
@@ -63,10 +68,12 @@
     </div>
 </div>
 @code {
-    private LessonDto[] Lessons => ShoppingCartState.Value.Lessons;
+    private LessonDto[] Lessons => State.Value.Lessons;
+    private ErrorState Error => State.Value.Error;
 
     private void RemoveLesson(LessonDto lesson)
     {
         Dispatcher.Dispatch(new RemoveLesson() { Lesson = lesson });
+        Dispatcher.Dispatch(new LocalStorePersistRequest() { Lessons = Lessons });
     }
 }

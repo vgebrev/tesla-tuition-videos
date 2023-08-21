@@ -11,9 +11,9 @@ public class Effects
     private readonly ILessonApiConsumer apiConsumer;
     private readonly IState<LessonsListState> lessonsState;
 
-    public Effects(ILessonApiConsumer dataService, IState<LessonsListState> lessonsState)
+    public Effects(ILessonApiConsumer apiConsumer, IState<LessonsListState> lessonsState)
     {
-        this.apiConsumer = dataService;
+        this.apiConsumer = apiConsumer;
         this.lessonsState = lessonsState;
     }
 

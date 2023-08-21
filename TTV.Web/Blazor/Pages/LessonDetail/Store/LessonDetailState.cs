@@ -8,6 +8,6 @@ namespace TTV.Web.Blazor.Pages.LessonDetail.Store;
 public record LessonDetailState
 {
     public bool IsLoading { get; init; }
-    public LessonDto? Lesson { get; init; } = null;
+    public LessonDto? Lesson { get; init; }
     public ErrorState Error { get; init; } = new();
 }

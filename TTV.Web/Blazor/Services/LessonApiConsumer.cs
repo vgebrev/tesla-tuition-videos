@@ -13,10 +13,16 @@ public class LessonApiConsumer : ILessonApiConsumer
         this.httpClient = httpClient;
     }
 
-    public async Task<LessonDto> GetLessonAsync(int lessonId)
+    public async Task<LessonDto?> GetLessonAsync(int lessonId)
     {
-        var lesson = await httpClient.GetFromJsonAsync<LessonDto>($"api/lesson/{lessonId}") ?? throw new ArgumentException($"Lesson doesn't exist", nameof(lessonId));
-        return lesson;
+        var httpResponse = await httpClient.GetAsync($"api/lesson/{lessonId}");
+        if (httpResponse.StatusCode == System.Net.HttpStatusCode.NotFound)
+        {
+            return null;
+        }
+
+        var responseBody = await httpResponse.Content.ReadAsStringAsync();
+        return JsonSerializer.Deserialize<LessonDto>(responseBody, new JsonSerializerOptions() { PropertyNameCaseInsensitive = true }) ?? throw new InvalidCastException("Unexpected result");
     }
 
     public async Task<LessonDto[]> GetLessonsOwnedByCurrentUserAsync()

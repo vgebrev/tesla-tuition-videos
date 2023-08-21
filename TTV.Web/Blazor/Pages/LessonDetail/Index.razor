@@ -36,6 +36,16 @@
         </div>
     </div>
 }
+else if (!IsLoading && !Error.IsError)
+{
+    <div class="row justify-content-center">
+        <div class="card border-warning w-75">
+            <div class="card-body">
+                Lesson #@LessonId not found.
+            </div>
+        </div>
+    </div>
+}
 
 @code {
     [Parameter]

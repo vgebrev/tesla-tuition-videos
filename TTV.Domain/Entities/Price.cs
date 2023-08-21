@@ -7,5 +7,5 @@ public class Price : BaseEntity
     public decimal? PromoAmount { get; set; }
     public DateOnly EffectiveDate { get; set; } = DateOnly.MinValue;
 
-    public decimal EffectivePrice => PromoAmount ?? Amount;
+    public decimal EffectiveAmount => PromoAmount ?? Amount;
 }

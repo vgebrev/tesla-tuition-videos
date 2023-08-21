@@ -1,0 +1,39 @@
+﻿@using TTV.Web.Shared;
+<table class="table">
+    <thead>
+        <tr>
+            <th>Lesson</th>
+            <th>Price</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @for (var i = 0; i < Lessons.Length; i++)
+        {
+            var lesson = Lessons[i];
+            <tr class="@(i % 2 == 0 ? "table-secondary" : "") align-middle">
+                @if (LessonRow != null)
+                {
+                    @LessonRow(lesson)
+                }
+            </tr>
+        }
+    </tbody>
+    <tfoot>
+        @if (Footer != null)
+        {
+            @Footer
+        }
+    </tfoot>
+</table>
+
+@code {
+    [Parameter]
+    public RenderFragment<LessonDto>? LessonRow { get; set; }
+
+    [Parameter]
+    public RenderFragment? Footer { get; set; }
+
+    [Parameter]
+    public LessonDto[] Lessons { get; set; } = Array.Empty<LessonDto>();
+}

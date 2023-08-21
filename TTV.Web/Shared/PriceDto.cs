@@ -4,4 +4,5 @@ public record PriceDto
 {
     public decimal Amount { get; init; }
     public decimal? PromoAmount { get; init; }
+    public decimal EffectiveAmount { get; init; }
 }

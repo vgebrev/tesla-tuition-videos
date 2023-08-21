@@ -28,5 +28,5 @@ public class Order : BaseEntity
     public virtual ICollection<Lesson> Lessons { get; set; }
     public virtual ICollection<OrderDiscountVoucher> AppliedVouchers { get; set; }
 
-    public decimal TotalAmount => Lessons.Sum(lesson => lesson.PriceAt(PlacedOn).EffectivePrice) - AppliedVouchers.Sum(x => x.Amount);
+    public decimal TotalAmount => Lessons.Sum(lesson => lesson.PriceAt(PlacedOn).EffectiveAmount) - AppliedVouchers.Sum(x => x.Amount);
 }

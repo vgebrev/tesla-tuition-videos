@@ -27,33 +27,20 @@
         <div class="card-body">
             @if (Lessons.Length > 0)
             {
-                <table class="table">
-                    <thead>
-                        <tr>
-                            <th>Lesson</th>
-                            <th>Price</th>
-                            <th></th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @for (var i = 0; i < Lessons.Length; i++)
-                        {
-                            var lesson = Lessons[i];
-                            <tr class="@(i % 2 == 0 ? "table-secondary" : "") align-middle">
-                                <td>@lesson.Title</td>
-                                <td><PriceDisplay Price="lesson.CurrentPrice"></PriceDisplay></td>
-                                <td class="text-end"><button type="button" class="btn btn-outline-primary" @onclick="() => RemoveLesson(lesson)"><i class="bi bi-trash me-1"></i> Remove</button></td>
-                            </tr>
-                        }
-                    </tbody>
-                    <tfoot>
-                        <tr>
-                            <th class="text-end">Total</th>
-                            <th>R@(Lessons.Sum(lesson => lesson.CurrentPrice.PromoAmount ?? lesson.CurrentPrice.Amount).ToString("0"))</th>
-                            <th></th>
-                        </tr>
-                    </tfoot>
-                </table>
+                <LessonPriceList Lessons="Lessons" Context="lesson">
+                    <LessonRow>
+                        <td>@lesson.Title</td>
+                        <td><PriceDisplay Price="lesson.CurrentPrice"></PriceDisplay></td>
+                        <td class="text-end"><button type="button" class="btn btn-outline-primary" @onclick="() => RemoveLesson(lesson)"><i class="bi bi-trash me-1"></i> Remove</button></td>
+                    </LessonRow>
+                    <Footer>
+                    <tr>
+                        <th class="text-end">Total</th>
+                        <th>R@(Lessons.Sum(lesson => lesson.CurrentPrice.EffectiveAmount).ToString("0"))</th>
+                        <th></th>
+                    </tr>
+                    </Footer>
+                </LessonPriceList>
             }
             else
             {

@@ -21,7 +21,7 @@ internal class LessonConfiguration : IEntityTypeConfiguration<Lesson>
             owned.Property(price => price.EffectiveDate).HasConversion(
                 entityValue => entityValue.ToDateTime(TimeOnly.MinValue),
                 sqlValue => DateOnly.FromDateTime(sqlValue));
-            owned.Ignore(price => price.EffectivePrice);
+            owned.Ignore(price => price.EffectiveAmount);
             owned.ToTable(nameof(Price));
         });
         entity.HasOne(typeof(LookupEntity<LessonType>)).WithMany()

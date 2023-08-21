@@ -11,6 +11,7 @@ internal static class PriceMappings
         {
             Amount = price.Amount,
             PromoAmount = price.PromoAmount,
+            EffectiveAmount = price.EffectiveAmount
         };
     }
 }

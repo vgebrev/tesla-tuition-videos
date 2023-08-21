@@ -21,6 +21,13 @@ public static class Reducers
             Lessons = new List<LessonDto>(state.Lessons.Where(lesson => lesson.Id != action.Lesson.Id)).ToArray()
         };
 
+    [ReducerMethod(typeof(ClearCart))]
+    public static ShoppingCartState ReduceClearCart(ShoppingCartState state) =>
+        state with
+        {
+            Lessons = Array.Empty<LessonDto>()
+        };
+
     [ReducerMethod(typeof(LocalStorePersistResponse))]
     public static ShoppingCartState ReduceLocalStorePersistResponse(ShoppingCartState state) =>
         state with
@@ -49,5 +56,26 @@ public static class Reducers
             Error = new ErrorState { IsError = true, ErrorMessage = action.ErrorMessage }
         };
 
+    [ReducerMethod(typeof(ConfirmOrderRequest))]
+    public static ShoppingCartState ReduceConfirmOrderRequast(ShoppingCartState state) =>
+        state with
+        {
+            IsLoading = true
+        };
 
+    [ReducerMethod(typeof(ConfirmOrderResponse))]
+    public static ShoppingCartState ReduceConfirmOrderResponse(ShoppingCartState state) =>
+    state with
+    {
+        IsLoading = false,
+        Error = new()
+    };
+
+    [ReducerMethod]
+    public static ShoppingCartState ReduceConfirmOrderError(ShoppingCartState state, ConfirmOrderError action) =>
+        state with
+        {
+            IsLoading = false,
+            Error = new ErrorState { IsError = true, ErrorMessage = action.ErrorMessage }
+        };
 }

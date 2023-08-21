@@ -12,6 +12,11 @@
 
 <PageTitle>Tesla Tuition Videos - Shopping Cart</PageTitle>
 
+@if (IsLoading)
+{
+    <ProgressLoader IsLoading="IsLoading"></ProgressLoader>
+}
+
 @if (Error.IsError)
 {
     <ErrorCard Error="Error"></ErrorCard>
@@ -67,7 +72,23 @@
         </div>
     </div>
 </div>
+@if (Lessons.Length > 0)
+{
+    <div class="row justify-content-center m-3">
+        <div class="col-3 text-center">
+            <AuthorizeView>
+                <NotAuthorized>
+                    <LogInLink class="btn btn-primary btn-lg"><i class="bi bi-person-fill me-2"></i> Log in to continue</LogInLink>
+                </NotAuthorized>
+                <Authorized>
+                    <button type="button" class="btn btn-primary btn-lg" disabled="@(Lessons.Length == 0)" @onclick="ConfirmOrder"><i class="bi bi-check2-circle me-2"></i> Confirm and checkout</button>
+                </Authorized>
+            </AuthorizeView>
+        </div>
+    </div>
+}
 @code {
+    private bool IsLoading => State.Value.IsLoading;
     private LessonDto[] Lessons => State.Value.Lessons;
     private ErrorState Error => State.Value.Error;
 
@@ -75,5 +96,10 @@
     {
         Dispatcher.Dispatch(new RemoveLesson() { Lesson = lesson });
         Dispatcher.Dispatch(new LocalStorePersistRequest() { Lessons = Lessons });
+    }
+
+    public void ConfirmOrder()
+    {
+        Dispatcher.Dispatch(new ConfirmOrderRequest() { Lessons = Lessons });
     }
 }

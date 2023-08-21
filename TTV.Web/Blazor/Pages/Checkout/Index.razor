@@ -1,0 +1,39 @@
+﻿@page "/checkout/{orderId:int}"
+@attribute [Authorize]
+
+@using Fluxor;
+@using Microsoft.AspNetCore.Authorization;
+@using TTV.Web.Blazor.Pages.Checkout.Store;
+@using TTV.Web.Shared
+
+@inherits Fluxor.Blazor.Web.Components.FluxorComponent
+
+@inject IState<CheckoutState> State
+@inject IDispatcher Dispatcher
+
+<PageTitle>Tesla Tuition Videos - Checkout</PageTitle>
+
+@if (IsLoading)
+{
+    <ProgressLoader IsLoading="IsLoading"></ProgressLoader>
+}
+
+@if (Error.IsError)
+{
+    <ErrorCard Error="Error"></ErrorCard>
+}
+
+TODO: Checkout order @OrderId
+
+@code {
+    [Parameter]
+    public int OrderId { get; set; }
+
+    private bool IsLoading => State.Value.IsLoading;
+    private ErrorState Error => State.Value.Error;
+
+    protected override void OnParametersSet()
+    {
+        base.OnParametersSet();
+    }
+}

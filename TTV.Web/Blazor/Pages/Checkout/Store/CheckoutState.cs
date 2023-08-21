@@ -8,6 +8,6 @@ namespace TTV.Web.Blazor.Pages.Checkout.Store;
 public record CheckoutState
 {
     public bool IsLoading { get; init; }
-    public OrderDto Order { get; init; } = new();
+    public OrderDto? Order { get; init; }
     public ErrorState Error { get; init; } = new();
 }

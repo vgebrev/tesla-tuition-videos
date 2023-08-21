@@ -40,5 +40,17 @@ namespace TTV.Application.DataServices
 
             return order;
         }
+
+        public async Task<Order?> GetOrderAsync(int orderId, CancellationToken cancellationToken = default)
+        {
+            if (userIdentityService.UserId == null)
+            {
+                throw new InvalidOperationException("User is not authenticated");
+            }
+
+            using var unitOfWork = await unitOfWorkFactory.CreateAsync(cancellationToken);
+            var order = await unitOfWork.OrderRepository.GetByIdAsync(orderId, userIdentityService.UserId.Value, cancellationToken);
+            return order;
+        }
     }
 }

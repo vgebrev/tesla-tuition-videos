@@ -5,4 +5,5 @@ namespace TTV.Web.Blazor.Services;
 public interface IOrderApiConsumer
 {
     Task<OrderDto> CreateNewOrderAsync(OrderCreateDto dto);
+    Task<OrderDto?> GetOrderAsync(int orderId);
 }

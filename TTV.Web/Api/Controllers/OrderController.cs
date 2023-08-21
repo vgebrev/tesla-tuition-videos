@@ -21,10 +21,23 @@ public class OrderController : ControllerBase
 
     [HttpPost]
     [Authorize]
-    public async Task<OrderDto> CreateNewOrderAsync([FromBody] OrderCreateDto createOrderDto, CancellationToken cancellationToken = default)
+    public async Task<ActionResult<OrderDto>> CreateNewOrderAsync([FromBody] OrderCreateDto createOrderDto, CancellationToken cancellationToken = default)
     {
-        logger.LogInformation("{MethodName}{@CreateOrderDto}", nameof(CreateNewOrderAsync), createOrderDto);
+        logger.LogInformation("{MethodName}({@CreateOrderDto})", nameof(CreateNewOrderAsync), createOrderDto);
         var order = await orderDataService.CreateNewOrderAsync(createOrderDto.LessonsIds, cancellationToken);
-        return order.ToOrderDto();
+        return CreatedAtAction(nameof(GetOrderAsync).Replace("Async", ""), new { orderId = order.Id }, order.ToOrderDto());
+    }
+
+    [HttpGet("{orderId}")]
+    [Authorize]
+    public async Task<ActionResult<OrderDto>> GetOrderAsync([FromRoute] int orderId, CancellationToken cancellationToken = default)
+    {
+        logger.LogInformation("{MethodName}({OrderId})", nameof(GetOrderAsync), orderId);
+        var order = await orderDataService.GetOrderAsync(orderId, cancellationToken);
+        if (order == null)
+        {
+            return NotFound(null);
+        }
+        return Ok(order.ToOrderDto());
     }
 }

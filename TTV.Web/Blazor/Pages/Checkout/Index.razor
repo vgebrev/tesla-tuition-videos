@@ -4,6 +4,7 @@
 @using Fluxor;
 @using Microsoft.AspNetCore.Authorization;
 @using TTV.Web.Blazor.Pages.Checkout.Store;
+@using TTV.Web.Blazor.Pages.Checkout.Store.Actions;
 @using TTV.Web.Shared
 
 @inherits Fluxor.Blazor.Web.Components.FluxorComponent
@@ -13,54 +14,68 @@
 
 <PageTitle>Tesla Tuition Videos - Checkout</PageTitle>
 
-@if (IsLoading)
-{
-    <ProgressLoader IsLoading="IsLoading"></ProgressLoader>
-}
-
 <div class="row justify-content-center">
     <div class="col text-center">
         <h1 class="header-white">Checkout</h1>
     </div>
 </div>
-<div class="row justify-content-center">
-    <div class="card border-primary w-75">
-        <div class="card-body">
-            @if (Order.Lessons.Length > 0)
-            {
-                <LessonPriceList Lessons="Order.Lessons" Context="lesson">
-                    <LessonRow>
-                        <td>@lesson.Title</td>
-                        <td><PriceDisplay Price="lesson.CurrentPrice"></PriceDisplay></td>
-                        <td class="text-end"><button type="button" class="btn btn-outline-primary" @onclick="() => RemoveLesson(lesson)"><i class="bi bi-trash me-1"></i> Remove</button></td>
-                    </LessonRow>
-                    <Footer>
-                    <tr>
-                        <th class="text-end">Sub Total</th>
-                        <th>R@(Order.Lessons.Sum(lesson => lesson.CurrentPrice.EffectiveAmount).ToString("0"))</th>
-                        <th></th>
-                    </tr>
-                    </Footer>
-                </LessonPriceList>
-            }
-            else
-            {
-                <div class="row">
-                    <div class="col text-center">
-                        Your shopping cart is empty.
-                        <a href="lessons" class="card-link">Find some lessons.</a>
+
+@if (IsLoading)
+{
+    <ProgressLoader IsLoading="IsLoading" class="mb-3"></ProgressLoader>
+}
+
+@if (Order != null)
+{
+    <div class="row justify-content-center">
+        <div class="card border-primary w-75">
+            <div class="card-body">
+                @if (Order.Lessons.Length > 0)
+                {
+                    <LessonPriceList Lessons="Order.Lessons" Context="lesson">
+                        <LessonRow>
+                            <td>@lesson.Title</td>
+                            <td><PriceDisplay Price="lesson.CurrentPrice"></PriceDisplay></td>
+                            <td class="text-end"><button type="button" class="btn btn-outline-primary" @onclick="() => RemoveLesson(lesson)"><i class="bi bi-trash me-1"></i> Remove</button></td>
+                        </LessonRow>
+                        <Footer>
+                        <tr>
+                            <th class="text-end">Sub Total</th>
+                            <th>R@(Order.Lessons.Sum(lesson => lesson.CurrentPrice.EffectiveAmount).ToString("0"))</th>
+                            <th></th>
+                        </tr>
+                        </Footer>
+                    </LessonPriceList>
+                }
+                else
+                {
+                    <div class="row">
+                        <div class="col text-center">
+                            Your shopping cart is empty.
+                            <a href="lessons" class="card-link">Find some lessons.</a>
+                        </div>
                     </div>
-                </div>
-            }
+                }
+            </div>
         </div>
     </div>
-</div>
 
-<div class="row justify-content-center m-3">
-    <div class="col-3 text-center">
-        <button type="button" class="btn btn-primary btn-lg" disabled="@(Order.Lessons.Length == 0)" @onclick="OrderPayment"><i class="bi bi-credit-card me-2"></i> Payment</button>
+    <div class="row justify-content-center m-3">
+        <div class="col-3 text-center">
+            <button type="button" class="btn btn-primary btn-lg" disabled="@(Order.Lessons.Length == 0)" @onclick="OrderPayment"><i class="bi bi-credit-card me-2"></i> Payment</button>
+        </div>
     </div>
-</div>
+}
+else if (!IsLoading && !Error.IsError)
+{
+    <div class="row justify-content-center">
+        <div class="card border-warning w-75">
+            <div class="card-body">
+                Order #@OrderId not found.
+            </div>
+        </div>
+    </div>
+}
 
 @if (Error.IsError)
 {
@@ -71,13 +86,14 @@
     [Parameter]
     public int OrderId { get; set; }
 
-    private OrderDto Order => State.Value.Order;
+    private OrderDto? Order => State.Value.Order;
     private bool IsLoading => State.Value.IsLoading;
     private ErrorState Error => State.Value.Error;
 
     protected override void OnParametersSet()
     {
         base.OnParametersSet();
+        Dispatcher.Dispatch(new GetOrderRequest() { OrderId = OrderId, CurrentOrder = Order });
     }
 
     private void RemoveLesson(LessonDto lesson)
@@ -89,4 +105,4 @@
     {
         // TODO: Order payment
     }
-}
+    }

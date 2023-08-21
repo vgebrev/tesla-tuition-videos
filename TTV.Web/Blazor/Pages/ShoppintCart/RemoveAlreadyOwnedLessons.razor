@@ -9,7 +9,7 @@
 @inject IState<ShoppingCartState> ShoppingCartState;
 @inject IDispatcher Dispatcher;
 @inject AuthenticationStateProvider AuthenticationStateProvider;
-@inject ILessonDataService LessonDataService;
+@inject ILessonApiConsumer LessonDataService;
 
 @code {
     private LessonDto[] lessonsOwnedByUser = Array.Empty<LessonDto>();

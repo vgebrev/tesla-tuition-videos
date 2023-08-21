@@ -5,14 +5,14 @@ namespace TTV.Domain.Entities;
 public enum OrderStatus
 {
     [Display(Name = "New")]
-    New = 0,
+    New = 1,
 
     [Display(Name = "Processing")]
-    Processing = 1,
+    Processing = 2,
 
     [Display(Name = "Completed")]
-    Completed = 2,
+    Completed = 3,
 
     [Display(Name = "Cancelled")]
-    Cancelled = 3
+    Cancelled = 4
 }

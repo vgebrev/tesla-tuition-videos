@@ -1,7 +1,9 @@
 ﻿using Blazored.LocalStorage;
 using Fluxor;
 using Microsoft.AspNetCore.Components;
+using System.Linq.Expressions;
 using TTV.Web.Blazor.Pages.ShoppintCart.Store.Actions;
+using TTV.Web.Blazor.Services;
 using TTV.Web.Blazor.Shared.Store;
 using TTV.Web.Shared;
 
@@ -11,12 +13,14 @@ public class Effects
 {
     private readonly ILocalStorageService localStorageService;
     private readonly NavigationManager navigationManager;
+    private readonly IOrderApiConsumer orderApiConsumer;
     private const string LocalStorageKey = "TTV_ShoppingCartState_Lessons";
 
-    public Effects(ILocalStorageService localStorageService, NavigationManager navigationManager)
+    public Effects(ILocalStorageService localStorageService, NavigationManager navigationManager, IOrderApiConsumer orderApiConsumer)
     {
         this.localStorageService = localStorageService;
         this.navigationManager = navigationManager;
+        this.orderApiConsumer = orderApiConsumer;
     }
 
     [EffectMethod(typeof(ClearCart))]
@@ -57,14 +61,19 @@ public class Effects
     [EffectMethod]
     public async Task HandleConfirmOrderRequest(ConfirmOrderRequest action, IDispatcher dispatcher)
     {
-        //TODO: ApiCall
-        await Task.Delay(400);
-        var order = await Task.FromResult(new OrderDto()
+        try
         {
-            Id = 1,
-            Lessons = action.Lessons,
-        });
-        dispatcher.Dispatch(new ConfirmOrderResponse() { Order = order });
+            var dto = new OrderCreateDto()
+            {
+                LessonsIds = action.Lessons.Select(lesson => lesson.Id).ToArray(),
+            };
+            var order = await orderApiConsumer.CreateNewOrderAsync(dto);
+            dispatcher.Dispatch(new ConfirmOrderResponse() { Order = order });
+        }
+        catch (Exception)
+        {
+            dispatcher.Dispatch(new ConfirmOrderError() { ErrorMessage = Consts.DefaultErrorMessage });
+        }
     }
 
     [EffectMethod]

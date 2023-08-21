@@ -1,6 +1,6 @@
 ﻿namespace TTV.Web.Shared;
 
-public record SearchLessonsDto
+public record LessonSearchDto
 {
     public string? SearchText { get; init; }
     public int[]? SearchTagsIds { get; init; }

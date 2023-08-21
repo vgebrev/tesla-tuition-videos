@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore.Storage;
+using Microsoft.Identity.Client;
 using TTV.Domain.DomainServices;
 using TTV.Domain.DomainServices.Repositories;
 using TTV.Infrastructure.DataAccess.Repositories;
@@ -12,14 +13,18 @@ public class UnitOfWork : IUnitOfWork
     private readonly DataContext dataContext;
 
     public ILessonRepository LessonRepository { get; }
+    public IOrderRepository OrderRepository { get; }
     public ITagRepository TagRepository { get; }
+    public IUserRepository UserRepository { get; set; }
     public IVideoRepository VideoRepository { get; }
 
-    public UnitOfWork(DataContext dataContext, IUserIdentityService userIdentityService)
+    public UnitOfWork(DataContext dataContext)
     {
         this.dataContext = dataContext;
+        LessonRepository = new LessonRepository(dataContext);
+        OrderRepository = new OrderRepository(dataContext);
         TagRepository = new TagRepository(dataContext);
-        LessonRepository = new LessonRepository(dataContext, userIdentityService);
+        UserRepository = new UserRepository(dataContext);
         VideoRepository = new VideoRepository(dataContext);
     }
 

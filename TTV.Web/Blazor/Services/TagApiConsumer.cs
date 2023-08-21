@@ -3,11 +3,11 @@ using TTV.Web.Shared;
 
 namespace TTV.Web.Blazor.Services;
 
-public class TagDataService : ITagDataService
+public class TagApiConsumer : ITagApiConsumer
 {
     private readonly HttpClient httpClient;
 
-    public TagDataService(HttpClient httpClient)
+    public TagApiConsumer(HttpClient httpClient)
     {
         this.httpClient = httpClient;
     }

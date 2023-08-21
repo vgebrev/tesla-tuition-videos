@@ -4,11 +4,11 @@ using TTV.Web.Shared;
 
 namespace TTV.Web.Blazor.Services;
 
-public class LessonDataService : ILessonDataService
+public class LessonApiConsumer : ILessonApiConsumer
 {
     private readonly HttpClient httpClient;
 
-    public LessonDataService(HttpClient httpClient)
+    public LessonApiConsumer(HttpClient httpClient)
     {
         this.httpClient = httpClient;
     }
@@ -25,7 +25,7 @@ public class LessonDataService : ILessonDataService
         return lessons;
     }
 
-    public async Task<LessonDto[]> SearchLessonsAsync(SearchLessonsDto dto)
+    public async Task<LessonDto[]> SearchLessonsAsync(LessonSearchDto dto)
     {
         var httpResponse = await httpClient.PostAsJsonAsync("api/lesson/search", dto);
         var responseBody = await httpResponse.Content.ReadAsStringAsync();

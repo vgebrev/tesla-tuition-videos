@@ -2,9 +2,9 @@
 
 namespace TTV.Web.Blazor.Services;
 
-public interface ILessonDataService
+public interface ILessonApiConsumer
 {
     Task<LessonDto> GetLessonAsync(int lessonId);
     Task<LessonDto[]> GetLessonsOwnedByCurrentUserAsync();
-    Task<LessonDto[]> SearchLessonsAsync(SearchLessonsDto dto);
+    Task<LessonDto[]> SearchLessonsAsync(LessonSearchDto dto);
 }

@@ -8,6 +8,14 @@ public class Order : BaseEntity
         AppliedVouchers = new HashSet<OrderDiscountVoucher>();
     }
 
+    public void AddLessons(IEnumerable<Lesson> lessons)
+    {
+        foreach (var lesson in lessons)
+        {
+            Lessons.Add(lesson);
+        }
+    }
+
     public Result ApplyVoucher(DiscountVoucher voucher)
     {
         throw new NotImplementedException();

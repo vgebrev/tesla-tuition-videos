@@ -8,13 +8,13 @@ namespace TTV.Web.Blazor.Pages.LessonsList.Store;
 
 public class Effects
 {
-    private readonly ITagDataService tagDataService;
-    private readonly ILessonDataService lessonDataService;
+    private readonly ITagApiConsumer tagDataService;
+    private readonly ILessonApiConsumer lessonApiConsumer;
 
-    public Effects(ITagDataService tagDataService, ILessonDataService lessonDataService)
+    public Effects(ITagApiConsumer tagDataService, ILessonApiConsumer lessonApiConsumer)
     {
         this.tagDataService = tagDataService;
-        this.lessonDataService = lessonDataService;
+        this.lessonApiConsumer = lessonApiConsumer;
     }
 
     [EffectMethod(typeof(GetTagsRequest))]
@@ -36,7 +36,7 @@ public class Effects
     {
         try
         {
-            var lessons = await lessonDataService.SearchLessonsAsync(new SearchLessonsDto()
+            var lessons = await lessonApiConsumer.SearchLessonsAsync(new LessonSearchDto()
             {
                 SearchTagsIds = action.SearchTags?.Select(tag => tag.Id).ToArray(),
                 SearchText = action.SearchText

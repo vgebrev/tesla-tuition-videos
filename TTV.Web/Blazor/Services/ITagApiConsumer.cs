@@ -2,7 +2,7 @@
 
 namespace TTV.Web.Blazor.Services;
 
-public interface ITagDataService
+public interface ITagApiConsumer
 {
     Task<TagDto[]> GetTagsAsync();
 }

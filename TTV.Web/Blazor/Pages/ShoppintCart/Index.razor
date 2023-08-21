@@ -17,11 +17,6 @@
     <ProgressLoader IsLoading="IsLoading"></ProgressLoader>
 }
 
-@if (Error.IsError)
-{
-    <ErrorCard Error="Error"></ErrorCard>
-}
-
 <div class="row justify-content-center">
     <div class="col text-center">
         <h1 class="header-white">Shopping Cart</h1>
@@ -72,6 +67,7 @@
         </div>
     </div>
 </div>
+
 @if (Lessons.Length > 0)
 {
     <div class="row justify-content-center m-3">
@@ -87,6 +83,12 @@
         </div>
     </div>
 }
+
+@if (Error.IsError)
+{
+    <ErrorCard Error="Error"></ErrorCard>
+}
+
 @code {
     private bool IsLoading => State.Value.IsLoading;
     private LessonDto[] Lessons => State.Value.Lessons;

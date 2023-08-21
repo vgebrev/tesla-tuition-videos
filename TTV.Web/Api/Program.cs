@@ -1,11 +1,6 @@
 using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Serilog;
-using TTV.Application.DataServices;
-using TTV.Domain.DomainServices;
-using TTV.Infrastructure.DataAccess;
-using TTV.Infrastructure.Videos;
 using TTV.Web.Api;
 
 Log.Logger = new LoggerConfiguration()
@@ -22,8 +17,6 @@ try
     builder.Host.UseSerilog((context, services, configuration) => configuration
         .ReadFrom.Configuration(context.Configuration)
         .Enrich.FromLogContext());
-
-    builder.Services.AddDbContextFactory<DataContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("DataContext")));
 
     builder.Services.AddCors(options =>
     {
@@ -51,15 +44,7 @@ try
         });
     builder.Services.AddHttpContextAccessor();
 
-    builder.Services.AddScoped<ILessonDataService, LessonDataService>();
-    builder.Services.AddScoped<ITagDataService, TagDataService>();
-    builder.Services.AddScoped<IUnitOfWorkFactory, UnitOfWorkFactory>();
-    builder.Services.AddScoped<IUserIdentityService, ClaimsIdentityService>();
-    builder.Services.AddScoped<IVideoDataService, VideoDataService>();
-    builder.Services.AddSingleton<IVideoPathCache, VideoPathCache>();
-    builder.Services.AddScoped<IVideoStreamLoader, VideoStreamLoader>();
-
-    builder.Services.Configure<FileSystemSettings>(builder.Configuration.GetSection(nameof(FileSystemSettings)));
+    builder.Services.AddTtvServices(builder.Configuration);
 
     var app = builder.Build();
     app.UseSerilogRequestLogging();

@@ -8,7 +8,9 @@ public interface IUnitOfWork : IDisposable
     Task EndAsync(CancellationToken cancellationToken = default);
     
     ILessonRepository LessonRepository { get; }
+    IOrderRepository OrderRepository { get; }
     ITagRepository TagRepository { get; }
+    IUserRepository UserRepository { get; }
     IVideoRepository VideoRepository { get; }
 
 }

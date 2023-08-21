@@ -29,7 +29,8 @@ builder.Services.AddFluxor(options =>
 #endif    
 });
 builder.Services.AddBlazoredLocalStorage();
-builder.Services.AddScoped<ILessonDataService, LessonDataService>();
-builder.Services.AddScoped<ITagDataService, TagDataService>();
+builder.Services.AddScoped<ILessonApiConsumer, LessonApiConsumer>();
+builder.Services.AddScoped<IOrderApiConsumer, OrderApiConsumer>();
+builder.Services.AddScoped<ITagApiConsumer, TagApiConsumer>();
 
 await builder.Build().RunAsync();

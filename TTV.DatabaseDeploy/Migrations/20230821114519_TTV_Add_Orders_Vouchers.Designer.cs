@@ -288,22 +288,22 @@ namespace TTV.DatabaseDeploy.Migrations
                     b.HasData(
                         new
                         {
-                            Id = 0,
+                            Id = 1,
                             Name = "New"
                         },
                         new
                         {
-                            Id = 1,
+                            Id = 2,
                             Name = "Processing"
                         },
                         new
                         {
-                            Id = 2,
+                            Id = 3,
                             Name = "Completed"
                         },
                         new
                         {
-                            Id = 3,
+                            Id = 4,
                             Name = "Cancelled"
                         });
                 });

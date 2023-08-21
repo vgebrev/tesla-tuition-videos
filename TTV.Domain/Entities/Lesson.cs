@@ -17,6 +17,7 @@ public class Lesson : BaseEntity
     public virtual ICollection<Tag> Tags { get; set; }
     public virtual ICollection<User> OwnedBy { get; set; }
     public virtual ICollection<Price> Prices { get; set; }
-    public Price CurrentPrice => Prices.OrderByDescending(price => price.EffectiveDate)
-        .First(price => DateOnly.FromDateTime(DateTime.Today) >= price.EffectiveDate);
+    public Price CurrentPrice => PriceAt(DateTime.Today);
+    public Price PriceAt(DateTime dateTime) => Prices.OrderByDescending(price => price.EffectiveDate)
+        .First(price => DateOnly.FromDateTime(dateTime) >= price.EffectiveDate);
 }

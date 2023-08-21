@@ -12,12 +12,15 @@ public class DataContext : DbContext
     {
         base.OnModelCreating(modelBuilder);
         modelBuilder.HasEnumLookup<LessonType>();
+        modelBuilder.HasEnumLookup<OrderStatus>();
         modelBuilder.HasEnumLookup<VideoType>();
         modelBuilder.ApplyConfigurationsFromAssembly(typeof(DataContext).Assembly);
     }
+    public DbSet<DiscountVoucher> DiscountVouchers { get; set; }
     public DbSet<Lesson> Lessons { get; set; }
-    public DbSet<Tag> Tags { get; set; }
+    public DbSet<Order> Orders { get; set; }
     public DbSet<TagCategory> TagCategories { get; set; }
-    public DbSet<Video> Videos { get; set; }
+    public DbSet<Tag> Tags { get; set; }
     public DbSet<User> Users { get; set; }
+    public DbSet<Video> Videos { get; set; }
 }

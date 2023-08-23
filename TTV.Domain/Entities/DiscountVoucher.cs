@@ -10,6 +10,9 @@ public class DiscountVoucher : BaseEntity
     public string Code { get; set; } = string.Empty;
     public decimal Amount { get; set; }
     public DateOnly? ExpirationDate { get; set; }
+    public string? Note { get; set; }
+    public User IssuedBy { get; set; } = new();
+    public DateTime IssuedAt { get; set; } = DateTime.Now;
     public User? ClaimedBy { get; set; }
     public virtual ICollection<OrderDiscountVoucher> OrdersAppliedTo { get; set; }
 

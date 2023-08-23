@@ -1,5 +1,4 @@
 ﻿using Microsoft.EntityFrameworkCore.Storage;
-using Microsoft.Identity.Client;
 using TTV.Domain.DomainServices;
 using TTV.Domain.DomainServices.Repositories;
 using TTV.Infrastructure.DataAccess.Repositories;
@@ -12,6 +11,7 @@ public class UnitOfWork : IUnitOfWork
     private IDbContextTransaction? transaction;
     private readonly DataContext dataContext;
 
+    public IDiscountVoucherRepository DiscountVoucherRepository { get; }
     public ILessonRepository LessonRepository { get; }
     public IOrderRepository OrderRepository { get; }
     public ITagRepository TagRepository { get; }
@@ -21,6 +21,7 @@ public class UnitOfWork : IUnitOfWork
     public UnitOfWork(DataContext dataContext)
     {
         this.dataContext = dataContext;
+        DiscountVoucherRepository = new DiscountVoucherRepository(dataContext);
         LessonRepository = new LessonRepository(dataContext);
         OrderRepository = new OrderRepository(dataContext);
         TagRepository = new TagRepository(dataContext);

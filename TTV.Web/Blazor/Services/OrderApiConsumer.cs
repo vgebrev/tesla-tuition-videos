@@ -13,22 +13,22 @@ public class OrderApiConsumer : IOrderApiConsumer
         this.httpClient = httpClient;
     }
 
-    public async Task<OrderDto> CreateNewOrderAsync(OrderCreateDto dto)
+    public async Task<OrderDto> CreateNewOrderAsync(OrderCreateDto dto, CancellationToken cancellationToken = default)
     {
-        var httpResponse = await httpClient.PostAsJsonAsync("api/order", dto);
-        var responseBody = await httpResponse.Content.ReadAsStringAsync();
+        var httpResponse = await httpClient.PostAsJsonAsync("api/order", dto, cancellationToken);
+        var responseBody = await httpResponse.Content.ReadAsStringAsync(cancellationToken);
         return JsonSerializer.Deserialize<OrderDto>(responseBody, new JsonSerializerOptions() { PropertyNameCaseInsensitive = true }) ?? throw new InvalidCastException("Unexpected result");
     }
 
-    public async Task<OrderDto?> GetOrderAsync(int orderId)
+    public async Task<OrderDto?> GetOrderAsync(int orderId, CancellationToken cancellationToken = default)
     {
-        var httpResponse = await httpClient.GetAsync($"api/order/{orderId}");
+        var httpResponse = await httpClient.GetAsync($"api/order/{orderId}", cancellationToken);
         if (httpResponse.StatusCode == System.Net.HttpStatusCode.NotFound)
         {
             return null;
         }
 
-        var responseBody = await httpResponse.Content.ReadAsStringAsync();
+        var responseBody = await httpResponse.Content.ReadAsStringAsync(cancellationToken);
         return JsonSerializer.Deserialize<OrderDto>(responseBody, new JsonSerializerOptions() { PropertyNameCaseInsensitive = true }) ?? throw new InvalidCastException("Unexpected result");
     }
 }

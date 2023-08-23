@@ -1,6 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using TTV.Application;
 using TTV.Application.DataServices;
 using TTV.Domain.DomainServices;
+using TTV.Infrastructure;
 using TTV.Infrastructure.DataAccess;
 using TTV.Infrastructure.Videos;
 
@@ -12,6 +14,8 @@ public static class ServicesExtensions
     {
         services.AddDbContextFactory<DataContext>(options => options.UseSqlServer(configuration.GetConnectionString("DataContext")));
 
+        services.AddScoped<IDiscountVoucherCodeGenerator, DiscountVoucherCodeGenerator>();
+        services.AddScoped<IDiscountVoucherDataService, DiscountVoucherDataService>();
         services.AddScoped<ILessonDataService, LessonDataService>();
         services.AddScoped<IOrderDataService, OrderDataService>();
         services.AddScoped<ITagDataService, TagDataService>();
@@ -21,7 +25,12 @@ public static class ServicesExtensions
         services.AddSingleton<IVideoPathCache, VideoPathCache>();
         services.AddScoped<IVideoStreamLoader, VideoStreamLoader>();
 
-        services.Configure<FileSystemSettings>(configuration.GetSection(nameof(FileSystemSettings)));
+        services.AddAuthorization(options =>
+        {
+            options.AddPolicy("Admin", policy => policy.RequireClaim("role", "admin"));
+            options.AddPolicy("CanIssueVouchers", policy => policy.RequireClaim("permission", "vouchers.issue"));
+        });
+        services.Configure<SystemSettings>(configuration.GetSection(nameof(SystemSettings)));
 
         return services;
     }

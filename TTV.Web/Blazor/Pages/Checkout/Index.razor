@@ -46,6 +46,16 @@
                         </tr>
                         </Footer>
                     </LessonPriceList>
+                    <div class="form-group row">
+                        <label class="col-2 col-form-label">Discount Voucher</label>
+                        <div class="col-10 input-group">
+                            <div class="form-floating">
+                                <input type="text" id="apply-voucher" class="form-control" placeholder="Code" @bind="voucherCode" />
+                                <label for="apply-voucher">Code</label>
+                            </div>
+                            <button class="btn btn-outline-primary" type="button" @onclick="ApplyVoucher"><i class="bi bi-check me-1"></i> Apply</button>
+                        </div>
+                    </div>
                 }
                 else
                 {
@@ -90,6 +100,14 @@ else if (!IsLoading && !Error.IsError)
     private bool IsLoading => State.Value.IsLoading;
     private ErrorState Error => State.Value.Error;
 
+    private string voucherCode = string.Empty;
+
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+        voucherCode = State.Value.VoucherCode;
+    }
+
     protected override void OnParametersSet()
     {
         base.OnParametersSet();
@@ -101,8 +119,13 @@ else if (!IsLoading && !Error.IsError)
         // TODO: Remove from order
     }
 
+    private void ApplyVoucher()
+    {
+        
+    }
+
     private void OrderPayment()
     {
         // TODO: Order payment
     }
-    }
+}

@@ -17,6 +17,7 @@ internal class DiscountVoucherConfiguration : IEntityTypeConfiguration<DiscountV
         entity.Property(voucher => voucher.Amount).HasPrecision(18, 4);
         entity.Property(voucher => voucher.ExpirationDate).HasConversion(dateConverter);
 
+        entity.HasOne(voucher => voucher.IssuedBy).WithMany().OnDelete(DeleteBehavior.Restrict);
         entity.HasOne(voucher => voucher.ClaimedBy).WithMany().OnDelete(DeleteBehavior.Restrict);
         entity.HasMany(voucher => voucher.OrdersAppliedTo).WithOne(map => map.Voucher).OnDelete(DeleteBehavior.Restrict);
 

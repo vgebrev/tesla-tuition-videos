@@ -5,33 +5,25 @@ namespace TTV.Web.Api.MappingExtensions;
 
 internal static class TagMappings
 {
-    public static TagDto ToTagDto(this Tag tag)
-    {
-        return new TagDto
+    public static TagDto ToTagDto(this Tag tag) =>
+        new()
         {
             Id = tag.Id,
             Name = tag.Name,
             Category = tag.Category.ToCategoryDto(),
             LessonCount = tag.Lessons.Count
         };
-    }
 
-    public static IEnumerable<TagDto> ToTagDtoEnumerable(this IEnumerable<Tag> tags)
-    {
-        return tags.Select(ToTagDto);
-    }
+    public static IEnumerable<TagDto> ToTagDtoEnumerable(this IEnumerable<Tag> tags) =>
+        tags.Select(ToTagDto);
 
-    public static SimpleTagDto ToSimpleTagDto(this Tag tag)
-    {
-        return new SimpleTagDto()
+    public static SimpleTagDto ToSimpleTagDto(this Tag tag) =>
+        new()
         {
             Name = tag.Name,
             Priority = tag.Category.Priority
         };
-    }
 
-    public static IEnumerable<SimpleTagDto> ToSimpleTagDtoEnumerable(this IEnumerable<Tag> tags)
-    {
-        return tags.Select(ToSimpleTagDto);
-    }
+    public static IEnumerable<SimpleTagDto> ToSimpleTagDtoEnumerable(this IEnumerable<Tag> tags) =>
+        tags.Select(ToSimpleTagDto);
 }

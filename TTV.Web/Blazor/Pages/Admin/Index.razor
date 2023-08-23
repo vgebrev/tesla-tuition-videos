@@ -1,0 +1,40 @@
+﻿@page "/admin"
+@attribute [Authorize(Policy = "Admin")]
+
+@using Microsoft.AspNetCore.Authorization;
+@using Fluxor;
+@using TTV.Web.Blazor.Pages.Admin.Store;
+
+@inherits Fluxor.Blazor.Web.Components.FluxorComponent
+
+@inject IState<AdminState> AdminState
+@inject IDispatcher Dispatcher
+
+<PageTitle>Tesla Tuition Videos - Admin Console</PageTitle>
+
+<div class="row justify-content-center">
+    <div class="col text-center">
+        <h1 class="header-white">Admin Console</h1>
+    </div>
+</div>
+
+@if (IsLoading)
+{
+    <ProgressLoader IsLoading="IsLoading" />
+}
+
+<div class="row justify-content-center my-3">
+    <div class="col-auto">
+        <DiscountVouchersCard></DiscountVouchersCard>
+    </div>
+</div>
+
+@if (Error.IsError)
+{
+    <ErrorCard Error="Error"></ErrorCard>
+}
+
+@code {
+    private bool IsLoading => AdminState.Value.IsLoading;
+    public ErrorState Error => AdminState.Value.Error;
+}

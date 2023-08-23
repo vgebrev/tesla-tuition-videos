@@ -13,28 +13,28 @@ public class LessonApiConsumer : ILessonApiConsumer
         this.httpClient = httpClient;
     }
 
-    public async Task<LessonDto?> GetLessonAsync(int lessonId)
+    public async Task<LessonDto?> GetLessonAsync(int lessonId, CancellationToken cancellationToken = default)
     {
-        var httpResponse = await httpClient.GetAsync($"api/lesson/{lessonId}");
+        var httpResponse = await httpClient.GetAsync($"api/lesson/{lessonId}", cancellationToken);
         if (httpResponse.StatusCode == System.Net.HttpStatusCode.NotFound)
         {
             return null;
         }
 
-        var responseBody = await httpResponse.Content.ReadAsStringAsync();
+        var responseBody = await httpResponse.Content.ReadAsStringAsync(cancellationToken);
         return JsonSerializer.Deserialize<LessonDto>(responseBody, new JsonSerializerOptions() { PropertyNameCaseInsensitive = true }) ?? throw new InvalidCastException("Unexpected result");
     }
 
-    public async Task<LessonDto[]> GetLessonsOwnedByCurrentUserAsync()
+    public async Task<LessonDto[]> GetLessonsOwnedByCurrentUserAsync(CancellationToken cancellationToken = default)
     {
-        var lessons = await httpClient.GetFromJsonAsync<LessonDto[]>("api/lesson/owned") ?? Array.Empty<LessonDto>();
+        var lessons = await httpClient.GetFromJsonAsync<LessonDto[]>("api/lesson/owned", cancellationToken) ?? Array.Empty<LessonDto>();
         return lessons;
     }
 
-    public async Task<LessonDto[]> SearchLessonsAsync(LessonSearchDto dto)
+    public async Task<LessonDto[]> SearchLessonsAsync(LessonSearchDto dto, CancellationToken cancellationToken = default)
     {
-        var httpResponse = await httpClient.PostAsJsonAsync("api/lesson/search", dto);
-        var responseBody = await httpResponse.Content.ReadAsStringAsync();
+        var httpResponse = await httpClient.PostAsJsonAsync("api/lesson/search", dto, cancellationToken);
+        var responseBody = await httpResponse.Content.ReadAsStringAsync(cancellationToken);
         return JsonSerializer.Deserialize<LessonDto[]>(responseBody, new JsonSerializerOptions() { PropertyNameCaseInsensitive = true }) ?? Array.Empty<LessonDto>();
     }
 }

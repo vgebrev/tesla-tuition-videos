@@ -1,0 +1,18 @@
+﻿<div class="card text-white bg-secondary mx-auto">
+    <div class="card-header">Discount Vouchers</div>
+    <div class="card-body">
+        <AuthorizeView Policy="Admin">
+            <Authorized>
+                <DiscountVouchersIssue></DiscountVouchersIssue>
+                <DiscountVouchersList></DiscountVouchersList>
+            </Authorized>
+            <NotAuthorized>
+                Insufficient Permissions
+            </NotAuthorized>
+        </AuthorizeView>
+    </div>
+</div>
+
+@code {
+
+}

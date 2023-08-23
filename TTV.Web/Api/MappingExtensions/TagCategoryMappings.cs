@@ -5,12 +5,10 @@ namespace TTV.Web.Api.MappingExtensions;
 
 internal static class TagCategoryMappings
 {
-    public static TagCategoryDto ToCategoryDto(this TagCategory category)
-    {
-        return new TagCategoryDto
+    public static TagCategoryDto ToCategoryDto(this TagCategory category) =>
+        new()
         {
             Id = category.Id,
             Name = category.Name
         };
-    }
 }

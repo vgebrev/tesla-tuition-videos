@@ -5,9 +5,8 @@ namespace TTV.Web.Api.MappingExtensions;
 
 internal static class OrderMappings
 {
-    public static OrderDto ToOrderDto(this Order order)
-    {
-        return new OrderDto()
+    public static OrderDto ToOrderDto(this Order order) =>
+        new()
         {
             Id = order.Id,
             Lessons = order.Lessons.ToLessonDtoEnumerable().ToArray(),
@@ -17,5 +16,5 @@ internal static class OrderMappings
             StatusReason = order.StatusReason,
             TotalAmount = order.TotalAmount,
         };
-    }
+
 }

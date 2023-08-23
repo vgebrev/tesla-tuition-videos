@@ -5,9 +5,8 @@ namespace TTV.Web.Api.MappingExtensions;
 
 internal static class LessonMappings
 {
-    public static LessonDto ToLessonDto(this Lesson lesson)
-    {
-        return new LessonDto
+    public static LessonDto ToLessonDto(this Lesson lesson) =>
+        new()
         {
             Id = lesson.Id,
             Title = lesson.Title,
@@ -17,10 +16,9 @@ internal static class LessonMappings
             Owner = lesson.OwnedBy.SingleOrDefault()?.ToUserDto(),
             CurrentPrice = lesson.CurrentPrice.ToPriceDto()
         };
-    }
 
-    public static IEnumerable<LessonDto> ToLessonDtoEnumerable(this IEnumerable<Lesson> lessons)
-    {
-        return lessons.Select(ToLessonDto);
-    }
+
+    public static IEnumerable<LessonDto> ToLessonDtoEnumerable(this IEnumerable<Lesson> lessons) =>
+        lessons.Select(ToLessonDto);
+
 }

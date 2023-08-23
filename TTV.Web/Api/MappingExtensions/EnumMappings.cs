@@ -6,10 +6,8 @@ namespace TTV.Web.Api.MappingExtensions;
 
 internal static class EnumMappings
 {
-    public static LookupDto ToLookupDto<TEnum>(this TEnum value)
-        where TEnum : Enum
-    {
-        return new LookupDto
+    public static LookupDto ToLookupDto<TEnum>(this TEnum value) where TEnum : Enum =>
+        new()
         {
             Id = value.GetHashCode(),
             Name = typeof(TEnum)
@@ -17,5 +15,5 @@ internal static class EnumMappings
                 .First()
                 .GetCustomAttribute<DisplayAttribute>()?.Name ?? value.ToString()
         };
-    }
+
 }

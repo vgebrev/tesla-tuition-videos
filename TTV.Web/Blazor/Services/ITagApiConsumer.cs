@@ -4,5 +4,5 @@ namespace TTV.Web.Blazor.Services;
 
 public interface ITagApiConsumer
 {
-    Task<TagDto[]> GetTagsAsync();
+    Task<TagDto[]> GetTagsAsync(CancellationToken cancellationToken = default);
 }

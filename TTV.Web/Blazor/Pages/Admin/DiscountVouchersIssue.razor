@@ -1,0 +1,95 @@
+﻿@using System.ComponentModel.DataAnnotations
+@using Fluxor;
+@using TTV.Web.Blazor.Pages.Admin.Store;
+@using TTV.Web.Blazor.Pages.Admin.Store.Actions;
+@using TTV.Web.Shared;
+
+@inherits Fluxor.Blazor.Web.Components.FluxorComponent
+
+@inject IState<AdminState> State
+@inject IDispatcher Dispatcher
+
+<AuthorizeView Policy="CanIssueVouchers" Context="AuthContext">
+    <Authorized>
+        <div class="row mb-3">
+            <h4 class="card-title">Issue a voucher</h4>
+            <div class="card-text border-bottom border-1 border-dark">
+                <EditForm EditContext="@editContext" OnValidSubmit="IssueVoucher">
+                    <DataAnnotationsValidator />
+                    <div class="d-flex flex-row align-items-start justify-content-center">
+                        <div class="form-group m-3">
+                            <label for="voucher-amount">Amount</label>
+                            <InputNumber @bind-Value="Model.Amount" class="form-control" min="0" id="voucher-amount" />
+                            <ValidationMessage For="() => Model.Amount" class="text-danger"></ValidationMessage>
+                        </div>
+                        <div class="form-group m-3">
+                            <label for="voucher-expiration-date">Expiration Date <span class="text-muted">(Optional)</span></label>
+                            <InputDate @bind-Value="Model.ExpirationDate" class="form-control" id="voucher-expiration-date" />
+                            <ValidationMessage For="() => Model.ExpirationDate"></ValidationMessage>
+                        </div>
+                        <div class="form-group m-3">
+                            <label for="voucher-note">Note <span class="text-muted">(Optional)</span></label>
+                            <InputText @bind-Value="Model.Note" class="form-control" id="voucher-note" />
+                            <ValidationMessage For="() => Model.Note" class="text-danger"></ValidationMessage>
+                        </div>
+                        <div class="m-3 pt-4">
+                            <button type="submit" class="btn btn-primary"><i class="bi bi-ticket-perforated me-2"></i> Issue Voucher</button>
+                        </div>
+                    </div>
+                </EditForm>
+
+                @if (IssuedVoucher != null)
+                {
+                    <div class="d-flex justify-content-center">
+                        <div class="alert alert-primary alert-dismissible col-7" role="alert">
+                            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                            <strong>Voucher Issued!</strong>
+                            <p>A voucher for <strong>R@(IssuedVoucher.Amount.ToString("0"))</strong> was issued. The voucher code is <strong class="border border-1 bg-secondary p-1">@IssuedVoucher.Code</strong>.</p>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+    </Authorized>
+</AuthorizeView>
+
+@code {
+    public DiscountVoucherInfo Model { get; set; } = new();
+    private EditContext editContext = default!;
+
+    private DiscountVoucherDto? IssuedVoucher => State.Value.IssuedVoucher;
+
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+        Model ??= new();
+        editContext = new(Model);
+        editContext.SetFieldCssClassProvider(new BootstrapFieldCssClassProvider());
+    }
+
+    protected override void OnAfterRender(bool firstRender)
+    {
+        editContext.Validate();
+    }
+
+    private void IssueVoucher()
+    {
+        if (Model.Amount != null)
+        {
+            Dispatcher.Dispatch(new IssueDiscountVoucherRequest() { Amount = Model.Amount.Value, ExpirationDate = Model.ExpirationDate, Note = Model.Note });
+        }
+        else
+        {
+            Dispatcher.Dispatch(new IssueDiscountVoucherError() { ErrorMessage = "Amount is required" });
+        }
+    }
+
+    public class DiscountVoucherInfo
+    {
+        [Required(ErrorMessage = "Amount is required")]
+        [Range(0, Int32.MaxValue, ErrorMessage = "Amount should be positive")]
+        public decimal? Amount { get; set; }
+        public string? Note { get; set; }
+        public DateOnly? ExpirationDate { get; set; }
+    }
+}

@@ -1,5 +1,6 @@
 ﻿using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using TTV.Application;
 using TTV.Application.DataServices;
 
 namespace TTV.Infrastructure.Videos;
@@ -9,9 +10,9 @@ public class VideoStreamLoader : IVideoStreamLoader
     private readonly ILogger<VideoStreamLoader> logger;
     private readonly IVideoPathCache videoPathCache;
     private readonly IVideoDataService videoDataService;
-    private readonly FileSystemSettings settings;
+    private readonly SystemSettings settings;
 
-    public VideoStreamLoader(ILogger<VideoStreamLoader> logger, IVideoPathCache videoPathCache, IVideoDataService videoDataService, IOptionsSnapshot<FileSystemSettings> config)
+    public VideoStreamLoader(ILogger<VideoStreamLoader> logger, IVideoPathCache videoPathCache, IVideoDataService videoDataService, IOptionsSnapshot<SystemSettings> config)
     {
         this.logger = logger;
         this.videoPathCache = videoPathCache;

@@ -12,6 +12,17 @@ public static class Config
             new IdentityResources.OpenId(),
             new IdentityResources.Profile(),
             new IdentityResources.Email(),
+            new IdentityResource()
+            {
+                Name = "role",
+                DisplayName ="Your roles and permissions",
+                ShowInDiscoveryDocument = true,
+                UserClaims = new string[]
+                {
+                    JwtClaimTypes.Role,
+                    "permission",
+                },
+            }
         };
 
     public static IEnumerable<ApiScope> ApiScopes =>
@@ -22,6 +33,7 @@ public static class Config
                 JwtClaimTypes.Email,
                 JwtClaimTypes.Subject,
                 JwtClaimTypes.Role,
+                "permission",
             })
         };
 

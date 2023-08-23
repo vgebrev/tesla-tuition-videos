@@ -130,10 +130,10 @@ namespace TTV.DatabaseDeploy.Migrations
                 columns: new[] { "Id", "Name" },
                 values: new object[,]
                 {
-                    { 0, "New" },
-                    { 1, "Processing" },
-                    { 2, "Completed" },
-                    { 3, "Cancelled" }
+                    { 1, "New" },
+                    { 2, "Processing" },
+                    { 3, "Completed" },
+                    { 4, "Cancelled" }
                 });
 
             migrationBuilder.CreateIndex(

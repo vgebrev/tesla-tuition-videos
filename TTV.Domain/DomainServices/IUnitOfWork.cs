@@ -7,6 +7,7 @@ public interface IUnitOfWork : IDisposable
     Task StartAsync(CancellationToken cancellationToken = default);
     Task EndAsync(CancellationToken cancellationToken = default);
     
+    IDiscountVoucherRepository DiscountVoucherRepository { get; }
     ILessonRepository LessonRepository { get; }
     IOrderRepository OrderRepository { get; }
     ITagRepository TagRepository { get; }

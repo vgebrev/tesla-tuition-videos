@@ -26,8 +26,8 @@ public class Order : BaseEntity
             return new Result<OrderDiscountVoucher?>(null, false, validationResult.Message);
         }
 
+        voucher.ClaimBy(PlacedBy);
         var amount = Math.Min(voucher.RemainingAmount, TotalAmount);
-
         var apply = new OrderDiscountVoucher
         {
             Order = this,
@@ -52,7 +52,7 @@ public class Order : BaseEntity
                 failIf: () => TotalAmount <= 0,
                 error: "There is no outstanding amount on the order"),
             new Validation(
-                failIf: () => PlacedBy != voucher.ClaimedBy,
+                failIf: () => voucher.ClaimedBy is not null && voucher.ClaimedBy != PlacedBy,
                 error: "The voucher has been used by someone else"),
             new Validation(
                 failIf: () => voucher.ExpirationDate.HasValue && voucher.ExpirationDate.Value < DateOnly.FromDateTime(DateTime.Today),

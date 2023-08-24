@@ -56,13 +56,8 @@ public class DiscountVoucherDataService : IDiscountVoucherDataService
             var order = await unitOfWork.OrderRepository.GetByIdAsync(orderId, userId, cancellationToken) ?? throw new ApplyVoucherException("Order not found");
             var voucher = await unitOfWork.DiscountVoucherRepository.GetByCodeAsync(voucherCode, cancellationToken) ?? throw new ApplyVoucherException("Invalid voucher code");
 
-            var claimResult = voucher.ClaimBy(user);
-            if (!claimResult.IsSuccess)
-            {
-                return new Result<OrderDiscountVoucher?>(null, claimResult.IsSuccess, claimResult.Message);
-            }
-            var applyResult = order.ApplyDiscountVoucher(voucher);
-            if (applyResult.IsSuccess)
+            var result = order.ApplyDiscountVoucher(voucher);
+            if (result.IsSuccess)
             {
                 await unitOfWork.EndAsync(cancellationToken);
             }
@@ -70,8 +65,7 @@ public class DiscountVoucherDataService : IDiscountVoucherDataService
             {
                 await unitOfWork.CancelAsync(cancellationToken);
             }
-
-            return applyResult;
+            return result;
         }
         catch (ApplicationException ex) when (ex is ApplyVoucherException
                                               || ex is UnauthenticatedException

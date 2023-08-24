@@ -8,12 +8,12 @@ namespace TTV.Web.Blazor.Pages.LessonDetail.Store;
 
 public class Effects
 {
-    private readonly ILessonApiConsumer apiConsumer;
+    private readonly ILessonApiConsumer lessonApi;
     private readonly IState<LessonsListState> lessonsState;
 
-    public Effects(ILessonApiConsumer apiConsumer, IState<LessonsListState> lessonsState)
+    public Effects(ILessonApiConsumer lessonApi, IState<LessonsListState> lessonsState)
     {
-        this.apiConsumer = apiConsumer;
+        this.lessonApi = lessonApi;
         this.lessonsState = lessonsState;
     }
 
@@ -22,7 +22,7 @@ public class Effects
     {
         try
         {
-            var lesson = (lessonsState.Value.Lessons?.SingleOrDefault(lesson => lesson.Id == action.LessonId)) ?? await apiConsumer.GetLessonAsync(action.LessonId);
+            var lesson = (lessonsState.Value.Lessons?.SingleOrDefault(lesson => lesson.Id == action.LessonId)) ?? await lessonApi.GetLessonAsync(action.LessonId);
             dispatcher.Dispatch(new GetLessonResponse() { Lesson = lesson });
         }
         catch (Exception)

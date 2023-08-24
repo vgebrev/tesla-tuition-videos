@@ -12,14 +12,14 @@ public class Effects
 {
     private readonly ILocalStorageService localStorageService;
     private readonly NavigationManager navigationManager;
-    private readonly IOrderApiConsumer orderApiConsumer;
+    private readonly IOrderApiConsumer orderApi;
     private const string LocalStorageKey = "TTV_ShoppingCartState_Lessons";
 
-    public Effects(ILocalStorageService localStorageService, NavigationManager navigationManager, IOrderApiConsumer orderApiConsumer)
+    public Effects(ILocalStorageService localStorageService, NavigationManager navigationManager, IOrderApiConsumer orderApi)
     {
         this.localStorageService = localStorageService;
         this.navigationManager = navigationManager;
-        this.orderApiConsumer = orderApiConsumer;
+        this.orderApi = orderApi;
     }
 
     [EffectMethod(typeof(ClearCart))]
@@ -66,7 +66,7 @@ public class Effects
             {
                 LessonsIds = action.Lessons.Select(lesson => lesson.Id).ToArray(),
             };
-            var order = await orderApiConsumer.CreateNewOrderAsync(dto);
+            var order = await orderApi.CreateNewOrderAsync(dto);
             dispatcher.Dispatch(new ConfirmOrderResponse() { Order = order });
         }
         catch (Exception)

@@ -19,6 +19,7 @@ public class VideoController : ControllerBase
         this.userIdentityService = userIdentityService;
     }
 
+    // TODO: This should probably move to the lesson controller, and this controller can serve "always free" videos (eg shorts, "meet the teacher" etc) once that concept exists
     [HttpGet("{lessonId}")]
     public async Task<IResult> GetVideoStreamAsync([FromRoute] int lessonId, CancellationToken cancellationToken = default)
     {

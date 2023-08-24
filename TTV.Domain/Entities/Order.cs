@@ -20,29 +20,10 @@ public class Order : BaseEntity
 
     public Result<OrderDiscountVoucher?> ApplyDiscountVoucher(DiscountVoucher voucher)
     {
-        if (Status != OrderStatus.New)
+        var validationResult = ValidateVoucher(voucher);
+        if (!validationResult.IsSuccess)
         {
-            return new Result<OrderDiscountVoucher?>(null, false, $"Vouchers cannot be applied to orders with a status of '{Status.ToDisplayString()}'");
-        }
-
-        if (TotalAmount <= 0)
-        {
-            return new Result<OrderDiscountVoucher?>(null, false, "The is no outstanding amount on the order");
-        }
-
-        if (PlacedBy != voucher.ClaimedBy)
-        {
-            return new Result<OrderDiscountVoucher?>(null, false, "The voucher has been used by someone else");
-        }
-
-        if (voucher.ExpirationDate.HasValue && voucher.ExpirationDate.Value < DateOnly.FromDateTime(DateTime.Today))
-        {
-            return new Result<OrderDiscountVoucher?>(null, false, "The voucher has expired");
-        }
-
-        if (voucher.RemainingAmount <= 0)
-        {
-            return new Result<OrderDiscountVoucher?>(null, false, "The voucher has no balance remaining");
+            return new Result<OrderDiscountVoucher?>(null, false, validationResult.Message);
         }
 
         var amount = Math.Min(voucher.RemainingAmount, TotalAmount);
@@ -57,6 +38,31 @@ public class Order : BaseEntity
         voucher.OrdersAppliedTo.Add(apply);
 
         return new Result<OrderDiscountVoucher?>(apply, true, $"A discount of R{amount:0} has been applied. The voucher has a remaining balance of R{voucher.RemainingAmount:0}.");
+    }
+
+    private Result ValidateVoucher(DiscountVoucher voucher)
+    {
+        var validations = new Validation[]
+        {
+            new Validation(
+                failIf: () => Status != OrderStatus.New,
+                error: $"Vouchers cannot be applied to orders with a status of '{Status.ToDisplayString()}'"),
+            new Validation(
+                failIf: () => TotalAmount <= 0,
+                error: "There is no outstanding amount on the order"),
+            new Validation(
+                failIf: () => PlacedBy != voucher.ClaimedBy,
+                error: "The voucher has been used by someone else"),
+            new Validation(
+                failIf: () => voucher.ExpirationDate.HasValue && voucher.ExpirationDate.Value < DateOnly.FromDateTime(DateTime.Today),
+                error: "The voucher has expired"),
+            new Validation(
+                failIf: () => voucher.RemainingAmount <= 0,
+                error: "The voucher has no balance remaining")
+        };
+
+        var validationError = validations.FirstOrDefault(x => x.IsFailed)?.Error;
+        return new Result(string.IsNullOrEmpty(validationError), validationError);
     }
 
     public User PlacedBy { get; set; } = new();

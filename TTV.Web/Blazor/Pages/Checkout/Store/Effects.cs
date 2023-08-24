@@ -7,11 +7,13 @@ namespace TTV.Web.Blazor.Pages.Checkout.Store;
 
 public class Effects
 {
-    private readonly IOrderApiConsumer apiConsumer;
+    private readonly IOrderApiConsumer orderApi;
+    private readonly IDiscountVoucherApiConsumer discountVoucherApi;
 
-    public Effects(IOrderApiConsumer apiConsumer)
+    public Effects(IOrderApiConsumer orderApi, IDiscountVoucherApiConsumer discountVoucherApi)
     {
-        this.apiConsumer = apiConsumer;
+        this.orderApi = orderApi;
+        this.discountVoucherApi = discountVoucherApi;
     }
 
     [EffectMethod]
@@ -22,13 +24,27 @@ public class Effects
             var order = action.CurrentOrder;
             if (order == null || order.Id != action.OrderId)
             {
-                order = await apiConsumer.GetOrderAsync(action.OrderId);
+                order = await orderApi.GetOrderAsync(action.OrderId);
             }
             dispatcher.Dispatch(new GetOrderResponse() { Order = order });
         }
         catch (Exception)
         {
             dispatcher.Dispatch(new GetOrderError() { ErrorMessage = Consts.DefaultErrorMessage });
+        }
+    }
+
+    [EffectMethod]
+    public async Task HandleApplyVoucherRequest(ApplyVoucherRequest action, IDispatcher dispatcher)
+    {
+        try
+        {
+            var resultDto = await discountVoucherApi.ApplyDiscountVoucherAsync(action.VoucherCode, action.OrderId);
+            dispatcher.Dispatch(new ApplyVoucherResponse() { Result = resultDto });
+        }
+        catch (Exception)
+        {
+            dispatcher.Dispatch(new ApplyVoucherError() { ErrorMessage = Consts.DefaultErrorMessage });
         }
     }
 }

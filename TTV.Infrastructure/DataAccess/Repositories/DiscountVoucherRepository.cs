@@ -27,4 +27,14 @@ public class DiscountVoucherRepository : IDiscountVoucherRepository
             .OrderByDescending(voucher => voucher.IssuedAt)
             .ToListAsync(cancellationToken);
     }
+
+    public async Task<DiscountVoucher?> GetByCodeAsync(string voucherCode, CancellationToken cancellationToken = default)
+    {
+        return await dataContext.DiscountVouchers.TagWithCallSite()
+            .Include(voucher => voucher.ClaimedBy)
+            .Include(voucher => voucher.IssuedBy)
+            .Include(voucher => voucher.OrdersAppliedTo)
+            .OrderByDescending(voucher => voucher.IssuedAt)
+            .SingleOrDefaultAsync(voucher => voucher.Code == voucherCode, cancellationToken);
+    }
 }

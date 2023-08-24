@@ -3,6 +3,7 @@
 
 @using Fluxor;
 @using Microsoft.AspNetCore.Authorization;
+@using System.ComponentModel.DataAnnotations;
 @using TTV.Web.Blazor.Pages.Checkout.Store;
 @using TTV.Web.Blazor.Pages.Checkout.Store.Actions;
 @using TTV.Web.Shared
@@ -28,43 +29,83 @@
 @if (Order != null)
 {
     <div class="row justify-content-center">
-        <div class="card border-primary w-75">
+        <div class="card bg-secondary w-50">
+            <div class="card-header">Order #@OrderId Details</div>
             <div class="card-body">
-                @if (Order.Lessons.Length > 0)
-                {
-                    <LessonPriceList Lessons="Order.Lessons" Context="lesson">
-                        <LessonRow>
-                            <td>@lesson.Title</td>
-                            <td><PriceDisplay Price="lesson.CurrentPrice"></PriceDisplay></td>
-                            <td class="text-end"><button type="button" class="btn btn-outline-primary" @onclick="() => RemoveLesson(lesson)"><i class="bi bi-trash me-1"></i> Remove</button></td>
-                        </LessonRow>
-                        <Footer>
+                <table class="table">
+                    <thead>
                         <tr>
-                            <th class="text-end">Sub Total</th>
-                            <th>R@(Order.Lessons.Sum(lesson => lesson.CurrentPrice.EffectiveAmount).ToString("0"))</th>
-                            <th></th>
+                            <th>Item</th>
+                            <th>Amount</th>
                         </tr>
-                        </Footer>
-                    </LessonPriceList>
-                    <div class="form-group row">
-                        <label class="col-2 col-form-label">Discount Voucher</label>
-                        <div class="col-10 input-group">
-                            <div class="form-floating">
-                                <input type="text" id="apply-voucher" class="form-control" placeholder="Code" @bind="voucherCode" />
-                                <label for="apply-voucher">Code</label>
+                    </thead>
+                    <tbody>
+                        @for (int i = 0; i < Order.Lessons.Length; i++)
+                        {
+                            var lesson = Order.Lessons[i];
+                            <tr>
+                                <td>@lesson.Title</td>
+                                <td>R@(lesson.CurrentPrice.EffectiveAmount.ToString("0"))</td>
+                            </tr>
+                        }
+                        <tr class="table-secondary border-primary border-bottom border-1">
+                            <th class="text-end">Sub Total</th>
+                            <th>R@(Order.Lessons.Sum(l => l.CurrentPrice.EffectiveAmount).ToString("0"))</th>
+                        </tr>
+                    </tbody>
+                    @if (Order.AppliedDiscounts.Length > 0)
+                    {
+                        <tbody>
+                            @for (int i = 0; i < Order.AppliedDiscounts.Length; i++)
+                            {
+                                var discount = Order.AppliedDiscounts[i];
+                                <tr>
+                                    <td>Discount Voucher (@discount.Code)</td>
+                                    <td>-R@(discount.Amount.ToString("0"))</td>
+                                </tr>
+                            }
+                            <tr class="table-secondary border-primary border-bottom border-1">
+                                <th class="text-end">Sub Total</th>
+                                <th>-R@(Order.AppliedDiscounts.Sum(d => d.Amount).ToString("0"))</th>
+                            </tr>
+                        </tbody>
+                    }
+                    <tfoot>
+                        <tr class="table-secondary border-primary border-bottom border-2">
+                            <th class="text-end">Total</th>
+                            <th>R@(OrderTotal.ToString("0"))</th>
+                        </tr>
+                    </tfoot>
+                </table>
+                <EditForm EditContext="editContext" OnValidSubmit="ApplyVoucher">
+                    <fieldset disabled="@(OrderTotal == 0)">
+                        <DataAnnotationsValidator />
+                        <div class="form-group d-flex flex-row align-items-start">
+                            <label for="apply-voucher" class="col-form-label m-1">Discount Voucher</label>
+                            <div class="flex-fill m-1">
+                                <InputText @bind-Value="Model.Code" id="apply-voucher" class="form-control" placeholder="Code" />
+                                <ValidationMessage For="() => Model.Code" class="text-danger"></ValidationMessage>
                             </div>
-                            <button class="btn btn-outline-primary" type="button" @onclick="ApplyVoucher"><i class="bi bi-check me-1"></i> Apply</button>
+                            <div class="m-1">
+                                <button class="btn btn-outline-primary" type="submit"><i class="bi bi-check me-1"></i> Apply</button>
+                            </div>
                         </div>
-                    </div>
-                }
-                else
+                    </fieldset>
+                </EditForm>
+                @if (VoucherError != null)
                 {
-                    <div class="row">
-                        <div class="col text-center">
-                            Your shopping cart is empty.
-                            <a href="lessons" class="card-link">Find some lessons.</a>
+                    if (VoucherError.IsError)
+                    {
+                        <ErrorCard Error="VoucherError"></ErrorCard>
+                    } 
+                    else if (!string.IsNullOrEmpty(VoucherError.ErrorMessage))
+                    {
+                        <div class="card border-success">
+                            <div class="card-body">
+                                <p class="card-text">@VoucherError.ErrorMessage</p>
+                            </div>
                         </div>
-                    </div>
+                    }
                 }
             </div>
         </div>
@@ -72,7 +113,10 @@
 
     <div class="row justify-content-center m-3">
         <div class="col-3 text-center">
-            <button type="button" class="btn btn-primary btn-lg" disabled="@(Order.Lessons.Length == 0)" @onclick="OrderPayment"><i class="bi bi-credit-card me-2"></i> Payment</button>
+            <button type="button" class="btn btn-secondary btn-lg" @onclick="OrderPayment"><i class="bi bi-x me-2"></i> Cancel</button>
+        </div>
+        <div class="col-3 text-center">
+            <button type="button" class="btn btn-primary btn-lg" @onclick="OrderPayment"><i class="bi bi-credit-card me-2"></i> Payment</button>
         </div>
     </div>
 }
@@ -99,13 +143,19 @@ else if (!IsLoading && !Error.IsError)
     private OrderDto? Order => State.Value.Order;
     private bool IsLoading => State.Value.IsLoading;
     private ErrorState Error => State.Value.Error;
+    private ErrorState? VoucherError => State.Value.VoucherError;
 
-    private string voucherCode = string.Empty;
+    private decimal OrderTotal => Order == null ? 0 : Order.Lessons.Sum(lesson => lesson.CurrentPrice.EffectiveAmount) - Order.AppliedDiscounts.Sum(discount => discount.Amount);
+
+    private ApplyVoucherInfo Model = new();
+    private EditContext editContext = default!;
 
     protected override void OnInitialized()
     {
         base.OnInitialized();
-        voucherCode = State.Value.VoucherCode;
+        Model.Code = State.Value.VoucherCode;
+        editContext = new(Model);
+        editContext.SetFieldCssClassProvider(new BootstrapFieldCssClassProvider());
     }
 
     protected override void OnParametersSet()
@@ -114,18 +164,19 @@ else if (!IsLoading && !Error.IsError)
         Dispatcher.Dispatch(new GetOrderRequest() { OrderId = OrderId, CurrentOrder = Order });
     }
 
-    private void RemoveLesson(LessonDto lesson)
-    {
-        // TODO: Remove from order
-    }
-
     private void ApplyVoucher()
     {
-        
+        Dispatcher.Dispatch(new ApplyVoucherRequest() { OrderId = OrderId, VoucherCode = Model.Code });
     }
 
     private void OrderPayment()
     {
         // TODO: Order payment
+    }
+
+    private class ApplyVoucherInfo
+    {
+        [Required(ErrorMessage = "Code is required")]
+        public string Code { get; set; } = string.Empty;
     }
 }

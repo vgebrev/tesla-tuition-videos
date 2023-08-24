@@ -47,6 +47,11 @@ public class UnitOfWork : IUnitOfWork
         GC.SuppressFinalize(this);
     }
 
+    public async Task StartAsync(CancellationToken cancellationToken = default)
+    {
+        transaction = await this.dataContext.Database.BeginTransactionAsync(cancellationToken);
+    }
+
     public async Task EndAsync(CancellationToken cancellationToken = default)
     {
         try
@@ -57,14 +62,14 @@ public class UnitOfWork : IUnitOfWork
         }
         catch
         {
-            if (transaction is not null)
-                await transaction.RollbackAsync(cancellationToken);
+            await CancelAsync(cancellationToken);
             throw;
         }
     }
 
-    public async Task StartAsync(CancellationToken cancellationToken = default)
+    public async Task CancelAsync(CancellationToken cancellationToken = default)
     {
-        transaction = await this.dataContext.Database.BeginTransactionAsync(cancellationToken);
+        if (transaction is not null)
+            await transaction.RollbackAsync(cancellationToken);
     }
 }

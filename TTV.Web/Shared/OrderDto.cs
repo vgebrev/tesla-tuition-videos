@@ -9,4 +9,5 @@ public record OrderDto
     public LookupDto Status { get; init; } = new();
     public string? StatusReason { get; init; }
     public decimal TotalAmount { get; init; }
+    public AppliedDiscountDto[] AppliedDiscounts { get; init; } = Array.Empty<AppliedDiscountDto>();
 }

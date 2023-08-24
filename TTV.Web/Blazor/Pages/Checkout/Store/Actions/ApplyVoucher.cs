@@ -4,12 +4,13 @@ namespace TTV.Web.Blazor.Pages.Checkout.Store.Actions;
 
 public record ApplyVoucherRequest
 {
+    public int OrderId { get; init; }
     public string VoucherCode { get; init; } = string.Empty;
 }
 
 public record ApplyVoucherResponse
 {
-    public OrderDto? Order { get; init; }
+    public ResultDto<AppliedDiscountDto?> Result { get; init; } = new(null, false, null);
 }
 
 public record ApplyVoucherError

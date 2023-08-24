@@ -1,4 +1,6 @@
-﻿using TTV.Domain.DomainServices;
+﻿using TTV.Application.Exceptions;
+using TTV.Domain;
+using TTV.Domain.DomainServices;
 using TTV.Domain.Entities;
 
 namespace TTV.Application.DataServices;
@@ -40,5 +42,46 @@ public class DiscountVoucherDataService : IDiscountVoucherDataService
     {
         using var unitOfWork = await unitOfWorkFactory.CreateAsync(cancellationToken);
         return await unitOfWork.DiscountVoucherRepository.GetListAsync(cancellationToken);
+    }
+
+    public async Task<Result<OrderDiscountVoucher?>> ApplyDiscountVoucherAsync(string voucherCode, int orderId, CancellationToken cancellationToken = default)
+    {
+        using var unitOfWork = await unitOfWorkFactory.CreateAsync(cancellationToken);
+        await unitOfWork.StartAsync(cancellationToken);
+        try
+        {
+            var userId = userIdentity.UserId ?? throw new ApplyVoucherException("User is not authenticated");
+
+            var user = await unitOfWork.UserRepository.GetByIdAsync(userId, cancellationToken) ?? throw new ApplyVoucherException("User not found");
+            var order = await unitOfWork.OrderRepository.GetByIdAsync(orderId, userId, cancellationToken) ?? throw new ApplyVoucherException("Order not found");
+            var voucher = await unitOfWork.DiscountVoucherRepository.GetByCodeAsync(voucherCode, cancellationToken) ?? throw new ApplyVoucherException("Invalid voucher code");
+
+            var claimResult = voucher.ClaimBy(user);
+            if (!claimResult.IsSuccess)
+            {
+                return new Result<OrderDiscountVoucher?>(null, claimResult.IsSuccess, claimResult.Message);
+            }
+            var applyResult = order.ApplyDiscountVoucher(voucher);
+            if (applyResult.IsSuccess)
+            {
+                await unitOfWork.EndAsync(cancellationToken);
+            }
+            else
+            {
+                await unitOfWork.CancelAsync(cancellationToken);
+            }
+
+            return applyResult;
+        }
+        catch (ApplyVoucherException ex)
+        {
+            await unitOfWork.CancelAsync(cancellationToken);
+            return new Result<OrderDiscountVoucher?>(null, false, ex.Message);
+        }
+        catch (Exception)
+        {
+            await unitOfWork.CancelAsync(cancellationToken);
+            throw;
+        }
     }
 }

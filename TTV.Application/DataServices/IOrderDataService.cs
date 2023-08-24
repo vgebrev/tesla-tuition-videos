@@ -1,4 +1,5 @@
-﻿using TTV.Domain.Entities;
+﻿using TTV.Domain;
+using TTV.Domain.Entities;
 
 namespace TTV.Application.DataServices;
 

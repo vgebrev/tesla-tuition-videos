@@ -15,6 +15,21 @@ internal static class OrderMappings
             Status = order.Status.ToLookupDto(),
             StatusReason = order.StatusReason,
             TotalAmount = order.TotalAmount,
+            AppliedDiscounts = order.AppliedVouchers.Select(ToAppliedDiscountDto).ToArray()!
         };
 
+    public static AppliedDiscountDto? ToAppliedDiscountDto(this OrderDiscountVoucher? orderDiscountVoucher)
+    {
+        if (orderDiscountVoucher == null)
+        {
+            return null;
+        }
+
+        return new()
+        {
+            Amount = orderDiscountVoucher.Amount,
+            Balance = orderDiscountVoucher.Voucher.RemainingAmount,
+            Code = orderDiscountVoucher.Voucher.Code
+        };
+    }
 }

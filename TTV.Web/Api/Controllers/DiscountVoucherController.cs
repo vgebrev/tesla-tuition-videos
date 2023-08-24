@@ -36,4 +36,18 @@ public class DiscountVoucherController : ControllerBase
         var vouchers = await dataService.GetListAsync(cancellationToken);
         return vouchers.ToEnumerableDiscountVoucherDto();
     }
+
+    [HttpPut("{voucherCode}/order/{orderId}")]
+    [Authorize]
+    public async Task<ActionResult<ResultDto<AppliedDiscountDto?>>> ApplyDiscountVoucher([FromRoute] string voucherCode, [FromRoute] int orderId, CancellationToken cancellationToken = default)
+    {
+        logger.LogInformation("{MethodName}({VoucherCode}, {OrderId})", nameof(ApplyDiscountVoucher), voucherCode, orderId);
+        var result = await dataService.ApplyDiscountVoucherAsync(voucherCode, orderId, cancellationToken);
+        var response = new ResultDto<AppliedDiscountDto?>(result.Value.ToAppliedDiscountDto(), result.IsSuccess, result.Message);
+        if (!result.IsSuccess)
+        {
+            return UnprocessableEntity(response);
+        }
+        return Ok(response);
+    }
 }

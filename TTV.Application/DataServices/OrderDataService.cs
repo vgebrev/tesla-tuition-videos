@@ -1,5 +1,4 @@
-﻿using Microsoft.Extensions.Logging;
-using TTV.Domain;
+﻿using TTV.Application.Exceptions;
 using TTV.Domain.DomainServices;
 using TTV.Domain.Entities;
 
@@ -7,53 +6,49 @@ namespace TTV.Application.DataServices;
 
 public class OrderDataService : IOrderDataService
 {
-    private readonly ILogger<OrderDataService> logger;
     private readonly IUnitOfWorkFactory unitOfWorkFactory;
-    private readonly IUserIdentityService userIdentityService;
+    private readonly IUserIdentityService userIdentity;
 
-    public OrderDataService(ILogger<OrderDataService> logger, IUnitOfWorkFactory unitOfWorkFactory, IUserIdentityService userIdentityService)
+    public OrderDataService(IUnitOfWorkFactory unitOfWorkFactory, IUserIdentityService userIdentity)
     {
-        this.logger = logger;
         this.unitOfWorkFactory = unitOfWorkFactory;
-        this.userIdentityService = userIdentityService;
+        this.userIdentity = userIdentity;
     }
 
     public async Task<Order> CreateNewOrderAsync(int[] lessonsIds, CancellationToken cancellationToken = default)
     {
-        if (userIdentityService.UserId == null)
-        {
-            throw new InvalidOperationException("User is not authenticated");
-        }
-
+        var userId = userIdentity.UserId ?? throw new UnauthenticatedException();
         using var unitOfWork = await unitOfWorkFactory.CreateAsync(cancellationToken);
         await unitOfWork.StartAsync(cancellationToken);
-
-        var user = await unitOfWork.UserRepository.GetByIdAsync(userIdentityService.UserId.Value, cancellationToken) ?? throw new InvalidOperationException("User not found");
-        var unownedLessons = await unitOfWork.LessonRepository.GetLessonsNotOwnedByUserAsync(user.Id, lessonsIds, cancellationToken);
-
-        var order = new Order()
+        try
         {
-            PlacedBy = user,
-            PlacedOn = DateTime.Now,
-            Status = OrderStatus.New
-        };
-        order.AddLessons(unownedLessons);
+            var user = await unitOfWork.UserRepository.GetByIdAsync(userId, cancellationToken) ?? throw new UserDoesntExistException(userId);
+            var unownedLessons = await unitOfWork.LessonRepository.GetLessonsNotOwnedByUserAsync(user.Id, lessonsIds, cancellationToken);
 
-        unitOfWork.OrderRepository.Add(order);
-        await unitOfWork.EndAsync(cancellationToken);
+            var order = new Order()
+            {
+                PlacedBy = user,
+                PlacedOn = DateTime.Now,
+                Status = OrderStatus.New
+            };
+            order.AddLessons(unownedLessons);
 
-        return order;
+            unitOfWork.OrderRepository.Add(order);
+            await unitOfWork.EndAsync(cancellationToken);
+            return order;
+        }
+        catch (Exception)
+        {
+            await unitOfWork.CancelAsync(cancellationToken);
+            throw;
+        }
     }
 
     public async Task<Order?> GetOrderAsync(int orderId, CancellationToken cancellationToken = default)
     {
-        if (userIdentityService.UserId == null)
-        {
-            throw new InvalidOperationException("User is not authenticated");
-        }
-
+        var userId = userIdentity.UserId ?? throw new UnauthenticatedException();
         using var unitOfWork = await unitOfWorkFactory.CreateAsync(cancellationToken);
-        var order = await unitOfWork.OrderRepository.GetByIdAsync(orderId, userIdentityService.UserId.Value, cancellationToken);
+        var order = await unitOfWork.OrderRepository.GetByIdAsync(orderId, userId, cancellationToken);
         return order;
     }
 }

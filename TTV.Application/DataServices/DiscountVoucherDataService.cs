@@ -20,10 +20,10 @@ public class DiscountVoucherDataService : IDiscountVoucherDataService
 
     public async Task<DiscountVoucher> IssueVoucherAsync(decimal amount, DateOnly? expirationDate = null, string? note = null, CancellationToken cancellationToken = default)
     {
-        var issuerUserId = userIdentity.UserId ?? throw new InvalidOperationException("Issuing user id is not set");
+        var issuerUserId = userIdentity.UserId ?? throw new UnauthenticatedException();
         using var unitOfWork = await unitOfWorkFactory.CreateAsync(cancellationToken);
         await unitOfWork.StartAsync(cancellationToken);
-        var issuedBy = await unitOfWork.UserRepository.GetByIdAsync(issuerUserId, cancellationToken) ?? throw new InvalidOperationException("Issuing user doesn't exist");
+        var issuedBy = await unitOfWork.UserRepository.GetByIdAsync(issuerUserId, cancellationToken) ?? throw new UserDoesntExistException(issuerUserId);
         var voucher = new DiscountVoucher
         {
             Amount = amount,
@@ -50,9 +50,9 @@ public class DiscountVoucherDataService : IDiscountVoucherDataService
         await unitOfWork.StartAsync(cancellationToken);
         try
         {
-            var userId = userIdentity.UserId ?? throw new ApplyVoucherException("User is not authenticated");
+            var userId = userIdentity.UserId ?? throw new UnauthenticatedException();
 
-            var user = await unitOfWork.UserRepository.GetByIdAsync(userId, cancellationToken) ?? throw new ApplyVoucherException("User not found");
+            var user = await unitOfWork.UserRepository.GetByIdAsync(userId, cancellationToken) ?? throw new UserDoesntExistException(userId);
             var order = await unitOfWork.OrderRepository.GetByIdAsync(orderId, userId, cancellationToken) ?? throw new ApplyVoucherException("Order not found");
             var voucher = await unitOfWork.DiscountVoucherRepository.GetByCodeAsync(voucherCode, cancellationToken) ?? throw new ApplyVoucherException("Invalid voucher code");
 
@@ -73,7 +73,9 @@ public class DiscountVoucherDataService : IDiscountVoucherDataService
 
             return applyResult;
         }
-        catch (ApplyVoucherException ex)
+        catch (ApplicationException ex) when (ex is ApplyVoucherException
+                                              || ex is UnauthenticatedException
+                                              || ex is UserDoesntExistException)
         {
             await unitOfWork.CancelAsync(cancellationToken);
             return new Result<OrderDiscountVoucher?>(null, false, ex.Message);

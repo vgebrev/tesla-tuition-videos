@@ -32,7 +32,8 @@ public class Order : BaseEntity
         {
             Order = this,
             Voucher = voucher,
-            Amount = amount
+            Amount = amount,
+            UsedAt = DateTime.Now
         };
         AppliedVouchers.Add(apply);
         voucher.OrdersAppliedTo.Add(apply);

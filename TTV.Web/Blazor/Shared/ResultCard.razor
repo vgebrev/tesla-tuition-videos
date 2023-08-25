@@ -1,0 +1,28 @@
+﻿@using TTV.Web.Blazor.Shared.Store
+@using TTV.Web.Shared;
+
+@if (Result != null)
+{
+    <div class="card @borderCssClass">
+        <div class="card-body">
+            <p class="card-text">@resultMessage
+                @if (ChildContent != null)
+                {
+                    @ChildContent
+                }
+            </p>
+        </div>
+    </div>
+}
+
+@code {
+    [Parameter]
+    public ResultDto? Result { get; set; }
+
+    [Parameter]
+    public RenderFragment? ChildContent { get; set; }
+
+    private string borderCssClass => Result?.IsSuccess ?? false ? "border-success" : "border-danger";
+
+    private string resultMessage => Result?.Message ?? (Result?.IsSuccess ?? false ? "Successful" : "Unsuccessful");
+}

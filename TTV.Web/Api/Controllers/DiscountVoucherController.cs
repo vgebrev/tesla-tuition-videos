@@ -44,7 +44,7 @@ public class DiscountVoucherController : ControllerBase
         logger.LogInformation("{MethodName}({VoucherCode}, {OrderId})", nameof(ApplyDiscountVoucher), voucherCode, orderId);
         var result = await discountVoucherManager.ApplyDiscountVoucherAsync(voucherCode, orderId, cancellationToken);
         var response = new ResultDto<AppliedDiscountDto?>(result.Value.ToAppliedDiscountDto(), result.IsSuccess, result.Message);
-        if (!result.IsSuccess)
+        if (!response.IsSuccess)
         {
             return UnprocessableEntity(response);
         }

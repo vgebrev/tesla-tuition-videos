@@ -60,7 +60,7 @@
                             {
                                 var discount = Order.AppliedDiscounts[i];
                                 <tr>
-                                    <td>Discount Voucher (@discount.Code)</td>
+                                    <td>Discount Voucher (@discount.VoucherCode)</td>
                                     <td>-R@(discount.Amount.ToString("0"))</td>
                                 </tr>
                             }
@@ -92,33 +92,42 @@
                         </div>
                     </fieldset>
                 </EditForm>
-                @if (VoucherError != null)
-                {
-                    if (VoucherError.IsError)
-                    {
-                        <ErrorCard Error="VoucherError"></ErrorCard>
-                    } 
-                    else if (!string.IsNullOrEmpty(VoucherError.ErrorMessage))
-                    {
-                        <div class="card border-success">
-                            <div class="card-body">
-                                <p class="card-text">@VoucherError.ErrorMessage</p>
-                            </div>
-                        </div>
-                    }
-                }
+                <ResultCard Result="ApplyVoucherResult"></ResultCard>
             </div>
         </div>
     </div>
 
-    <div class="row justify-content-center m-3">
-        <div class="col-3 text-center">
-            <button type="button" class="btn btn-secondary btn-lg" @onclick="OrderPayment"><i class="bi bi-x me-2"></i> Cancel</button>
+    @if (Order.CanCheckout)
+    {
+        <div class="row justify-content-center m-3">
+            <div class="col-3 text-center">
+                <button type="button" class="btn btn-secondary btn-lg" @onclick="CancelOrder"><i class="bi bi-x me-2"></i> Cancel</button>
+            </div>
+            @if (OrderTotal <= 0)
+            {
+                <div class="col-3 text-center">
+                    <button type="button" class="btn btn-primary btn-lg" @onclick="CompleteOrder"><i class="bi bi-hand-thumbs-up me-2"></i> Complete</button>
+                    <ResultCard Result="CompleteOrderResult"></ResultCard>
+                </div>
+            }
+            else
+            {
+                <div class="col-3 text-center">
+                    <button type="button" class="btn btn-primary btn-lg" @onclick="OrderPayment"><i class="bi bi-credit-card me-2"></i> Payment</button>
+                </div>
+            }
         </div>
-        <div class="col-3 text-center">
-            <button type="button" class="btn btn-primary btn-lg" @onclick="OrderPayment"><i class="bi bi-credit-card me-2"></i> Payment</button>
+    }
+    else
+    {
+        <div class="row justify-content-center">
+            <div class="card border-warning m-3">
+                <div class="card-body">
+                    No further action is possible on orders with a status of "@(Order.Status.Name)"
+                </div>
+            </div>
         </div>
-    </div>
+    }
 }
 else if (!IsLoading && !Error.IsError)
 {
@@ -143,7 +152,8 @@ else if (!IsLoading && !Error.IsError)
     private OrderDto? Order => State.Value.Order;
     private bool IsLoading => State.Value.IsLoading;
     private ErrorState Error => State.Value.Error;
-    private ErrorState? VoucherError => State.Value.VoucherError;
+    private ResultDto<AppliedDiscountDto?>? ApplyVoucherResult => State.Value.ApplyVoucherResult;
+    private ResultDto<OrderDto>? CompleteOrderResult => State.Value.CompleteOrderResult;
 
     private decimal OrderTotal => Order == null ? 0 : Order.Lessons.Sum(lesson => lesson.CurrentPrice.EffectiveAmount) - Order.AppliedDiscounts.Sum(discount => discount.Amount);
 
@@ -167,6 +177,16 @@ else if (!IsLoading && !Error.IsError)
     private void ApplyVoucher()
     {
         Dispatcher.Dispatch(new ApplyVoucherRequest() { OrderId = OrderId, VoucherCode = Model.Code });
+    }
+
+    private void CancelOrder()
+    {
+        // TODO: Order payment
+    }
+
+    private void CompleteOrder()
+    {
+        Dispatcher.Dispatch(new CompleteOrderRequest() { OrderId = OrderId });
     }
 
     private void OrderPayment()

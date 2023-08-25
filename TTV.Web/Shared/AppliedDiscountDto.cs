@@ -3,6 +3,6 @@
 public record AppliedDiscountDto
 {
     public decimal Amount { get; init; }
-    public decimal Balance { get; init; }
-    public string Code { get; init; } = string.Empty;
+    public decimal VoucherBalance { get; init; }
+    public string VoucherCode { get; init; } = string.Empty;
 }

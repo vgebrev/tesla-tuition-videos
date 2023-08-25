@@ -46,7 +46,7 @@ namespace TTV.Web.Blazor.Pages.Checkout.Store
             state with
             {
                 IsLoading = true,
-                VoucherError = null
+                ApplyVoucherResult = null
             };
 
         [ReducerMethod]
@@ -71,7 +71,7 @@ namespace TTV.Web.Blazor.Pages.Checkout.Store
             {
                 Order = order,
                 IsLoading = false,
-                VoucherError = new() { IsError = !action.Result.IsSuccess, ErrorMessage = action.Result.Message ?? string.Empty },
+                ApplyVoucherResult = action.Result,
                 Error = new()
             };
         }
@@ -80,6 +80,33 @@ namespace TTV.Web.Blazor.Pages.Checkout.Store
         public static CheckoutState ReduceApplyVoucherError(CheckoutState state, ApplyVoucherError action) =>
             state with
             {
+                ApplyVoucherResult = null,
+                IsLoading = false,
+                Error = new() { IsError = true, ErrorMessage = action.ErrorMessage }
+            };
+
+        [ReducerMethod(typeof(CompleteOrderRequest))]
+        public static CheckoutState ReduceCompleteOrderRequest(CheckoutState state) =>
+            state with
+            {
+                IsLoading = true,
+            };
+
+        [ReducerMethod]
+        public static CheckoutState ReduceCompleteOrderResponse(CheckoutState state, CompleteOrderResponse action) =>
+            state with
+            {
+                CompleteOrderResult = action.Result,
+                Order = action.Result.Value,
+                IsLoading = false,
+                Error = new()
+            };
+
+        [ReducerMethod]
+        public static CheckoutState ReduceCompleteOrderError(CheckoutState state, CompleteOrderError action) =>
+            state with
+            {
+                CompleteOrderResult = null,
                 IsLoading = false,
                 Error = new() { IsError = true, ErrorMessage = action.ErrorMessage }
             };

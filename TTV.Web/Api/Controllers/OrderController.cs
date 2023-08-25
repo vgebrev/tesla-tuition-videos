@@ -40,4 +40,18 @@ public class OrderController : ControllerBase
         }
         return Ok(order.ToOrderDto());
     }
+
+    [HttpPut("{orderId}/complete")]
+    [Authorize]
+    public async Task<ActionResult<ResultDto<OrderDto>>> CompleteOrderAsync([FromRoute] int orderId, CancellationToken cancellationToken = default)
+    {
+        logger.LogInformation("{MethodName}({OrderId})", nameof(CompleteOrderAsync), orderId);
+        var result = await orderManager.CompleteOrderAsync(orderId, cancellationToken);
+        var response = new ResultDto<OrderDto>(result.Value.ToOrderDto(), result.IsSuccess, result.Message);
+        if (!response.IsSuccess)
+        {
+            return UnprocessableEntity(response);
+        }
+        return Ok(response);
+    }
 }

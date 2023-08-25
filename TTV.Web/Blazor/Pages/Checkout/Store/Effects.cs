@@ -47,4 +47,18 @@ public class Effects
             dispatcher.Dispatch(new ApplyVoucherError() { ErrorMessage = Consts.DefaultErrorMessage });
         }
     }
+
+    [EffectMethod]
+    public async Task HandleCompleteOrderRequest(CompleteOrderRequest action, IDispatcher dispatcher)
+    {
+        try
+        {
+            var resultDto = await orderApi.CompleteOrderAsync(action.OrderId);
+            dispatcher.Dispatch(new CompleteOrderResponse() { Result = resultDto });
+        }
+        catch (Exception)
+        {
+            dispatcher.Dispatch(new CompleteOrderError() { ErrorMessage = Consts.DefaultErrorMessage });
+        }
+    }
 }

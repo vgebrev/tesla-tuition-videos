@@ -1,4 +1,5 @@
 ﻿using TTV.Application.Exceptions;
+using TTV.Domain;
 using TTV.Domain.DomainServices;
 using TTV.Domain.Entities;
 
@@ -22,7 +23,7 @@ public class OrderManager : IOrderManager
         await unitOfWork.StartAsync(cancellationToken);
         try
         {
-            var user = await unitOfWork.UserRepository.GetByIdAsync(userId, cancellationToken) ?? throw new UserDoesntExistException(userId);
+            var user = await unitOfWork.UserRepository.GetByIdAsync(userId, cancellationToken) ?? throw new UserNotFoundException(userId);
             var unownedLessons = await unitOfWork.LessonRepository.GetLessonsNotOwnedByUserAsync(user.Id, lessonsIds, cancellationToken);
 
             var order = new Order()
@@ -50,5 +51,24 @@ public class OrderManager : IOrderManager
         using var unitOfWork = await unitOfWorkFactory.CreateAsync(cancellationToken);
         var order = await unitOfWork.OrderRepository.GetByIdAsync(orderId, userId, cancellationToken);
         return order;
+    }
+
+    public async Task<Result<Order>> CompleteOrderAsync(int orderId, CancellationToken cancellationToken = default)
+    {
+        var userId = userIdentity.UserId ?? throw new UnauthenticatedException();
+        using var unitOfWork = await unitOfWorkFactory.CreateAsync(cancellationToken);
+        try
+        {
+            await unitOfWork.StartAsync(cancellationToken);
+            var order = await unitOfWork.OrderRepository.GetByIdAsync(orderId, userId, cancellationToken) ?? throw new OrderNotFoundException(orderId);
+            var result = order.CompleteOrder();
+            await unitOfWork.EndAsync(cancellationToken);
+            return result;
+        }
+        catch (Exception)
+        {
+            await unitOfWork.CancelAsync(cancellationToken);
+            throw;
+        }
     }
 }

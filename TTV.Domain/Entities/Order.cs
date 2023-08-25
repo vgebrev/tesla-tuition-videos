@@ -59,7 +59,7 @@ public class Order : BaseEntity
         return new Result<OrderDiscountVoucher?>(apply, true, $"A discount of R{amount:0} has been applied. The voucher has a remaining balance of R{voucher.RemainingAmount:0}.");
     }
 
-    public Result CompleteOrder()
+    public Result<Order> CompleteOrder()
     {
         var validations = new Validation[]
         {
@@ -77,7 +77,7 @@ public class Order : BaseEntity
         var validationResult = validations.GetResult();
         if (!validationResult.IsSuccess)
         {
-            return validationResult;
+            return new Result<Order>(this, validationResult.IsSuccess, validationResult.Message);
         }
         
         foreach (var lesson in Lessons)
@@ -86,7 +86,7 @@ public class Order : BaseEntity
             lesson.OwnedBy.Add(PlacedBy);
         }
         Status = OrderStatus.Completed;
-        return new Result(true);
+        return new Result<Order>(this, true, null);
     }
 
     public User PlacedBy { get; set; } = new();
@@ -97,4 +97,5 @@ public class Order : BaseEntity
     public virtual ICollection<OrderDiscountVoucher> AppliedVouchers { get; set; }
 
     public decimal TotalAmount => Lessons.Sum(lesson => lesson.PriceAt(PlacedOn).EffectiveAmount) - AppliedVouchers.Sum(x => x.Amount);
+    public bool CanCheckout => Status == OrderStatus.New || Status == OrderStatus.Processing;
 }

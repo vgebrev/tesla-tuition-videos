@@ -3,15 +3,15 @@ using TTV.Domain;
 using TTV.Domain.DomainServices;
 using TTV.Domain.Entities;
 
-namespace TTV.Application.DataServices;
+namespace TTV.Application.Managers;
 
-public class DiscountVoucherDataService : IDiscountVoucherDataService
+public class DiscountVoucherManager : IDiscountVoucherManager
 {
     private readonly IDiscountVoucherCodeGenerator codeGenerator;
     private readonly IUnitOfWorkFactory unitOfWorkFactory;
     private readonly IUserIdentityService userIdentity;
 
-    public DiscountVoucherDataService(IDiscountVoucherCodeGenerator codeGenerator, IUnitOfWorkFactory unitOfWorkFactory, IUserIdentityService userIdentity)
+    public DiscountVoucherManager(IDiscountVoucherCodeGenerator codeGenerator, IUnitOfWorkFactory unitOfWorkFactory, IUserIdentityService userIdentity)
     {
         this.codeGenerator = codeGenerator;
         this.unitOfWorkFactory = unitOfWorkFactory;

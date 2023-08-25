@@ -1,13 +1,13 @@
 ﻿using TTV.Domain.DomainServices;
 using TTV.Domain.Entities;
 
-namespace TTV.Application.DataServices;
+namespace TTV.Application.Managers;
 
-public class TagDataService : ITagDataService
+public class TagManager : ITagManager
 {
     private readonly IUnitOfWorkFactory unitOfWorkFactory;
 
-    public TagDataService(IUnitOfWorkFactory unitOfWorkFactory)
+    public TagManager(IUnitOfWorkFactory unitOfWorkFactory)
     {
         this.unitOfWorkFactory = unitOfWorkFactory;
     }

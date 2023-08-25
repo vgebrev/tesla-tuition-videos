@@ -1,8 +1,8 @@
 ﻿using TTV.Domain.Entities;
 
-namespace TTV.Application.DataServices
+namespace TTV.Application.Managers
 {
-    public interface IVideoDataService
+    public interface IVideoManager
     {
         Task<Video?> GetLessonVideoForUserAsync(int lessonId, string? userEmail, CancellationToken cancellationToken = default);
     }

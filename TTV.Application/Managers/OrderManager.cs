@@ -2,14 +2,14 @@
 using TTV.Domain.DomainServices;
 using TTV.Domain.Entities;
 
-namespace TTV.Application.DataServices;
+namespace TTV.Application.Managers;
 
-public class OrderDataService : IOrderDataService
+public class OrderManager : IOrderManager
 {
     private readonly IUnitOfWorkFactory unitOfWorkFactory;
     private readonly IUserIdentityService userIdentity;
 
-    public OrderDataService(IUnitOfWorkFactory unitOfWorkFactory, IUserIdentityService userIdentity)
+    public OrderManager(IUnitOfWorkFactory unitOfWorkFactory, IUserIdentityService userIdentity)
     {
         this.unitOfWorkFactory = unitOfWorkFactory;
         this.userIdentity = userIdentity;

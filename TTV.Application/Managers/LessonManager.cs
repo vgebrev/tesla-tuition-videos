@@ -2,14 +2,14 @@
 using TTV.Domain.DomainServices;
 using TTV.Domain.Entities;
 
-namespace TTV.Application.DataServices;
+namespace TTV.Application.Managers;
 
-public class LessonDataService : ILessonDataService
+public class LessonManager : ILessonManager
 {
     private readonly IUnitOfWorkFactory unitOfWorkFactory;
     private readonly IUserIdentityService userIdentity;
 
-    public LessonDataService(IUnitOfWorkFactory unitOfWorkFactory, IUserIdentityService userIdentity)
+    public LessonManager(IUnitOfWorkFactory unitOfWorkFactory, IUserIdentityService userIdentity)
     {
         this.unitOfWorkFactory = unitOfWorkFactory;
         this.userIdentity = userIdentity;

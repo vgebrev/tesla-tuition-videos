@@ -1,9 +1,9 @@
 ﻿using TTV.Domain;
 using TTV.Domain.Entities;
 
-namespace TTV.Application.DataServices;
+namespace TTV.Application.Managers;
 
-public interface IDiscountVoucherDataService
+public interface IDiscountVoucherManager
 {
     Task<DiscountVoucher> IssueVoucherAsync(decimal amount, DateOnly? expirationDate = null, string? note = null, CancellationToken cancellationToken = default);
     Task<IEnumerable<DiscountVoucher>> GetListAsync(CancellationToken cancellationToken = default);

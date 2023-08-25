@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using TTV.Application.DataServices;
+using TTV.Application.Managers;
 using TTV.Web.Api.MappingExtensions;
 using TTV.Web.Shared;
 
@@ -11,19 +11,19 @@ namespace TTV.Web.Api.Controllers;
 public class LessonController : ControllerBase
 {
     private readonly ILogger<LessonController> logger;
-    private readonly ILessonDataService dataService;
+    private readonly ILessonManager lessonManager;
 
-    public LessonController(ILogger<LessonController> logger, ILessonDataService dataService)
+    public LessonController(ILogger<LessonController> logger, ILessonManager lessonManager)
     {
         this.logger = logger;
-        this.dataService = dataService;
+        this.lessonManager = lessonManager;
     }
 
     [HttpGet("{lessonId}")]
     public async Task<ActionResult<LessonDto>> GetLessonAsync([FromRoute]int lessonId, CancellationToken cancellationToken = default)
     {
         logger.LogInformation("{Method}({LessonId})", nameof(GetLessonAsync), lessonId);
-        var lesson = await dataService.GetLessonAsync(lessonId, cancellationToken);
+        var lesson = await lessonManager.GetLessonAsync(lessonId, cancellationToken);
         if (lesson == null)
         {
             return NotFound();
@@ -35,7 +35,7 @@ public class LessonController : ControllerBase
     public async Task<IEnumerable<LessonDto>> SearchLessonsAsync([FromBody] LessonSearchDto searchDto, CancellationToken cancellationToken = default)
     {
         logger.LogInformation("{Method}({SearchDto})", nameof(SearchLessonsAsync), searchDto);
-        var lessons = await dataService.SearchLessonsAsync(searchDto.SearchText, searchDto.SearchTagsIds, cancellationToken);
+        var lessons = await lessonManager.SearchLessonsAsync(searchDto.SearchText, searchDto.SearchTagsIds, cancellationToken);
         return lessons.ToLessonDtoEnumerable();
     }
 
@@ -44,7 +44,7 @@ public class LessonController : ControllerBase
     public async Task<IEnumerable<LessonDto>> GetLessonsOwnedByUser(CancellationToken cancellationToken = default)
     {
         logger.LogInformation("{Method}", nameof(GetLessonsOwnedByUser));
-        var lessons = await dataService.GetLessonsOwnedByUserAsync(cancellationToken);
+        var lessons = await lessonManager.GetLessonsOwnedByUserAsync(cancellationToken);
         return lessons.ToLessonDtoEnumerable();
     }
 }

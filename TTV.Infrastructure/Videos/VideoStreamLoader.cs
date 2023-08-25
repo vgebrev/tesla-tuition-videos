@@ -1,7 +1,7 @@
 ﻿using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using TTV.Application;
-using TTV.Application.DataServices;
+using TTV.Application.Managers;
 
 namespace TTV.Infrastructure.Videos;
 
@@ -9,14 +9,14 @@ public class VideoStreamLoader : IVideoStreamLoader
 {
     private readonly ILogger<VideoStreamLoader> logger;
     private readonly IVideoPathCache videoPathCache;
-    private readonly IVideoDataService videoDataService;
+    private readonly IVideoManager videoManager;
     private readonly SystemSettings settings;
 
-    public VideoStreamLoader(ILogger<VideoStreamLoader> logger, IVideoPathCache videoPathCache, IVideoDataService videoDataService, IOptionsSnapshot<SystemSettings> config)
+    public VideoStreamLoader(ILogger<VideoStreamLoader> logger, IVideoPathCache videoPathCache, IVideoManager videoManager, IOptionsSnapshot<SystemSettings> config)
     {
         this.logger = logger;
         this.videoPathCache = videoPathCache;
-        this.videoDataService = videoDataService;
+        this.videoManager = videoManager;
         settings = config.Value;
     }
 
@@ -44,7 +44,7 @@ public class VideoStreamLoader : IVideoStreamLoader
         else
         {
             logger.LogDebug("Path for lesson {LessonId} and user {UserEmail} not found in cache. Getting from database", lessonId, userEmail);
-            var video = await videoDataService.GetLessonVideoForUserAsync(lessonId, userEmail, cancellationToken);
+            var video = await videoManager.GetLessonVideoForUserAsync(lessonId, userEmail, cancellationToken);
             if (video == null)
             {
                 return null;

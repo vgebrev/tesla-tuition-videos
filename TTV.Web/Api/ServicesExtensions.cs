@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using TTV.Application;
-using TTV.Application.DataServices;
+using TTV.Application.Managers;
 using TTV.Domain.DomainServices;
 using TTV.Infrastructure;
 using TTV.Infrastructure.DataAccess;
@@ -15,13 +15,13 @@ public static class ServicesExtensions
         services.AddDbContextFactory<DataContext>(options => options.UseSqlServer(configuration.GetConnectionString("DataContext")));
 
         services.AddScoped<IDiscountVoucherCodeGenerator, DiscountVoucherCodeGenerator>();
-        services.AddScoped<IDiscountVoucherDataService, DiscountVoucherDataService>();
-        services.AddScoped<ILessonDataService, LessonDataService>();
-        services.AddScoped<IOrderDataService, OrderDataService>();
-        services.AddScoped<ITagDataService, TagDataService>();
+        services.AddScoped<IDiscountVoucherManager, DiscountVoucherManager>();
+        services.AddScoped<ILessonManager, LessonManager>();
+        services.AddScoped<IOrderManager, OrderManager>();
+        services.AddScoped<ITagManager, TagManager>();
         services.AddScoped<IUnitOfWorkFactory, UnitOfWorkFactory>();
         services.AddScoped<IUserIdentityService, ClaimsIdentityService>();
-        services.AddScoped<IVideoDataService, VideoDataService>();
+        services.AddScoped<IVideoManager, VideoManager>();
         services.AddSingleton<IVideoPathCache, VideoPathCache>();
         services.AddScoped<IVideoStreamLoader, VideoStreamLoader>();
 

@@ -1,13 +1,13 @@
 ﻿using TTV.Domain.DomainServices;
 using TTV.Domain.Entities;
 
-namespace TTV.Application.DataServices;
+namespace TTV.Application.Managers;
 
-public class VideoDataService : IVideoDataService
+public class VideoManager : IVideoManager
 {
     private readonly IUnitOfWorkFactory unitOfWorkFactory;
 
-    public VideoDataService(IUnitOfWorkFactory unitOfWorkFactory)
+    public VideoManager(IUnitOfWorkFactory unitOfWorkFactory)
     {
         this.unitOfWorkFactory = unitOfWorkFactory;
     }

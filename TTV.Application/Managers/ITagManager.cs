@@ -1,8 +1,8 @@
 ﻿using TTV.Domain.Entities;
 
-namespace TTV.Application.DataServices;
+namespace TTV.Application.Managers;
 
-public interface ITagDataService
+public interface ITagManager
 {
     Task<IEnumerable<Tag>> GetTagsAsync(CancellationToken cancellationToken = default);
 }

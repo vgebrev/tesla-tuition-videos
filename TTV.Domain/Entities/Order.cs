@@ -20,7 +20,25 @@ public class Order : BaseEntity
 
     public Result<OrderDiscountVoucher?> ApplyDiscountVoucher(DiscountVoucher voucher)
     {
-        var validationResult = ValidateVoucher(voucher);
+        var validations = new Validation[]
+{
+            new Validation(
+                failIf: () => Status != OrderStatus.New,
+                error: $"Vouchers cannot be applied to orders with a status of '{Status.ToDisplayString()}'"),
+            new Validation(
+                failIf: () => TotalAmount <= 0,
+                error: "There is no outstanding amount on the order"),
+            new Validation(
+                failIf: () => voucher.ClaimedBy is not null && voucher.ClaimedBy != PlacedBy,
+                error: "The voucher has been used by someone else"),
+            new Validation(
+                failIf: () => voucher.ExpirationDate.HasValue && voucher.ExpirationDate.Value < DateOnly.FromDateTime(DateTime.Today),
+                error: "The voucher has expired"),
+            new Validation(
+                failIf: () => voucher.RemainingAmount <= 0,
+                error: "The voucher has no balance remaining")
+        };
+        var validationResult = validations.GetResult();
         if (!validationResult.IsSuccess)
         {
             return new Result<OrderDiscountVoucher?>(null, false, validationResult.Message);
@@ -41,36 +59,41 @@ public class Order : BaseEntity
         return new Result<OrderDiscountVoucher?>(apply, true, $"A discount of R{amount:0} has been applied. The voucher has a remaining balance of R{voucher.RemainingAmount:0}.");
     }
 
-    private Result ValidateVoucher(DiscountVoucher voucher)
+    public Result CompleteOrder()
     {
         var validations = new Validation[]
         {
             new Validation(
-                failIf: () => Status != OrderStatus.New,
-                error: $"Vouchers cannot be applied to orders with a status of '{Status.ToDisplayString()}'"),
+                failIf: () => Status == OrderStatus.Completed,
+                error: $"The order is already completed"),
             new Validation(
-                failIf: () => TotalAmount <= 0,
-                error: "There is no outstanding amount on the order"),
+                failIf: () => Status == OrderStatus.Cancelled,
+                error: $"The order has been cancelled"),
             new Validation(
-                failIf: () => voucher.ClaimedBy is not null && voucher.ClaimedBy != PlacedBy,
-                error: "The voucher has been used by someone else"),
-            new Validation(
-                failIf: () => voucher.ExpirationDate.HasValue && voucher.ExpirationDate.Value < DateOnly.FromDateTime(DateTime.Today),
-                error: "The voucher has expired"),
-            new Validation(
-                failIf: () => voucher.RemainingAmount <= 0,
-                error: "The voucher has no balance remaining")
+                failIf: () => TotalAmount > 0,
+                error: $"The order has an outstanding amount of R{TotalAmount:0}"),
         };
 
-        var validationError = validations.FirstOrDefault(x => x.IsFailed)?.Error;
-        return new Result(string.IsNullOrEmpty(validationError), validationError);
+        var validationResult = validations.GetResult();
+        if (!validationResult.IsSuccess)
+        {
+            return validationResult;
+        }
+        
+        foreach (var lesson in Lessons)
+        {
+            PlacedBy.OwnedLessons.Add(lesson);
+            lesson.OwnedBy.Add(PlacedBy);
+        }
+        Status = OrderStatus.Completed;
+        return new Result(true);
     }
 
     public User PlacedBy { get; set; } = new();
     public DateTime PlacedOn { get; set; } = DateTime.Now;
     public OrderStatus Status { get; set; } = OrderStatus.New;
     public string? StatusReason { get; set; }
-    public virtual ICollection<Lesson> Lessons { get; set; }
+    public virtual ICollection<Lesson> Lessons { get; private set; }
     public virtual ICollection<OrderDiscountVoucher> AppliedVouchers { get; set; }
 
     public decimal TotalAmount => Lessons.Sum(lesson => lesson.PriceAt(PlacedOn).EffectiveAmount) - AppliedVouchers.Sum(x => x.Amount);

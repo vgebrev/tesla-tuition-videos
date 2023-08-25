@@ -1,8 +1,8 @@
-﻿namespace TTV.Application
+﻿namespace TTV.Application;
+
+public record SystemSettings
 {
-    public record SystemSettings
-    {
-        public string VideosPath { get; set; } = string.Empty;
-        public string DiscountVoucherPepper { get; set; } = string.Empty;
-    }
+    public string VideosPath { get; set; } = string.Empty;
+    public string DiscountVoucherPepper { get; set; } = string.Empty;
+    public bool IssueDiscountVoucherOnFirstOrder { get; set; }
 }

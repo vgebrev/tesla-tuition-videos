@@ -15,7 +15,7 @@ public class Lesson : BaseEntity
     public LessonType LessonType { get; set; }
     public virtual ICollection<Video> Videos { get; set; }
     public virtual ICollection<Tag> Tags { get; set; }
-    public virtual ICollection<User> OwnedBy { get; set; }
+    public virtual ICollection<User> OwnedBy { get; private set; }
     public virtual ICollection<Price> Prices { get; set; }
     public Price CurrentPrice => PriceAt(DateTime.Today);
     public Price PriceAt(DateTime dateTime) => Prices.OrderByDescending(price => price.EffectiveDate)

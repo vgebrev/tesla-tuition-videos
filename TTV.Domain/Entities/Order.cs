@@ -82,6 +82,11 @@ public class Order : BaseEntity
         
         foreach (var lesson in Lessons)
         {
+            if (lesson.OwnedBy.Any(user => user == PlacedBy))
+            {
+                continue;
+            }
+
             PlacedBy.OwnedLessons.Add(lesson);
             lesson.OwnedBy.Add(PlacedBy);
         }

@@ -19,13 +19,15 @@
             <EditForm EditContext="editContext" OnValidSubmit="ApplyVoucher">
                 <fieldset disabled="@(Order.TotalAmount == 0)">
                     <DataAnnotationsValidator />
-                    <div class="form-group d-flex flex-row align-items-start">
-                        <label for="apply-voucher" class="col-form-label m-1">Code</label>
-                        <div class="flex-fill m-1">
+                    <div class="row form-group">
+                        <div class="col-2 col-md-2 mb-2">
+                            <label for="apply-voucher" class="col-form-label">Code</label>
+                        </div>
+                        <div class="col-10 col-md-6 mb-2">
                             <InputText @bind-Value="Model.Code" id="apply-voucher" class="form-control" placeholder="Code" />
                             <ValidationMessage For="() => Model.Code" class="text-danger"></ValidationMessage>
                         </div>
-                        <div class="m-1">
+                        <div class="col-12 col-md-4 text-center mb-3">
                             <button class="btn btn-outline-primary" type="submit"><i class="bi bi-check me-1"></i> Apply</button>
                         </div>
                     </div>

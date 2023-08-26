@@ -32,7 +32,7 @@
                     <LessonRow>
                         <td>@lesson.Title</td>
                         <td><PriceDisplay Price="lesson.CurrentPrice"></PriceDisplay></td>
-                        <td class="text-end"><button type="button" class="btn btn-outline-primary" @onclick="() => RemoveLesson(lesson)"><i class="bi bi-trash me-1"></i> Remove</button></td>
+                        <td class="text-end"><button type="button" class="btn btn-outline-primary" title="Remove Lesson" @onclick="() => RemoveLesson(lesson)"><i class="bi bi-trash"></i><span class="d-none d-md-block ms-1">Remove</span></button></td>
                     </LessonRow>
                     <Footer>
                     <tr>
@@ -59,13 +59,13 @@
 @if (Lessons.Length > 0)
 {
     <div class="row justify-content-center m-3">
-        <div class="col-sm-12 col-md-6 col-lg-6 text-center">
+        <div class="col-12 col-md-6 col-lg-6 text-center">
             <AuthorizeView>
                 <NotAuthorized>
                     <LogInLink class="btn btn-primary btn-lg"><i class="bi bi-person-fill me-2"></i> Log in to continue</LogInLink>
                 </NotAuthorized>
                 <Authorized>
-                    <button type="button" class="btn btn-primary btn-lg" disabled="@(Lessons.Length == 0)" @onclick="ConfirmOrder"><i class="bi bi-check2-circle me-2"></i> <span>Confirm and checkout</span></button>
+                    <button type="button" class="btn btn-primary btn-lg" disabled="@(Lessons.Length == 0)" @onclick="ConfirmOrder"><i class="bi bi-check2-circle"></i><span class="ms-2">Confirm and checkout</span></button>
                 </Authorized>
             </AuthorizeView>
         </div>

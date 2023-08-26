@@ -49,19 +49,19 @@
     @if (Order.CanCheckout)
     {
         <div class="row justify-content-center m-3">
-            <div class="col-6 col-sm-6 col-md-4 text-center">
+            <div class="col-12 col-sm-6 col-md-4 text-center mb-2">
                 <button type="button" class="btn btn-secondary btn-lg" @onclick="CancelOrder"><i class="bi bi-x me-2"></i> Cancel</button>
             </div>
             @if (Order.TotalAmount <= 0)
             {
-                <div class="col-6 col-sm-6 col-md-4 text-center">
+                <div class="col-12 col-sm-6 col-md-4 text-center mb-2">
                     <button type="button" class="btn btn-primary btn-lg" @onclick="CompleteOrder"><i class="bi bi-hand-thumbs-up me-2"></i> Complete</button>
                     <ResultCard Result="CompleteOrderResult"></ResultCard>
                 </div>
             }
             else
             {
-                <div class="col-6 col-sm-6 col-md-4 text-center">
+                <div class="col-12 col-sm-6 col-md-4 text-center mb-2">
                     <button type="button" class="btn btn-primary btn-lg" @onclick="OrderPayment"><i class="bi bi-credit-card me-2"></i> Payment</button>
                 </div>
             }

@@ -1,0 +1,68 @@
+﻿@attribute [Authorize]
+
+@using Fluxor;
+@using System.ComponentModel.DataAnnotations;
+@using Microsoft.AspNetCore.Authorization;
+@using TTV.Web.Blazor.Pages.Checkout.Store;
+@using TTV.Web.Blazor.Pages.Checkout.Store.Actions;
+@using TTV.Web.Shared;
+@inherits Fluxor.Blazor.Web.Components.FluxorComponent
+
+@inject IState<CheckoutState> State
+@inject IDispatcher Dispatcher
+
+<div class="card bg-secondary">
+    <div class="card-header">Discount Voucher</div>
+    <div class="card-body">
+        @if (Order != null)
+        {
+            <EditForm EditContext="editContext" OnValidSubmit="ApplyVoucher">
+                <fieldset disabled="@(Order.TotalAmount == 0)">
+                    <DataAnnotationsValidator />
+                    <div class="form-group d-flex flex-row align-items-start">
+                        <label for="apply-voucher" class="col-form-label m-1">Code</label>
+                        <div class="flex-fill m-1">
+                            <InputText @bind-Value="Model.Code" id="apply-voucher" class="form-control" placeholder="Code" />
+                            <ValidationMessage For="() => Model.Code" class="text-danger"></ValidationMessage>
+                        </div>
+                        <div class="m-1">
+                            <button class="btn btn-outline-primary" type="submit"><i class="bi bi-check me-1"></i> Apply</button>
+                        </div>
+                    </div>
+                </fieldset>
+            </EditForm>
+            <ResultCard Result="ApplyVoucherResult"></ResultCard>
+        }
+    </div>
+</div>
+
+@code {
+    private OrderDto? Order => State.Value.Order;
+    private ApplyVoucherInfo Model = new();
+    private EditContext editContext = default!;
+    private ResultDto<AppliedDiscountDto?>? ApplyVoucherResult => State.Value.ApplyVoucherResult;
+
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+        Model.Code = State.Value.VoucherCode;
+        editContext = new(Model);
+        editContext.SetFieldCssClassProvider(new BootstrapFieldCssClassProvider());
+    }
+
+    private class ApplyVoucherInfo
+    {
+        [Required(ErrorMessage = "Code is required")]
+        public string Code { get; set; } = string.Empty;
+    }
+
+    private void ApplyVoucher()
+    {
+        if (Order == null)
+        {
+            return;
+        }
+
+        Dispatcher.Dispatch(new ApplyVoucherRequest() { OrderId = Order.Id, VoucherCode = Model.Code });
+    }
+}

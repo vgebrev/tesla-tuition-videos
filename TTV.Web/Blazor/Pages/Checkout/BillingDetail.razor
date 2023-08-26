@@ -1,0 +1,66 @@
+﻿<h6>
+    Billing Information
+    <button type="button" class="btn btn-secondary text-primary"
+            data-bs-container="body"
+            data-bs-toggle="popover"
+            data-bs-placement="right"
+            data-bs-content="We require this information for invoicing"
+            data-bs-original-title="Billing Information">
+        <i class="bi-info-circle"></i>
+    </button>
+</h6>
+<EditForm EditContext="editContext">
+    <div class="form-group">
+        <label for="customer-name" class="form-label mt-2">Customer Name</label>
+        <InputText class="form-control" id="customer-name" placeholder="Customer Name" @bind-Value="Model.CustomerName" />
+    </div>
+    <div class="form-group">
+        <label for="address-line-1" class="form-label mt-2">Billing Address</label>
+        <InputText class="form-control" id="address-line-1" placeholder="Line 1" @bind-Value="Model.AddressLine1" />
+        <InputText class="form-control" id="address-line-2" placeholder="Line 2" @bind-Value="Model.AddressLine2" />
+    </div>
+    <div class="form-group">
+        <label for="city" class="form-label mt-2">Town/City</label>
+        <InputText class="form-control" id="city" placeholder="Town/City" @bind-Value="Model.City" />
+    </div>
+    <div class="form-group">
+        <label for="city" class="form-label mt-2">Province</label>
+        <InputSelect class="form-select" id="city" placeholder="Line 1" @bind-Value="Model.Province">
+            <option value="" selected>[Select]</option>
+            <option value="Eastern Cape">Eastern Cape</option>
+            <option value="Free State">Free State</option>
+            <option value="Gauteng">Gauteng</option>
+            <option value="KwaZulu-Natal">KwaZulu-Natal</option>
+            <option value="Limpopo">Limpopo</option>
+            <option value="Mpumalanga">Mpumalanga</option>
+            <option value="Northern Cape">Northern Cape</option>
+            <option value="North West">North West</option>
+            <option value="Western Cape">Western Cape</option>
+        </InputSelect>
+    </div>
+    <div class="form-group">
+        <label for="postal-code" class="form-label mt-2">Postal Code</label>
+        <InputText class="form-control" id="postal-code" placeholder="Postal Code" @bind-Value="Model.PostalCode" />
+    </div>
+</EditForm>
+
+@code {
+    private BillingInfo Model { get; set; } = new();
+    private EditContext editContext = default!;
+
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+        editContext = new EditContext(Model);
+    }
+
+    private class BillingInfo
+    {
+        public string? CustomerName { get; set; }
+        public string? AddressLine1 { get; set; }
+        public string? AddressLine2 { get; set; }
+        public string? City { get; set; }
+        public string? Province { get; set; }
+        public string? PostalCode { get; set; }
+    }
+}

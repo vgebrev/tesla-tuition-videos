@@ -63,7 +63,8 @@ namespace TTV.Web.Blazor.Pages.Checkout.Store
 
                 order = state.Order with
                 {
-                    AppliedDiscounts = appliedDiscounts.ToArray()
+                    AppliedDiscounts = appliedDiscounts.ToArray(),
+                    TotalAmount = state.Order.Lessons.Sum(l => l.CurrentPrice.EffectiveAmount) - appliedDiscounts.Sum(d => d.Amount)
                 };
             }
 

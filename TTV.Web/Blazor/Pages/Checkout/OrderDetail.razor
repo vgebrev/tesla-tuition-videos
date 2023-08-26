@@ -1,0 +1,65 @@
+﻿@attribute [Authorize]
+
+@using Microsoft.AspNetCore.Authorization;
+@using TTV.Web.Shared
+
+@if (Order != null)
+{
+    <div class="card bg-secondary">
+        <div class="card-header">Order #@Order.Id Details</div>
+        <div class="card-body">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Item</th>
+                        <th>Amount</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @for (int i = 0; i < Order.Lessons.Length; i++)
+                    {
+                        var lesson = Order.Lessons[i];
+                        <tr>
+                            <td>@lesson.Title</td>
+                            <td>R@(lesson.CurrentPrice.EffectiveAmount.ToString("0"))</td>
+                        </tr>
+                    }
+                    <tr class="table-secondary border-primary border-bottom border-1">
+                        <th class="text-end">Sub Total</th>
+                        <th>R@(Order.Lessons.Sum(l => l.CurrentPrice.EffectiveAmount).ToString("0"))</th>
+                    </tr>
+                </tbody>
+                @if (Order.AppliedDiscounts.Length > 0)
+                {
+                    <tbody>
+                        @for (int i = 0; i < Order.AppliedDiscounts.Length; i++)
+                        {
+                            var discount = Order.AppliedDiscounts[i];
+                            <tr>
+                                <td>Discount Voucher (@discount.VoucherCode)</td>
+                                <td>-R@(discount.Amount.ToString("0"))</td>
+                            </tr>
+                        }
+                        <tr class="table-secondary border-primary border-bottom border-1">
+                            <th class="text-end">Sub Total</th>
+                            <th>-R@(Order.AppliedDiscounts.Sum(d => d.Amount).ToString("0"))</th>
+                        </tr>
+                    </tbody>
+                }
+                <tfoot>
+                    <tr class="table-secondary border-primary border-bottom border-2">
+                        <th class="text-end">Total</th>
+                        <th>R@(OrderTotal.ToString("0"))</th>
+                    </tr>
+                </tfoot>
+            </table>
+        </div>
+    </div>
+}
+
+@code {
+    [Parameter]
+    public OrderDto? Order { get; set; }
+
+    private decimal OrderTotal => Order == null ? 0 : Order.Lessons.Sum(lesson => lesson.CurrentPrice.EffectiveAmount) - Order.AppliedDiscounts.Sum(discount => discount.Amount);
+}

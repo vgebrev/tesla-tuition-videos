@@ -1,4 +1,5 @@
 ﻿using Fluxor;
+using Microsoft.AspNetCore.Components;
 using TTV.Web.Blazor.Pages.Checkout.Store.Actions;
 using TTV.Web.Blazor.Services;
 using TTV.Web.Blazor.Shared.Store;
@@ -9,11 +10,13 @@ public class Effects
 {
     private readonly IOrderApiConsumer orderApi;
     private readonly IDiscountVoucherApiConsumer discountVoucherApi;
+    private readonly NavigationManager navigationManager;
 
-    public Effects(IOrderApiConsumer orderApi, IDiscountVoucherApiConsumer discountVoucherApi)
+    public Effects(IOrderApiConsumer orderApi, IDiscountVoucherApiConsumer discountVoucherApi, NavigationManager navigationManager)
     {
         this.orderApi = orderApi;
         this.discountVoucherApi = discountVoucherApi;
+        this.navigationManager = navigationManager;
     }
 
     [EffectMethod]
@@ -60,5 +63,15 @@ public class Effects
         {
             dispatcher.Dispatch(new CompleteOrderError() { ErrorMessage = Consts.DefaultErrorMessage });
         }
+    }
+
+    [EffectMethod]
+    public Task HandleCompleteOrderResponse(CompleteOrderResponse action, IDispatcher _)
+    {
+        if (action.Result.IsSuccess)
+        {
+            navigationManager.NavigateTo($"/order-complete/{action.Result.Value.Id}");
+        }
+        return Task.CompletedTask;
     }
 }

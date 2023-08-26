@@ -1,0 +1,72 @@
+﻿@page "/order-complete/{orderId:int}"
+@attribute [Authorize]
+
+@using Fluxor;
+@using Microsoft.AspNetCore.Authorization;
+@using System.ComponentModel.DataAnnotations;
+@using TTV.Web.Blazor.Pages.LessonsList
+@using TTV.Web.Blazor.Pages.OrderComplete.Store;
+@using TTV.Web.Blazor.Pages.OrderComplete.Store.Actions;
+@using TTV.Web.Shared
+
+@inherits Fluxor.Blazor.Web.Components.FluxorComponent
+
+@inject IState<OrderCompleteState> State
+@inject IDispatcher Dispatcher
+
+<PageTitle>Tesla Tuition Videos - Order Complete</PageTitle>
+
+<div class="row justify-content-center">
+    <div class="col text-center">
+        <h1 class="header-white">Order Complete</h1>
+    </div>
+</div>
+
+@if (IsLoading)
+{
+    <ProgressLoader IsLoading="IsLoading" class="mb-3"></ProgressLoader>
+}
+
+@if (Order != null)
+{
+    <div class="row justify-content-center">
+        <div class="col-lg-6 col-md-8 col-sm-12 text-center">
+            <div class="card border-success my-3">
+                <div class="card-body">
+                    <p class="card-text">Thank you! You've successfully added the lessons  below to <a href="my-lessons" title="your library">your library</a></p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row row-cols-lg-3 row-cols-md-2 row-cols-sm-1 g-3 justify-content-center">
+
+        @foreach (var lesson in Order.Lessons)
+        {
+            <div class="col-lg-4 col-md-6 col-sm-12">
+                <LessonCard Lesson="lesson"></LessonCard>
+            </div>
+        }
+    </div>
+
+}
+
+@if (Error.IsError)
+{
+    <ErrorCard Error="Error"></ErrorCard>
+}
+
+@code {
+    [Parameter]
+    public int OrderId { get; set; }
+
+    private OrderDto? Order => State.Value.Order;
+    private bool IsLoading => State.Value.IsLoading;
+    private ErrorState Error => State.Value.Error;
+
+    protected override void OnParametersSet()
+    {
+        base.OnParametersSet();
+        Dispatcher.Dispatch(new GetOrderRequest() { OrderId = OrderId, CurrentOrder = Order });
+    }
+}

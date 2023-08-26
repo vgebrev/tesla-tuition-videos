@@ -53,6 +53,10 @@ body {
     font-family: Ethnocentric, "Open Sans";
 }
 
+.h7 {
+        font-size: 0.75rem;
+}
+
 .header-white {
     color: rgb(var(--bs-white-rgb, 1));
 }

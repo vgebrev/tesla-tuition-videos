@@ -20,10 +20,10 @@
 </div>
 
 <div class="row">
-    <div class="col-3">
+    <div class="col-sm-12 col-md-5 col-lg-3 mb-3">
         <TagFilter></TagFilter>
     </div>
-    <div class="col">
+    <div class="col-sm-12 col-md-7 col-lg-9">
         <div class="row">
             <div class="col-12">
                 <LessonSearch></LessonSearch>
@@ -37,7 +37,7 @@
         @if (State.Value.LessonsError.IsError)
         {
             <div class="row">
-                <div class="col-7 mb-3 mx-auto">
+                <div class="col-sm-12 col-md-7 mb-3 mx-auto">
                     <ErrorCard Error="State.Value.LessonsError"></ErrorCard>
                 </div>
             </div>
@@ -47,11 +47,11 @@
         {
             @if (State.Value.Lessons.Length > 0)
             {
-                <div class="row row-cols-2 g-3">
+                <div class="row row-cols-sm-1 row-cols-md-1 row-cols-md-2 g-3">
 
                     @foreach (var lesson in State.Value.Lessons)
                     {
-                        <div class="col">
+                        <div class="col-sm-12 col-md-12 col-lg-6">
                             <LessonCard Lesson="lesson"></LessonCard>
                         </div>
                     }

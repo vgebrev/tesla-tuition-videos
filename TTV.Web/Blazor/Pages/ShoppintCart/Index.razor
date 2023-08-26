@@ -24,7 +24,7 @@
 }
 
 <div class="row justify-content-center">
-    <div class="card border-primary w-75">
+    <div class="card border-primary col-sm-12 col-md-12 col-lg-10">
         <div class="card-body">
             @if (Lessons.Length > 0)
             {
@@ -59,13 +59,13 @@
 @if (Lessons.Length > 0)
 {
     <div class="row justify-content-center m-3">
-        <div class="col-3 text-center">
+        <div class="col-sm-12 col-md-6 col-lg-6 text-center">
             <AuthorizeView>
                 <NotAuthorized>
                     <LogInLink class="btn btn-primary btn-lg"><i class="bi bi-person-fill me-2"></i> Log in to continue</LogInLink>
                 </NotAuthorized>
                 <Authorized>
-                    <button type="button" class="btn btn-primary btn-lg" disabled="@(Lessons.Length == 0)" @onclick="ConfirmOrder"><i class="bi bi-check2-circle me-2"></i> Confirm and checkout</button>
+                    <button type="button" class="btn btn-primary btn-lg" disabled="@(Lessons.Length == 0)" @onclick="ConfirmOrder"><i class="bi bi-check2-circle me-2"></i> <span>Confirm and checkout</span></button>
                 </Authorized>
             </AuthorizeView>
         </div>

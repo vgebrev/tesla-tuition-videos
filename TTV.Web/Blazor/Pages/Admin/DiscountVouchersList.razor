@@ -16,54 +16,56 @@
             <div class="card-text">
                 @if (DiscountVouchers != null && DiscountVouchers.Length > 0)
                 {
-                    <table class="table table-striped">
-                        <thead>
-                            <tr>
-                                <th>Code</th>
-                                <th>Amount</th>
-                                <th>Balance</th>
-                                <th>Expires</th>
-                                <th>Issued</th>
-                                <th>Issued By</th>
-                                <th>Used By</th>
-                                <th>Note</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @for (int i = 0; i < DiscountVouchers.Length; i++)
-                            {
-                                var voucher = DiscountVouchers[i];
-                                <tr class="@(i % 2 == 0 ? "table-secondary": "")">
-                                    <td>@voucher.Code</td>
-                                    <td>R@(voucher.Amount.ToString("0"))</td>
-                                    <td>R@(voucher.Balance.ToString("0"))</td>
-                                    <td class="@(voucher.ExpirationDate < DateOnly.FromDateTime(DateTime.Today) ? "text-warning" : "")">
-                                        @if (voucher.ExpirationDate != null)
-                                        {
-                                            @voucher.ExpirationDate.Value.ToString("dd-MMM-yyyy")
-                                        }
-                                        else
-                                        {
-                                            <span class="text-muted">Never</span>
-                                        }
-                                    </td>
-                                    <td>@voucher.IssuedAt.ToString("dd-MMM-yyyy HH:mm")</td>
-                                    <td>@voucher.IssuedBy.Email</td>
-                                    <td>
-                                        @if (voucher.ClaimedBy != null)
-                                        {
-                                            @voucher.ClaimedBy.Email
-                                        }
-                                        else
-                                        {
-                                            <span class="text-muted">Not used</span>
-                                        }
-                                    </td>
-                                    <td>@voucher.Note</td>
+                    <div class="table-responsive">
+                        <table class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th>Code</th>
+                                    <th>Amount</th>
+                                    <th>Balance</th>
+                                    <th>Expires</th>
+                                    <th>Issued</th>
+                                    <th>Issued By</th>
+                                    <th>Used By</th>
+                                    <th>Note</th>
                                 </tr>
-                            }
-                        </tbody>
-                    </table>
+                            </thead>
+                            <tbody>
+                                @for (int i = 0; i < DiscountVouchers.Length; i++)
+                                {
+                                    var voucher = DiscountVouchers[i];
+                                    <tr class="@(i % 2 == 0 ? "table-secondary": "")">
+                                        <td>@voucher.Code</td>
+                                        <td>R@(voucher.Amount.ToString("0"))</td>
+                                        <td>R@(voucher.Balance.ToString("0"))</td>
+                                        <td nowrap class="@(voucher.ExpirationDate < DateOnly.FromDateTime(DateTime.Today) ? "text-warning" : "")">
+                                            @if (voucher.ExpirationDate != null)
+                                            {
+                                                @voucher.ExpirationDate.Value.ToString("dd-MMM-yyyy")
+                                            }
+                                            else
+                                            {
+                                                <span class="text-muted">Never</span>
+                                            }
+                                        </td>
+                                        <td nowrap>@voucher.IssuedAt.ToString("dd-MMM-yyyy HH:mm")</td>
+                                        <td>@voucher.IssuedBy.Email</td>
+                                        <td>
+                                            @if (voucher.ClaimedBy != null)
+                                            {
+                                                @voucher.ClaimedBy.Email
+                                            }
+                                            else
+                                            {
+                                                <span class="text-muted">Not used</span>
+                                            }
+                                        </td>
+                                        <td nowrap>@voucher.Note</td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
                 }
                 else if (!State.Value.IsLoading)
                 {

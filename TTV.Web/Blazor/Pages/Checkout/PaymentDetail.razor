@@ -1,4 +1,17 @@
-﻿<div class="card bg-secondary">
+﻿@attribute [Authorize]
+
+@using Fluxor;
+@using Microsoft.AspNetCore.Authorization
+@using TTV.Web.Blazor.Pages.Checkout.Store;
+@using TTV.Web.Blazor.Pages.Checkout.Store.Actions;
+@using TTV.Web.Shared
+
+@inherits Fluxor.Blazor.Web.Components.FluxorComponent
+
+@inject IState<CheckoutState> State
+@inject IDispatcher Dispatcher
+
+<div class="card bg-secondary">
     <div class="card-header">Payment Details</div>
     <div class="card-body">
         <h4>Payment Method</h4>
@@ -26,16 +39,72 @@
         </EditForm>
         @if (paymentMethod == PaymentMethod.BankTransfer)
         {
-            <PayByBankTransfer OrderId="@OrderId"></PayByBankTransfer>
+            <PayByBankTransfer OrderId="@Order.Id"></PayByBankTransfer>
         }
+    </div>
+    <div class="card-footer">
+        <div class="row justify-content-center">
+            @if (Order.CanComplete)
+            {
+                <div class="col-12 col-sm-6 col-md-4 text-center mb-2">
+                    <button type="button" class="btn btn-primary btn-lg" @onclick="CompleteOrder"><i class="bi bi-hand-thumbs-up me-2"></i> Complete</button>
+                </div>
+            }
+
+            @if (Order.IsPayable)
+            {
+                <div class="col-12 col-sm-6 col-md-4 text-center mb-2">
+                    <button type="button" class="btn btn-primary btn-lg" @onclick="OrderPayment"><i class="bi bi-credit-card me-2"></i> Payment</button>
+                </div>
+            }
+        </div>
+
+        <div class="row">
+            <div class="col-12">
+                <ResultCard Result="CompleteOrderResult"></ResultCard>
+            </div>
+            @if (!Order.CanComplete && !Order.IsPayable)
+            {
+                <div class="col-12">
+                    @if (Order.HasOwnedLessons)
+                    {
+                        <div class="card border-danger mb-2">
+                            <div class="card-body">
+                                You already own one or more of the lessons in this order.
+                            </div>
+                        </div>
+                    }
+                    @if (Order.IsFinalised)
+                    {
+                        <div class="card border-danger">
+                            <div class="card-body">
+                                The order already has a status of "@Order.Status.Name"
+                            </div>
+                        </div>
+                    }
+                </div>
+            }
+        </div>
     </div>
 </div>
 
 @code {
     [Parameter]
-    public int OrderId { get; set; }
+    public OrderDto Order { get; set; } = new();
+
+    private ResultDto<OrderDto>? CompleteOrderResult => State.Value.CompleteOrderResult;
 
     private PaymentMethod paymentMethod;
+
+    private void CompleteOrder()
+    {
+        Dispatcher.Dispatch(new CompleteOrderRequest() { OrderId = Order.Id });
+    }
+
+    private void OrderPayment()
+    {
+        // TODO: Order payment
+    }
 
     public enum PaymentMethod
     {

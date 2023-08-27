@@ -102,5 +102,9 @@ public class Order : BaseEntity
     public virtual ICollection<OrderDiscountVoucher> AppliedVouchers { get; set; }
 
     public decimal TotalAmount => Lessons.Sum(lesson => lesson.PriceAt(PlacedOn).EffectiveAmount) - AppliedVouchers.Sum(x => x.Amount);
-    public bool CanCheckout => Status == OrderStatus.New || Status == OrderStatus.Processing;
+
+    public bool HasOwnedLessons => Lessons.Any(lesson => lesson.OwnedBy.Any(user => user == PlacedBy));
+    public bool IsFinalised => Status == OrderStatus.Cancelled || Status == OrderStatus.Completed;
+    public bool IsPayable => !IsFinalised && !HasOwnedLessons && TotalAmount > 0;
+    public bool CanComplete => !IsFinalised && !HasOwnedLessons && TotalAmount <= 0;
 }

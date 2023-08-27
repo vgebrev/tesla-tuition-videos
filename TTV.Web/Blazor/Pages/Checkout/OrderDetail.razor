@@ -1,7 +1,14 @@
 ﻿@attribute [Authorize]
 
-@using Microsoft.AspNetCore.Authorization;
+@using Fluxor;
+@using Microsoft.AspNetCore.Authorization
+@using TTV.Web.Blazor.Pages.Checkout.Store
 @using TTV.Web.Shared
+
+@inherits Fluxor.Blazor.Web.Components.FluxorComponent
+
+@inject IState<CheckoutState> State
+@inject IDispatcher Dispatcher
 
 @if (Order != null)
 {
@@ -20,7 +27,13 @@
                     {
                         var lesson = Order.Lessons[i];
                         <tr>
-                            <td>@lesson.Title</td>
+                            <td>
+                                @lesson.Title
+                                @if (UserOwnsLesson(lesson))
+                                {
+                                    <small class="text-danger"> (You already own this lesson)</small>
+                                }
+                            </td>
                             <td>R@(lesson.CurrentPrice.EffectiveAmount.ToString("0"))</td>
                         </tr>
                     }
@@ -54,6 +67,15 @@
                 </tfoot>
             </table>
         </div>
+        @if (!Order.IsFinalised)
+        {
+            <div class="card-footer row">
+                <div class="col-12">
+                    <button type="button" class="btn btn-outline-primary" @onclick="CancelOrder"><i class="bi bi-trash me-2"></i> Cancel</button>
+                    <small class="text-muted">Applied discount vouchers will be refunded.</small>
+                </div>
+            </div>
+        }
     </div>
 }
 
@@ -62,4 +84,18 @@
     public OrderDto? Order { get; set; }
 
     private decimal OrderTotal => Order == null ? 0 : Order.Lessons.Sum(lesson => lesson.CurrentPrice.EffectiveAmount) - Order.AppliedDiscounts.Sum(discount => discount.Amount);
+
+    private bool UserOwnsLesson(LessonDto lesson)
+    {
+        if (Order == null || lesson.Owner == null)
+        {
+            return false;
+        }
+        return lesson.Owner.Id == Order.PlacedBy.Id;
+    }
+
+    private void CancelOrder()
+    {
+        // TODO: Order payment
+    }
 }

@@ -10,5 +10,8 @@ public record OrderDto
     public string? StatusReason { get; init; }
     public decimal TotalAmount { get; init; }
     public AppliedDiscountDto[] AppliedDiscounts { get; init; } = Array.Empty<AppliedDiscountDto>();
-    public bool CanCheckout { get; set; }
+    public bool HasOwnedLessons { get; init; }
+    public bool IsFinalised { get; init; }
+    public bool IsPayable { get; init; }
+    public bool CanComplete { get; init; }
 }

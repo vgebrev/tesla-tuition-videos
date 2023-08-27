@@ -16,7 +16,10 @@ internal static class OrderMappings
             StatusReason = order.StatusReason,
             TotalAmount = order.TotalAmount,
             AppliedDiscounts = order.AppliedVouchers.Select(ToAppliedDiscountDto).ToArray()!,
-            CanCheckout = order.CanCheckout
+            HasOwnedLessons = order.HasOwnedLessons,
+            IsFinalised = order.IsFinalised,
+            IsPayable = order.IsPayable,
+            CanComplete = order.CanComplete,
         };
 
     public static AppliedDiscountDto? ToAppliedDiscountDto(this OrderDiscountVoucher? orderDiscountVoucher)

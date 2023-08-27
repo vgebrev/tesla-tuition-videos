@@ -42,41 +42,9 @@
             </div>
         </div>
         <div class="col-lg-6 col-sm-12">
-            <PaymentDetail OrderId="Order.Id"></PaymentDetail>
+            <PaymentDetail Order="Order"></PaymentDetail>
         </div>
     </div>
-
-    @if (Order.CanCheckout)
-    {
-        <div class="row justify-content-center m-3">
-            <div class="col-12 col-sm-6 col-md-4 text-center mb-2">
-                <button type="button" class="btn btn-secondary btn-lg" @onclick="CancelOrder"><i class="bi bi-x me-2"></i> Cancel</button>
-            </div>
-            @if (Order.TotalAmount <= 0)
-            {
-                <div class="col-12 col-sm-6 col-md-4 text-center mb-2">
-                    <button type="button" class="btn btn-primary btn-lg" @onclick="CompleteOrder"><i class="bi bi-hand-thumbs-up me-2"></i> Complete</button>
-                    <ResultCard Result="CompleteOrderResult"></ResultCard>
-                </div>
-            }
-            else
-            {
-                <div class="col-12 col-sm-6 col-md-4 text-center mb-2">
-                    <button type="button" class="btn btn-primary btn-lg" @onclick="OrderPayment"><i class="bi bi-credit-card me-2"></i> Payment</button>
-                </div>
-            }
-        </div>
-    }
-    else
-    {
-        <div class="row justify-content-center">
-            <div class="card border-warning m-3">
-                <div class="card-body">
-                    No further action is possible on orders with a status of "@(Order.Status.Name)"
-                </div>
-            </div>
-        </div>
-    }
 }
 else if (!IsLoading && !Error.IsError)
 {
@@ -102,26 +70,9 @@ else if (!IsLoading && !Error.IsError)
     private bool IsLoading => State.Value.IsLoading;
     private ErrorState Error => State.Value.Error;
 
-    private ResultDto<OrderDto>? CompleteOrderResult => State.Value.CompleteOrderResult;
-
     protected override void OnParametersSet()
     {
         base.OnParametersSet();
         Dispatcher.Dispatch(new GetOrderRequest() { OrderId = OrderId, CurrentOrder = Order });
-    }
-
-    private void CancelOrder()
-    {
-        // TODO: Order payment
-    }
-
-    private void CompleteOrder()
-    {
-        Dispatcher.Dispatch(new CompleteOrderRequest() { OrderId = OrderId });
-    }
-
-    private void OrderPayment()
-    {
-        // TODO: Order payment
     }
 }

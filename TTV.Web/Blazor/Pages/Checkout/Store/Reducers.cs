@@ -111,5 +111,31 @@ namespace TTV.Web.Blazor.Pages.Checkout.Store
                 IsLoading = false,
                 Error = new() { IsError = true, ErrorMessage = action.ErrorMessage }
             };
+
+        [ReducerMethod(typeof(CancelOrderRequest))]
+        public static CheckoutState ReduceCancelOrderRequest(CheckoutState state) =>
+        state with
+        {
+            IsLoading = true,
+        };
+
+        [ReducerMethod]
+        public static CheckoutState ReduceCancelOrderResponse(CheckoutState state, CancelOrderResponse action) =>
+            state with
+            {
+                CancelOrderResult = action.Result,
+                Order = action.Result.Value,
+                IsLoading = false,
+                Error = new()
+            };
+
+        [ReducerMethod]
+        public static CheckoutState ReduceCancelOrderError(CheckoutState state, CancelOrderError action) =>
+            state with
+            {
+                CancelOrderResult = null,
+                IsLoading = false,
+                Error = new() { IsError = true, ErrorMessage = action.ErrorMessage }
+            };
     }
 }

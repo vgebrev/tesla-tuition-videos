@@ -39,4 +39,12 @@ public class OrderApiConsumer : IOrderApiConsumer
         return JsonSerializer.Deserialize<ResultDto<OrderDto>>(
             responseBody, new JsonSerializerOptions() { PropertyNameCaseInsensitive = true }) ?? throw new InvalidCastException("Unexpected result");
     }
+
+    public async Task<ResultDto<OrderDto>> CancelOrderAsync(int orderId, CancellationToken cancellationToken = default)
+    {
+        var httpResponse = await httpClient.DeleteAsync($"api/order/{orderId}", cancellationToken);
+        var responseBody = await httpResponse.Content.ReadAsStringAsync(cancellationToken);
+        return JsonSerializer.Deserialize<ResultDto<OrderDto>>(
+            responseBody, new JsonSerializerOptions() { PropertyNameCaseInsensitive = true }) ?? throw new InvalidCastException("Unexpected result");
+    }
 }

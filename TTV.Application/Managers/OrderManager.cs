@@ -61,7 +61,26 @@ public class OrderManager : IOrderManager
         {
             await unitOfWork.StartAsync(cancellationToken);
             var order = await unitOfWork.OrderRepository.GetByIdAsync(orderId, userId, cancellationToken) ?? throw new OrderNotFoundException(orderId);
-            var result = order.CompleteOrder();
+            var result = order.Complete();
+            await unitOfWork.EndAsync(cancellationToken);
+            return result;
+        }
+        catch (Exception)
+        {
+            await unitOfWork.CancelAsync(cancellationToken);
+            throw;
+        }
+    }
+
+    public async Task<Result<Order>> CancelOrderAsync(int orderId, CancellationToken cancellationToken = default)
+    {
+        var userId = userIdentity.UserId ?? throw new UnauthenticatedException();
+        using var unitOfWork = await unitOfWorkFactory.CreateAsync(cancellationToken);
+        try
+        {
+            await unitOfWork.StartAsync(cancellationToken);
+            var order = await unitOfWork.OrderRepository.GetByIdAsync(orderId, userId, cancellationToken) ?? throw new OrderNotFoundException(orderId);
+            var result = order.Cancel();
             await unitOfWork.EndAsync(cancellationToken);
             return result;
         }

@@ -3,6 +3,7 @@
 @using Fluxor;
 @using Microsoft.AspNetCore.Authorization
 @using TTV.Web.Blazor.Pages.Checkout.Store
+@using TTV.Web.Blazor.Pages.Checkout.Store.Actions;
 @using TTV.Web.Shared
 
 @inherits Fluxor.Blazor.Web.Components.FluxorComponent
@@ -67,15 +68,21 @@
                 </tfoot>
             </table>
         </div>
-        @if (!Order.IsFinalised)
-        {
-            <div class="card-footer row">
-                <div class="col-12">
+        <div class="card-footer row">
+            @if (!Order.IsFinalised)
+            {
+                <div class="col-12 mb-2">
                     <button type="button" class="btn btn-outline-primary" @onclick="CancelOrder"><i class="bi bi-trash me-2"></i> Cancel</button>
                     <small class="text-muted">Applied discount vouchers will be refunded.</small>
                 </div>
-            </div>
-        }
+            }
+            @if (CancelOrderResult != null)
+            {
+                <div class="col-12">
+                    <ResultCard Result="CancelOrderResult"></ResultCard>
+                </div>
+            }
+        </div>
     </div>
 }
 
@@ -84,6 +91,7 @@
     public OrderDto? Order { get; set; }
 
     private decimal OrderTotal => Order == null ? 0 : Order.Lessons.Sum(lesson => lesson.CurrentPrice.EffectiveAmount) - Order.AppliedDiscounts.Sum(discount => discount.Amount);
+    private ResultDto<OrderDto>? CancelOrderResult => State.Value.CancelOrderResult;
 
     private bool UserOwnsLesson(LessonDto lesson)
     {
@@ -96,6 +104,11 @@
 
     private void CancelOrder()
     {
-        // TODO: Order payment
+        if (Order == null)
+        {
+            return;
+        }
+
+        Dispatcher.Dispatch(new CancelOrderRequest() { OrderId = Order.Id });
     }
 }

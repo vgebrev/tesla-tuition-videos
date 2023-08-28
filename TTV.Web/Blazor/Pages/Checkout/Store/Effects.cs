@@ -74,4 +74,18 @@ public class Effects
         }
         return Task.CompletedTask;
     }
+
+    [EffectMethod]
+    public async Task HandleCancelOrderRequest(CancelOrderRequest action, IDispatcher dispatcher)
+    {
+        try
+        {
+            var resultDto = await orderApi.CancelOrderAsync(action.OrderId);
+            dispatcher.Dispatch(new CancelOrderResponse() { Result = resultDto });
+        }
+        catch (Exception)
+        {
+            dispatcher.Dispatch(new CancelOrderError() { ErrorMessage = Consts.DefaultErrorMessage });
+        }
+    }
 }

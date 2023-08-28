@@ -8,6 +8,7 @@ namespace TTV.Web.Api.Controllers;
 
 [Route("api/[controller]")]
 [ApiController]
+[Authorize]
 public class OrderController : ControllerBase
 {
     private readonly ILogger<OrderController> logger;
@@ -20,7 +21,6 @@ public class OrderController : ControllerBase
     }
 
     [HttpPost]
-    [Authorize]
     public async Task<ActionResult<OrderDto>> CreateNewOrderAsync([FromBody] OrderCreateDto createOrderDto, CancellationToken cancellationToken = default)
     {
         logger.LogInformation("{MethodName}({@CreateOrderDto})", nameof(CreateNewOrderAsync), createOrderDto);
@@ -29,7 +29,6 @@ public class OrderController : ControllerBase
     }
 
     [HttpGet("{orderId}")]
-    [Authorize]
     public async Task<ActionResult<OrderDto>> GetOrderAsync([FromRoute] int orderId, CancellationToken cancellationToken = default)
     {
         logger.LogInformation("{MethodName}({OrderId})", nameof(GetOrderAsync), orderId);
@@ -42,11 +41,23 @@ public class OrderController : ControllerBase
     }
 
     [HttpPut("{orderId}/complete")]
-    [Authorize]
     public async Task<ActionResult<ResultDto<OrderDto>>> CompleteOrderAsync([FromRoute] int orderId, CancellationToken cancellationToken = default)
     {
         logger.LogInformation("{MethodName}({OrderId})", nameof(CompleteOrderAsync), orderId);
         var result = await orderManager.CompleteOrderAsync(orderId, cancellationToken);
+        var response = new ResultDto<OrderDto>(result.Value.ToOrderDto(), result.IsSuccess, result.Message);
+        if (!response.IsSuccess)
+        {
+            return UnprocessableEntity(response);
+        }
+        return Ok(response);
+    }
+
+    [HttpDelete("{orderId}")]
+    public async Task<ActionResult<ResultDto<OrderDto>>> CancelOrderAsync([FromRoute] int orderId, CancellationToken cancellationToken = default)
+    {
+        logger.LogInformation("{MethodName}({OrderId})", nameof(CancelOrderAsync), orderId);
+        var result = await orderManager.CancelOrderAsync(orderId, cancellationToken);
         var response = new ResultDto<OrderDto>(result.Value.ToOrderDto(), result.IsSuccess, result.Message);
         if (!response.IsSuccess)
         {

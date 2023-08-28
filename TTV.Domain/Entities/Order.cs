@@ -23,8 +23,8 @@ public class Order : BaseEntity
         var validations = new Validation[]
 {
             new Validation(
-                failIf: () => Status != OrderStatus.New,
-                error: $"Vouchers cannot be applied to orders with a status of '{Status.ToDisplayString()}'"),
+                failIf: () => IsFinalised,
+                error: $"Vouchers cannot be applied to orders with a status of \"{Status.ToDisplayString()}\""),
             new Validation(
                 failIf: () => TotalAmount <= 0,
                 error: "There is no outstanding amount on the order"),
@@ -59,7 +59,7 @@ public class Order : BaseEntity
         return new Result<OrderDiscountVoucher?>(apply, true, $"A discount of R{amount:0} has been applied. The voucher has a remaining balance of R{voucher.RemainingAmount:0}.");
     }
 
-    public Result<Order> CompleteOrder()
+    public Result<Order> Complete()
     {
         var validations = new Validation[]
         {
@@ -72,6 +72,9 @@ public class Order : BaseEntity
             new Validation(
                 failIf: () => TotalAmount > 0,
                 error: $"The order has an outstanding amount of R{TotalAmount:0}"),
+            new Validation(
+                failIf:() => HasOwnedLessons,
+            error: $"The order has lessons that have already been purchased")
         };
 
         var validationResult = validations.GetResult();
@@ -92,6 +95,26 @@ public class Order : BaseEntity
         }
         Status = OrderStatus.Completed;
         return new Result<Order>(this, true, null);
+    }
+
+    public Result<Order> Cancel(bool refundAppliedVouchers = true)
+    {
+        if (IsFinalised)
+        {
+            return new Result<Order>(this, false, $"The order is already {Status.ToDisplayString().ToLower()}");
+        }
+
+        if (refundAppliedVouchers)
+        {
+            foreach (var appliedVoucher in AppliedVouchers)
+            {
+                appliedVoucher.Voucher.OrdersAppliedTo.Remove(appliedVoucher);
+            }
+            AppliedVouchers.Clear();
+        }
+
+        Status = OrderStatus.Cancelled;
+        return new Result<Order>(this, true, $"Order cancelled {(refundAppliedVouchers ? "and vouchers refunded" : "")}");
     }
 
     public User PlacedBy { get; set; } = new();

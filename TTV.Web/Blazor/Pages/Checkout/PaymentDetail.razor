@@ -15,27 +15,35 @@
     <div class="card-header">Payment Details</div>
     <div class="card-body">
         <h4>Payment Method</h4>
-        <EditForm Model="paymentMethod" class="d-flex justify-content-evenly align-items-start border-1 border-bottom border-dark mb-3">
-            <InputRadioGroup @bind-Value="paymentMethod">
-                <div class="form-check form-check-inline m-2">
-                    <InputRadio class="form-check-input" id="eft" Value="PaymentMethod.BankTransfer" />
-                    <label class="form-check-label" for="eft">
-                        <i class="bi bi-bank"></i> Bank Transfer
-                    </label>
-                </div>
-                <div class="form-check form-check-inline m-2 disabled">
-                    <InputRadio class="form-check-input" id="credit-card" Value="PaymentMethod.CreditCard" disabled />
-                    <label class="form-check-label" for="credit-card">
-                        <i class="bi bi-credit-card"></i> Credit Card <p class="text-muted">(Coming Soon)</p>
-                    </label>
-                </div>
-                <div class="form-check form-check-inline m-2 disabled">
-                    <InputRadio class="form-check-input" id="paypal" Value="PaymentMethod.PayPal" disabled />
-                    <label class="form-check-label" for="paypal">
-                        <i class="bi bi-paypal"></i> PayPal <p class="text-muted">(Coming Soon)</p>
-                    </label>
-                </div>
-            </InputRadioGroup>
+        <EditForm Model="paymentMethod" class="border-1 border-bottom border-dark mb-3">
+            <div class="row">
+                <InputRadioGroup @bind-Value="paymentMethod">
+                    <div class="col-12 col-md-4 mb-2">
+                        <div class="form-check">
+                            <InputRadio class="form-check-input" id="eft" Value="PaymentMethod.BankTransfer" />
+                            <label class="form-check-label" for="eft">
+                                <i class="bi bi-bank"></i> Bank Transfer
+                            </label>
+                        </div>
+                    </div>
+                    <div class="col-12 col-md-4 mb-2">
+                        <div class="form-check disabled">
+                            <InputRadio class="form-check-input" id="credit-card" Value="PaymentMethod.CreditCard" disabled />
+                            <label class="form-check-label" for="credit-card">
+                                <i class="bi bi-credit-card"></i> Credit Card <span class="text-muted">(Coming Soon)</span>
+                            </label>
+                        </div>
+                    </div>
+                    <div class="col-12 col-md-4 mb-2">
+                        <div class="form-check disabled">
+                            <InputRadio class="form-check-input" id="paypal" Value="PaymentMethod.PayPal" disabled />
+                            <label class="form-check-label" for="paypal">
+                                <i class="bi bi-paypal"></i> PayPal <span class="text-muted">(Coming Soon)</span>
+                            </label>
+                        </div>
+                    </div>
+                </InputRadioGroup>
+            </div>
         </EditForm>
         @if (paymentMethod == PaymentMethod.BankTransfer)
         {

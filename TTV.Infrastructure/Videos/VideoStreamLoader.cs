@@ -54,4 +54,15 @@ public class VideoStreamLoader : IVideoStreamLoader
             return videoPath;
         }
     }
+
+    public async Task<Stream> LoadThumbnailStreamAsync(int lessonId, string? userEmail, CancellationToken cancellationToken = default)
+    {
+        var video = await videoManager.GetLessonVideoForUserAsync(lessonId, userEmail, cancellationToken);
+        if (video == null)
+        {
+            return Stream.Null;
+        }
+        var path = Path.Combine(settings.VideosPath, video.RelativePath, "Thumbnails", video.Thumbnail);
+        return File.OpenRead(path);
+    }
 }

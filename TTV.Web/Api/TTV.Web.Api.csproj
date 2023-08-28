@@ -50,4 +50,8 @@
     <ProjectReference Include="..\Shared\TTV.Web.Shared.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Videos\Thumbnails\" />
+  </ItemGroup>
+
 </Project>

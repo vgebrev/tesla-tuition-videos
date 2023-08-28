@@ -36,7 +36,7 @@ public  class ApplyDiscountVoucherTests : IClassFixture<ApplyDiscountVoucherTest
 
     [Theory]
     [InlineData(OrderStatus.New, true)]
-    [InlineData(OrderStatus.Processing, false)]
+    [InlineData(OrderStatus.AwaitingPayment, true)]
     [InlineData(OrderStatus.Completed, false)]
     [InlineData(OrderStatus.Cancelled, false)]
     public void DiscountVoucher_Validation_OrderStatus(OrderStatus status, bool expectedIsSuccess)

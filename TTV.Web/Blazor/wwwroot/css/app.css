@@ -68,3 +68,8 @@ body {
 .text-faint {
     opacity: 0.5;
 }
+
+.video-thumbnail {
+    min-width: 311px;
+    min-height: 175px;
+}

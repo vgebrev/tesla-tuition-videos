@@ -7,8 +7,8 @@ public enum OrderStatus
     [Display(Name = "New")]
     New = 1,
 
-    [Display(Name = "Processing")]
-    Processing = 2,
+    [Display(Name = "Awaiting Payment")]
+    AwaitingPayment = 2,
 
     [Display(Name = "Completed")]
     Completed = 3,

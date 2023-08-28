@@ -32,4 +32,17 @@ public class VideoController : ControllerBase
 
         return Results.File(stream, contentType: "video/mp4", enableRangeProcessing: true);
     }
+
+    [HttpGet("{lessonId}/thumbnail")]
+    public async Task<IResult> GetLessonThumbnailAsync([FromRoute] int lessonId, CancellationToken cancellationToken = default)
+    {
+        logger.LogInformation("{Method}({LessonId})", nameof(GetLessonThumbnailAsync), lessonId);
+        var stream = await videoStreamLoader.LoadThumbnailStreamAsync(lessonId, userIdentityService.Email, cancellationToken);
+        if (stream == Stream.Null)
+        {
+            return Results.NotFound();
+        }
+
+        return Results.File(stream, contentType: "image/jpeg");
+    }
 }

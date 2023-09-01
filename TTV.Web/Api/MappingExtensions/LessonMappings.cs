@@ -5,7 +5,7 @@ namespace TTV.Web.Api.MappingExtensions;
 
 internal static class LessonMappings
 {
-    public static LessonDto ToLessonDto(this Lesson lesson) =>
+    public static LessonDto ToLessonDto(this Lesson lesson, DateTime? priceDate = null) =>
         new()
         {
             Id = lesson.Id,
@@ -14,11 +14,11 @@ internal static class LessonMappings
             LessonType = lesson.LessonType.ToLookupDto(),
             Tags = lesson.Tags.ToSimpleTagDtoEnumerable().ToArray(),
             Owner = lesson.OwnedBy.SingleOrDefault()?.ToUserDto(),
-            CurrentPrice = lesson.CurrentPrice.ToPriceDto()
+            CurrentPrice = lesson.PriceAt(priceDate ?? DateTime.Now).ToPriceDto()
         };
 
 
-    public static IEnumerable<LessonDto> ToLessonDtoEnumerable(this IEnumerable<Lesson> lessons) =>
-        lessons.Select(ToLessonDto);
+    public static IEnumerable<LessonDto> ToLessonDtoEnumerable(this IEnumerable<Lesson> lessons, DateTime? priceDate = null) =>
+        lessons.Select(lesson => lesson.ToLessonDto(priceDate));
 
 }

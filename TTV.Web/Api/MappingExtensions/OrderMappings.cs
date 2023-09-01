@@ -9,7 +9,7 @@ internal static class OrderMappings
         new()
         {
             Id = order.Id,
-            Lessons = order.Lessons.ToLessonDtoEnumerable().ToArray(),
+            Lessons = order.Lessons.ToLessonDtoEnumerable(order.PlacedOn).ToArray(),
             PlacedBy = order.PlacedBy.ToUserDto()!,
             PlacedOn = order.PlacedOn,
             Status = order.Status.ToLookupDto(),

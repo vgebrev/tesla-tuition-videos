@@ -70,6 +70,5 @@ body {
 }
 
 .video-thumbnail {
-    min-width: 311px;
-    min-height: 175px;
+    width:100%;
 }

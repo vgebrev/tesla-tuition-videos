@@ -34,6 +34,7 @@ public class VideoController : ControllerBase
     }
 
     [HttpGet("{lessonId}/thumbnail")]
+    [ResponseCache(Duration = 60 * 60 * 24 * 7)] // 1 week
     public async Task<IResult> GetLessonThumbnailAsync([FromRoute] int lessonId, CancellationToken cancellationToken = default)
     {
         logger.LogInformation("{Method}({LessonId})", nameof(GetLessonThumbnailAsync), lessonId);

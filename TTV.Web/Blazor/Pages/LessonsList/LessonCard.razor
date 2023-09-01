@@ -5,8 +5,10 @@
 <div class="card border-primary h-100">
     <div class="card-header bg-secondary"><h5 class="card-title text-center mb-0">@Lesson.Title</h5></div>
     <div class="card-body">
-        <div class="d-flex justify-content-center">
-            <img class="rounded-4 video-thumbnail" src="@ThumbnailUri" alt="Video Thumbnail" title="Video Thumbnail" />
+        <div class="row">
+            <div class="col-12">
+                <a href="lesson/@Lesson.Id"><img class="rounded-4 w-100" src="@ThumbnailUri" alt="@Lesson.Title" title="@Lesson.Title" /></a>
+            </div>
         </div>
         <p class="card-text">@Lesson.Description</p>
         <TagBadges Tags="Lesson.Tags"></TagBadges>

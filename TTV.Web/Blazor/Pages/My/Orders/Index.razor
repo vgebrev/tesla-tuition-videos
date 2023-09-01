@@ -1,22 +1,22 @@
-﻿@page "/my/discount-vouchers"
+﻿@page "/my/orders"
 @attribute [Authorize]
 
 @using Fluxor;
 @using Microsoft.AspNetCore.Authorization;
 @using System.ComponentModel.DataAnnotations;
-@using TTV.Web.Blazor.Pages.My.DiscountVouchers.Store;
+@using TTV.Web.Blazor.Pages.My.Orders.Store;
 @using TTV.Web.Shared
 
 @inherits Fluxor.Blazor.Web.Components.FluxorComponent
 
-@inject IState<MyDiscountVouchersState> State
+@inject IState<MyOrdersState> State
 @inject IDispatcher Dispatcher
 
-<PageTitle>Tesla Tuition Videos - My Discount Vouchers</PageTitle>
+<PageTitle>Tesla Tuition Videos - My Orders</PageTitle>
 
 <div class="row justify-content-center">
     <div class="col text-center">
-        <h1 class="header-white">Account - Discount Vouchers</h1>
+        <h1 class="header-white">Account - Order History</h1>
     </div>
 </div>
 
@@ -25,7 +25,7 @@
     <ProgressLoader IsLoading="IsLoading" class="mb-3"></ProgressLoader>
 }
 
-<DiscountVouchersList></DiscountVouchersList>
+<OrderList></OrderList>
 
 @if (Error.IsError)
 {

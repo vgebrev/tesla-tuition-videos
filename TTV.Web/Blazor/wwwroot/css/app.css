@@ -41,11 +41,16 @@ body {
     height: 5rem;
 }
 
-.icon-banner {
+.icon-sm {
+    width: 24px;
+}
+.icon {
     width: 32px;
 }
-
-.icon-banner-lg {
+.icon-md {
+    width: 48px;
+}
+.icon-lg {
     width: 64px;
 }
 
@@ -71,4 +76,8 @@ body {
 
 .video-thumbnail {
     width:100%;
+}
+
+.icon-sm {
+    width: 32px;
 }

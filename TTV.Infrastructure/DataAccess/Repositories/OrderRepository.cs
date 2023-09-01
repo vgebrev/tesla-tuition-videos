@@ -18,6 +18,20 @@ public class OrderRepository : IOrderRepository
         dataContext.Orders.Add(order);
     }
 
+    public async Task<IEnumerable<Order>> GetPlacedByUserListAsync(Guid userId, CancellationToken cancellationToken)
+    {
+        return await dataContext.Orders.TagWithCallSite()
+            .Include(order => order.Lessons)
+                .ThenInclude(lesson => lesson.OwnedBy.Where(user => user.Id == userId))
+            .Include(order => order.Lessons)
+                .ThenInclude(lesson => lesson.Tags).ThenInclude(tag => tag.Category)
+            .Include(order => order.AppliedVouchers).ThenInclude(map => map.Voucher).ThenInclude(voucher => voucher.OrdersAppliedTo)
+            .Include(order => order.PlacedBy)
+            .Where(order => order.PlacedBy.Id == userId)
+            .OrderByDescending(order => order.PlacedOn).ThenBy(order => order.Status)
+            .ToListAsync(cancellationToken);
+    }
+
     public async Task<Order?> GetByIdAsync(int orderId, Guid ownerId, CancellationToken cancellationToken = default)
     {
         return await dataContext.Orders.TagWithCallSite()

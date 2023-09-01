@@ -43,14 +43,11 @@ public class DiscountVoucherController : ControllerBase
 
     [HttpGet("own")]
     [Authorize]
-    public async Task<IEnumerable<DiscountVoucherDto>> GetOwnedListAsync(CancellationToken cancellationToken = default)
+    public async Task<IEnumerable<DiscountVoucherDto>> GetOwnListAsync(CancellationToken cancellationToken = default)
     {
         logger.LogInformation("{MethodName}", nameof(GetListAsync));
-        if (userIdentity.UserId == null)
-        {
-            throw new UnauthenticatedException();
-        }
-        var vouchers = await discountVoucherManager.GetClaimedByUserListAsync(userIdentity.UserId.Value, cancellationToken);
+        var userId = userIdentity.UserId ?? throw new UnauthenticatedException();
+        var vouchers = await discountVoucherManager.GetClaimedByUserListAsync(userId, cancellationToken);
         return vouchers.ToEnumerableDiscountVoucherDto();
     }
 

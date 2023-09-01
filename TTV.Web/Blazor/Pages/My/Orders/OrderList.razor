@@ -1,0 +1,43 @@
+﻿@using System.ComponentModel.DataAnnotations
+@using Fluxor;
+@using TTV.Web.Blazor.Pages.My.Orders.Actions;
+@using TTV.Web.Blazor.Pages.My.Orders.Store;
+@using TTV.Web.Shared;
+
+@inherits Fluxor.Blazor.Web.Components.FluxorComponent
+
+@inject IState<MyOrdersState> State
+@inject IDispatcher Dispatcher
+
+<AuthorizeView Context="AuthContext">
+    <Authorized>
+        <div class="row">
+            <div class="card-text">
+                @if (Orders != null && Orders.Length > 0)
+                {
+                    <div class="row row-cols-sm-1 row-cols-md-1 row-cols-md-2 g-3">
+                        @foreach (var order in Orders)
+                        {
+                            <div class="col-sm-12 col-md-12 col-lg-6">
+                                <OrderDetail Order="order"></OrderDetail>
+                            </div>
+                        }
+                    </div>
+                }
+                else if (!State.Value.IsLoading)
+                {
+                    <p>No orders found.</p>
+                }
+            </div>
+        </div>
+    </Authorized>
+</AuthorizeView>
+@code {
+    private OrderDto[]? Orders => State.Value.Orders;
+
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+        Dispatcher.Dispatch(new GetOrdersRequest());
+    }
+}

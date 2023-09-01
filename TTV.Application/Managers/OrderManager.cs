@@ -45,6 +45,14 @@ public class OrderManager : IOrderManager
         }
     }
 
+    public async Task<IEnumerable<Order>> GetPlacedByUserListAsync(Guid userId, CancellationToken cancellationToken = default)
+    {
+        using var unitOfWork = await unitOfWorkFactory.CreateAsync(cancellationToken);
+        var orders = await unitOfWork.OrderRepository.GetPlacedByUserListAsync(userId, cancellationToken);
+        return orders;
+
+    }
+
     public async Task<Order?> GetOrderAsync(int orderId, CancellationToken cancellationToken = default)
     {
         var userId = userIdentity.UserId ?? throw new UnauthenticatedException();

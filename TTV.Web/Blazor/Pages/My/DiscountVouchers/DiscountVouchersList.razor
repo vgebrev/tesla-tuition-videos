@@ -65,9 +65,6 @@
     protected override void OnInitialized()
     {
         base.OnInitialized();
-        if (DiscountVouchers == null)
-        {
-            Dispatcher.Dispatch(new GetDiscountVouchersRequest());
-        }
+        Dispatcher.Dispatch(new GetDiscountVouchersRequest());
     }
 }

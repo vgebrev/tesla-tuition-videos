@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using TTV.Application.Exceptions;
 using TTV.Application.Managers;
+using TTV.Domain.DomainServices;
 using TTV.Web.Api.MappingExtensions;
 using TTV.Web.Shared;
 
@@ -13,11 +15,13 @@ public class OrderController : ControllerBase
 {
     private readonly ILogger<OrderController> logger;
     private readonly IOrderManager orderManager;
+    private readonly IUserIdentityService userIdentity;
 
-    public OrderController(ILogger<OrderController> logger, IOrderManager orderManager)
+    public OrderController(ILogger<OrderController> logger, IOrderManager orderManager, IUserIdentityService userIdentity)
     {
         this.logger = logger;
         this.orderManager = orderManager;
+        this.userIdentity = userIdentity;
     }
 
     [HttpPost]
@@ -26,6 +30,15 @@ public class OrderController : ControllerBase
         logger.LogInformation("{MethodName}({@CreateOrderDto})", nameof(CreateNewOrderAsync), createOrderDto);
         var order = await orderManager.CreateNewOrderAsync(createOrderDto.LessonsIds, cancellationToken);
         return CreatedAtAction(nameof(GetOrderAsync).Replace("Async", ""), new { orderId = order.Id }, order.ToOrderDto());
+    }
+
+    [HttpGet("own")]
+    public async Task<ActionResult<IEnumerable<OrderDto>>> GetOwnListAsync(CancellationToken cancellationToken = default)
+    {
+        logger.LogInformation("{MethodName}", nameof(GetOwnListAsync));
+        var userId = userIdentity.UserId ?? throw new UnauthenticatedException();
+        var orders = await orderManager.GetPlacedByUserListAsync(userId, cancellationToken);
+        return Ok(orders.ToEnumerableOrderDto());
     }
 
     [HttpGet("{orderId}")]

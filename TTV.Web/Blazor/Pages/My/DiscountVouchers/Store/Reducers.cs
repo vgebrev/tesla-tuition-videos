@@ -28,5 +28,4 @@ public static class Reducers
             IsLoading = false,
             Error = new() { ErrorMessage = action.ErrorMessage, IsError = true }
         };
-
 }

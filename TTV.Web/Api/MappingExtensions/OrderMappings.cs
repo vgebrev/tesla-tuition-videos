@@ -22,6 +22,9 @@ internal static class OrderMappings
             CanComplete = order.CanComplete,
         };
 
+    public static IEnumerable<OrderDto> ToEnumerableOrderDto(this IEnumerable<Order> orders) =>
+        orders.Select(ToOrderDto);
+
     public static AppliedDiscountDto? ToAppliedDiscountDto(this OrderDiscountVoucher? orderDiscountVoucher)
     {
         if (orderDiscountVoucher == null)

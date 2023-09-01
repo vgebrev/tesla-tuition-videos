@@ -18,10 +18,16 @@ public class DiscountVoucherRepository : IDiscountVoucherRepository
         dataContext.DiscountVouchers.Add(voucher);
     }
 
-    public async Task<IEnumerable<DiscountVoucher>> GetListAsync(CancellationToken cancellationToken = default)
+    public async Task<IEnumerable<DiscountVoucher>> GetListAsync(Guid? userId = null, CancellationToken cancellationToken = default)
     {
-        return await dataContext.DiscountVouchers.TagWithCallSite()
-            .Include(voucher => voucher.ClaimedBy)
+        var query = dataContext.DiscountVouchers.TagWithCallSite();
+
+        if (userId is not null)
+        {
+            query = query.Where(voucher => voucher.ClaimedBy != null && voucher.ClaimedBy.Id == userId);
+        }
+
+        return await query.Include(voucher => voucher.ClaimedBy)
             .Include(voucher => voucher.IssuedBy)
             .Include(voucher => voucher.OrdersAppliedTo)
             .OrderByDescending(voucher => voucher.IssuedAt)

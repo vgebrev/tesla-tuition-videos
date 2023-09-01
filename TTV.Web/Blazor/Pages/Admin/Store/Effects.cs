@@ -8,11 +8,11 @@ namespace TTV.Web.Blazor.Pages.Admin.Store;
 
 public class Effects
 {
-    private readonly IDiscountVoucherApiConsumer discountVoucherApiConsumer;
+    private readonly IDiscountVoucherApiConsumer discountVoucherApi;
 
-    public Effects(IDiscountVoucherApiConsumer discountVoucherApiConsumer)
+    public Effects(IDiscountVoucherApiConsumer discountVoucherApi)
     {
-        this.discountVoucherApiConsumer = discountVoucherApiConsumer;
+        this.discountVoucherApi = discountVoucherApi;
     }
 
     [EffectMethod]
@@ -26,7 +26,7 @@ public class Effects
                 ExpirationDate = action.ExpirationDate,
                 Note = action.Note
             };
-            var voucher = await discountVoucherApiConsumer.IssueAsync(dto);
+            var voucher = await discountVoucherApi.IssueAsync(dto);
             dispatcher.Dispatch(new IssueDiscountVoucherResponse() { DiscountVoucher = voucher });
             dispatcher.Dispatch(new GetDiscountVouchersRequest());
         }
@@ -41,7 +41,7 @@ public class Effects
     {
         try
         {
-            var vouchers = await discountVoucherApiConsumer.GetListAsync();
+            var vouchers = await discountVoucherApi.GetListAsync();
             dispatcher.Dispatch(new GetDiscountVouchersResponse() { DiscountVouchers = vouchers });
         }
         catch (Exception)

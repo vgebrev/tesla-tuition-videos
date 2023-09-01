@@ -1,0 +1,43 @@
+﻿@page "/my/discount-vouchers"
+@attribute [Authorize]
+
+@using Fluxor;
+@using Microsoft.AspNetCore.Authorization;
+@using System.ComponentModel.DataAnnotations;
+@using TTV.Web.Blazor.Pages.My.DiscountVouchers.Store;
+@using TTV.Web.Shared
+
+@inherits Fluxor.Blazor.Web.Components.FluxorComponent
+
+@inject IState<MyDiscountVouchersState> State
+@inject IDispatcher Dispatcher
+
+<PageTitle>Tesla Tuition Videos - My Discount Vouchers</PageTitle>
+
+<div class="row justify-content-center">
+    <div class="col text-center">
+        <h1 class="header-white">Account - Discount Vouchers</h1>
+    </div>
+</div>
+
+@if (IsLoading)
+{
+    <ProgressLoader IsLoading="IsLoading" class="mb-3"></ProgressLoader>
+}
+
+<div class="card text-white bg-secondary mx-auto">
+    <div class="card-header">Discount Vouchers</div>
+    <div class="card-body">
+        <DiscountVouchersList></DiscountVouchersList>
+    </div>
+</div>
+
+@if (Error.IsError)
+{
+    <ErrorCard Error="Error"></ErrorCard>
+}
+
+@code {
+    private bool IsLoading => State.Value.IsLoading;
+    public ErrorState Error => State.Value.Error;
+}

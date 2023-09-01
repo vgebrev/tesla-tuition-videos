@@ -21,9 +21,10 @@ public class DiscountVoucherApiConsumer : IDiscountVoucherApiConsumer
             responseBody, new JsonSerializerOptions() { PropertyNameCaseInsensitive = true }) ?? throw new InvalidCastException("Unexpected result");
     }
 
-    public async Task<DiscountVoucherDto[]> GetListAsync(CancellationToken cancellationToken = default)
+    public async Task<DiscountVoucherDto[]> GetListAsync(bool claimedByCurrentUser = false, CancellationToken cancellationToken = default)
     {
-        return await httpClient.GetFromJsonAsync<DiscountVoucherDto[]>("api/discount-voucher", cancellationToken) ?? Array.Empty<DiscountVoucherDto>();
+
+        return await httpClient.GetFromJsonAsync<DiscountVoucherDto[]>($"api/discount-voucher/{(claimedByCurrentUser ? "own" : "")}", cancellationToken) ?? Array.Empty<DiscountVoucherDto>();
     }
 
     public async Task<ResultDto<AppliedDiscountDto?>> ApplyDiscountVoucherAsync(string voucherCode, int orderId, CancellationToken cancellationToken = default)

@@ -41,7 +41,13 @@ public class DiscountVoucherManager : IDiscountVoucherManager
     public async Task<IEnumerable<DiscountVoucher>> GetListAsync(CancellationToken cancellationToken = default)
     {
         using var unitOfWork = await unitOfWorkFactory.CreateAsync(cancellationToken);
-        return await unitOfWork.DiscountVoucherRepository.GetListAsync(cancellationToken);
+        return await unitOfWork.DiscountVoucherRepository.GetListAsync(cancellationToken: cancellationToken);
+    }
+
+    public async Task<IEnumerable<DiscountVoucher>> GetClaimedByUserListAsync(Guid userId, CancellationToken cancellationToken = default)
+    {
+        using var unitOfWork = await unitOfWorkFactory.CreateAsync(cancellationToken);
+        return await unitOfWork.DiscountVoucherRepository.GetListAsync(userId, cancellationToken);
     }
 
     public async Task<Result<OrderDiscountVoucher?>> ApplyDiscountVoucherAsync(string voucherCode, int orderId, CancellationToken cancellationToken = default)

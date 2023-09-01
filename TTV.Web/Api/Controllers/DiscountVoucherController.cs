@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using TTV.Application.Exceptions;
 using TTV.Application.Managers;
+using TTV.Domain.DomainServices;
 using TTV.Web.Api.MappingExtensions;
 using TTV.Web.Shared;
 
@@ -12,11 +14,13 @@ public class DiscountVoucherController : ControllerBase
 {
     private readonly ILogger<DiscountVoucherController> logger;
     private readonly IDiscountVoucherManager discountVoucherManager;
+    private readonly IUserIdentityService userIdentity;
 
-    public DiscountVoucherController(ILogger<DiscountVoucherController> logger, IDiscountVoucherManager discountVoucherManager)
+    public DiscountVoucherController(ILogger<DiscountVoucherController> logger, IDiscountVoucherManager discountVoucherManager, IUserIdentityService userIdentity)
     {
         this.logger = logger;
         this.discountVoucherManager = discountVoucherManager;
+        this.userIdentity = userIdentity;
     }
 
     [HttpPost]
@@ -34,6 +38,19 @@ public class DiscountVoucherController : ControllerBase
     {
         logger.LogInformation("{MethodName}", nameof(GetListAsync));
         var vouchers = await discountVoucherManager.GetListAsync(cancellationToken);
+        return vouchers.ToEnumerableDiscountVoucherDto();
+    }
+
+    [HttpGet("own")]
+    [Authorize]
+    public async Task<IEnumerable<DiscountVoucherDto>> GetOwnedListAsync(CancellationToken cancellationToken = default)
+    {
+        logger.LogInformation("{MethodName}", nameof(GetListAsync));
+        if (userIdentity.UserId == null)
+        {
+            throw new UnauthenticatedException();
+        }
+        var vouchers = await discountVoucherManager.GetClaimedByUserListAsync(userIdentity.UserId.Value, cancellationToken);
         return vouchers.ToEnumerableDiscountVoucherDto();
     }
 

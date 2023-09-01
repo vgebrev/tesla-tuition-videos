@@ -4,18 +4,20 @@
 
 <AuthorizeView>
     <Authorized>
-        <li class="nav-item dropdown">
-            <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">@context.User.Identity?.Name <b class="caret"></b></a>
+        <div class="nav-item dropdown">
+            <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="bi bi-person-square"></i> @context.User.Identity?.Name <b class="caret"></b></a>
 
             <div class="dropdown-menu">
-                <button class="dropdown-item" @onclick="BeginLogOut">Log out</button>
+                <AccountNavLink />
+                <hr class="dropdown-divider" />
+                <button class="dropdown-item" type="button" @onclick="BeginLogOut">Log out</button>
             </div>
-        </li>
+        </div>
     </Authorized>
     <NotAuthorized>
-        <li class="nav-item">
+        <div class="nav-item">
             <LogInLink>Log in</LogInLink>
-        </li>
+        </div>
     </NotAuthorized>
 </AuthorizeView>
 

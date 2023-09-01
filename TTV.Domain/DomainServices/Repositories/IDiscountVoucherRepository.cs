@@ -6,5 +6,5 @@ public interface IDiscountVoucherRepository
 {
     void Add(DiscountVoucher voucher);
     Task<DiscountVoucher?> GetByCodeAsync(string voucherCode, CancellationToken cancellationToken);
-    Task<IEnumerable<DiscountVoucher>> GetListAsync(CancellationToken cancellationToken = default);
+    Task<IEnumerable<DiscountVoucher>> GetListAsync(Guid? userId = null, CancellationToken cancellationToken = default);
 }

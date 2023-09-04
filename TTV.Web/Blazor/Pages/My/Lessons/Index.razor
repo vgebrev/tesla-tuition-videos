@@ -1,0 +1,70 @@
+﻿@page "/my/library"
+@attribute [Authorize]
+
+@using Fluxor;
+@using Microsoft.AspNetCore.Authorization;
+@using System.ComponentModel.DataAnnotations;
+@using TTV.Web.Blazor.Pages.LessonsList
+@using TTV.Web.Blazor.Pages.My.Lessons.Store;
+@using TTV.Web.Blazor.Pages.My.Lessons.Store.Actions;
+@using TTV.Web.Shared
+
+@inherits Fluxor.Blazor.Web.Components.FluxorComponent
+
+@inject IState<MyLessonsState> State
+@inject IDispatcher Dispatcher
+
+<PageTitle>Tesla Tuition Videos - My Lessons</PageTitle>
+
+<div class="row justify-content-center">
+    <div class="col text-center">
+        <h1 class="header-white">Lesson Library</h1>
+    </div>
+</div>
+
+@if (IsLoading)
+{
+    <ProgressLoader IsLoading="IsLoading" class="mb-3"></ProgressLoader>
+}
+
+@if (Lessons != null)
+{
+    @if (Lessons.Length > 0)
+    {
+        <div class="row row-cols-sm-1 row-cols-md-2 row-cols-lg-3 g-3">
+
+            @foreach (var lesson in Lessons)
+            {
+                <div class="col-sm-12 col-md-6 col-lg-4">
+                    <LessonCard Lesson="lesson"></LessonCard>
+                </div>
+            }
+        </div>
+    }
+    else
+    {
+        <div class="row">
+            <div class="col text-center">
+                Your lesson library is empty.
+                <a href="lessons" class="card-link">Find some lessons.</a>
+            </div>
+        </div>
+    }
+}
+
+@if (Error.IsError)
+{
+    <ErrorCard Error="Error"></ErrorCard>
+}
+
+@code {
+    private LessonDto[]? Lessons => State.Value.Lessons;
+    private bool IsLoading => State.Value.IsLoading;
+    public ErrorState Error => State.Value.Error;
+
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+        Dispatcher.Dispatch(new GetLessonsRequest());
+    }
+}

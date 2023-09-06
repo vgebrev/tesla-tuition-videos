@@ -1,5 +1,9 @@
-﻿body {
-    padding-top: 70px;
+@font-face {
+  font-family: "Ethnocentric";
+  src: url("../lib/fonts/ethnocentric rg.otf") format("opentype");
+}
+body {
+  padding-top: 70px;
 }
 
 .welcome-page .logo {
@@ -7,7 +11,7 @@
 }
 
 .icon-banner {
-  width: 32px;
+  width: 96px;
 }
 
 .body-container {
@@ -41,3 +45,21 @@
 .grants-page .card label {
   font-weight: bold;
 }
+
+.brand-text {
+  font-family: Ethnocentric, "Open Sans";
+}
+
+.h7 {
+  font-size: 0.75rem;
+}
+
+.icon {
+  width: 32px;
+}
+
+.validation-summary-errors ul {
+  margin: 0;
+}
+
+/*# sourceMappingURL=site.css.map */

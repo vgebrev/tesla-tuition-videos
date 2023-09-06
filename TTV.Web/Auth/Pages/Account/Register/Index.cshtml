@@ -3,12 +3,6 @@
 
 <div class="login-page">
     <div class="row">
-        <div class="col-sm-6 mx-auto my-3">
-            <partial name="_ValidationSummary" />
-        </div>
-    </div>
-
-    <div class="row">
         <div class="col-sm-6 mx-auto mb-3">
             <div class="card border-primary">
                 <div class="card-header text-primary">
@@ -81,11 +75,11 @@
         <div class="row">
             <div class="col-sm-6 mx-auto mb-3">
                 <div class="card border-success">
-                    <div class="card-header text-success">
+                    <div class="card-header">
                         Success!
                     </div>
 
-                    <div class="card-body text-success">
+                    <div class="card-body">
                         Thank you for registering, you may now <a asp-page="/Account/Login/Index" asp-route-ReturnUrl="@Model.Input.ReturnUrl">login</a>.
                     </div>
                 </div>

@@ -32,6 +32,15 @@ public class OrderRepository : IOrderRepository
             .ToListAsync(cancellationToken);
     }
 
+    public async Task<Order?> GetByIdAsync(int orderId, CancellationToken cancellationToken = default)
+    {
+        return await dataContext.Orders.TagWithCallSite()
+            .Include(order => order.Lessons)
+            .Include(order => order.AppliedVouchers).ThenInclude(map => map.Voucher).ThenInclude(voucher => voucher.OrdersAppliedTo)
+            .Include(order => order.PlacedBy)
+            .SingleOrDefaultAsync(order => order.Id == orderId, cancellationToken);
+    }
+
     public async Task<Order?> GetByIdAsync(int orderId, Guid ownerId, CancellationToken cancellationToken = default)
     {
         return await dataContext.Orders.TagWithCallSite()

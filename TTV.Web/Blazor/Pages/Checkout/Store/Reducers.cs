@@ -21,6 +21,9 @@ namespace TTV.Web.Blazor.Pages.Checkout.Store
             state with
             {
                 IsLoading = true,
+                ApplyVoucherResult = null,
+                CompleteOrderResult = null,
+                CancelOrderResult = null
             };
 
         [ReducerMethod]
@@ -52,27 +55,17 @@ namespace TTV.Web.Blazor.Pages.Checkout.Store
         [ReducerMethod]
         public static CheckoutState ReduceApplyVoucherResponse(CheckoutState state, ApplyVoucherResponse action)
         {
-            OrderDto? order = null;
-            if (state.Order != null)
+            OrderDto? order = state.Order;
+            if (order != null && action.Result.IsSuccess)
             {
-                var appliedDiscounts = new List<AppliedDiscountDto>(state.Order.AppliedDiscounts);
-                if (action.Result.IsSuccess && action.Result.Value != null)
-                {
-                    appliedDiscounts.Add(action.Result.Value);
-                } 
-
-                order = state.Order with
-                {
-                    AppliedDiscounts = appliedDiscounts.ToArray(),
-                    TotalAmount = state.Order.Lessons.Sum(l => l.CurrentPrice.EffectiveAmount) - appliedDiscounts.Sum(d => d.Amount)
-                };
+                order = action.Result.Value;
             }
 
             return state with
             {
                 Order = order,
                 IsLoading = false,
-                ApplyVoucherResult = action.Result,
+                ApplyVoucherResult = new(order?.AppliedDiscounts.LastOrDefault(), action.Result.IsSuccess, action.Result.Message),
                 Error = new()
             };
         }

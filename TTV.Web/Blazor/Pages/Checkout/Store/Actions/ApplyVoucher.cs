@@ -10,7 +10,7 @@ public record ApplyVoucherRequest
 
 public record ApplyVoucherResponse
 {
-    public ResultDto<AppliedDiscountDto?> Result { get; init; } = new(null, false, null);
+    public ResultDto<OrderDto?> Result { get; init; } = new(null, false, null);
 }
 
 public record ApplyVoucherError

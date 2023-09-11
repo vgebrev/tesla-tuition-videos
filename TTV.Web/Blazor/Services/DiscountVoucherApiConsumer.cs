@@ -27,11 +27,11 @@ public class DiscountVoucherApiConsumer : IDiscountVoucherApiConsumer
         return await httpClient.GetFromJsonAsync<DiscountVoucherDto[]>($"api/discount-voucher/{(claimedByCurrentUser ? "own" : "")}", cancellationToken) ?? Array.Empty<DiscountVoucherDto>();
     }
 
-    public async Task<ResultDto<AppliedDiscountDto?>> ApplyDiscountVoucherAsync(string voucherCode, int orderId, CancellationToken cancellationToken = default)
+    public async Task<ResultDto<OrderDto?>> ApplyDiscountVoucherAsync(string voucherCode, int orderId, CancellationToken cancellationToken = default)
     {
         var httpResponse = await httpClient.PutAsync($"api/discount-voucher/{voucherCode}/order/{orderId}", null, cancellationToken);
         var responseBody = await httpResponse.Content.ReadAsStringAsync(cancellationToken);
-        return JsonSerializer.Deserialize<ResultDto<AppliedDiscountDto?>>(
+        return JsonSerializer.Deserialize<ResultDto<OrderDto?>>(
             responseBody, new JsonSerializerOptions() { PropertyNameCaseInsensitive = true }) ?? throw new InvalidCastException("Unexpected result");
     }
 }

@@ -53,11 +53,11 @@ public class DiscountVoucherController : ControllerBase
 
     [HttpPut("{voucherCode}/order/{orderId}")]
     [Authorize]
-    public async Task<ActionResult<ResultDto<AppliedDiscountDto?>>> ApplyDiscountVoucher([FromRoute] string voucherCode, [FromRoute] int orderId, CancellationToken cancellationToken = default)
+    public async Task<ActionResult<ResultDto<OrderDto?>>> ApplyDiscountVoucher([FromRoute] string voucherCode, [FromRoute] int orderId, CancellationToken cancellationToken = default)
     {
         logger.LogInformation("{MethodName}({VoucherCode}, {OrderId})", nameof(ApplyDiscountVoucher), voucherCode, orderId);
         var result = await discountVoucherManager.ApplyDiscountVoucherAsync(voucherCode, orderId, cancellationToken);
-        var response = new ResultDto<AppliedDiscountDto?>(result.Value.ToAppliedDiscountDto(), result.IsSuccess, result.Message);
+        var response = new ResultDto<OrderDto?>(result.Value?.Order.ToOrderDto(), result.IsSuccess, result.Message);
         if (!response.IsSuccess)
         {
             return UnprocessableEntity(response);

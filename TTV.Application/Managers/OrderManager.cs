@@ -40,7 +40,7 @@ public class OrderManager : IOrderManager
 
             unitOfWork.OrderRepository.Add(order);
             await unitOfWork.EndAsync(cancellationToken);
-            backgroundJob.Enqueue<CreateOrderConfirmationNotification>(order.Id);
+            backgroundJob.Enqueue<CreateOrderNotification>(new CreateOrderNotification.JobData(order.Id, NotificationType.OrderConfirmation));
             return order;
         }
         catch (Exception)
@@ -76,6 +76,10 @@ public class OrderManager : IOrderManager
             var order = await unitOfWork.OrderRepository.GetByIdAsync(orderId, userId, cancellationToken) ?? throw new OrderNotFoundException(orderId);
             var result = order.Complete();
             await unitOfWork.EndAsync(cancellationToken);
+            if (result.IsSuccess)
+            {
+                backgroundJob.Enqueue<CreateOrderNotification>(new CreateOrderNotification.JobData(order.Id, NotificationType.OrderComplete));
+            }
             return result;
         }
         catch (Exception)
@@ -95,6 +99,10 @@ public class OrderManager : IOrderManager
             var order = await unitOfWork.OrderRepository.GetByIdAsync(orderId, userId, cancellationToken) ?? throw new OrderNotFoundException(orderId);
             var result = order.Cancel();
             await unitOfWork.EndAsync(cancellationToken);
+            if (result.IsSuccess)
+            {
+                backgroundJob.Enqueue<CreateOrderNotification>(new CreateOrderNotification.JobData(order.Id, NotificationType.OrderCancelled));
+            }
             return result;
         }
         catch (Exception)

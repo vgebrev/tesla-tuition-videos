@@ -15,11 +15,18 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="Notifications\Templates\OrderConfirmation.mustache" />
+    <None Remove="Notifications\Templates\OrderCancelledTemplate.mustache" />
+    <None Remove="Notifications\Templates\OrderCompletedTemplate.mustache" />
+    <None Remove="Notifications\Templates\OrderConfirmationTemplate.mustache" />
   </ItemGroup>
 
   <ItemGroup>
-    <EmbeddedResource Include="Notifications\Templates\OrderConfirmation.mustache" />
+    <EmbeddedResource Include="Notifications\Templates\OrderCancelledTemplate.mustache" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="Notifications\Templates\OrderCompletedTemplate.mustache" />
+    <EmbeddedResource Include="Notifications\Templates\OrderConfirmationTemplate.mustache" />
   </ItemGroup>
 
   <ItemGroup>

@@ -35,7 +35,7 @@ public class NotificationBuilder : INotificationBuilder
             Type = type.Value,
         };
 
-        if (type == NotificationType.OrderConfirmation)
+        if (type == NotificationType.OrderConfirmation || type == NotificationType.OrderComplete || type == NotificationType.OrderCancelled)
         {
             return await BuildOrderNotificationAsync(type.Value, notification, cancellationToken);
         }
@@ -51,7 +51,13 @@ public class NotificationBuilder : INotificationBuilder
         }
         notification.To = order.PlacedBy.Email ?? throw new InvalidOperationException("Notification recipient email not available");
         notification.Subject = $"{type.ToDisplayString()} #{order.Id}";
-        notification.Body = await templateRenderer.RenderAsync(order.ToTemplateData(), cancellationToken: cancellationToken) ?? throw new InvalidOperationException("Unable to generate notification body from template");
+        notification.Body = type switch
+        {
+            NotificationType.OrderConfirmation => await templateRenderer.RenderAsync(order.ToOrderConfirmationTemplateData(), cancellationToken: cancellationToken),
+            NotificationType.OrderComplete => await templateRenderer.RenderAsync(order.ToOrderCompletedTemplateData(), cancellationToken: cancellationToken),
+            NotificationType.OrderCancelled => await templateRenderer.RenderAsync(order.ToOrderCancelledTemplateData(), cancellationToken: cancellationToken),
+            _ => throw new NotSupportedException($"Notification of type {type.ToDisplayString()} is not an order notification"),
+        } ?? throw new InvalidOperationException("Unable to generate notification body from template");
         notification.Order = order;
         return notification;
     }

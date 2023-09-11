@@ -127,8 +127,9 @@ public class Order : BaseEntity
     public virtual ICollection<OrderDiscountVoucher> AppliedVouchers { get; private set; }
     public virtual ICollection<Notification> Notifications { get; private set; }
 
-
-    public decimal TotalAmount => Lessons.Sum(lesson => lesson.PriceAt(PlacedOn).EffectiveAmount) - AppliedVouchers.Sum(x => x.Amount);
+    public decimal OrderTotal => Lessons.Sum(lesson => lesson.PriceAt(PlacedOn).EffectiveAmount);
+    public decimal PaymentsTotal => AppliedVouchers.Sum(x => x.Amount);
+    public decimal TotalAmount => OrderTotal - PaymentsTotal;
     public bool HasOwnedLessons => Lessons.Any(lesson => lesson.OwnedBy.Any(user => user == PlacedBy));
     public bool IsFinalised => Status == OrderStatus.Cancelled || Status == OrderStatus.Completed;
     public bool IsPayable => !IsFinalised && !HasOwnedLessons && TotalAmount > 0;

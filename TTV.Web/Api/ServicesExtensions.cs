@@ -39,7 +39,7 @@ public static class ServicesExtensions
         // Background jobs
         services.AddSingleton<IBackgroundJobQueue, BackgroundJobQueue>();
         services.AddHostedService<BackgroundJobService>();
-        services.AddScoped<CreateOrderConfirmationNotification>();
+        services.AddScoped<CreateOrderNotification>();
         services.AddScoped<SendNotification>();
 
         services.AddAuthorization(options =>

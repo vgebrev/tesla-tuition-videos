@@ -14,5 +14,6 @@ internal class UserConfiguration : IEntityTypeConfiguration<User>
             .UsingEntity<Dictionary<string, object>>($"{nameof(User)}{nameof(Lesson)}",
                 user => user.HasOne<Lesson>().WithMany().HasForeignKey($"{nameof(Lesson)}{nameof(Lesson.Id)}").OnDelete(DeleteBehavior.Restrict),
                 lesson => lesson.HasOne<User>().WithMany().HasForeignKey($"{nameof(User)}{nameof(User.Id)}").OnDelete(DeleteBehavior.Restrict));
+        entity.HasMany(user => user.Notifications).WithOne(n => n.User).OnDelete(DeleteBehavior.Restrict);
     }
 }

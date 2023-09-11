@@ -16,6 +16,7 @@ internal class OrderConfiguration : IEntityTypeConfiguration<Order>
             lesson => lesson.HasOne<Order>().WithMany().HasForeignKey($"{nameof(Order)}{nameof(Order.Id)}").OnDelete(DeleteBehavior.Restrict));
 
         entity.HasMany(order => order.AppliedVouchers).WithOne(map => map.Order).OnDelete(DeleteBehavior.Restrict);
+        entity.HasMany(order => order.Notifications).WithOne(n => n.Order).OnDelete(DeleteBehavior.Restrict);
         entity.HasOne(typeof(LookupEntity<OrderStatus>)).WithMany()
            .HasPrincipalKey(nameof(LookupEntity<OrderStatus>.Id))
            .HasForeignKey(nameof(Order.Status)).OnDelete(DeleteBehavior.Restrict);

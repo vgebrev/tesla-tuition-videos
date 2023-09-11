@@ -8,6 +8,7 @@ public class Order : BaseEntity
     {
         Lessons = new HashSet<Lesson>();
         AppliedVouchers = new HashSet<OrderDiscountVoucher>();
+        Notifications = new HashSet<Notification>();
     }
 
     public void AddLessons(IEnumerable<Lesson> lessons)
@@ -121,11 +122,13 @@ public class Order : BaseEntity
     public DateTime PlacedOn { get; set; } = DateTime.Now;
     public OrderStatus Status { get; set; } = OrderStatus.New;
     public string? StatusReason { get; set; }
+    
     public virtual ICollection<Lesson> Lessons { get; private set; }
-    public virtual ICollection<OrderDiscountVoucher> AppliedVouchers { get; set; }
+    public virtual ICollection<OrderDiscountVoucher> AppliedVouchers { get; private set; }
+    public virtual ICollection<Notification> Notifications { get; private set; }
+
 
     public decimal TotalAmount => Lessons.Sum(lesson => lesson.PriceAt(PlacedOn).EffectiveAmount) - AppliedVouchers.Sum(x => x.Amount);
-
     public bool HasOwnedLessons => Lessons.Any(lesson => lesson.OwnedBy.Any(user => user == PlacedBy));
     public bool IsFinalised => Status == OrderStatus.Cancelled || Status == OrderStatus.Completed;
     public bool IsPayable => !IsFinalised && !HasOwnedLessons && TotalAmount > 0;

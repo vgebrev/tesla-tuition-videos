@@ -13,6 +13,7 @@ public class UnitOfWork : IUnitOfWork
 
     public IDiscountVoucherRepository DiscountVoucherRepository { get; }
     public ILessonRepository LessonRepository { get; }
+    public INotificationRepository NotificationRepository { get; }
     public IOrderRepository OrderRepository { get; }
     public ITagRepository TagRepository { get; }
     public IUserRepository UserRepository { get; set; }
@@ -22,6 +23,7 @@ public class UnitOfWork : IUnitOfWork
     {
         this.dataContext = dataContext;
         DiscountVoucherRepository = new DiscountVoucherRepository(dataContext);
+        NotificationRepository = new NotificationRepository(dataContext);
         LessonRepository = new LessonRepository(dataContext);
         OrderRepository = new OrderRepository(dataContext);
         TagRepository = new TagRepository(dataContext);

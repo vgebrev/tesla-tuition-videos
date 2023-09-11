@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using TTV.Infrastructure.DataAccess;
 
@@ -11,9 +12,11 @@ using TTV.Infrastructure.DataAccess;
 namespace TTV.DatabaseDeploy.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20230908100406_TTV_Add_Notifications")]
+    partial class TTV_Add_Notifications
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -144,9 +147,6 @@ namespace TTV.DatabaseDeploy.Migrations
                     b.Property<string>("LastErrorMessage")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("OrderId")
-                        .HasColumnType("int");
-
                     b.Property<int>("SendAttempts")
                         .HasColumnType("int");
 
@@ -165,16 +165,9 @@ namespace TTV.DatabaseDeploy.Migrations
                         .HasColumnType("int")
                         .HasColumnName("TypeId");
 
-                    b.Property<Guid?>("UserId")
-                        .HasColumnType("uniqueidentifier");
-
                     b.HasKey("Id");
 
-                    b.HasIndex("OrderId");
-
                     b.HasIndex("Type");
-
-                    b.HasIndex("UserId");
 
                     b.ToTable("Notification", (string)null);
                 });
@@ -552,25 +545,11 @@ namespace TTV.DatabaseDeploy.Migrations
 
             modelBuilder.Entity("TTV.Domain.Entities.Notification", b =>
                 {
-                    b.HasOne("TTV.Domain.Entities.Order", "Order")
-                        .WithMany("Notifications")
-                        .HasForeignKey("OrderId")
-                        .OnDelete(DeleteBehavior.Restrict);
-
                     b.HasOne("TTV.Infrastructure.DataAccess.Configuration.LookupEntity<TTV.Domain.Entities.NotificationType>", null)
                         .WithMany()
                         .HasForeignKey("Type")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
-
-                    b.HasOne("TTV.Domain.Entities.User", "User")
-                        .WithMany("Notifications")
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Restrict);
-
-                    b.Navigation("Order");
-
-                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("TTV.Domain.Entities.Order", b =>
@@ -665,14 +644,10 @@ namespace TTV.DatabaseDeploy.Migrations
             modelBuilder.Entity("TTV.Domain.Entities.Order", b =>
                 {
                     b.Navigation("AppliedVouchers");
-
-                    b.Navigation("Notifications");
                 });
 
             modelBuilder.Entity("TTV.Domain.Entities.User", b =>
                 {
-                    b.Navigation("Notifications");
-
                     b.Navigation("Orders");
                 });
 #pragma warning restore 612, 618

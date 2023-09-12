@@ -68,10 +68,10 @@
         </div>
 
         <div class="row">
-            <div class="col-12">
+            <div class="col-12 mb-2">
                 <ResultCard Result="CompleteOrderResult"></ResultCard>
             </div>
-            @if (!Order.CanComplete && !Order.IsPayable)
+            @if (!Order.CanComplete && !Order.IsPayable && (CompleteOrderResult == null || !CompleteOrderResult.IsSuccess))
             {
                 <div class="col-12">
                     @if (Order.HasOwnedLessons)

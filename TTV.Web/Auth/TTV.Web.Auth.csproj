@@ -42,4 +42,8 @@
 	  <Folder Include="Data\Migrations\AspNetIdentity\ApplicationUserDb\" />
 	  <Folder Include="wwwroot\lib\bootstrap-icons\" />
 	</ItemGroup>
+
+	<ItemGroup>
+	  <ProjectReference Include="..\..\TTV.Infrastructure\TTV.Infrastructure.csproj" />
+	</ItemGroup>
 </Project>

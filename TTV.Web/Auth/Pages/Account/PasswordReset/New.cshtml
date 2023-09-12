@@ -1,0 +1,76 @@
+﻿@page
+@model TTV.Web.Auth.Pages.Account.PasswordReset.New
+<div class="password-reset-confirm-page">
+    <div class="row">
+        <div class="col-sm-6 mx-auto mb-3">
+            <div class="card border-primary">
+                <div class="card-header text-primary">
+                    Choose your new password
+                </div>
+
+                <div class="card-body text-primary">
+                    <form asp-page="/Account/PasswordReset/Confirm">
+                        <input type="hidden" asp-for="Input.UserId" />
+                        <input type="hidden" asp-for="Input.Code" />
+
+                        <div class="form-group mb-3">
+                            <label asp-for="Input.Username" class="mb-1"></label> *
+                            <input class="form-control" placeholder="E-mail" asp-for="Input.Username" autofocus>
+                            <span asp-validation-for="Input.Username" class="text-danger"></span>
+                        </div>
+
+                        <div class="form-group my-3">
+                            <label asp-for="Input.Password" class="mb-1"></label> *
+                            <div class="input-group">
+                                <input type="password" class="form-control" placeholder="Password" asp-for="Input.Password" autocomplete="off">
+                                <div class="input-group-append">
+                                    <button type="button" class="btn btn-secondary text-primary"
+                                            data-bs-container="body"
+                                            data-bs-toggle="popover"
+                                            data-bs-placement="right"
+                                            data-bs-content="Minimum 6 characters, one upper case letter, one digit, one non-alphanumeric character."
+                                            data-bs-original-title="Password requirements">
+                                        <i class="bi-info-circle"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            <span asp-validation-for="Input.Password" class="text-danger"></span>
+                        </div>
+
+                        <div class="form-group my-3">
+                            <label asp-for="Input.ConfirmPassword" class="mb-1"></label> *
+                            <input type="password" class="form-control" placeholder="Confirm Password" asp-for="Input.ConfirmPassword" autocomplete="off">
+                            <span asp-validation-for="Input.ConfirmPassword" class="text-danger"></span>
+                        </div>
+                        <hr />
+
+                        <div class="my-3 d-grid gap-3">
+                            <button class="btn btn-primary" name="Input.Button" value="reset">Reset</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+        </div>
+    </div>
+    @if (Model.View.IsSuccessful)
+    {
+        <div class="row">
+            <div class="col-sm-6 mx-auto mb-3">
+                <div class="card border-success">
+                    <div class="card-header">
+                        Success!
+                    </div>
+
+                    <div class="card-body">
+                        Your new password has been set, you may now log in with it.
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+</div>
+
+@section scripts {
+    <script src="~/js/password-reset-confirm.js" type="text/javascript"></script>
+}

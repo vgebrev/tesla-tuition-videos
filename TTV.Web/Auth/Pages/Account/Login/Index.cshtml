@@ -49,7 +49,7 @@
 
                             <div class="my-3 d-flex justify-content-between">
                                 <div>Don't have an account? <a asp-page="/Account/Register/Index" asp-route-ReturnUrl="@Model.Input.ReturnUrl">Register</a></div>
-                                <div><a asp-page="/Account/PasswordReset/Index">Password Reset</a></div>
+                                <div><a asp-page="/Account/PasswordReset/Index" asp-route-ReturnUrl="@Model.Input.ReturnUrl">Password Reset</a></div>
                             </div>
                         </form>
                     </div>

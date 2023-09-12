@@ -18,6 +18,7 @@
     <None Remove="Notifications\Templates\OrderCancelledTemplate.mustache" />
     <None Remove="Notifications\Templates\OrderCompletedTemplate.mustache" />
     <None Remove="Notifications\Templates\OrderConfirmationTemplate.mustache" />
+    <None Remove="Notifications\Templates\PasswordResetTemplate.mustache" />
   </ItemGroup>
 
   <ItemGroup>
@@ -27,6 +28,7 @@
   <ItemGroup>
     <EmbeddedResource Include="Notifications\Templates\OrderCompletedTemplate.mustache" />
     <EmbeddedResource Include="Notifications\Templates\OrderConfirmationTemplate.mustache" />
+    <EmbeddedResource Include="Notifications\Templates\PasswordResetTemplate.mustache" />
   </ItemGroup>
 
   <ItemGroup>

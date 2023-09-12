@@ -14,6 +14,7 @@ public class NotificationBuilder : INotificationBuilder
     private NotificationType? type;
     private Order? order;
     private User? user;
+    private object? data;
 
     public NotificationBuilder(IOptionsSnapshot<SystemSettings> config, ITemplateRenderer templateRenderer)
     {
@@ -40,7 +41,35 @@ public class NotificationBuilder : INotificationBuilder
             return await BuildOrderNotificationAsync(type.Value, notification, cancellationToken);
         }
 
+        if (type == NotificationType.PasswordReset)
+        {
+            return await BuildUserNotificationAsync(type.Value, notification, cancellationToken);
+        }
+
         throw new NotSupportedException($"Notification of type {type.Value.ToDisplayString()} not supported");
+    }
+
+    private async Task<Notification> BuildUserNotificationAsync(NotificationType type, Notification notification, CancellationToken cancellationToken)
+    {
+        if (user is null)
+        {
+            throw new InvalidOperationException("User is not set");
+        }
+
+        if (data is null)
+        {
+            throw new InvalidOperationException("Data is not set");
+        }
+
+        notification.To = user.Email ?? throw new InvalidOperationException("Notification recipient email not available");
+        notification.Subject = $"{type.ToDisplayString()}";
+        notification.Body = type switch
+        {
+            NotificationType.PasswordReset => await templateRenderer.RenderAsync(new PasswordResetTemplate("Customer", (string)data!), cancellationToken: cancellationToken),
+            _ => throw new NotSupportedException($"Notification of type {type.ToDisplayString()} is not a user notification"),
+        } ?? throw new InvalidOperationException("Unable to generate notification body from template");
+        notification.User = user;
+        return notification;
     }
 
     private async Task<Notification> BuildOrderNotificationAsync(NotificationType type, Notification notification, CancellationToken cancellationToken)
@@ -77,6 +106,12 @@ public class NotificationBuilder : INotificationBuilder
     public INotificationBuilder OfType(NotificationType type)
     {
         this.type = type;
+        return this;
+    }
+
+    public INotificationBuilder WithData<TData>(TData data)
+    {
+        this.data = data; 
         return this;
     }
 }

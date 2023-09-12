@@ -1,0 +1,44 @@
+﻿@page
+@model TTV.Web.Auth.Pages.Account.PasswordReset.Index
+<div class="password-reset-page">
+    <div class="row">
+        <div class="col-sm-6 mx-auto mb-3">
+            <div class="card border-primary">
+                <div class="card-header text-primary">
+                    Send password reset link
+                </div>
+
+                <div class="card-body text-primary">
+                    <form asp-page="/Account/PasswordReset/Index">
+                        <input type="hidden" asp-for="Input.ReturnUrl" />
+                        <div class="form-group mb-3">
+                            <label asp-for="Input.Username" class="mb-1"></label> *
+                            <input class="form-control" placeholder="E-mail" asp-for="Input.Username" autofocus>
+                            <span asp-validation-for="Input.Username" class="text-danger"></span>
+                        </div>
+                        <div class="my-3 d-grid gap-3">
+                            <button class="btn btn-primary" name="Input.Button" value="reset">Reset</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    @if (Model.View.IsSuccessful)
+    {
+        <div class="row">
+            <div class="col-sm-6 mx-auto mb-3">
+                <div class="card border-success">
+                    <div class="card-header">
+                        Success!
+                    </div>
+
+                    <div class="card-body">
+                        Please check your inbox for an email containing the password reset link. 
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+</div>

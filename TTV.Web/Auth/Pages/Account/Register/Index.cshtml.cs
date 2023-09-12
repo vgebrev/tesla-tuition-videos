@@ -51,7 +51,7 @@ namespace TTV.Web.Auth.Pages.Account.Register
                 var user = await userManager.FindByNameAsync(Input.Username);
                 if (user != null)
                 {
-                    ModelState.AddModelError(nameof(Input.Username), "E-mail is already in use.");
+                    ModelState.AddModelError($"{nameof(Input)}.{nameof(Input.Username)}", "E-mail is already in use.");
                     return Page();
                 }
 

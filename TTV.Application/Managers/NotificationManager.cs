@@ -44,9 +44,27 @@ public class NotificationManager : INotificationManager
         }
     }
 
-    public Task<Notification> CreateNotificationAsync(NotificationType notificationType, Guid userId, CancellationToken cancellationToken = default)
+    public async Task<Notification> CreateNotificationAsync<TData>(NotificationType notificationType, Guid userId, TData data, CancellationToken cancellationToken = default)
     {
-        throw new NotImplementedException();
+        using var unitOfWork = await unitOfWorkFactory.CreateAsync(cancellationToken);
+        try
+        {
+            await unitOfWork.StartAsync(cancellationToken);
+            var user = await unitOfWork.UserRepository.GetByIdAsync(userId, cancellationToken) ?? throw new UserNotFoundException(userId);
+            var notification = await notificationBuilder
+                .For(user)
+                .OfType(notificationType)
+                .WithData(data)
+                .BuildAsync(cancellationToken);
+            unitOfWork.NotificationRepository.Add(notification);
+            await unitOfWork.EndAsync(cancellationToken);
+            return notification;
+        }
+        catch (Exception)
+        {
+            await unitOfWork.CancelAsync(cancellationToken);
+            throw;
+        }
     }
 
     public async Task SendNotificationAsync(int notificationId, CancellationToken cancellationToken = default)

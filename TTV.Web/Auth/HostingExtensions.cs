@@ -1,10 +1,20 @@
 using Duende.IdentityServer;
-using TTV.Web.Auth.Data;
-using TTV.Web.Auth.Models;
+using Duende.IdentityServer.Services;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Serilog;
-using Duende.IdentityServer.Services;
+using TTV.Application;
+using TTV.Application.BackgroundJobs;
+using TTV.Application.Managers;
+using TTV.Domain.DomainServices;
+using TTV.Domain.DomainServices.BackgroundJobs;
+using TTV.Infrastructure.BackgroundJobs;
+using TTV.Infrastructure.DataAccess;
+using TTV.Infrastructure.Notifications;
+using TTV.Infrastructure.Notifications.Email;
+using TTV.Infrastructure.Notifications.Templates;
+using TTV.Web.Auth.Data;
+using TTV.Web.Auth.Models;
 
 namespace TTV.Web.Auth;
 
@@ -65,13 +75,31 @@ internal static class HostingExtensions
                 options.ClientId = builder.Configuration["Authentication:Google:ClientId"];
                 options.ClientSecret = builder.Configuration["Authentication:Google:ClientSecret"];
             })
-            .AddFacebook("Facebook", options =>
+        .AddFacebook("Facebook", options =>
             {
                 options.SignInScheme = IdentityServerConstants.ExternalCookieAuthenticationScheme;
 
                 options.AppId = builder.Configuration["Authentication:Facebook:AppId"];
                 options.AppSecret = builder.Configuration["Authentication:Facebook:AppSecret"];
             });
+
+        // TTV Services (for password reset)
+        builder.Services.AddDbContextFactory<DataContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("DataContext")));
+        
+        builder.Services.AddScoped<IEmailSender, EmailSender>();
+        builder.Services.AddScoped<INotificationBuilder, NotificationBuilder>();
+        builder.Services.AddScoped<INotificationManager, NotificationManager>();
+        builder.Services.AddScoped<INotificationSender, EmailNotificationSender>();
+        builder.Services.AddScoped<ITemplateRenderer, TemplateRenderer>();
+        builder.Services.AddScoped<IUnitOfWorkFactory, UnitOfWorkFactory>();
+
+        // Background jobs
+        builder.Services.AddSingleton<IBackgroundJobQueue, BackgroundJobQueue>();
+        builder.Services.AddHostedService<BackgroundJobService>();
+        builder.Services.AddScoped<CreatePasswordResetNotification>();
+        builder.Services.AddScoped<SendNotification>();
+
+        builder.Services.Configure<SystemSettings>(builder.Configuration.GetSection(nameof(SystemSettings)));
 
         return builder.Build();
     }

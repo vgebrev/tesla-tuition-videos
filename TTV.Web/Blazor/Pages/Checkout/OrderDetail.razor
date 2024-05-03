@@ -43,6 +43,22 @@
                         <th>R@(Order.Lessons.Sum(l => l.CurrentPrice.EffectiveAmount).ToString("0"))</th>
                     </tr>
                 </tbody>
+                @if (Order.Payments.Where(p => p.Status.Name == "Paid").Any())
+                {
+                    <tbody>
+                        @foreach (var payment in Order.Payments.Where(p => p.Status.Name == "Paid"))
+                        {
+                            <tr>
+                                <td>@payment.PaymentMethod.ToDisplayString() Payment</td>
+                                <td>-R@(payment.Amount.ToString("0"))</td>
+                            </tr>
+                        }
+                        <tr class="table-secondary border-primary border-bottom border-1">
+                            <th class="text-end">Sub Total</th>
+                            <th>-R@(Order.Payments.Where(p => p.Status.Name == "Paid").Sum(d => d.Amount).ToString("0"))</th>
+                        </tr>
+                    </tbody>
+                }
                 @if (Order.AppliedDiscounts.Length > 0)
                 {
                     <tbody>
@@ -90,7 +106,7 @@
     [Parameter]
     public OrderDto? Order { get; set; }
 
-    private decimal OrderTotal => Order == null ? 0 : Order.Lessons.Sum(lesson => lesson.CurrentPrice.EffectiveAmount) - Order.AppliedDiscounts.Sum(discount => discount.Amount);
+    private decimal OrderTotal => Order == null ? 0 : Order.Lessons.Sum(l => l.CurrentPrice.EffectiveAmount) - Order.AppliedDiscounts.Sum(d => d.Amount) - Order.Payments.Where(p => p.Status.Name == "Paid").Sum(p => p.Amount);
     private ResultDto<OrderDto>? CancelOrderResult => State.Value.CancelOrderResult;
 
     private bool UserOwnsLesson(LessonDto lesson)

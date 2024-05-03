@@ -16,7 +16,7 @@ public static class ApplicationBuilderExtensions
                 string? token = queryString["access_token"];
                 if (!string.IsNullOrWhiteSpace(token))
                 {
-                    context.Request.Headers.Add(nameof(HttpRequestHeader.Authorization), new[] { $"Bearer {token}" });
+                    context.Request.Headers.Append(nameof(HttpRequestHeader.Authorization), new[] { $"Bearer {token}" });
                 }
             }
 
@@ -29,7 +29,7 @@ public static class ApplicationBuilderExtensions
     {
         app.Use(async (context, next) =>
          {
-             context.Response.Headers.Add("Content-Security-Policy", "default-src 'self' data: gap: https://ssl.gstatic.com 'unsafe-eval'; connect-src 'self' wss:; style-src 'self' data: https://fonts.googleapis.com; font-src 'self' data: https://fonts.gstatic.com; img-src 'self' data: content: https:; media-src *");
+             context.Response.Headers.Append("Content-Security-Policy", "default-src 'self' data: gap: https://ssl.gstatic.com 'unsafe-eval'; connect-src 'self' wss:; style-src 'self' data: https://fonts.googleapis.com; font-src 'self' data: https://fonts.gstatic.com; img-src 'self' data: content: https:; media-src *");
              await next();
          });
         return app;

@@ -27,7 +27,7 @@ public class LessonApiConsumer : ILessonApiConsumer
 
     public async Task<LessonDto[]> GetLessonsOwnedByCurrentUserAsync(CancellationToken cancellationToken = default)
     {
-        var lessons = await httpClient.GetFromJsonAsync<LessonDto[]>("api/lesson/owned", cancellationToken) ?? Array.Empty<LessonDto>();
+        var lessons = await httpClient.GetFromJsonAsync<LessonDto[]>("api/lesson/own", cancellationToken) ?? Array.Empty<LessonDto>();
         return lessons;
     }
 

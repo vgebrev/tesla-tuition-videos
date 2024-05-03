@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Components;
 using TTV.Web.Blazor.Pages.Checkout.Store.Actions;
 using TTV.Web.Blazor.Services;
 using TTV.Web.Blazor.Shared.Store;
+using TTV.Web.Shared;
 
 namespace TTV.Web.Blazor.Pages.Checkout.Store;
 
@@ -10,13 +11,13 @@ public class Effects
 {
     private readonly IOrderApiConsumer orderApi;
     private readonly IDiscountVoucherApiConsumer discountVoucherApi;
-    private readonly NavigationManager navigationManager;
+    private readonly IPaymentApiConsumer paymentApi;
 
-    public Effects(IOrderApiConsumer orderApi, IDiscountVoucherApiConsumer discountVoucherApi, NavigationManager navigationManager)
+    public Effects(IOrderApiConsumer orderApi, IDiscountVoucherApiConsumer discountVoucherApi, IPaymentApiConsumer paymentApi, NavigationManager navigationManager)
     {
         this.orderApi = orderApi;
         this.discountVoucherApi = discountVoucherApi;
-        this.navigationManager = navigationManager;
+        this.paymentApi = paymentApi;
     }
 
     [EffectMethod]
@@ -52,30 +53,6 @@ public class Effects
     }
 
     [EffectMethod]
-    public async Task HandleCompleteOrderRequest(CompleteOrderRequest action, IDispatcher dispatcher)
-    {
-        try
-        {
-            var resultDto = await orderApi.CompleteOrderAsync(action.OrderId);
-            dispatcher.Dispatch(new CompleteOrderResponse() { Result = resultDto });
-        }
-        catch (Exception)
-        {
-            dispatcher.Dispatch(new CompleteOrderError() { ErrorMessage = Consts.DefaultErrorMessage });
-        }
-    }
-
-    [EffectMethod]
-    public Task HandleCompleteOrderResponse(CompleteOrderResponse action, IDispatcher _)
-    {
-        if (action.Result.IsSuccess)
-        {
-            navigationManager.NavigateTo($"/order-complete/{action.Result.Value.Id}");
-        }
-        return Task.CompletedTask;
-    }
-
-    [EffectMethod]
     public async Task HandleCancelOrderRequest(CancelOrderRequest action, IDispatcher dispatcher)
     {
         try
@@ -86,6 +63,23 @@ public class Effects
         catch (Exception)
         {
             dispatcher.Dispatch(new CancelOrderError() { ErrorMessage = Consts.DefaultErrorMessage });
+        }
+    }
+
+    [EffectMethod]
+    public async Task HandleInitiatePaymentRequest(InitiatePaymentRequest action, IDispatcher dispatcher)
+    {
+        try
+        {
+            var dto = new PaymentInitiateDto()
+            {
+                OrderId = action.OrderId,
+                PaymentMethod = action.PaymentMethod
+            };
+            var resultDto = await paymentApi.InitiateOrderPaymentAsync(dto);
+            dispatcher.Dispatch(new InitiatePaymentResponse() { Result = resultDto });
+        } catch(Exception){
+            dispatcher.Dispatch(new InitiatePaymentError() { ErrorMessage = Consts.DefaultErrorMessage });
         }
     }
 }

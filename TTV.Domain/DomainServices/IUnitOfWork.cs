@@ -12,6 +12,7 @@ public interface IUnitOfWork : IDisposable
     ILessonRepository LessonRepository { get; }
     INotificationRepository NotificationRepository { get; }
     IOrderRepository OrderRepository { get; }
+    IPaymentRepository PaymentRepository { get; }
     ITagRepository TagRepository { get; }
     IUserRepository UserRepository { get; }
     IVideoRepository VideoRepository { get; }

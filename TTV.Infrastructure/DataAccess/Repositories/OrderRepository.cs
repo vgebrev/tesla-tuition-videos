@@ -26,6 +26,7 @@ public class OrderRepository : IOrderRepository
             .Include(order => order.Lessons)
                 .ThenInclude(lesson => lesson.Tags).ThenInclude(tag => tag.Category)
             .Include(order => order.AppliedVouchers.OrderBy(map => map.UsedAt)).ThenInclude(map => map.Voucher).ThenInclude(voucher => voucher.OrdersAppliedTo)
+            .Include(order => order.Payments)
             .Include(order => order.PlacedBy)
             .Where(order => order.PlacedBy.Id == userId)
             .OrderByDescending(order => order.PlacedOn).ThenBy(order => order.Status)
@@ -37,6 +38,7 @@ public class OrderRepository : IOrderRepository
         return await dataContext.Orders.TagWithCallSite()
             .Include(order => order.Lessons)
             .Include(order => order.AppliedVouchers.OrderBy(map => map.UsedAt)).ThenInclude(map => map.Voucher).ThenInclude(voucher => voucher.OrdersAppliedTo)
+            .Include(order => order.Payments)
             .Include(order => order.PlacedBy)
             .SingleOrDefaultAsync(order => order.Id == orderId, cancellationToken);
     }
@@ -49,6 +51,7 @@ public class OrderRepository : IOrderRepository
             .Include(order => order.Lessons)
                 .ThenInclude(lesson => lesson.Tags).ThenInclude(tag => tag.Category)
             .Include(order => order.AppliedVouchers.OrderBy(map => map.UsedAt)).ThenInclude(map => map.Voucher).ThenInclude(voucher => voucher.OrdersAppliedTo)
+            .Include(order => order.Payments)
             .Include(order => order.PlacedBy)
             .SingleOrDefaultAsync(order => order.Id == orderId && order.PlacedBy.Id == ownerId, cancellationToken);
     }

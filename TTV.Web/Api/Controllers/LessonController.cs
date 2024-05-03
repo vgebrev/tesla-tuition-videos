@@ -39,7 +39,7 @@ public class LessonController : ControllerBase
         return lessons.ToLessonDtoEnumerable();
     }
 
-    [HttpGet("owned")]
+    [HttpGet("own")]
     [Authorize]
     public async Task<IEnumerable<LessonDto>> GetLessonsOwnedByUser(CancellationToken cancellationToken = default)
     {

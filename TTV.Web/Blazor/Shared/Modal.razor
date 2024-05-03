@@ -1,0 +1,75 @@
+﻿@inject IJSRuntime JS
+@implements IAsyncDisposable
+
+<div class="modal fade" id="@Id" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="modal-label" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="modal-label">Bank Transfer</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" @onclick="() => Close()"></button>
+            </div>
+            <div class="modal-body">
+                @ChildContent
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" @onclick="() => Close()">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@code {
+    [Parameter]
+    public string Id { get; set; } = "modal";
+
+    [Parameter]
+    public RenderFragment? ChildContent { get; set; }
+
+    [Parameter]
+    public bool IsOpen { get; set; }
+
+    private IJSObjectReference? script;
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender && script == null)
+        {
+            script = await JS.InvokeAsync<IJSObjectReference>("import", "./Shared/Modal.razor.js");
+        }
+        await base.OnAfterRenderAsync(firstRender);
+    }
+
+    public async ValueTask DisposeAsync()
+    {
+        if (script != null)
+        {
+            await script.DisposeAsync();
+        }
+    }
+
+    protected override void OnParametersSet()
+    {
+        if (IsOpen)
+        {
+            Open();
+        }
+        else
+        {
+            Close();
+        }
+    }
+
+    public async void Open()
+    {
+        IsOpen = true;
+        if (script != null)
+            await script.InvokeVoidAsync("openModal", Id);
+    }
+
+    public async void Close()
+    {
+        IsOpen = false;
+        if (script != null)
+            await script.InvokeVoidAsync("closeModal", Id);
+    }
+}

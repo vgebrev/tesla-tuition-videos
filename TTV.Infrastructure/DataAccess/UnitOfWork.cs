@@ -15,6 +15,7 @@ public class UnitOfWork : IUnitOfWork
     public ILessonRepository LessonRepository { get; }
     public INotificationRepository NotificationRepository { get; }
     public IOrderRepository OrderRepository { get; }
+    public IPaymentRepository PaymentRepository { get; }
     public ITagRepository TagRepository { get; }
     public IUserRepository UserRepository { get; set; }
     public IVideoRepository VideoRepository { get; }
@@ -26,6 +27,7 @@ public class UnitOfWork : IUnitOfWork
         NotificationRepository = new NotificationRepository(dataContext);
         LessonRepository = new LessonRepository(dataContext);
         OrderRepository = new OrderRepository(dataContext);
+        PaymentRepository = new PaymentRepository(dataContext);
         TagRepository = new TagRepository(dataContext);
         UserRepository = new UserRepository(dataContext);
         VideoRepository = new VideoRepository(dataContext);

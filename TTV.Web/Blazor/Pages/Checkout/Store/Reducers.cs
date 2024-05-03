@@ -22,7 +22,6 @@ namespace TTV.Web.Blazor.Pages.Checkout.Store
             {
                 IsLoading = true,
                 ApplyVoucherResult = null,
-                CompleteOrderResult = null,
                 CancelOrderResult = null
             };
 
@@ -79,32 +78,6 @@ namespace TTV.Web.Blazor.Pages.Checkout.Store
                 Error = new() { IsError = true, ErrorMessage = action.ErrorMessage }
             };
 
-        [ReducerMethod(typeof(CompleteOrderRequest))]
-        public static CheckoutState ReduceCompleteOrderRequest(CheckoutState state) =>
-            state with
-            {
-                IsLoading = true,
-            };
-
-        [ReducerMethod]
-        public static CheckoutState ReduceCompleteOrderResponse(CheckoutState state, CompleteOrderResponse action) =>
-            state with
-            {
-                CompleteOrderResult = action.Result,
-                Order = action.Result.Value,
-                IsLoading = false,
-                Error = new()
-            };
-
-        [ReducerMethod]
-        public static CheckoutState ReduceCompleteOrderError(CheckoutState state, CompleteOrderError action) =>
-            state with
-            {
-                CompleteOrderResult = null,
-                IsLoading = false,
-                Error = new() { IsError = true, ErrorMessage = action.ErrorMessage }
-            };
-
         [ReducerMethod(typeof(CancelOrderRequest))]
         public static CheckoutState ReduceCancelOrderRequest(CheckoutState state) =>
         state with
@@ -127,6 +100,31 @@ namespace TTV.Web.Blazor.Pages.Checkout.Store
             state with
             {
                 CancelOrderResult = null,
+                IsLoading = false,
+                Error = new() { IsError = true, ErrorMessage = action.ErrorMessage }
+            };
+
+        [ReducerMethod(typeof(InitiatePaymentRequest))]
+        public static CheckoutState ReduceInitiatePaymentRequest(CheckoutState state) =>
+            state with
+            {
+                IsLoading = true,
+            };
+
+        [ReducerMethod]
+        public static CheckoutState ReduceInitiateOrderResponse(CheckoutState state, InitiatePaymentResponse action) =>
+            state with
+            {
+                InitiatePaymentResult = action.Result,
+                IsLoading = false,
+                Error = new()
+            };
+
+        [ReducerMethod]
+        public static CheckoutState ReduceInitiatePaymentError(CheckoutState state, InitiatePaymentError action) =>
+            state with
+            {
+                InitiatePaymentResult = null,
                 IsLoading = false,
                 Error = new() { IsError = true, ErrorMessage = action.ErrorMessage }
             };

@@ -27,7 +27,7 @@
     <ProgressLoader IsLoading="IsLoading" class="mb-3"></ProgressLoader>
 }
 
-@if (Order != null)
+@if (Order != null && (CompleteOrderResult?.IsSuccess ?? false))
 {
     <div class="row justify-content-center">
         <div class="col-lg-6 col-md-8 col-sm-12 text-center">
@@ -60,6 +60,7 @@
     [Parameter]
     public int OrderId { get; set; }
 
+    private ResultDto<OrderDto>? CompleteOrderResult => State.Value.CompleteOrderResult;
     private OrderDto? Order => State.Value.Order;
     private bool IsLoading => State.Value.IsLoading;
     private ErrorState Error => State.Value.Error;
@@ -67,6 +68,7 @@
     protected override void OnParametersSet()
     {
         base.OnParametersSet();
-        Dispatcher.Dispatch(new GetOrderRequest() { OrderId = OrderId, CurrentOrder = Order });
+        //Dispatcher.Dispatch(new GetOrderRequest() { OrderId = OrderId, CurrentOrder = Order });
+        Dispatcher.Dispatch(new CompleteOrderRequest() { OrderId = OrderId });
     }
 }

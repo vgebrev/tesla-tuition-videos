@@ -8,6 +8,7 @@ namespace TTV.Web.Blazor.Pages.OrderComplete.Store;
 public record OrderCompleteState
 {
     public bool IsLoading { get; init; }
+    public ResultDto<OrderDto>? CompleteOrderResult { get; init; }
     public OrderDto? Order { get; init; }
     public ErrorState Error { get; init; } = new();
 }

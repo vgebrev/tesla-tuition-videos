@@ -17,10 +17,25 @@ namespace TTV.DatabaseDeploy.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "7.0.10")
+                .HasAnnotation("ProductVersion", "8.0.4")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
+
+            modelBuilder.Entity("LessonDocument", b =>
+                {
+                    b.Property<int>("DocumentId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("LessonId")
+                        .HasColumnType("int");
+
+                    b.HasKey("DocumentId", "LessonId");
+
+                    b.HasIndex("LessonId");
+
+                    b.ToTable("LessonDocument");
+                });
 
             modelBuilder.Entity("LessonTag", b =>
                 {
@@ -90,6 +105,37 @@ namespace TTV.DatabaseDeploy.Migrations
                     b.HasIndex("IssuedById");
 
                     b.ToTable("DiscountVoucher", (string)null);
+                });
+
+            modelBuilder.Entity("TTV.Domain.Entities.Document", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("DocumentType")
+                        .HasColumnType("int")
+                        .HasColumnName("DocumentTypeId");
+
+                    b.Property<string>("Filename")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("RelativePath")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("DocumentType");
+
+                    b.ToTable("Document", (string)null);
                 });
 
             modelBuilder.Entity("TTV.Domain.Entities.Lesson", b =>
@@ -231,6 +277,101 @@ namespace TTV.DatabaseDeploy.Migrations
                     b.ToTable("OrderDiscountVoucher", (string)null);
                 });
 
+            modelBuilder.Entity("TTV.Domain.Entities.Payment", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<decimal>("Amount")
+                        .HasPrecision(18, 4)
+                        .HasColumnType("decimal(18,4)");
+
+                    b.Property<Guid>("CreatedById")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("CreatedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("ExternalIdentifier")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<DateTime?>("FinalisedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("OrderId")
+                        .HasColumnType("int");
+
+                    b.Property<Guid?>("ProcessedById")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<int>("Status")
+                        .HasColumnType("int")
+                        .HasColumnName("StatusId");
+
+                    b.Property<string>("StatusReason")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("Type")
+                        .HasColumnType("int")
+                        .HasColumnName("TypeId");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CreatedById");
+
+                    b.HasIndex("ExternalIdentifier")
+                        .IsUnique()
+                        .HasFilter("[ExternalIdentifier] IS NOT NULL");
+
+                    b.HasIndex("OrderId");
+
+                    b.HasIndex("ProcessedById");
+
+                    b.HasIndex("Status");
+
+                    b.HasIndex("Type");
+
+                    b.ToTable("Payment", (string)null);
+                });
+
+            modelBuilder.Entity("TTV.Domain.Entities.PaymentConfirmation", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Discriminator")
+                        .IsRequired()
+                        .HasMaxLength(34)
+                        .HasColumnType("nvarchar(34)");
+
+                    b.Property<string>("FailureReason")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("IsSuccessful")
+                        .HasColumnType("bit");
+
+                    b.Property<Guid>("PaymentId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime?>("ReceivedOn")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("PaymentId")
+                        .IsUnique();
+
+                    b.ToTable("PaymentConfirmation", (string)null);
+
+                    b.HasDiscriminator<string>("Discriminator").HasValue("PaymentConfirmation");
+
+                    b.UseTphMappingStrategy();
+                });
+
             modelBuilder.Entity("TTV.Domain.Entities.Tag", b =>
                 {
                     b.Property<int>("Id")
@@ -321,6 +462,27 @@ namespace TTV.DatabaseDeploy.Migrations
                     b.HasIndex("VideoType");
 
                     b.ToTable("Video", (string)null);
+                });
+
+            modelBuilder.Entity("TTV.Infrastructure.DataAccess.Configuration.LookupEntity<TTV.Domain.Entities.DocumentType>", b =>
+                {
+                    b.Property<int>("Id")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("DocumentType", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Name = "Exercise PDF"
+                        });
                 });
 
             modelBuilder.Entity("TTV.Infrastructure.DataAccess.Configuration.LookupEntity<TTV.Domain.Entities.LessonType>", b =>
@@ -416,6 +578,73 @@ namespace TTV.DatabaseDeploy.Migrations
                         });
                 });
 
+            modelBuilder.Entity("TTV.Infrastructure.DataAccess.Configuration.LookupEntity<TTV.Domain.Entities.PaymentStatus>", b =>
+                {
+                    b.Property<int>("Id")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("PaymentStatus", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Name = "Pending"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Name = "Paid"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            Name = "Failed"
+                        },
+                        new
+                        {
+                            Id = 4,
+                            Name = "Cancelled"
+                        });
+                });
+
+            modelBuilder.Entity("TTV.Infrastructure.DataAccess.Configuration.LookupEntity<TTV.Domain.Entities.PaymentType>", b =>
+                {
+                    b.Property<int>("Id")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("PaymentType", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Name = "Manual Bank Transfer"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Name = "Payfast"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            Name = "PayPal"
+                        });
+                });
+
             modelBuilder.Entity("TTV.Infrastructure.DataAccess.Configuration.LookupEntity<TTV.Domain.Entities.VideoType>", b =>
                 {
                     b.Property<int>("Id")
@@ -455,6 +684,59 @@ namespace TTV.DatabaseDeploy.Migrations
                     b.HasIndex("UserId");
 
                     b.ToTable("UserLesson");
+                });
+
+            modelBuilder.Entity("TTV.Domain.Entities.PayfastPaymentConfirmation", b =>
+                {
+                    b.HasBaseType("TTV.Domain.Entities.PaymentConfirmation");
+
+                    b.Property<decimal>("AmountFee")
+                        .HasPrecision(18, 4)
+                        .HasColumnType("decimal(18,4)");
+
+                    b.Property<decimal>("AmountGross")
+                        .HasPrecision(18, 4)
+                        .HasColumnType("decimal(18,4)");
+
+                    b.Property<decimal>("AmountNet")
+                        .HasPrecision(18, 4)
+                        .HasColumnType("decimal(18,4)");
+
+                    b.Property<string>("ItemName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("PayfastPaymentId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Payload")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("PaymentStatus")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Signature")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasDiscriminator().HasValue("PayfastPaymentConfirmation");
+                });
+
+            modelBuilder.Entity("LessonDocument", b =>
+                {
+                    b.HasOne("TTV.Domain.Entities.Document", null)
+                        .WithMany()
+                        .HasForeignKey("DocumentId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("TTV.Domain.Entities.Lesson", null)
+                        .WithMany()
+                        .HasForeignKey("LessonId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("LessonTag", b =>
@@ -503,6 +785,15 @@ namespace TTV.DatabaseDeploy.Migrations
                     b.Navigation("ClaimedBy");
 
                     b.Navigation("IssuedBy");
+                });
+
+            modelBuilder.Entity("TTV.Domain.Entities.Document", b =>
+                {
+                    b.HasOne("TTV.Infrastructure.DataAccess.Configuration.LookupEntity<TTV.Domain.Entities.DocumentType>", null)
+                        .WithMany()
+                        .HasForeignKey("DocumentType")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("TTV.Domain.Entities.Lesson", b =>
@@ -609,6 +900,55 @@ namespace TTV.DatabaseDeploy.Migrations
                     b.Navigation("Voucher");
                 });
 
+            modelBuilder.Entity("TTV.Domain.Entities.Payment", b =>
+                {
+                    b.HasOne("TTV.Domain.Entities.User", "CreatedBy")
+                        .WithMany()
+                        .HasForeignKey("CreatedById")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("TTV.Domain.Entities.Order", "Order")
+                        .WithMany("Payments")
+                        .HasForeignKey("OrderId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("TTV.Domain.Entities.User", "ProcessedBy")
+                        .WithMany()
+                        .HasForeignKey("ProcessedById")
+                        .OnDelete(DeleteBehavior.Restrict);
+
+                    b.HasOne("TTV.Infrastructure.DataAccess.Configuration.LookupEntity<TTV.Domain.Entities.PaymentStatus>", null)
+                        .WithMany()
+                        .HasForeignKey("Status")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("TTV.Infrastructure.DataAccess.Configuration.LookupEntity<TTV.Domain.Entities.PaymentType>", null)
+                        .WithMany()
+                        .HasForeignKey("Type")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("CreatedBy");
+
+                    b.Navigation("Order");
+
+                    b.Navigation("ProcessedBy");
+                });
+
+            modelBuilder.Entity("TTV.Domain.Entities.PaymentConfirmation", b =>
+                {
+                    b.HasOne("TTV.Domain.Entities.Payment", "Payment")
+                        .WithOne("PaymentConfirmation")
+                        .HasForeignKey("TTV.Domain.Entities.PaymentConfirmation", "PaymentId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("Payment");
+                });
+
             modelBuilder.Entity("TTV.Domain.Entities.Tag", b =>
                 {
                     b.HasOne("TTV.Domain.Entities.TagCategory", "Category")
@@ -667,6 +1007,13 @@ namespace TTV.DatabaseDeploy.Migrations
                     b.Navigation("AppliedVouchers");
 
                     b.Navigation("Notifications");
+
+                    b.Navigation("Payments");
+                });
+
+            modelBuilder.Entity("TTV.Domain.Entities.Payment", b =>
+                {
+                    b.Navigation("PaymentConfirmation");
                 });
 
             modelBuilder.Entity("TTV.Domain.Entities.User", b =>

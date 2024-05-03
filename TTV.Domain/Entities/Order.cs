@@ -9,6 +9,7 @@ public class Order : BaseEntity
         Lessons = new HashSet<Lesson>();
         AppliedVouchers = new HashSet<OrderDiscountVoucher>();
         Notifications = new HashSet<Notification>();
+        Payments = new HashSet<Payment>();
     }
 
     public void AddLessons(IEnumerable<Lesson> lessons)
@@ -118,6 +119,15 @@ public class Order : BaseEntity
         return new Result<Order>(this, true, $"Order cancelled {(refundAppliedVouchers ? "and vouchers refunded" : "")}");
     }
 
+    public void CancelPendingPayments(string reason)
+    {
+        var pendingPayments = Payments.Where(payment => payment.Status == PaymentStatus.Pending);
+        foreach (var pendingPayment in pendingPayments)
+        {
+            pendingPayment.Cancel(reason);
+        }
+    }
+
     public User PlacedBy { get; set; } = new();
     public DateTime PlacedOn { get; set; } = DateTime.Now;
     public OrderStatus Status { get; set; } = OrderStatus.New;
@@ -126,9 +136,10 @@ public class Order : BaseEntity
     public virtual ICollection<Lesson> Lessons { get; private set; }
     public virtual ICollection<OrderDiscountVoucher> AppliedVouchers { get; private set; }
     public virtual ICollection<Notification> Notifications { get; private set; }
+    public virtual ICollection<Payment> Payments { get; private set; }
 
     public decimal OrderTotal => Lessons.Sum(lesson => lesson.PriceAt(PlacedOn).EffectiveAmount);
-    public decimal PaymentsTotal => AppliedVouchers.Sum(x => x.Amount);
+    public decimal PaymentsTotal => AppliedVouchers.Sum(x => x.Amount) + Payments.Where(x => x.Status == PaymentStatus.Paid).Sum(x => x.Amount);
     public decimal TotalAmount => OrderTotal - PaymentsTotal;
     public bool HasOwnedLessons => Lessons.Any(lesson => lesson.OwnedBy.Any(user => user == PlacedBy));
     public bool IsFinalised => Status == OrderStatus.Cancelled || Status == OrderStatus.Completed;

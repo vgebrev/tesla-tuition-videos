@@ -1,6 +1,6 @@
 ﻿using TTV.Web.Shared;
 
-namespace TTV.Web.Blazor.Pages.Checkout.Store.Actions;
+namespace TTV.Web.Blazor.Pages.OrderComplete.Store;
 
 public record CompleteOrderRequest
 {

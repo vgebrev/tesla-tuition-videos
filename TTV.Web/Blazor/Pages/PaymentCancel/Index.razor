@@ -1,0 +1,13 @@
+﻿@page "/payment-cancel/{orderId:int}"
+@attribute [Authorize]
+
+@using Microsoft.AspNetCore.Authorization;
+
+<PageTitle>Tesla Tuition Videos - Payment Cancelled</PageTitle>
+
+The payment for Order #@OrderId was cancelled.
+
+@code {
+    [Parameter]
+    public int OrderId { get; set; }
+}

@@ -27,6 +27,7 @@ internal class LessonConfiguration : IEntityTypeConfiguration<Lesson>
         entity.HasOne(typeof(LookupEntity<LessonType>)).WithMany()
             .HasPrincipalKey(nameof(LookupEntity<LessonType>.Id))
             .HasForeignKey(nameof(Lesson.LessonType)).OnDelete(DeleteBehavior.Restrict);
+
         entity.HasMany(lesson => lesson.Tags).WithMany(tag => tag.Lessons).UsingEntity<Dictionary<string, object>>($"{nameof(Lesson)}{nameof(Tag)}",
             lesson => lesson.HasOne<Tag>().WithMany().HasForeignKey($"{nameof(Tag)}{nameof(Tag.Id)}").OnDelete(DeleteBehavior.Restrict),
             tag => tag.HasOne<Lesson>().WithMany().HasForeignKey($"{nameof(Lesson)}{nameof(Lesson.Id)}").OnDelete(DeleteBehavior.Restrict));

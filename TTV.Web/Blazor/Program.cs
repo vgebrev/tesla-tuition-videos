@@ -39,6 +39,7 @@ builder.Services.AddBlazoredLocalStorage();
 builder.Services.AddScoped<IDiscountVoucherApiConsumer, DiscountVoucherApiConsumer>();
 builder.Services.AddScoped<ILessonApiConsumer, LessonApiConsumer>();
 builder.Services.AddScoped<IOrderApiConsumer, OrderApiConsumer>();
+builder.Services.AddScoped<IPaymentApiConsumer, PaymentApiConsumer>();
 builder.Services.AddScoped<ITagApiConsumer, TagApiConsumer>();
 
 await builder.Build().RunAsync();

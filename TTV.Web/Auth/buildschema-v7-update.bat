@@ -1,0 +1,2 @@
+dotnet ef migrations add Update-DuendeIdentityServer-v7 -c ConfigurationDbContext -o Data/Migrations/IdentityServer/ConfigurationDb
+dotnet ef migrations add Update-DuendeIdentityServer-v7 -c PersistedGrantDbContext -o Data/Migrations/IdentityServer/PersistedGrantDb

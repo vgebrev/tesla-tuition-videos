@@ -16,6 +16,7 @@ internal static class OrderMappings
             StatusReason = order.StatusReason,
             TotalAmount = order.TotalAmount,
             AppliedDiscounts = order.AppliedVouchers.Select(ToAppliedDiscountDto).ToArray()!,
+            Payments = order.Payments.ToEnumerablePaymentDto().ToArray(),
             HasOwnedLessons = order.HasOwnedLessons,
             IsFinalised = order.IsFinalised,
             IsPayable = order.IsPayable,

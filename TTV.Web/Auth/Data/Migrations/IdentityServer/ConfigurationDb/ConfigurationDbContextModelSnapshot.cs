@@ -18,7 +18,7 @@ namespace TTV.Web.Auth.Data.Migrations.IdentityServer.ConfigurationDb
 #pragma warning disable 612, 618
             modelBuilder
                 .HasDefaultSchema("auth_cfg")
-                .HasAnnotation("ProductVersion", "7.0.9")
+                .HasAnnotation("ProductVersion", "8.0.4")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
@@ -434,6 +434,9 @@ namespace TTV.Web.Auth.Data.Migrations.IdentityServer.ConfigurationDb
                         .HasMaxLength(200)
                         .HasColumnType("nvarchar(200)");
 
+                    b.Property<int?>("PushedAuthorizationLifetime")
+                        .HasColumnType("int");
+
                     b.Property<int>("RefreshTokenExpiration")
                         .HasColumnType("int");
 
@@ -450,6 +453,9 @@ namespace TTV.Web.Auth.Data.Migrations.IdentityServer.ConfigurationDb
                         .HasColumnType("bit");
 
                     b.Property<bool>("RequirePkce")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("RequirePushedAuthorization")
                         .HasColumnType("bit");
 
                     b.Property<bool>("RequireRequestObject")

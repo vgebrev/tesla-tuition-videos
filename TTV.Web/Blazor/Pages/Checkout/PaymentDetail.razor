@@ -1,4 +1,6 @@
-﻿@attribute [Authorize]
+﻿@inject IJSRuntime JS
+@implements IAsyncDisposable
+@attribute [Authorize]
 
 @using Fluxor;
 @using Microsoft.AspNetCore.Authorization
@@ -10,27 +12,28 @@
 
 @inject IState<CheckoutState> State
 @inject IDispatcher Dispatcher
+@inject NavigationManager NavigationManager
 
 <div class="card bg-secondary">
     <div class="card-header">Payment Details</div>
     <div class="card-body">
         <h4>Payment Method</h4>
-        <EditForm Model="paymentMethod" class="border-1 border-bottom border-dark mb-3">
+        <EditForm Model="paymentMethod">
             <div class="row">
                 <InputRadioGroup @bind-Value="paymentMethod">
+                    <div class="col-12 col-md-4 mb-2">
+                        <div class="form-check disabled">
+                            <InputRadio class="form-check-input" id="payfast" Value="PaymentMethod.Payfast" />
+                            <label class="form-check-label" for="payfast">
+                                <i class="bi bi-credit-card"></i> Payfast
+                            </label>
+                        </div>
+                    </div>
                     <div class="col-12 col-md-4 mb-2">
                         <div class="form-check">
                             <InputRadio class="form-check-input" id="eft" Value="PaymentMethod.BankTransfer" />
                             <label class="form-check-label" for="eft">
                                 <i class="bi bi-bank"></i> Bank Transfer
-                            </label>
-                        </div>
-                    </div>
-                    <div class="col-12 col-md-4 mb-2">
-                        <div class="form-check disabled">
-                            <InputRadio class="form-check-input" id="credit-card" Value="PaymentMethod.CreditCard" disabled />
-                            <label class="form-check-label" for="credit-card">
-                                <i class="bi bi-credit-card"></i> Credit Card <span class="text-muted">(Coming Soon)</span>
                             </label>
                         </div>
                     </div>
@@ -45,10 +48,7 @@
                 </InputRadioGroup>
             </div>
         </EditForm>
-        @if (paymentMethod == PaymentMethod.BankTransfer)
-        {
-            <PayByBankTransfer OrderId="@Order.Id"></PayByBankTransfer>
-        }
+
     </div>
     <div class="card-footer">
         <div class="row justify-content-center">
@@ -62,16 +62,13 @@
             @if (Order.IsPayable)
             {
                 <div class="col-12 col-sm-6 col-md-4 text-center mb-2">
-                    <button type="button" class="btn btn-primary btn-lg" @onclick="OrderPayment"><i class="bi bi-credit-card me-2"></i> Payment</button>
+                    <button type="button" class="btn btn-primary btn-lg" @onclick="OrderPayment"><i class="bi bi-credit-card me-2"></i> Pay Now</button>
                 </div>
             }
         </div>
 
         <div class="row">
-            <div class="col-12 mb-2">
-                <ResultCard Result="CompleteOrderResult"></ResultCard>
-            </div>
-            @if (!Order.CanComplete && !Order.IsPayable && (CompleteOrderResult == null || !CompleteOrderResult.IsSuccess))
+            @if (!Order.CanComplete && !Order.IsPayable)
             {
                 <div class="col-12">
                     @if (Order.HasOwnedLessons)
@@ -96,28 +93,60 @@
     </div>
 </div>
 
+<Modal IsOpen="IsEftModalOpen">
+    <PayByBankTransfer OrderId="@Order.Id"></PayByBankTransfer>
+</Modal>
+
 @code {
     [Parameter]
     public OrderDto Order { get; set; } = new();
 
-    private ResultDto<OrderDto>? CompleteOrderResult => State.Value.CompleteOrderResult;
+    private ResultDto<PaymentDto?>? InitiatePaymentResult => State.Value.InitiatePaymentResult;
+    private PaymentDto? LatestPayment => InitiatePaymentResult?.Value;
+    private bool IsEftModalOpen => LatestPayment != null && LatestPayment.PaymentMethod == PaymentMethod.BankTransfer && LatestPayment.PaymentMethod == paymentMethod;
+    private PaymentMethod paymentMethod = PaymentMethod.Payfast;
 
-    private PaymentMethod paymentMethod;
+    private IJSObjectReference? script;
+
+    protected override void OnInitialized()
+    {
+        SubscribeToAction<InitiatePaymentResponse>(async (response) =>
+        {
+            if (response.Result.IsSuccess && response.Result.Value != null && response.Result.Value.PaymentMethod == PaymentMethod.Payfast && script != null)
+            {
+                var returnUrl = NavigationManager.ToAbsoluteUri($"/order-complete/{Order.Id}").ToString();
+                var cancelUrl = NavigationManager.ToAbsoluteUri($"/payment-cancel/{Order.Id}").ToString();
+                await script.InvokeVoidAsync("payfastModal", response.Result.Value.ExternalIdentifier, returnUrl, cancelUrl);
+            }
+        });
+
+        base.OnInitialized();
+    }
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender && script == null)
+        {
+            script = await JS.InvokeAsync<IJSObjectReference>("import", "./Pages/Checkout/PaymentDetail.razor.js");
+        }
+        await base.OnAfterRenderAsync(firstRender);
+    }
+
+    public async ValueTask DisposeAsync()
+    {
+        if (script != null)
+        {
+            await script.DisposeAsync();
+        }
+        base.Dispose();
+    }
 
     private void CompleteOrder()
     {
-        Dispatcher.Dispatch(new CompleteOrderRequest() { OrderId = Order.Id });
+        NavigationManager.NavigateTo($"/order-complete/{Order.Id}");
     }
 
     private void OrderPayment()
     {
-        // TODO: Order payment
-    }
-
-    public enum PaymentMethod
-    {
-        BankTransfer,
-        CreditCard,
-        PayPal
+        Dispatcher.Dispatch(new InitiatePaymentRequest() { OrderId = Order.Id, PaymentMethod = paymentMethod });
     }
 }

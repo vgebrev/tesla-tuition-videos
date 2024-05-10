@@ -18,26 +18,26 @@ public class OrderController(ILogger<OrderController> logger, IOrderManager orde
     private readonly IUserIdentityService userIdentity = userIdentity;
 
     [HttpPost]
-    public async Task<ActionResult<OrderDto>> CreateNewOrderAsync([FromBody] OrderCreateDto createOrderDto, CancellationToken cancellationToken = default)
+    public async Task<ActionResult<OrderDto>> CreateNewOrder([FromBody] OrderCreateDto createOrderDto, CancellationToken cancellationToken = default)
     {
-        logger.LogInformation("{MethodName}({@CreateOrderDto})", nameof(CreateNewOrderAsync), createOrderDto);
+        logger.LogInformation("{MethodName}({@CreateOrderDto})", nameof(CreateNewOrder), createOrderDto);
         var order = await orderManager.CreateNewOrderAsync(createOrderDto.LessonsIds, cancellationToken);
-        return CreatedAtAction(nameof(GetOrderAsync).Replace("Async", ""), new { orderId = order.Id }, order.ToOrderDto());
+        return CreatedAtAction(nameof(GetOrder).Replace("Async", ""), new { orderId = order.Id }, order.ToOrderDto());
     }
 
     [HttpGet("own")]
-    public async Task<ActionResult<IEnumerable<OrderDto>>> GetOwnListAsync(CancellationToken cancellationToken = default)
+    public async Task<ActionResult<IEnumerable<OrderDto>>> GetOwnList(CancellationToken cancellationToken = default)
     {
-        logger.LogInformation("{MethodName}", nameof(GetOwnListAsync));
+        logger.LogInformation("{MethodName}", nameof(GetOwnList));
         var userId = userIdentity.UserId ?? throw new UnauthenticatedException();
         var orders = await orderManager.GetPlacedByUserListAsync(userId, cancellationToken);
         return Ok(orders.ToEnumerableOrderDto());
     }
 
     [HttpGet("{orderId}")]
-    public async Task<ActionResult<OrderDto>> GetOrderAsync([FromRoute] int orderId, CancellationToken cancellationToken = default)
+    public async Task<ActionResult<OrderDto>> GetOrder([FromRoute] int orderId, CancellationToken cancellationToken = default)
     {
-        logger.LogInformation("{MethodName}({OrderId})", nameof(GetOrderAsync), orderId);
+        logger.LogInformation("{MethodName}({OrderId})", nameof(GetOrder), orderId);
         var order = await orderManager.GetOrderAsync(orderId, cancellationToken);
         if (order == null)
         {
@@ -47,9 +47,9 @@ public class OrderController(ILogger<OrderController> logger, IOrderManager orde
     }
 
     [HttpPut("{orderId}/complete")]
-    public async Task<ActionResult<ResultDto<OrderDto>>> CompleteOrderAsync([FromRoute] int orderId, CancellationToken cancellationToken = default)
+    public async Task<ActionResult<ResultDto<OrderDto>>> CompleteOrder([FromRoute] int orderId, CancellationToken cancellationToken = default)
     {
-        logger.LogInformation("{MethodName}({OrderId})", nameof(CompleteOrderAsync), orderId);
+        logger.LogInformation("{MethodName}({OrderId})", nameof(CompleteOrder), orderId);
         var result = await orderManager.CompleteOrderAsync(orderId, cancellationToken);
         var response = new ResultDto<OrderDto>(result.Value.ToOrderDto(), result.IsSuccess, result.Message);
         if (!response.IsSuccess)
@@ -60,9 +60,9 @@ public class OrderController(ILogger<OrderController> logger, IOrderManager orde
     }
 
     [HttpDelete("{orderId}")]
-    public async Task<ActionResult<ResultDto<OrderDto>>> CancelOrderAsync([FromRoute] int orderId, CancellationToken cancellationToken = default)
+    public async Task<ActionResult<ResultDto<OrderDto>>> CancelOrder([FromRoute] int orderId, CancellationToken cancellationToken = default)
     {
-        logger.LogInformation("{MethodName}({OrderId})", nameof(CancelOrderAsync), orderId);
+        logger.LogInformation("{MethodName}({OrderId})", nameof(CancelOrder), orderId);
         var result = await orderManager.CancelOrderAsync(orderId, cancellationToken);
         var response = new ResultDto<OrderDto>(result.Value.ToOrderDto(), result.IsSuccess, result.Message);
         if (!response.IsSuccess)

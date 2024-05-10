@@ -18,27 +18,27 @@ public class DiscountVoucherController(ILogger<DiscountVoucherController> logger
 
     [HttpPost]
     [Authorize(Policy = "CanIssueVouchers")]
-    public async Task<DiscountVoucherDto> IssueAsync([FromBody] DiscountVoucherIssueDto dto, CancellationToken cancellationToken = default)
+    public async Task<DiscountVoucherDto> Issue([FromBody] DiscountVoucherIssueDto dto, CancellationToken cancellationToken = default)
     {
-        logger.LogInformation("{MethodName}({@DiscountVoucherIssueDto})", nameof(IssueAsync), dto);
+        logger.LogInformation("{MethodName}({@DiscountVoucherIssueDto})", nameof(Issue), dto);
         var voucher = await discountVoucherManager.IssueVoucherAsync(dto.Amount, dto.ExpirationDate, dto.Note, cancellationToken);
         return voucher.ToDiscountVoucherDto();
     }
 
     [HttpGet]
     [Authorize(Policy = "CanIssueVouchers")]
-    public async Task<IEnumerable<DiscountVoucherDto>> GetListAsync(CancellationToken cancellationToken = default)
+    public async Task<IEnumerable<DiscountVoucherDto>> GetList(CancellationToken cancellationToken = default)
     {
-        logger.LogInformation("{MethodName}", nameof(GetListAsync));
+        logger.LogInformation("{MethodName}", nameof(GetList));
         var vouchers = await discountVoucherManager.GetListAsync(cancellationToken);
         return vouchers.ToEnumerableDiscountVoucherDto();
     }
 
     [HttpGet("own")]
     [Authorize]
-    public async Task<IEnumerable<DiscountVoucherDto>> GetOwnListAsync(CancellationToken cancellationToken = default)
+    public async Task<IEnumerable<DiscountVoucherDto>> GetOwnList(CancellationToken cancellationToken = default)
     {
-        logger.LogInformation("{MethodName}", nameof(GetListAsync));
+        logger.LogInformation("{MethodName}", nameof(GetOwnList));
         var userId = userIdentity.UserId ?? throw new UnauthenticatedException();
         var vouchers = await discountVoucherManager.GetClaimedByUserListAsync(userId, cancellationToken);
         return vouchers.ToEnumerableDiscountVoucherDto();

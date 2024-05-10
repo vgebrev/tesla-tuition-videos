@@ -13,9 +13,9 @@ public class TagController(ILogger<TagController> logger, ITagManager tagManager
     private readonly ITagManager tagManager = tagManager;
 
     [HttpGet]
-    public async Task<IEnumerable<TagDto>> GetTagsAsync(CancellationToken cancellationToken = default)
+    public async Task<IEnumerable<TagDto>> GetTags(CancellationToken cancellationToken = default)
     {
-        logger.LogInformation("{Method}()", nameof(GetTagsAsync));
+        logger.LogInformation("{Method}()", nameof(GetTags));
         var tags = await tagManager.GetTagsAsync(cancellationToken);
         return tags.ToTagDtoEnumerable();
     }

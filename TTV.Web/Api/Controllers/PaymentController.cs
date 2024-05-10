@@ -16,9 +16,9 @@ public class PaymentController(ILogger<PaymentController> logger, IPaymentManage
 
     [HttpPost]
     [Authorize]
-    public async Task<ActionResult<ResultDto<PaymentDto?>>> InitiateOrderPaymentAsync([FromBody] PaymentInitiateDto initiatePaymentDto, CancellationToken cancellationToken = default)
+    public async Task<ActionResult<ResultDto<PaymentDto?>>> InitiateOrderPayment([FromBody] PaymentInitiateDto initiatePaymentDto, CancellationToken cancellationToken = default)
     {
-        logger.LogInformation("{MethodName}({@PaymentInitiateDto})", nameof(InitiateOrderPaymentAsync), initiatePaymentDto);
+        logger.LogInformation("{MethodName}({@PaymentInitiateDto})", nameof(InitiateOrderPayment), initiatePaymentDto);
         var result = await paymentManager.InitiateOrderPaymentAsync(initiatePaymentDto.OrderId, (PaymentType)(int)initiatePaymentDto.PaymentMethod, cancellationToken);
         var response = new ResultDto<PaymentDto?>(result.Value.ToPaymentDto(), result.IsSuccess, result.Message);
         if (!response.IsSuccess)
@@ -30,9 +30,9 @@ public class PaymentController(ILogger<PaymentController> logger, IPaymentManage
 
     [HttpPost("confirm-payfast")]
     [AllowAnonymous]
-    public async Task<ActionResult> ConfirmPaymentPayfastAsync([FromForm] Dictionary<string, string> confirmationData, CancellationToken cancellationToken = default)
+    public async Task<ActionResult> ConfirmPaymentPayfast([FromForm] Dictionary<string, string> confirmationData, CancellationToken cancellationToken = default)
     {
-        logger.LogInformation("{MethodName}({@Data})", nameof(ConfirmPaymentPayfastAsync), confirmationData);
+        logger.LogInformation("{MethodName}({@Data})", nameof(ConfirmPaymentPayfast), confirmationData);
         try
         {
             var paymentId = Guid.Parse(confirmationData["m_payment_id"]);

@@ -10,9 +10,9 @@ public class VideoController(ILogger<VideoController> logger, IVideoStreamLoader
 {
     // TODO: This should probably move to the lesson controller, and this controller can serve "always free" videos (eg shorts, "meet the teacher" etc) once that concept exists
     [HttpGet("lesson/{lessonId}")]
-    public async Task<IResult> GetVideoStreamAsync([FromRoute] int lessonId, CancellationToken cancellationToken = default)
+    public async Task<IResult> GetVideoStream([FromRoute] int lessonId, CancellationToken cancellationToken = default)
     {
-        logger.LogInformation("{Method}({LessonId})", nameof(GetVideoStreamAsync), lessonId);
+        logger.LogInformation("{Method}({LessonId})", nameof(GetVideoStream), lessonId);
         var stream = await videoStreamLoader.LoadLessonVideoStreamAsync(lessonId, userIdentityService.Email, cancellationToken);
         if (stream == Stream.Null)
         {
@@ -24,9 +24,9 @@ public class VideoController(ILogger<VideoController> logger, IVideoStreamLoader
 
     [HttpGet("lesson/{lessonId}/thumbnail")]
     [ResponseCache(Duration = 60 * 60 * 24 * 7)] // 1 week
-    public async Task<IResult> GetLessonThumbnailAsync([FromRoute] int lessonId, CancellationToken cancellationToken = default)
+    public async Task<IResult> GetLessonThumbnail([FromRoute] int lessonId, CancellationToken cancellationToken = default)
     {
-        logger.LogInformation("{Method}({LessonId})", nameof(GetLessonThumbnailAsync), lessonId);
+        logger.LogInformation("{Method}({LessonId})", nameof(GetLessonThumbnail), lessonId);
         var stream = await videoStreamLoader.LoadThumbnailStreamAsync(lessonId, userIdentityService.Email, cancellationToken);
         if (stream == Stream.Null)
         {

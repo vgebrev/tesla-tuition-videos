@@ -14,9 +14,9 @@ public class LessonController(ILogger<LessonController> logger, ILessonManager l
     private readonly ILessonManager lessonManager = lessonManager;
 
     [HttpGet("{lessonId}")]
-    public async Task<ActionResult<LessonDto>> GetLessonAsync([FromRoute]int lessonId, CancellationToken cancellationToken = default)
+    public async Task<ActionResult<LessonDto>> GetLesson([FromRoute]int lessonId, CancellationToken cancellationToken = default)
     {
-        logger.LogInformation("{Method}({LessonId})", nameof(GetLessonAsync), lessonId);
+        logger.LogInformation("{Method}({LessonId})", nameof(GetLesson), lessonId);
         var lesson = await lessonManager.GetLessonAsync(lessonId, cancellationToken);
         if (lesson == null)
         {
@@ -26,9 +26,9 @@ public class LessonController(ILogger<LessonController> logger, ILessonManager l
     }
 
     [HttpPost("search")]
-    public async Task<IEnumerable<LessonDto>> SearchLessonsAsync([FromBody] LessonSearchDto searchDto, CancellationToken cancellationToken = default)
+    public async Task<IEnumerable<LessonDto>> SearchLessons([FromBody] LessonSearchDto searchDto, CancellationToken cancellationToken = default)
     {
-        logger.LogInformation("{Method}({SearchDto})", nameof(SearchLessonsAsync), searchDto);
+        logger.LogInformation("{Method}({SearchDto})", nameof(SearchLessons), searchDto);
         var lessons = await lessonManager.SearchLessonsAsync(searchDto.SearchText, searchDto.SearchTagsIds, cancellationToken);
         return lessons.ToLessonDtoEnumerable();
     }

@@ -18,7 +18,7 @@
     protected override async Task OnInitializedAsync()
     {
         await base.OnInitializedAsync();
-        VideoUri = $"{Config.Value.ApiRootUri}/api/video/{LessonId}";
+        VideoUri = $"{Config.Value.ApiRootUri}/api/video/lesson/{LessonId}";
         var accessTokenResult = await TokenProvider.RequestAccessToken();
         if (accessTokenResult.TryGetToken(out var token))
         {

@@ -33,6 +33,15 @@
             <TagBadges Tags="Lesson.Tags"></TagBadges>
         </div>
         <div class="card-footer">
+            @if (Documents != null && Documents.Length > 0)
+            {
+                <h6 class="card-subtitle">Additional Lesson Resources:</h6>
+                @foreach (var document in State.Value.Documents)
+                {
+                    <DocumentLink Document
+                    ="document"></DocumentLink>
+                }
+            }
         </div>
     </div>
 }
@@ -54,6 +63,7 @@ else if (!IsLoading && !Error.IsError)
     private bool IsLoading => State.Value.IsLoading;
     private LessonDto? Lesson => State.Value.Lesson;
     private ErrorState Error => State.Value.Error;
+    private DocumentDto[] Documents => State.Value.Documents;
 
     private string Title => $"Tesla Tuition Videos {(Lesson != null ? $" - {Lesson.Title}" : string.Empty)}";
 
@@ -61,5 +71,6 @@ else if (!IsLoading && !Error.IsError)
     {
         base.OnParametersSet();
         Dispatcher.Dispatch(new GetLessonRequest() { LessonId = LessonId });
+        Dispatcher.Dispatch(new GetDocumentsRequest() { LessonId = LessonId });
     }
 }

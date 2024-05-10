@@ -8,6 +8,7 @@ using TTV.Domain.DomainServices.BackgroundJobs;
 using TTV.Infrastructure;
 using TTV.Infrastructure.BackgroundJobs;
 using TTV.Infrastructure.DataAccess;
+using TTV.Infrastructure.Documents;
 using TTV.Infrastructure.Notifications;
 using TTV.Infrastructure.Notifications.Email;
 using TTV.Infrastructure.Notifications.Templates;
@@ -27,6 +28,8 @@ public static class ServicesExtensions
 
         services.AddScoped<IDiscountVoucherCodeGenerator, DiscountVoucherCodeGenerator>();
         services.AddScoped<IDiscountVoucherManager, DiscountVoucherManager>();
+        services.AddScoped<IDocumentManager, DocumentManager>();
+        services.AddScoped<IDocumentStreamLoader, DocumentStreamLoader>();
         services.AddScoped<IEmailSender, EmailSender>();
         services.AddScoped<ILessonManager, LessonManager>();
         services.AddScoped<INotificationBuilder, NotificationBuilder>();

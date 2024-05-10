@@ -9,6 +9,7 @@ public interface IUnitOfWork : IDisposable
     Task CancelAsync(CancellationToken cancellationToken = default);
 
     IDiscountVoucherRepository DiscountVoucherRepository { get; }
+    IDocumentRepository DocumentRepository { get; }
     ILessonRepository LessonRepository { get; }
     INotificationRepository NotificationRepository { get; }
     IOrderRepository OrderRepository { get; }
@@ -16,5 +17,4 @@ public interface IUnitOfWork : IDisposable
     ITagRepository TagRepository { get; }
     IUserRepository UserRepository { get; }
     IVideoRepository VideoRepository { get; }
-
 }

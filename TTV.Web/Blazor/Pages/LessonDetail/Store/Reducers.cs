@@ -29,4 +29,28 @@ public static class Reducers
             Error = new ErrorState { IsError = true, ErrorMessage = action.ErrorMessage },
             IsLoading = false,
         };
+
+    [ReducerMethod(typeof(GetDocumentsRequest))]
+    public static LessonDetailState ReduceGetDocumentsRequest(LessonDetailState state) =>
+        state with
+        {
+            IsLoading = true,
+        };
+
+    [ReducerMethod]
+    public static LessonDetailState ReduceGetDocumentsResponse(LessonDetailState state, GetDocumentsResponse action) =>
+        state with
+        {
+            Documents = action.Documents,
+            Error = new(),
+            IsLoading = false,
+        };
+
+    [ReducerMethod]
+    public static LessonDetailState ReduceGetDocumentsError(LessonDetailState state, GetDocumentsError action) =>
+        state with
+        {
+            Error = new ErrorState { IsError = true, ErrorMessage = action.ErrorMessage },
+            IsLoading = false,
+        };
 }

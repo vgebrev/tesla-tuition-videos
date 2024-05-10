@@ -5,33 +5,21 @@ using TTV.Infrastructure.DataAccess.Repositories;
 
 namespace TTV.Infrastructure.DataAccess;
 
-public class UnitOfWork : IUnitOfWork
+public class UnitOfWork(DataContext dataContext) : IUnitOfWork
 {
     private bool disposed = false;
     private IDbContextTransaction? transaction;
-    private readonly DataContext dataContext;
+    private readonly DataContext dataContext = dataContext;
 
-    public IDiscountVoucherRepository DiscountVoucherRepository { get; }
-    public ILessonRepository LessonRepository { get; }
-    public INotificationRepository NotificationRepository { get; }
-    public IOrderRepository OrderRepository { get; }
-    public IPaymentRepository PaymentRepository { get; }
-    public ITagRepository TagRepository { get; }
-    public IUserRepository UserRepository { get; set; }
-    public IVideoRepository VideoRepository { get; }
-
-    public UnitOfWork(DataContext dataContext)
-    {
-        this.dataContext = dataContext;
-        DiscountVoucherRepository = new DiscountVoucherRepository(dataContext);
-        NotificationRepository = new NotificationRepository(dataContext);
-        LessonRepository = new LessonRepository(dataContext);
-        OrderRepository = new OrderRepository(dataContext);
-        PaymentRepository = new PaymentRepository(dataContext);
-        TagRepository = new TagRepository(dataContext);
-        UserRepository = new UserRepository(dataContext);
-        VideoRepository = new VideoRepository(dataContext);
-    }
+    public IDiscountVoucherRepository DiscountVoucherRepository { get; } = new DiscountVoucherRepository(dataContext);
+    public IDocumentRepository DocumentRepository { get; } = new DocumentRepository(dataContext);
+    public ILessonRepository LessonRepository { get; } = new LessonRepository(dataContext);
+    public INotificationRepository NotificationRepository { get; } = new NotificationRepository(dataContext);
+    public IOrderRepository OrderRepository { get; } = new OrderRepository(dataContext);
+    public IPaymentRepository PaymentRepository { get; } = new PaymentRepository(dataContext);
+    public ITagRepository TagRepository { get; } = new TagRepository(dataContext);
+    public IUserRepository UserRepository { get; set; } = new UserRepository(dataContext);
+    public IVideoRepository VideoRepository { get; } = new VideoRepository(dataContext);
 
     protected virtual void Dispose(bool disposing)
     {

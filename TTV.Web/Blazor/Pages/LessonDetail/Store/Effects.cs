@@ -6,17 +6,8 @@ using TTV.Web.Blazor.Shared.Store;
 
 namespace TTV.Web.Blazor.Pages.LessonDetail.Store;
 
-public class Effects
+public class Effects(ILessonApiConsumer lessonApi, IDocumentApiConsumer documentApi, IState<LessonsListState> lessonsState)
 {
-    private readonly ILessonApiConsumer lessonApi;
-    private readonly IState<LessonsListState> lessonsState;
-
-    public Effects(ILessonApiConsumer lessonApi, IState<LessonsListState> lessonsState)
-    {
-        this.lessonApi = lessonApi;
-        this.lessonsState = lessonsState;
-    }
-
     [EffectMethod]
     public async Task HandleGetLessonRequest(GetLessonRequest action, IDispatcher dispatcher)
     {
@@ -28,6 +19,20 @@ public class Effects
         catch (Exception)
         {
             dispatcher.Dispatch(new GetLessonError() { ErrorMessage = Consts.DefaultErrorMessage });
+        }
+    }
+
+    [EffectMethod]
+    public async Task HandleGetDocumentsRequest(GetDocumentsRequest action, IDispatcher dispatcher)
+    {
+        try
+        {
+            var documents = await documentApi.GetDocumentsForLessonOwnedByCurrentUserAsync(action.LessonId);
+            dispatcher.Dispatch(new GetDocumentsResponse() { Documents = documents });
+        }
+        catch (Exception)
+        {
+            dispatcher.Dispatch(new GetDocumentsError() { ErrorMessage = Consts.DefaultErrorMessage });
         }
     }
 }

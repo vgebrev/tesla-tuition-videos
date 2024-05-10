@@ -37,6 +37,7 @@ builder.Services.AddAuthorizationCore(options =>
 
 builder.Services.AddBlazoredLocalStorage();
 builder.Services.AddScoped<IDiscountVoucherApiConsumer, DiscountVoucherApiConsumer>();
+builder.Services.AddScoped<IDocumentApiConsumer, DocumentApiConsumer>();
 builder.Services.AddScoped<ILessonApiConsumer, LessonApiConsumer>();
 builder.Services.AddScoped<IOrderApiConsumer, OrderApiConsumer>();
 builder.Services.AddScoped<IPaymentApiConsumer, PaymentApiConsumer>();

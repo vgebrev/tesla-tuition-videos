@@ -4,19 +4,19 @@ using TTV.Infrastructure.DataAccess;
 
 namespace TTV.DatabaseDeploy
 {
-    internal class SampleData
+    internal class SampleData(DataContext dataContext)
     {
-        private readonly DataContext dataContext;
-        private static TagCategory[] TagCategories { get; } = new TagCategory[4]
-        {
+        private readonly DataContext dataContext = dataContext;
+        private static TagCategory[] TagCategories { get; } =
+        [
             new TagCategory() { Id = 1, Name = "Paper", Priority = 0 },
             new TagCategory() { Id = 2, Name = "Topic", Priority = 1 },
             new TagCategory() { Id = 3, Name = "Syllabus", Priority = 2 },
             new TagCategory() { Id = 4, Name = "Other", Priority = 3}
-        };
+        ];
 
-        private static Tag[] Tags { get; } = new Tag[19]
-        {
+        private static Tag[] Tags { get; } =
+        [
             // Paper
             new Tag() { Id = 1, Name = "Physics", Category = TagCategories[0] },
             new Tag() { Id = 2, Name = "Chemistry", Category = TagCategories[0] },
@@ -43,67 +43,67 @@ namespace TTV.DatabaseDeploy
             new Tag() { Id = 17, Name = "Vectors", Category = TagCategories[3] },
             new Tag() { Id = 18, Name = "Forces", Category = TagCategories[3] },
             new Tag() { Id = 19, Name = "Newton's Laws", Category = TagCategories[3] },
-        };
+        ];
 
-        private static Lesson[] Lessons { get; } = new Lesson[25]
-        {
+        private static Lesson[] Lessons { get; } =
+        [
             // Physics
             new Lesson() { Id = 1, Title = "Finding the Resultant of Multiple Forces", LessonType = LessonType.Video,
-                Tags = new HashSet<Tag>(){ Tags[0], Tags[2], Tags[3], Tags[11], Tags[12], Tags[14], Tags[16], Tags[17], Tags[18] } },
+                Tags = [Tags[0], Tags[2], Tags[3], Tags[11], Tags[12], Tags[14], Tags[16], Tags[17], Tags[18]] },
             new Lesson() { Id = 2, Title = "Components of Angled Forces", LessonType = LessonType.Video,
-                Tags = new HashSet<Tag>(){ Tags[0], Tags[2], Tags[3], Tags[11], Tags[12], Tags[14], Tags[16], Tags[17], Tags[18] } },
+                Tags = [Tags[0], Tags[2], Tags[3], Tags[11], Tags[12], Tags[14], Tags[16], Tags[17], Tags[18]] },
             new Lesson() { Id = 3, Title = "Forces in Equilibrium", LessonType = LessonType.Video,
-                Tags = new HashSet<Tag>(){ Tags[0], Tags[2], Tags[3], Tags[11], Tags[12], Tags[14], Tags[16], Tags[17], Tags[18] } },
+                Tags = [Tags[0], Tags[2], Tags[3], Tags[11], Tags[12], Tags[14], Tags[16], Tags[17], Tags[18]] },
             new Lesson() { Id = 4, Title = "Forces on an Inclined Surface", LessonType = LessonType.Video,
-                Tags = new HashSet<Tag>(){ Tags[0], Tags[2], Tags[3], Tags[11], Tags[12], Tags[14], Tags[16], Tags[17], Tags[18] } },
+                Tags = [Tags[0], Tags[2], Tags[3], Tags[11], Tags[12], Tags[14], Tags[16], Tags[17], Tags[18]] },
             new Lesson() { Id = 5, Title = "The Force of Normal", LessonType = LessonType.Video,
-                Tags = new HashSet<Tag>(){ Tags[0], Tags[2], Tags[3], Tags[11], Tags[12], Tags[14], Tags[16], Tags[17], Tags[18] } },
+                Tags = [Tags[0], Tags[2], Tags[3], Tags[11], Tags[12], Tags[14], Tags[16], Tags[17], Tags[18]] },
             new Lesson() { Id = 6, Title = "Frictional Forces", LessonType = LessonType.Video,
-                Tags = new HashSet<Tag>(){ Tags[0], Tags[2], Tags[3], Tags[11], Tags[12], Tags[14], Tags[16], Tags[17], Tags[18] } },
+                Tags = [Tags[0], Tags[2], Tags[3], Tags[11], Tags[12], Tags[14], Tags[16], Tags[17], Tags[18]] },
             new Lesson() { Id = 7, Title = "Coefficients of Friction", LessonType = LessonType.Video,
-                Tags = new HashSet<Tag>(){ Tags[0], Tags[2], Tags[3], Tags[11], Tags[12], Tags[14], Tags[16], Tags[17], Tags[18] } },
+                Tags = [Tags[0], Tags[2], Tags[3], Tags[11], Tags[12], Tags[14], Tags[16], Tags[17], Tags[18]] },
             new Lesson() { Id = 8, Title = "Newton's First Law of Motion", LessonType = LessonType.Video,
-                Tags = new HashSet<Tag>(){ Tags[0], Tags[2], Tags[3], Tags[11], Tags[12], Tags[14], Tags[16], Tags[17], Tags[18] } },
+                Tags = [Tags[0], Tags[2], Tags[3], Tags[11], Tags[12], Tags[14], Tags[16], Tags[17], Tags[18]] },
             new Lesson() { Id = 9, Title = "Newton's Second Law of Motion", LessonType = LessonType.Video,
-                Tags = new HashSet<Tag>(){ Tags[0], Tags[2], Tags[3], Tags[11], Tags[12], Tags[14], Tags[16], Tags[17], Tags[18] } },
+                Tags = [Tags[0], Tags[2], Tags[3], Tags[11], Tags[12], Tags[14], Tags[16], Tags[17], Tags[18]] },
             new Lesson() { Id = 10, Title = "Newton's 2nd Law Questions Involving Simultaneous Equations", LessonType = LessonType.Video,
-                Tags = new HashSet<Tag>(){ Tags[0], Tags[2], Tags[3], Tags[11], Tags[12], Tags[14], Tags[16], Tags[17], Tags[18] } },
+                Tags = [Tags[0], Tags[2], Tags[3], Tags[11], Tags[12], Tags[14], Tags[16], Tags[17], Tags[18]] },
             new Lesson() { Id = 11, Title = "Newton's Third Law of Motion", LessonType = LessonType.Video,
-                Tags = new HashSet<Tag>(){ Tags[0], Tags[2], Tags[3], Tags[11], Tags[12], Tags[14], Tags[16], Tags[17], Tags[18] } },
+                Tags = [Tags[0], Tags[2], Tags[3], Tags[11], Tags[12], Tags[14], Tags[16], Tags[17], Tags[18]] },
             new Lesson() { Id = 12, Title = "Newton's Law of Universal Gravitation", LessonType = LessonType.Video,
-                Tags = new HashSet<Tag>(){ Tags[0], Tags[2], Tags[3], Tags[11], Tags[12], Tags[14], Tags[16], Tags[17], Tags[18] } },
+                Tags = [Tags[0], Tags[2], Tags[3], Tags[11], Tags[12], Tags[14], Tags[16], Tags[17], Tags[18]] },
             new Lesson() { Id = 13, Title = "Electrostatics Part 1", Description = "Revision of basics, Coulomb's Law (theory and calculations.)", LessonType = LessonType.Video,
-                Tags = new HashSet<Tag>(){ Tags[0], Tags[4], Tags[11], Tags[12], Tags[14] } },
+                Tags = [Tags[0], Tags[4], Tags[11], Tags[12], Tags[14]] },
             new Lesson() { Id = 14, Title = "Electrostatics Part 2", Description = "Electric fields, electric field strength at a point (theory and calculations), other electrostatics calculations.", LessonType = LessonType.Video,
-                Tags = new HashSet<Tag>(){ Tags[0], Tags[4], Tags[11], Tags[12], Tags[14] } },
+                Tags = [Tags[0], Tags[4], Tags[11], Tags[12], Tags[14]] },
             new Lesson() { Id = 15, Title = "Electric Circuits Part 1", Description = "Potential difference, current, resistance, EMF, ammeters, voltmeters, Ohm’s Law, Ohmic vs. non-Ohmic conductors.",LessonType = LessonType.Video,
-                Tags = new HashSet<Tag>(){ Tags[0], Tags[5], Tags[11], Tags[12], Tags[14] } },
+                Tags = [Tags[0], Tags[5], Tags[11], Tags[12], Tags[14]] },
             new Lesson() { Id = 16, Title = "Electric Circuits Part 2", Description = "Series circuits, parallel circuits and combination circuits.", LessonType = LessonType.Video,
-                Tags = new HashSet<Tag>(){ Tags[0], Tags[5], Tags[11], Tags[12], Tags[14] } },
+                Tags = [Tags[0], Tags[5], Tags[11], Tags[12], Tags[14]] },
             new Lesson() { Id = 17, Title = "Electric Circuits Part 3", Description = "The effect of adding/removing resistors in series/parallel, electrical power, cost of electricity using kilowatthours, electric circuits calculations.", LessonType = LessonType.Video,
-                Tags = new HashSet<Tag>(){ Tags[0], Tags[5], Tags[11], Tags[12], Tags[14] } },
+                Tags = [Tags[0], Tags[5], Tags[11], Tags[12], Tags[14]] },
             
             // Chemistry
             new Lesson() { Id = 18, Title = "Converting Moles Between Different Substances in a Chemical Reaction", LessonType = LessonType.Video,
-                Tags = new HashSet<Tag>(){ Tags[1], Tags[6], Tags[7], Tags[11], Tags[12], Tags[14] } },
+                Tags = [Tags[1], Tags[6], Tags[7], Tags[11], Tags[12], Tags[14]] },
             new Lesson() { Id = 19, Title = "Limiting Reagents", LessonType = LessonType.Video,
-                Tags = new HashSet<Tag>(){ Tags[1], Tags[6], Tags[7], Tags[11], Tags[12], Tags[14] } },
+                Tags = [Tags[1], Tags[6], Tags[7], Tags[11], Tags[12], Tags[14]] },
             new Lesson() { Id = 20, Title = "Percentage Purity", LessonType = LessonType.Video,
-                Tags = new HashSet<Tag>(){ Tags[1], Tags[6], Tags[7], Tags[11], Tags[12], Tags[14] } },
+                Tags = [Tags[1], Tags[6], Tags[7], Tags[11], Tags[12], Tags[14]] },
             new Lesson() { Id = 21, Title = "Percentage Yield", LessonType = LessonType.Video,
-                Tags = new HashSet<Tag>(){ Tags[1], Tags[6], Tags[7], Tags[11], Tags[12], Tags[14] } },
+                Tags = [Tags[1], Tags[6], Tags[7], Tags[11], Tags[12], Tags[14]] },
             new Lesson() { Id = 22, Title = "Polar and Non-Polar Bonds vs Polar and Non-Polar Molecules", LessonType = LessonType.Video,
-                Tags = new HashSet<Tag>(){ Tags[1], Tags[8], Tags[9], Tags[10], Tags[11], Tags[12], Tags[14] } },
+                Tags = [Tags[1], Tags[8], Tags[9], Tags[10], Tags[11], Tags[12], Tags[14]] },
             new Lesson() { Id = 23, Title = "Intermolecular Forces", LessonType = LessonType.Video,
-                Tags = new HashSet<Tag>(){ Tags[1], Tags[8], Tags[9], Tags[10], Tags[11], Tags[12], Tags[14] } },
+                Tags = [Tags[1], Tags[8], Tags[9], Tags[10], Tags[11], Tags[12], Tags[14]] },
             new Lesson() { Id = 24, Title = "Determining Molecular Shape using the VSEPR Theory", LessonType = LessonType.Video,
-                Tags = new HashSet<Tag>(){ Tags[1], Tags[8], Tags[9], Tags[10], Tags[11], Tags[12], Tags[14] } },
+                Tags = [Tags[1], Tags[8], Tags[9], Tags[10], Tags[11], Tags[12], Tags[14]] },
             new Lesson() { Id = 25, Title = "Energy and Chemical Change", LessonType = LessonType.Video,
-                Tags = new HashSet<Tag>(){ Tags[1], Tags[8], Tags[9], Tags[10], Tags[11], Tags[12], Tags[14] } },
-        };
+                Tags = [Tags[1], Tags[8], Tags[9], Tags[10], Tags[11], Tags[12], Tags[14]] },
+        ];
 
-        private static Video[] IntroVideos { get;  } = new Video[25]
-        {
+        private static Video[] IntroVideos { get; } =
+        [
             new Video() { Id = 1, Filename = "TTV-Intro-Placeholder.mp4", Thumbnail = $"{Lessons[0].Title}.jpg", VideoType = VideoType.Intro, Lesson = Lessons[0] },
             new Video() { Id = 2, Filename = "TTV-Intro-Placeholder.mp4", Thumbnail = $"{Lessons[1].Title}.jpg", VideoType = VideoType.Intro, Lesson = Lessons[1] },
             new Video() { Id = 3, Filename = "TTV-Intro-Placeholder.mp4", Thumbnail = $"{Lessons[2].Title}.jpg", VideoType = VideoType.Intro, Lesson = Lessons[2] },
@@ -129,10 +129,10 @@ namespace TTV.DatabaseDeploy
             new Video() { Id = 23, Filename = "TTV-Intro-Placeholder.mp4", Thumbnail = $"{Lessons[22].Title}.jpg", VideoType = VideoType.Intro, Lesson = Lessons[22] },
             new Video() { Id = 24, Filename = "TTV-Intro-Placeholder.mp4", Thumbnail = $"{Lessons[23].Title}.jpg", VideoType = VideoType.Intro, Lesson = Lessons[23] },
             new Video() { Id = 25, Filename = "TTV-Intro-Placeholder.mp4", Thumbnail = $"{Lessons[24].Title}.jpg", VideoType = VideoType.Intro, Lesson = Lessons[24] },
-        };
+        ];
 
-        private static Video[] LessonVideos { get; } = new Video[25]
-        {
+        private static Video[] LessonVideos { get; } =
+        [
             new Video() { Id = 26, Filename = $"{Lessons[0].Title}.mp4", Thumbnail = $"{Lessons[0].Title}.jpg", VideoType = VideoType.FullLesson, Lesson = Lessons[0] },
             new Video() { Id = 27, Filename = $"{Lessons[1].Title}.mp4", Thumbnail = $"{Lessons[1].Title}.jpg", VideoType = VideoType.FullLesson, Lesson = Lessons[1] },
             new Video() { Id = 28, Filename = $"{Lessons[2].Title}.mp4", Thumbnail = $"{Lessons[2].Title}.jpg", VideoType = VideoType.FullLesson, Lesson = Lessons[2] },
@@ -158,10 +158,10 @@ namespace TTV.DatabaseDeploy
             new Video() { Id = 48, Filename = $"{Lessons[22].Title}.mp4", Thumbnail = $"{Lessons[22].Title}.jpg", VideoType = VideoType.FullLesson, Lesson = Lessons[22] },
             new Video() { Id = 49, Filename = $"{Lessons[23].Title}.mp4", Thumbnail = $"{Lessons[23].Title}.jpg", VideoType = VideoType.FullLesson, Lesson = Lessons[23] },
             new Video() { Id = 50, Filename = $"{Lessons[24].Title}.mp4", Thumbnail = $"{Lessons[24].Title}.jpg", VideoType = VideoType.FullLesson, Lesson = Lessons[24] }
-        };
+        ];
 
-        private static Price[] Prices { get; } = new Price[25]
-        {
+        private static Price[] Prices { get; } =
+        [
             new Price() { Id = 1, Amount = 80, Lesson = Lessons[0] },
             new Price() { Id = 2, Amount = 80, Lesson = Lessons[1] },
             new Price() { Id = 3, Amount = 80, Lesson = Lessons[2] },
@@ -188,12 +188,12 @@ namespace TTV.DatabaseDeploy
             new Price() { Id = 23, Amount = 100, Lesson = Lessons[22] },
             new Price() { Id = 24, Amount = 60, Lesson = Lessons[23] },
             new Price() { Id = 25, Amount = 100, Lesson = Lessons[24] }
-        };
+        ];
 
-        public SampleData(DataContext dataContext)
-        {
-            this.dataContext = dataContext;
-        }
+        private static Document[] Documents { get; set; } =
+        [
+            new Document() { Id = 1, DocumentType = DocumentType.ExercisePdf, Title = $"{Lessons[0].Title} Exercises", Filename = $"{Lessons[0].Title} Exercises.pdf", RelativePath = "ExercisePdfs", Lessons = [Lessons[0]] },
+        ];
 
         public async Task<SampleData> PopulateAsync()
         {
@@ -208,6 +208,7 @@ namespace TTV.DatabaseDeploy
                 await SyncEntityAsync(Tags);
                 await SyncEntityAsync(Lessons, include: $"{nameof(Lesson.Tags)}", SyncLessonChildEntitiesAsync);
                 await SyncEntityAsync(IntroVideos.Union(LessonVideos), customUpsert: SyncVideoLessonsAsync);
+                await SyncEntityAsync(Documents, customUpsert: SyncDocumentLessonsAsync);
                 Console.WriteLine("Committing transaction.");
                 await transaction.CommitAsync();
             }
@@ -278,7 +279,6 @@ namespace TTV.DatabaseDeploy
 
         private async Task SyncLessonChildEntitiesAsync(Lesson source, Lesson? target)
         {
-
             if (target == null)
             {
                 return;
@@ -320,6 +320,21 @@ namespace TTV.DatabaseDeploy
 
             var existingLessons = await dataContext.Lessons.ToListAsync();
             target.Lesson = existingLessons.Single(x => x.Id == source.Lesson.Id);
+        }
+
+        private async Task SyncDocumentLessonsAsync(Document source, Document? target)
+        {
+            var existingLessons = await dataContext.Lessons.ToListAsync();
+            source.Lessons = existingLessons.Where(existingLesson => source.Lessons.Any(sourceLesson => sourceLesson.Id == existingLesson.Id)).ToHashSet();
+            
+            if (target == null)
+                return;
+
+            target.Lessons.Clear();
+            foreach (var lesson in source.Lessons)
+            {
+                target.Lessons.Add(existingLessons.Single(x => x.Id == lesson.Id));
+            }
         }
     }
 }

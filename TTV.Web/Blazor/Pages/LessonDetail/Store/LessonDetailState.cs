@@ -9,5 +9,6 @@ public record LessonDetailState
 {
     public bool IsLoading { get; init; }
     public LessonDto? Lesson { get; init; }
+    public DocumentDto[] Documents { get; init; } = [];
     public ErrorState Error { get; init; } = new();
 }

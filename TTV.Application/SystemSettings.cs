@@ -3,6 +3,7 @@
 public record SystemSettings
 {
     public string VideosPath { get; init; } = string.Empty;
+    public string DocumentsPath { get; init; } = string.Empty;
     public string DiscountVoucherPepper { get; init; } = string.Empty;
     public bool IssueDiscountVoucherOnFirstOrder { get; init; }
     public EmailSettings EmailSettings { get; init; } = new();

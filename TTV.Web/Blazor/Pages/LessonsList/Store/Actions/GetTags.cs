@@ -8,7 +8,7 @@ public record GetTagsRequest
 
 public record GetTagsResponse
 {
-    public TagDto[] Tags { get; init; } = Array.Empty<TagDto>();
+    public TagDto[] Tags { get; init; } = [];
 }
 
 public record GetTagsError

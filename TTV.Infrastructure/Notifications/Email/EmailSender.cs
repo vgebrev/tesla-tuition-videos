@@ -4,14 +4,9 @@ using System.Net.Mail;
 using TTV.Application;
 
 namespace TTV.Infrastructure.Notifications.Email;
-public class EmailSender : IEmailSender
+public class EmailSender(IOptionsSnapshot<SystemSettings> config) : IEmailSender
 {
-    private readonly EmailSettings settings;
-
-    public EmailSender(IOptionsSnapshot<SystemSettings> config)
-    {
-        settings = config.Value.EmailSettings;
-    }
+    private readonly EmailSettings settings = config.Value.EmailSettings;
 
     public async Task SendEmailAsync(string to, string from, string subject, string body, CancellationToken cancellationToken = default)
     {

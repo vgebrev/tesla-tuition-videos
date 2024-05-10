@@ -8,16 +8,10 @@ namespace TTV.Web.Api.Controllers;
 
 [Route("api/[controller]")]
 [ApiController]
-public class LessonController : ControllerBase
+public class LessonController(ILogger<LessonController> logger, ILessonManager lessonManager) : ControllerBase
 {
-    private readonly ILogger<LessonController> logger;
-    private readonly ILessonManager lessonManager;
-
-    public LessonController(ILogger<LessonController> logger, ILessonManager lessonManager)
-    {
-        this.logger = logger;
-        this.lessonManager = lessonManager;
-    }
+    private readonly ILogger<LessonController> logger = logger;
+    private readonly ILessonManager lessonManager = lessonManager;
 
     [HttpGet("{lessonId}")]
     public async Task<ActionResult<LessonDto>> GetLessonAsync([FromRoute]int lessonId, CancellationToken cancellationToken = default)

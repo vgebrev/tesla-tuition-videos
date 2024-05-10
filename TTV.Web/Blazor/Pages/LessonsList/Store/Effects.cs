@@ -6,16 +6,10 @@ using TTV.Web.Shared;
 
 namespace TTV.Web.Blazor.Pages.LessonsList.Store;
 
-public class Effects
+public class Effects(ITagApiConsumer tagApi, ILessonApiConsumer lessonApi)
 {
-    private readonly ITagApiConsumer tagApi;
-    private readonly ILessonApiConsumer lessonApi;
-
-    public Effects(ITagApiConsumer tagApi, ILessonApiConsumer lessonApi)
-    {
-        this.tagApi = tagApi;
-        this.lessonApi = lessonApi;
-    }
+    private readonly ITagApiConsumer tagApi = tagApi;
+    private readonly ILessonApiConsumer lessonApi = lessonApi;
 
     [EffectMethod(typeof(GetTagsRequest))]
     public async Task HandleGetTagsRequest(IDispatcher dispatcher)

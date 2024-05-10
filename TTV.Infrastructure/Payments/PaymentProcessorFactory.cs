@@ -4,16 +4,11 @@ using TTV.Application.Payments;
 using TTV.Domain.Entities;
 
 namespace TTV.Infrastructure.Payments;
-public class PaymentProcessorFactory : IPaymentProcessorFactory
+public class PaymentProcessorFactory(IOptionsSnapshot<SystemSettings> config, IHttpClientFactory httpClientFactory) : IPaymentProcessorFactory
 {
-    private readonly IHttpClientFactory httpClientFactory;
-    private readonly SystemSettings settings;
+    private readonly IHttpClientFactory httpClientFactory = httpClientFactory;
+    private readonly SystemSettings settings = config.Value;
 
-    public PaymentProcessorFactory(IOptionsSnapshot<SystemSettings> config, IHttpClientFactory httpClientFactory)
-    {
-        this.httpClientFactory = httpClientFactory;
-        settings = config.Value;
-    }
     public IPaymentProcessor CreatePaymentProcessor(PaymentType paymentType)
     {
         return paymentType switch

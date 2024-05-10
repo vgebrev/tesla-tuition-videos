@@ -3,14 +3,9 @@ using TTV.Domain.Entities;
 
 namespace TTV.Application.Managers;
 
-public class VideoManager : IVideoManager
+public class VideoManager(IUnitOfWorkFactory unitOfWorkFactory) : IVideoManager
 {
-    private readonly IUnitOfWorkFactory unitOfWorkFactory;
-
-    public VideoManager(IUnitOfWorkFactory unitOfWorkFactory)
-    {
-        this.unitOfWorkFactory = unitOfWorkFactory;
-    }
+    private readonly IUnitOfWorkFactory unitOfWorkFactory = unitOfWorkFactory;
 
     public async Task<Video?> GetLessonVideoForUserAsync(int lessonId, string? userEmail, CancellationToken cancellationToken = default)
     {

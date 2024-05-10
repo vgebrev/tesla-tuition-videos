@@ -4,26 +4,19 @@ using TTV.Domain.DomainServices;
 using TTV.Domain.Entities;
 
 namespace TTV.Application.Managers;
-public class NotificationManager : INotificationManager
+public class NotificationManager(ILogger<NotificationManager> logger,
+                           IUnitOfWorkFactory unitOfWorkFactory,
+                           INotificationBuilder notificationBuilder,
+                           INotificationSender notificationSender) : INotificationManager
 {
-    private readonly ILogger<NotificationManager> logger;
-    private readonly IUnitOfWorkFactory unitOfWorkFactory;
-    private readonly INotificationBuilder notificationBuilder;
-    private readonly INotificationSender notificationSender;
-
-    public NotificationManager(ILogger<NotificationManager> logger,
-                               IUnitOfWorkFactory unitOfWorkFactory,
-                               INotificationBuilder notificationBuilder,
-                               INotificationSender notificationSender)
-    {
-        this.logger = logger;
-        this.unitOfWorkFactory = unitOfWorkFactory;
-        this.notificationBuilder = notificationBuilder;
-        this.notificationSender = notificationSender;
-    }
+    private readonly ILogger<NotificationManager> logger = logger;
+    private readonly IUnitOfWorkFactory unitOfWorkFactory = unitOfWorkFactory;
+    private readonly INotificationBuilder notificationBuilder = notificationBuilder;
+    private readonly INotificationSender notificationSender = notificationSender;
 
     public async Task<Notification> CreateNotificationAsync(NotificationType notificationType, int orderId, CancellationToken cancellationToken = default)
     {
+        logger.LogInformation("{Method}({NotificationType}, {OrderId})", nameof(CreateNotificationAsync), notificationType, orderId);
         using var unitOfWork = await unitOfWorkFactory.CreateAsync(cancellationToken);
         try
         {

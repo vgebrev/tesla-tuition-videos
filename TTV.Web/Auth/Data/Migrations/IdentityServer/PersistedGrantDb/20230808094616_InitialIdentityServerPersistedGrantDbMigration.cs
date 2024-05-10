@@ -9,6 +9,8 @@ namespace TTV.Web.Auth.Data.Migrations.IdentityServer.PersistedGrantDb
     public partial class InitialIdentityServerPersistedGrantDbMigration : Migration
     {
         /// <inheritdoc />
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Style", "IDE0300:Simplify collection initialization", Justification = "Generated with an older version of EF")]
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Performance", "CA1861:Avoid constant arrays as arguments", Justification = "Generated with an older version of EF")]
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.EnsureSchema(

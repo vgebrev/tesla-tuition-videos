@@ -9,6 +9,8 @@ namespace TTV.DatabaseDeploy.Migrations
     public partial class TTV_Create : Migration
     {
         /// <inheritdoc />
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Style", "IDE0300:Simplify collection initialization", Justification = "Auto-generated with old version of EF Core")]
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Performance", "CA1861:Avoid constant arrays as arguments", Justification = "Auto-generated with old version of EF Core")]
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             // The users table is managed by TTV.Web.Auth

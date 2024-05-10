@@ -4,7 +4,7 @@ public class DiscountVoucher : BaseEntity
 {
     public DiscountVoucher()
     {
-        OrdersAppliedTo = new HashSet<OrderDiscountVoucher>();
+        OrdersAppliedTo = [];
     }
 
     public string Code { get; set; } = string.Empty;

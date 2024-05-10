@@ -4,14 +4,10 @@ using TTV.Domain.Entities;
 
 namespace TTV.Infrastructure.DataAccess.Repositories;
 
-public class TagRepository : ITagRepository
+public class TagRepository(DataContext dataContext) : ITagRepository
 {
-    private readonly DataContext dataContext;
+    private readonly DataContext dataContext = dataContext;
 
-    public TagRepository(DataContext dataContext)
-    {
-        this.dataContext = dataContext;
-    }
     public async Task<IEnumerable<Tag>> GetAllAsync(CancellationToken cancellationToken = default)
     {
         return await dataContext.Tags.TagWithCallSite()

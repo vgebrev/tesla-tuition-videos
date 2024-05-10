@@ -4,7 +4,7 @@ namespace TTV.Web.Blazor.Pages.ShoppintCart.Store.Actions;
 
 public record LocalStorePersistRequest
 {
-    public LessonDto[] Lessons { get; init; } = Array.Empty<LessonDto>();
+    public LessonDto[] Lessons { get; init; } = [];
 }
 
 public record LocalStorePersistResponse { }
@@ -18,7 +18,7 @@ public record LocalStoreLoadRequest { }
 
 public record LocalStoreLoadResponse
 {
-    public LessonDto[] Lessons { get; init; } = Array.Empty<LessonDto>();
+    public LessonDto[] Lessons { get; init; } = [];
 }
 
 public record LocalStoreLoadError

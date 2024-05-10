@@ -2,5 +2,5 @@
 
 public record OrderCreateDto
 {
-    public int[] LessonsIds { get; init; } = Array.Empty<int>();
+    public int[] LessonsIds { get; init; } = [];
 }

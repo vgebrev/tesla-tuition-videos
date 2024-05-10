@@ -4,16 +4,10 @@ using TTV.Domain.Entities;
 using TTV.Infrastructure.Notifications.Email;
 
 namespace TTV.Infrastructure.Notifications;
-public class EmailNotificationSender : INotificationSender
+public class EmailNotificationSender(ILogger<EmailNotificationSender> logger, IEmailSender emailSender) : INotificationSender
 {
-    private readonly ILogger<EmailNotificationSender> logger;
-    private readonly IEmailSender emailSender;
-
-    public EmailNotificationSender(ILogger<EmailNotificationSender> logger, IEmailSender emailSender)
-    {
-        this.logger = logger;
-        this.emailSender = emailSender;
-    }
+    private readonly ILogger<EmailNotificationSender> logger = logger;
+    private readonly IEmailSender emailSender = emailSender;
 
     public async Task SendNotificationAsync(Notification notification, CancellationToken cancellationToken = default)
     {

@@ -1,11 +1,5 @@
 ﻿namespace TTV.Application.Exceptions;
-public class PaymentNotFoundException : ApplicationException
+public class PaymentNotFoundException(Guid paymentId) : ApplicationException("Payment not found")
 {
-    public PaymentNotFoundException(Guid paymentId)
-        : base("Payment not found")
-    {
-        PaymentId = paymentId;
-    }
-
-    public Guid PaymentId { get; }
+    public Guid PaymentId { get; } = paymentId;
 }

@@ -11,18 +11,11 @@ namespace TTV.Web.Api.Controllers;
 [Route("api/[controller]")]
 [ApiController]
 [Authorize]
-public class OrderController : ControllerBase
+public class OrderController(ILogger<OrderController> logger, IOrderManager orderManager, IUserIdentityService userIdentity) : ControllerBase
 {
-    private readonly ILogger<OrderController> logger;
-    private readonly IOrderManager orderManager;
-    private readonly IUserIdentityService userIdentity;
-
-    public OrderController(ILogger<OrderController> logger, IOrderManager orderManager, IUserIdentityService userIdentity)
-    {
-        this.logger = logger;
-        this.orderManager = orderManager;
-        this.userIdentity = userIdentity;
-    }
+    private readonly ILogger<OrderController> logger = logger;
+    private readonly IOrderManager orderManager = orderManager;
+    private readonly IUserIdentityService userIdentity = userIdentity;
 
     [HttpPost]
     public async Task<ActionResult<OrderDto>> CreateNewOrderAsync([FromBody] OrderCreateDto createOrderDto, CancellationToken cancellationToken = default)

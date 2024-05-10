@@ -12,7 +12,7 @@ namespace TTV.Web.Auth.Pages.Ciba;
 
 [SecurityHeaders]
 [Authorize]
-public class AllModel : PageModel
+public class AllModel(IBackchannelAuthenticationInteractionService backchannelAuthenticationInteractionService) : PageModel
 {
     public IEnumerable<BackchannelUserLoginRequest> Logins { get; set; }
 
@@ -21,12 +21,7 @@ public class AllModel : PageModel
     [BindProperty, Required]
     public string Button { get; set; }
 
-    private readonly IBackchannelAuthenticationInteractionService _backchannelAuthenticationInteraction;
-
-    public AllModel(IBackchannelAuthenticationInteractionService backchannelAuthenticationInteractionService)
-    {
-        _backchannelAuthenticationInteraction = backchannelAuthenticationInteractionService;
-    }
+    private readonly IBackchannelAuthenticationInteractionService _backchannelAuthenticationInteraction = backchannelAuthenticationInteractionService;
 
     public async Task OnGet()
     {

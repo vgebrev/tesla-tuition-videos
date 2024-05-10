@@ -1,11 +1,5 @@
 ﻿namespace TTV.Application.Exceptions;
-internal class NotificationNotFoundException : ApplicationException
+internal class NotificationNotFoundException(int notificationId) : ApplicationException("Notification not found")
 {
-    public NotificationNotFoundException(int notificationId)
-        : base("Notification not found")
-    {
-        NotificationId = notificationId;
-    }
-
-    public int NotificationId { get; }
+    public int NotificationId { get; } = notificationId;
 }

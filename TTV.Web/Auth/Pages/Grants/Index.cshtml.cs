@@ -11,23 +11,15 @@ namespace TTV.Web.Auth.Pages.Grants;
 
 [SecurityHeaders]
 [Authorize]
-public class Index : PageModel
+public class Index(IIdentityServerInteractionService interaction,
+    IClientStore clients,
+    IResourceStore resources,
+    IEventService events) : PageModel
 {
-    private readonly IIdentityServerInteractionService _interaction;
-    private readonly IClientStore _clients;
-    private readonly IResourceStore _resources;
-    private readonly IEventService _events;
-
-    public Index(IIdentityServerInteractionService interaction,
-        IClientStore clients,
-        IResourceStore resources,
-        IEventService events)
-    {
-        _interaction = interaction;
-        _clients = clients;
-        _resources = resources;
-        _events = events;
-    }
+    private readonly IIdentityServerInteractionService _interaction = interaction;
+    private readonly IClientStore _clients = clients;
+    private readonly IResourceStore _resources = resources;
+    private readonly IEventService _events = events;
 
     public ViewModel View { get; set; }
         

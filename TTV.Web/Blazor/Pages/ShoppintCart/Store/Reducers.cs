@@ -11,7 +11,7 @@ public static class Reducers
     public static ShoppingCartState ReduceAddLessonToCart(ShoppingCartState state, AddLesson action) =>
         state with
         {
-            Lessons = new List<LessonDto>(state.Lessons.Union(new[] { action.Lesson })).ToArray()
+            Lessons = new List<LessonDto>(state.Lessons.Union([action.Lesson])).ToArray()
         };
 
     [ReducerMethod]
@@ -25,7 +25,7 @@ public static class Reducers
     public static ShoppingCartState ReduceClearCart(ShoppingCartState state) =>
         state with
         {
-            Lessons = Array.Empty<LessonDto>()
+            Lessons = []
         };
 
     [ReducerMethod(typeof(LocalStorePersistResponse))]

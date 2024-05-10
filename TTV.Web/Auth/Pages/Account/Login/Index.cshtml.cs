@@ -13,36 +13,26 @@ namespace TTV.Web.Auth.Pages.Login;
 
 [SecurityHeaders]
 [AllowAnonymous]
-public class Index : PageModel
+public class Index(
+    IIdentityServerInteractionService interaction,
+    IAuthenticationSchemeProvider schemeProvider,
+    IIdentityProviderStore identityProviderStore,
+    IEventService events,
+    UserManager<ApplicationUser> userManager,
+    SignInManager<ApplicationUser> signInManager) : PageModel
 {
-    private readonly UserManager<ApplicationUser> userManager;
-    private readonly SignInManager<ApplicationUser> signInManager;
-    private readonly IIdentityServerInteractionService interaction;
-    private readonly IEventService events;
-    private readonly IAuthenticationSchemeProvider schemeProvider;
-    private readonly IIdentityProviderStore identityProviderStore;
+    private readonly UserManager<ApplicationUser> userManager = userManager;
+    private readonly SignInManager<ApplicationUser> signInManager = signInManager;
+    private readonly IIdentityServerInteractionService interaction = interaction;
+    private readonly IEventService events = events;
+    private readonly IAuthenticationSchemeProvider schemeProvider = schemeProvider;
+    private readonly IIdentityProviderStore identityProviderStore = identityProviderStore;
 
     public ViewModel View { get; set; }
         
     [BindProperty]
     public InputModel Input { get; set; }
-        
-    public Index(
-        IIdentityServerInteractionService interaction,
-        IAuthenticationSchemeProvider schemeProvider,
-        IIdentityProviderStore identityProviderStore,
-        IEventService events,
-        UserManager<ApplicationUser> userManager,
-        SignInManager<ApplicationUser> signInManager)
-    {
-        this.userManager = userManager;
-        this.signInManager = signInManager;
-        this.interaction = interaction;
-        this.schemeProvider = schemeProvider;
-        this.identityProviderStore = identityProviderStore;
-        this.events = events;
-    }
-        
+
     public async Task<IActionResult> OnGet(string returnUrl)
     {
         await BuildModelAsync(returnUrl);
@@ -156,7 +146,7 @@ public class Index : PageModel
 
             if (!local)
             {
-                View.ExternalProviders = new[] { new ViewModel.ExternalProvider { AuthenticationScheme = context.IdP } };
+                View.ExternalProviders = [new ViewModel.ExternalProvider { AuthenticationScheme = context.IdP }];
             }
 
             return;
@@ -187,7 +177,7 @@ public class Index : PageModel
         if (client != null)
         {
             allowLocal = client.EnableLocalLogin;
-            if (client.IdentityProviderRestrictions != null && client.IdentityProviderRestrictions.Any())
+            if (client.IdentityProviderRestrictions != null && client.IdentityProviderRestrictions.Count != 0)
             {
                 providers = providers.Where(provider => client.IdentityProviderRestrictions.Contains(provider.AuthenticationScheme)).ToList();
             }
@@ -197,7 +187,7 @@ public class Index : PageModel
         {
             AllowRememberLogin = LoginOptions.AllowRememberLogin,
             EnableLocalLogin = allowLocal && LoginOptions.AllowLocalLogin,
-            ExternalProviders = providers.ToArray()
+            ExternalProviders = [.. providers]
         };
     }
 }

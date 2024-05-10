@@ -8,7 +8,7 @@ public record GetDiscountVouchersRequest
 
 public record GetDiscountVouchersResponse
 {
-    public DiscountVoucherDto[] DiscountVouchers { get; init; } = Array.Empty<DiscountVoucherDto>();
+    public DiscountVoucherDto[] DiscountVouchers { get; init; } = [];
 }
 
 public record GetDiscountVouchersError

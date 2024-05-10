@@ -8,19 +8,12 @@ using TTV.Web.Shared;
 
 namespace TTV.Web.Blazor.Pages.ShoppintCart.Store;
 
-public class Effects
+public class Effects(ILocalStorageService localStorageService, NavigationManager navigationManager, IOrderApiConsumer orderApi)
 {
-    private readonly ILocalStorageService localStorageService;
-    private readonly NavigationManager navigationManager;
-    private readonly IOrderApiConsumer orderApi;
+    private readonly ILocalStorageService localStorageService = localStorageService;
+    private readonly NavigationManager navigationManager = navigationManager;
+    private readonly IOrderApiConsumer orderApi = orderApi;
     private const string LocalStorageKey = "TTV_ShoppingCartState_Lessons";
-
-    public Effects(ILocalStorageService localStorageService, NavigationManager navigationManager, IOrderApiConsumer orderApi)
-    {
-        this.localStorageService = localStorageService;
-        this.navigationManager = navigationManager;
-        this.orderApi = orderApi;
-    }
 
     [EffectMethod(typeof(ClearCart))]
     public static Task HandleClearCart(IDispatcher dispatcher)
@@ -49,7 +42,7 @@ public class Effects
         try
         {
             var lessons = await localStorageService.GetItemAsync<LessonDto[]>(LocalStorageKey);
-            dispatcher.Dispatch(new LocalStoreLoadResponse() { Lessons = lessons ?? Array.Empty<LessonDto>() });
+            dispatcher.Dispatch(new LocalStoreLoadResponse() { Lessons = lessons ?? [] });
         }
         catch (Exception)
         {

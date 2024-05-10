@@ -52,11 +52,9 @@ public static class ServicesExtensions
         services.AddScoped<CreateOrderNotification>();
         services.AddScoped<SendNotification>();
 
-        services.AddAuthorization(options =>
-        {
-            options.AddPolicy("Admin", policy => policy.RequireClaim("role", "admin"));
-            options.AddPolicy("CanIssueVouchers", policy => policy.RequireClaim("permission", "vouchers.issue"));
-        });
+        services.AddAuthorizationBuilder()
+            .AddPolicy("Admin", policy => policy.RequireClaim("role", "admin"))
+            .AddPolicy("CanIssueVouchers", policy => policy.RequireClaim("permission", "vouchers.issue"));
         services.Configure<SystemSettings>(configuration.GetSection(nameof(SystemSettings)));
 
         return services;

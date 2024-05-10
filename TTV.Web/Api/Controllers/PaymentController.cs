@@ -9,16 +9,10 @@ using TTV.Web.Shared;
 namespace TTV.Web.Api.Controllers;
 [Route("api/[controller]")]
 [ApiController]
-public class PaymentController : ControllerBase
+public class PaymentController(ILogger<PaymentController> logger, IPaymentManager paymentManager) : ControllerBase
 {
-    private readonly ILogger<PaymentController> logger;
-    private readonly IPaymentManager paymentManager;
-
-    public PaymentController(ILogger<PaymentController> logger, IPaymentManager paymentManager)
-    {
-        this.logger = logger;
-        this.paymentManager = paymentManager;
-    }
+    private readonly ILogger<PaymentController> logger = logger;
+    private readonly IPaymentManager paymentManager = paymentManager;
 
     [HttpPost]
     [Authorize]

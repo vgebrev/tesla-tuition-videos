@@ -6,14 +6,9 @@ using TTV.Domain.Entities;
 
 namespace TTV.Infrastructure;
 
-public class DiscountVoucherCodeGenerator : IDiscountVoucherCodeGenerator
+public class DiscountVoucherCodeGenerator(IOptionsSnapshot<SystemSettings> config) : IDiscountVoucherCodeGenerator
 {
-    private readonly SystemSettings settings;
-
-    public DiscountVoucherCodeGenerator(IOptionsSnapshot<SystemSettings> config)
-    {
-        settings = config.Value;
-    }
+    private readonly SystemSettings settings = config.Value;
 
     public string Generate(DiscountVoucher voucher)
     {

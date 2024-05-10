@@ -4,14 +4,9 @@ using TTV.Domain.Entities;
 
 namespace TTV.Infrastructure.DataAccess.Repositories;
 
-public class UserRepository : IUserRepository
+public class UserRepository(DataContext dataContext) : IUserRepository
 {
-    private readonly DataContext dataContext;
-
-    public UserRepository(DataContext dataContext)
-    {
-        this.dataContext = dataContext;
-    }
+    private readonly DataContext dataContext = dataContext;
 
     public async Task<User?> GetByIdAsync(Guid userId, CancellationToken cancellationToken = default)
     {

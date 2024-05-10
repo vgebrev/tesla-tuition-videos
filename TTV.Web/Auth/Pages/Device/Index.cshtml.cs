@@ -14,18 +14,12 @@ namespace TTV.Web.Auth.Pages.Device;
 
 [SecurityHeaders]
 [Authorize]
-public class Index : PageModel
+public class Index(
+    IDeviceFlowInteractionService interaction,
+    IEventService eventService) : PageModel
 {
-    private readonly IDeviceFlowInteractionService _interaction;
-    private readonly IEventService _events;
-
-    public Index(
-        IDeviceFlowInteractionService interaction,
-        IEventService eventService)
-    {
-        _interaction = interaction;
-        _events = eventService;
-    }
+    private readonly IDeviceFlowInteractionService _interaction = interaction;
+    private readonly IEventService _events = eventService;
 
     public ViewModel View { get; set; }
 

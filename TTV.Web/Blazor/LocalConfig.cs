@@ -8,7 +8,7 @@ public record LocalConfig
     public string RedirectUri { get; init; } = string.Empty;
     public string PostLogoutRedirectUri { get; init; } = string.Empty;
     public string ResponseType { get; init; } = string.Empty;
-    public string[] ApiScopes { get; init; } = Array.Empty<string>();
+    public string[] ApiScopes { get; init; } = [];
     public BankAccountConfig BankAccount { get; init; } = new();
 }
 

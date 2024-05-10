@@ -5,6 +5,9 @@ namespace TTV.Web.Blazor.Services;
 
 public class DocumentApiConsumer(HttpClient httpClient) : IDocumentApiConsumer
 {
+    private readonly HttpClient httpClient = httpClient;
+    private readonly JsonSerializerOptions jsonOptions = new() { PropertyNameCaseInsensitive = true };
+
     public async Task<DocumentDto[]> GetDocumentsForLessonOwnedByCurrentUserAsync(int lessonId, CancellationToken cancellationToken = default)
     {
         var httpResponse = await httpClient.GetAsync($"api/document/lesson/{lessonId}", cancellationToken);
@@ -13,7 +16,7 @@ public class DocumentApiConsumer(HttpClient httpClient) : IDocumentApiConsumer
             return [];
         }
         var responseBody = await httpResponse.Content.ReadAsStringAsync(cancellationToken);
-        return JsonSerializer.Deserialize<DocumentDto[]>(responseBody, new JsonSerializerOptions() { PropertyNameCaseInsensitive = true }) ?? [];
+        return JsonSerializer.Deserialize<DocumentDto[]>(responseBody, jsonOptions) ?? [];
 
     }
 }

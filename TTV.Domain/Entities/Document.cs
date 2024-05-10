@@ -3,7 +3,7 @@ public class Document : BaseEntity
 {
     public Document()
     {
-        Lessons = new HashSet<Lesson>();
+        Lessons = [];
     }
     public DocumentType DocumentType { get; set; }
     public string Title { get; set; } = string.Empty;

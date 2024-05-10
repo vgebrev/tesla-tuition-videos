@@ -6,21 +6,15 @@ using TTV.Infrastructure.Notifications.Templates;
 using TTV.Infrastructure.Notifications.Templates.MappingExtensions;
 
 namespace TTV.Infrastructure.Notifications;
-public class NotificationBuilder : INotificationBuilder
+public class NotificationBuilder(IOptionsSnapshot<SystemSettings> config, ITemplateRenderer templateRenderer) : INotificationBuilder
 {
-    private readonly EmailSettings emailSettings;
-    private readonly ITemplateRenderer templateRenderer;
+    private readonly EmailSettings emailSettings = config.Value.EmailSettings;
+    private readonly ITemplateRenderer templateRenderer = templateRenderer;
 
     private NotificationType? type;
     private Order? order;
     private User? user;
     private object? data;
-
-    public NotificationBuilder(IOptionsSnapshot<SystemSettings> config, ITemplateRenderer templateRenderer)
-    {
-        emailSettings = config.Value.EmailSettings;
-        this.templateRenderer = templateRenderer;
-    }
 
     public async Task<Notification> BuildAsync(CancellationToken cancellationToken = default)
     {

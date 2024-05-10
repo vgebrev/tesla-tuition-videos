@@ -3,14 +3,9 @@ using TTV.Domain.Entities;
 
 namespace TTV.Application.Managers;
 
-public class TagManager : ITagManager
+public class TagManager(IUnitOfWorkFactory unitOfWorkFactory) : ITagManager
 {
-    private readonly IUnitOfWorkFactory unitOfWorkFactory;
-
-    public TagManager(IUnitOfWorkFactory unitOfWorkFactory)
-    {
-        this.unitOfWorkFactory = unitOfWorkFactory;
-    }
+    private readonly IUnitOfWorkFactory unitOfWorkFactory = unitOfWorkFactory;
 
     public async Task<IEnumerable<Tag>> GetTagsAsync(CancellationToken cancellationToken = default)
     {

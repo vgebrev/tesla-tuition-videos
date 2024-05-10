@@ -6,14 +6,9 @@ using TTV.Web.Blazor.Shared.Store;
 
 namespace TTV.Web.Blazor.Pages.OrderComplete.Store;
 
-public class Effects
+public class Effects(IOrderApiConsumer orderApi)
 {
-    private readonly IOrderApiConsumer orderApi;
-
-    public Effects(IOrderApiConsumer orderApi)
-    {
-        this.orderApi = orderApi;
-    }
+    private readonly IOrderApiConsumer orderApi = orderApi;
 
     [EffectMethod]
     public async Task HandleCompleteOrderRequest(CompleteOrderRequest action, IDispatcher dispatcher)
@@ -28,16 +23,6 @@ public class Effects
             dispatcher.Dispatch(new CompleteOrderError() { ErrorMessage = Consts.DefaultErrorMessage });
         }
     }
-
-    //[EffectMethod]
-    //public Task HandleCompleteOrderResponse(CompleteOrderResponse action, IDispatcher _)
-    //{
-    //    if (action.Result.IsSuccess)
-    //    {
-    //        navigationManager.NavigateTo($"/order-complete/{action.Result.Value.Id}");
-    //    }
-    //    return Task.CompletedTask;
-    //}
 
     [EffectMethod]
     public async Task HandleGetOrderRequest(GetOrderRequest action, IDispatcher dispatcher)

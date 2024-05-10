@@ -4,27 +4,23 @@ using TTV.Web.Shared;
 
 namespace TTV.Web.Blazor.Services;
 
-public class DiscountVoucherApiConsumer : IDiscountVoucherApiConsumer
+public class DiscountVoucherApiConsumer(HttpClient httpClient) : IDiscountVoucherApiConsumer
 {
-    private readonly HttpClient httpClient;
-
-    public DiscountVoucherApiConsumer(HttpClient httpClient)
-    {
-        this.httpClient = httpClient;
-    }
+    private readonly HttpClient httpClient = httpClient;
+    private readonly JsonSerializerOptions jsonOptions = new() { PropertyNameCaseInsensitive = true };
 
     public async Task<DiscountVoucherDto> IssueAsync(DiscountVoucherIssueDto dto, CancellationToken cancellationToken = default)
     {
         var httpResponse = await httpClient.PostAsJsonAsync("api/discount-voucher", dto, cancellationToken);
         var responseBody = await httpResponse.Content.ReadAsStringAsync(cancellationToken);
         return JsonSerializer.Deserialize<DiscountVoucherDto>(
-            responseBody, new JsonSerializerOptions() { PropertyNameCaseInsensitive = true }) ?? throw new InvalidCastException("Unexpected result");
+            responseBody, jsonOptions) ?? throw new InvalidCastException("Unexpected result");
     }
 
     public async Task<DiscountVoucherDto[]> GetListAsync(bool claimedByCurrentUser = false, CancellationToken cancellationToken = default)
     {
 
-        return await httpClient.GetFromJsonAsync<DiscountVoucherDto[]>($"api/discount-voucher/{(claimedByCurrentUser ? "own" : "")}", cancellationToken) ?? Array.Empty<DiscountVoucherDto>();
+        return await httpClient.GetFromJsonAsync<DiscountVoucherDto[]>($"api/discount-voucher/{(claimedByCurrentUser ? "own" : "")}", cancellationToken) ?? [];
     }
 
     public async Task<ResultDto<OrderDto?>> ApplyDiscountVoucherAsync(string voucherCode, int orderId, CancellationToken cancellationToken = default)
@@ -32,6 +28,6 @@ public class DiscountVoucherApiConsumer : IDiscountVoucherApiConsumer
         var httpResponse = await httpClient.PutAsync($"api/discount-voucher/{voucherCode}/order/{orderId}", null, cancellationToken);
         var responseBody = await httpResponse.Content.ReadAsStringAsync(cancellationToken);
         return JsonSerializer.Deserialize<ResultDto<OrderDto?>>(
-            responseBody, new JsonSerializerOptions() { PropertyNameCaseInsensitive = true }) ?? throw new InvalidCastException("Unexpected result");
+            responseBody, jsonOptions) ?? throw new InvalidCastException("Unexpected result");
     }
 }

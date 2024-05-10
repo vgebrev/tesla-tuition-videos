@@ -4,14 +4,9 @@ using TTV.Domain.Entities;
 
 namespace TTV.Infrastructure.DataAccess.Repositories;
 
-public class LessonRepository : ILessonRepository
+public class LessonRepository(DataContext dataContext) : ILessonRepository
 {
-    private readonly DataContext dataContext;
-
-    public LessonRepository(DataContext dataContext)
-    {
-        this.dataContext = dataContext;
-    }
+    private readonly DataContext dataContext = dataContext;
 
     public async Task<IEnumerable<Lesson>> SearchAsync(string? searchText, int[]? searchTagsIds, Guid? ownerId, CancellationToken cancellationToken = default)
     {

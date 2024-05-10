@@ -13,21 +13,14 @@ namespace TTV.Web.Auth.Pages.Logout;
 
 [SecurityHeaders]
 [AllowAnonymous]
-public class Index : PageModel
+public class Index(SignInManager<ApplicationUser> signInManager, IIdentityServerInteractionService interaction, IEventService events) : PageModel
 {
-    private readonly SignInManager<ApplicationUser> _signInManager;
-    private readonly IIdentityServerInteractionService _interaction;
-    private readonly IEventService _events;
+    private readonly SignInManager<ApplicationUser> _signInManager = signInManager;
+    private readonly IIdentityServerInteractionService _interaction = interaction;
+    private readonly IEventService _events = events;
 
     [BindProperty] 
     public string LogoutId { get; set; }
-
-    public Index(SignInManager<ApplicationUser> signInManager, IIdentityServerInteractionService interaction, IEventService events)
-    {
-        _signInManager = signInManager;
-        _interaction = interaction;
-        _events = events;
-    }
 
     public async Task<IActionResult> OnGet(string logoutId)
     {

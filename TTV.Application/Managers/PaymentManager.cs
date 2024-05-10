@@ -6,18 +6,11 @@ using TTV.Domain.DomainServices;
 using TTV.Domain.Entities;
 
 namespace TTV.Application.Managers;
-public class PaymentManager : IPaymentManager
+public class PaymentManager(ILogger<PaymentManager> logger, IUnitOfWorkFactory unitOfWorkFactory, IPaymentProcessorFactory paymentProcessorFactory) : IPaymentManager
 {
-    private readonly ILogger<PaymentManager> logger;
-    private readonly IUnitOfWorkFactory unitOfWorkFactory;
-    private readonly IPaymentProcessorFactory paymentProcessorFactory;
-
-    public PaymentManager(ILogger<PaymentManager> logger, IUnitOfWorkFactory unitOfWorkFactory, IPaymentProcessorFactory paymentProcessorFactory)
-    {
-        this.logger = logger;
-        this.unitOfWorkFactory = unitOfWorkFactory;
-        this.paymentProcessorFactory = paymentProcessorFactory;
-    }
+    private readonly ILogger<PaymentManager> logger = logger;
+    private readonly IUnitOfWorkFactory unitOfWorkFactory = unitOfWorkFactory;
+    private readonly IPaymentProcessorFactory paymentProcessorFactory = paymentProcessorFactory;
 
     public async Task<Result> ConfirmPaymentAsync(Guid paymentId, PaymentType paymentType, Dictionary<string, string> confirmationData, CancellationToken cancellationToken = default)
     {

@@ -6,16 +6,11 @@ namespace TTV.Web.Auth.Pages.Logout;
 
 [SecurityHeaders]
 [AllowAnonymous]
-public class LoggedOut : PageModel
+public class LoggedOut(IIdentityServerInteractionService interactionService) : PageModel
 {
-    private readonly IIdentityServerInteractionService _interactionService;
+    private readonly IIdentityServerInteractionService _interactionService = interactionService;
         
     public LoggedOutViewModel View { get; set; }
-
-    public LoggedOut(IIdentityServerInteractionService interactionService)
-    {
-        _interactionService = interactionService;
-    }
 
     public async Task OnGet(string logoutId)
     {

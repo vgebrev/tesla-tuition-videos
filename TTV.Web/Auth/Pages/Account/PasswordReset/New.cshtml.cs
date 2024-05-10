@@ -8,18 +8,13 @@ namespace TTV.Web.Auth.Pages.Account.PasswordReset;
 
 [SecurityHeaders]
 [AllowAnonymous]
-public class New : PageModel
+public class New(UserManager<ApplicationUser> userManager) : PageModel
 {
-    private readonly UserManager<ApplicationUser> userManager;
+    private readonly UserManager<ApplicationUser> userManager = userManager;
 
     [BindProperty]
     public NewInputModel Input { get; set; }
     public NewViewModel View { get; set; }
-
-    public New(UserManager<ApplicationUser> userManager)
-    {
-        this.userManager = userManager;
-    }
 
     public IActionResult OnGet(string userId, string code)
     {

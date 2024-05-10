@@ -1,11 +1,5 @@
 ﻿namespace TTV.Application.Exceptions;
-public class UserNotFoundException : ApplicationException
+public class UserNotFoundException(Guid userId) : ApplicationException("User doesn't exist")
 {
-    public UserNotFoundException(Guid userId)
-        : base("User doesn't exist")
-    {
-        UserId = userId;
-    }
-
-    public Guid UserId { get; }
+    public Guid UserId { get; } = userId;
 }

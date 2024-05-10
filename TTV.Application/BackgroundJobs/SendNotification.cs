@@ -4,16 +4,11 @@ using TTV.Domain.DomainServices.BackgroundJobs;
 using TTV.Domain.Entities;
 
 namespace TTV.Application.BackgroundJobs;
-public class SendNotification : IBackgroundJob
+public class SendNotification(ILogger<SendNotification> logger, INotificationManager notificationManager) : IBackgroundJob
 {
-    private readonly ILogger<SendNotification> logger;
-    private readonly INotificationManager notificationManager;
+    private readonly ILogger<SendNotification> logger = logger;
+    private readonly INotificationManager notificationManager = notificationManager;
 
-    public SendNotification(ILogger<SendNotification> logger, INotificationManager notificationManager)
-    {
-        this.logger = logger;
-        this.notificationManager = notificationManager;
-    }
     public async Task ExecuteAsync(object? notificationId, CancellationToken cancellationToken = default)
     {
         logger.LogInformation("{JobName}.{MethodName}({@Data})", nameof(SendNotification), nameof(ExecuteAsync), notificationId);

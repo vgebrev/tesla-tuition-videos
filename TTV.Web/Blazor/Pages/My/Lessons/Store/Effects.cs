@@ -5,14 +5,9 @@ using TTV.Web.Blazor.Shared.Store;
 
 namespace TTV.Web.Blazor.Pages.My.Lessons.Store;
 
-public class Effects
+public class Effects(ILessonApiConsumer lessonApi)
 {
-    private readonly ILessonApiConsumer lessonApi;
-
-    public Effects(ILessonApiConsumer lessonApi)
-    {
-        this.lessonApi = lessonApi;
-    }
+    private readonly ILessonApiConsumer lessonApi = lessonApi;
 
     [EffectMethod(typeof(GetLessonsRequest))]
     public async Task HandleGetLessonsRequest(IDispatcher dispatcher)

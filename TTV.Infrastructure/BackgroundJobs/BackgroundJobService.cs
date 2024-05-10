@@ -4,18 +4,12 @@ using Microsoft.Extensions.Logging;
 using TTV.Domain.DomainServices.BackgroundJobs;
 
 namespace TTV.Infrastructure.BackgroundJobs;
-public class BackgroundJobService : BackgroundService
+public class BackgroundJobService(ILogger<BackgroundJobService> logger, IBackgroundJobQueue jobQueue, IServiceProvider services) : BackgroundService
 {
-    private readonly ILogger<BackgroundJobService> logger;
-    private readonly IBackgroundJobQueue jobQueue;
-    private readonly IServiceProvider services;
+    private readonly ILogger<BackgroundJobService> logger = logger;
+    private readonly IBackgroundJobQueue jobQueue = jobQueue;
+    private readonly IServiceProvider services = services;
 
-    public BackgroundJobService(ILogger<BackgroundJobService> logger, IBackgroundJobQueue jobQueue, IServiceProvider services)
-    {
-        this.logger = logger;
-        this.jobQueue = jobQueue;
-        this.services = services;
-    }
     protected override async Task ExecuteAsync(CancellationToken stoppingToken)
     {
         logger.LogInformation("{Service} is executing", nameof(BackgroundJobService));

@@ -4,7 +4,7 @@ namespace TTV.Web.Blazor.Pages.ShoppintCart.Store.Actions;
 
 public record ConfirmOrderRequest
 {
-    public LessonDto[] Lessons { get; init; } = Array.Empty<LessonDto>();
+    public LessonDto[] Lessons { get; init; } = [];
 }
 
 public record ConfirmOrderResponse

@@ -7,18 +7,11 @@ using TTV.Domain.Entities;
 
 namespace TTV.Application.Managers;
 
-public class OrderManager : IOrderManager
+public class OrderManager(IUnitOfWorkFactory unitOfWorkFactory, IUserIdentityService userIdentity, IBackgroundJobQueue backgroundJob) : IOrderManager
 {
-    private readonly IUnitOfWorkFactory unitOfWorkFactory;
-    private readonly IUserIdentityService userIdentity;
-    private readonly IBackgroundJobQueue backgroundJob;
-
-    public OrderManager(IUnitOfWorkFactory unitOfWorkFactory, IUserIdentityService userIdentity, IBackgroundJobQueue backgroundJob)
-    {
-        this.unitOfWorkFactory = unitOfWorkFactory;
-        this.userIdentity = userIdentity;
-        this.backgroundJob = backgroundJob;
-    }
+    private readonly IUnitOfWorkFactory unitOfWorkFactory = unitOfWorkFactory;
+    private readonly IUserIdentityService userIdentity = userIdentity;
+    private readonly IBackgroundJobQueue backgroundJob = backgroundJob;
 
     public async Task<Order> CreateNewOrderAsync(int[] lessonsIds, CancellationToken cancellationToken = default)
     {

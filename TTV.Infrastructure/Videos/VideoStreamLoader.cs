@@ -5,20 +5,12 @@ using TTV.Application.Managers;
 
 namespace TTV.Infrastructure.Videos;
 
-public class VideoStreamLoader : IVideoStreamLoader
+public class VideoStreamLoader(ILogger<VideoStreamLoader> logger, IVideoPathCache videoPathCache, IVideoManager videoManager, IOptionsSnapshot<SystemSettings> config) : IVideoStreamLoader
 {
-    private readonly ILogger<VideoStreamLoader> logger;
-    private readonly IVideoPathCache videoPathCache;
-    private readonly IVideoManager videoManager;
-    private readonly SystemSettings settings;
-
-    public VideoStreamLoader(ILogger<VideoStreamLoader> logger, IVideoPathCache videoPathCache, IVideoManager videoManager, IOptionsSnapshot<SystemSettings> config)
-    {
-        this.logger = logger;
-        this.videoPathCache = videoPathCache;
-        this.videoManager = videoManager;
-        settings = config.Value;
-    }
+    private readonly ILogger<VideoStreamLoader> logger = logger;
+    private readonly IVideoPathCache videoPathCache = videoPathCache;
+    private readonly IVideoManager videoManager = videoManager;
+    private readonly SystemSettings settings = config.Value;
 
     public async Task<Stream> LoadLessonVideoStreamAsync(int lessonId, string? userEmail, CancellationToken cancellationToken = default)
     {

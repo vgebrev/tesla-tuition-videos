@@ -4,16 +4,10 @@ using TTV.Domain.Entities;
 
 namespace TTV.Application.Managers;
 
-public class LessonManager : ILessonManager
+public class LessonManager(IUnitOfWorkFactory unitOfWorkFactory, IUserIdentityService userIdentity) : ILessonManager
 {
-    private readonly IUnitOfWorkFactory unitOfWorkFactory;
-    private readonly IUserIdentityService userIdentity;
-
-    public LessonManager(IUnitOfWorkFactory unitOfWorkFactory, IUserIdentityService userIdentity)
-    {
-        this.unitOfWorkFactory = unitOfWorkFactory;
-        this.userIdentity = userIdentity;
-    }
+    private readonly IUnitOfWorkFactory unitOfWorkFactory = unitOfWorkFactory;
+    private readonly IUserIdentityService userIdentity = userIdentity;
 
     public async Task<IEnumerable<Lesson>> SearchLessonsAsync(string? searchText, int[]? searchTagsIds, CancellationToken cancellationToken = default)
     {

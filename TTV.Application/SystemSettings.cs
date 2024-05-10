@@ -31,5 +31,5 @@ public record PayfastSettings
     public string ReturnUrl { get; init; } = string.Empty;
     public string CancelUrl { get; init; } = string.Empty;
     public string NotifyUrl { get; init; } = string.Empty;
-    public string[] AllowedHosts { get; init; } = Array.Empty<string>();
+    public string[] AllowedHosts { get; init; } = [];
 }

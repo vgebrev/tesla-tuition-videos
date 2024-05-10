@@ -10,7 +10,7 @@ public record SearchLessonsRequest
 
 public record SearchLessonsResponse
 {
-    public LessonDto[] Lessons { get; init; } = Array.Empty<LessonDto>();
+    public LessonDto[] Lessons { get; init; } = [];
 }
 
 public record SearchLessonsError

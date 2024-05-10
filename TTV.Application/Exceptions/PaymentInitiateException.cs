@@ -1,15 +1,8 @@
 ﻿using TTV.Domain.Entities;
 
 namespace TTV.Application.Exceptions;
-public class PaymentInitiateException : ApplicationException
+public class PaymentInitiateException(int orderId, PaymentType paymentType, string? message) : ApplicationException(message)
 {
-    public PaymentInitiateException(int orderId, PaymentType paymentType, string? message)
-        : base(message)
-    {
-        OrderId = orderId;
-        PaymentType = paymentType;
-    }
-
-    public int OrderId { get; }
-    public PaymentType PaymentType { get; }
+    public int OrderId { get; } = orderId;
+    public PaymentType PaymentType { get; } = paymentType;
 }

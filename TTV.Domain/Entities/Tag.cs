@@ -4,7 +4,7 @@
     {
         public Tag()
         {
-            Lessons = new HashSet<Lesson>();
+            Lessons = [];
         }
 
         public string Name { get; set; } = string.Empty;

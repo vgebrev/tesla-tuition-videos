@@ -4,14 +4,9 @@ using TTV.Domain.Entities;
 
 namespace TTV.Infrastructure.DataAccess.Repositories;
 
-public class DiscountVoucherRepository : IDiscountVoucherRepository
+public class DiscountVoucherRepository(DataContext dataContext) : IDiscountVoucherRepository
 {
-    private readonly DataContext dataContext;
-
-    public DiscountVoucherRepository(DataContext dataContext)
-    {
-        this.dataContext = dataContext;
-    }
+    private readonly DataContext dataContext = dataContext;
 
     public void Add(DiscountVoucher voucher)
     {

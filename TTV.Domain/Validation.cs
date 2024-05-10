@@ -1,17 +1,11 @@
 ﻿namespace TTV.Domain;
 
-public class Validation
+public class Validation(Func<bool> failIf, string error)
 {
-    private readonly Func<bool> failIf;
-    
-    public Validation(Func<bool> failIf, string error)
-    {
-        this.failIf = failIf;
-        Error = error;
-    }
+    private readonly Func<bool> failIf = failIf;
 
     public bool IsFailed => failIf();
-    public string Error { get; }
+    public string Error { get; } = error;
 }
 
 public static class ValidationExtensions

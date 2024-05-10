@@ -7,18 +7,11 @@ using TTV.Web.Shared;
 
 namespace TTV.Web.Blazor.Pages.Checkout.Store;
 
-public class Effects
+public class Effects(IOrderApiConsumer orderApi, IDiscountVoucherApiConsumer discountVoucherApi, IPaymentApiConsumer paymentApi)
 {
-    private readonly IOrderApiConsumer orderApi;
-    private readonly IDiscountVoucherApiConsumer discountVoucherApi;
-    private readonly IPaymentApiConsumer paymentApi;
-
-    public Effects(IOrderApiConsumer orderApi, IDiscountVoucherApiConsumer discountVoucherApi, IPaymentApiConsumer paymentApi, NavigationManager navigationManager)
-    {
-        this.orderApi = orderApi;
-        this.discountVoucherApi = discountVoucherApi;
-        this.paymentApi = paymentApi;
-    }
+    private readonly IOrderApiConsumer orderApi = orderApi;
+    private readonly IDiscountVoucherApiConsumer discountVoucherApi = discountVoucherApi;
+    private readonly IPaymentApiConsumer paymentApi = paymentApi;
 
     [EffectMethod]
     public async Task HandleGetOrderRequest(GetOrderRequest action, IDispatcher dispatcher)

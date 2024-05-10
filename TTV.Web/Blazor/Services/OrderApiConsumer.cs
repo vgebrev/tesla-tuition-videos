@@ -4,27 +4,23 @@ using TTV.Web.Shared;
 
 namespace TTV.Web.Blazor.Services;
 
-public class OrderApiConsumer : IOrderApiConsumer
+public class OrderApiConsumer(HttpClient httpClient) : IOrderApiConsumer
 {
-    private readonly HttpClient httpClient;
-
-    public OrderApiConsumer(HttpClient httpClient)
-    {
-        this.httpClient = httpClient;
-    }
+    private readonly HttpClient httpClient = httpClient;
+    private readonly JsonSerializerOptions jsonOptions = new() { PropertyNameCaseInsensitive = true };
 
     public async Task<OrderDto> CreateNewOrderAsync(OrderCreateDto dto, CancellationToken cancellationToken = default)
     {
         var httpResponse = await httpClient.PostAsJsonAsync("api/order", dto, cancellationToken);
         var responseBody = await httpResponse.Content.ReadAsStringAsync(cancellationToken);
-        return JsonSerializer.Deserialize<OrderDto>(responseBody, new JsonSerializerOptions() { PropertyNameCaseInsensitive = true }) ?? throw new InvalidCastException("Unexpected result");
+        return JsonSerializer.Deserialize<OrderDto>(responseBody, jsonOptions) ?? throw new InvalidCastException("Unexpected result");
     }
 
     public async Task<OrderDto[]> GetOwnListAsync(CancellationToken cancellationToken = default)
     {
         var httpResponse = await httpClient.GetAsync($"api/order/own", cancellationToken);
         var responseBody = await httpResponse.Content.ReadAsStringAsync(cancellationToken);
-        return JsonSerializer.Deserialize<OrderDto[]>(responseBody, new JsonSerializerOptions() { PropertyNameCaseInsensitive = true }) ?? throw new InvalidCastException("Unexpected result");
+        return JsonSerializer.Deserialize<OrderDto[]>(responseBody, jsonOptions) ?? throw new InvalidCastException("Unexpected result");
 
     }
 
@@ -37,7 +33,7 @@ public class OrderApiConsumer : IOrderApiConsumer
         }
 
         var responseBody = await httpResponse.Content.ReadAsStringAsync(cancellationToken);
-        return JsonSerializer.Deserialize<OrderDto>(responseBody, new JsonSerializerOptions() { PropertyNameCaseInsensitive = true }) ?? throw new InvalidCastException("Unexpected result");
+        return JsonSerializer.Deserialize<OrderDto>(responseBody, jsonOptions) ?? throw new InvalidCastException("Unexpected result");
     }
 
     public async Task<ResultDto<OrderDto>> CompleteOrderAsync(int orderId, CancellationToken cancellationToken = default)
@@ -45,7 +41,7 @@ public class OrderApiConsumer : IOrderApiConsumer
         var httpResponse = await httpClient.PutAsync($"api/order/{orderId}/complete", null, cancellationToken);
         var responseBody = await httpResponse.Content.ReadAsStringAsync(cancellationToken);
         return JsonSerializer.Deserialize<ResultDto<OrderDto>>(
-            responseBody, new JsonSerializerOptions() { PropertyNameCaseInsensitive = true }) ?? throw new InvalidCastException("Unexpected result");
+            responseBody, jsonOptions) ?? throw new InvalidCastException("Unexpected result");
     }
 
     public async Task<ResultDto<OrderDto>> CancelOrderAsync(int orderId, CancellationToken cancellationToken = default)
@@ -53,6 +49,6 @@ public class OrderApiConsumer : IOrderApiConsumer
         var httpResponse = await httpClient.DeleteAsync($"api/order/{orderId}", cancellationToken);
         var responseBody = await httpResponse.Content.ReadAsStringAsync(cancellationToken);
         return JsonSerializer.Deserialize<ResultDto<OrderDto>>(
-            responseBody, new JsonSerializerOptions() { PropertyNameCaseInsensitive = true }) ?? throw new InvalidCastException("Unexpected result");
+            responseBody, jsonOptions) ?? throw new InvalidCastException("Unexpected result");
     }
 }

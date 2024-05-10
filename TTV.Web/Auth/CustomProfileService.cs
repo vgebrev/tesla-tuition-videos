@@ -5,13 +5,8 @@ using TTV.Web.Auth.Models;
 
 namespace TTV.Web.Auth;
 
-public class CustomProfileService : ProfileService<ApplicationUser>
+public class CustomProfileService(UserManager<ApplicationUser> userManager, IUserClaimsPrincipalFactory<ApplicationUser> claimsFactory) : ProfileService<ApplicationUser>(userManager, claimsFactory)
 {
-    public CustomProfileService(UserManager<ApplicationUser> userManager, IUserClaimsPrincipalFactory<ApplicationUser> claimsFactory) :
-        base(userManager, claimsFactory)
-    {
-    }
-
     protected override async Task GetProfileDataAsync(ProfileDataRequestContext context, ApplicationUser user)
     {
         var principal = await GetUserClaimsAsync(user);

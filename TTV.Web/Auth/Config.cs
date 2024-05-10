@@ -7,8 +7,7 @@ namespace TTV.Web.Auth;
 public static class Config
 {
     public static IEnumerable<IdentityResource> IdentityResources =>
-        new IdentityResource[]
-        {
+        [
             new IdentityResources.OpenId(),
             new IdentityResources.Profile(),
             new IdentityResources.Email(),
@@ -17,29 +16,27 @@ public static class Config
                 Name = "role",
                 DisplayName ="Your roles and permissions",
                 ShowInDiscoveryDocument = true,
-                UserClaims = new string[]
-                {
+                UserClaims =
+                [
                     JwtClaimTypes.Role,
                     "permission",
-                },
+                ],
             }
-        };
+        ];
 
     public static IEnumerable<ApiScope> ApiScopes =>
-        new ApiScope[]
-        {
-            new ApiScope(name: "ttv_web_api", displayName: "Tesla Tuition Videos API", userClaims: new string[]
-            {
+        [
+            new ApiScope(name: "ttv_web_api", displayName: "Tesla Tuition Videos API", userClaims:
+            [
                 JwtClaimTypes.Email,
                 JwtClaimTypes.Subject,
                 JwtClaimTypes.Role,
                 "permission",
-            })
-        };
+            ])
+        ];
 
     public static IEnumerable<Client> Clients =>
-        new Client[]
-        {
+        [
             new Client
             {
                 ClientId = "ttv_web_blazor",
@@ -49,13 +46,13 @@ public static class Config
                 RedirectUris = { "https://localhost:5003/authentication/login-callback" },
                 PostLogoutRedirectUris = { "https://localhost:5003/authentication/logout-callback" },
                 AllowOfflineAccess = true,
-                AllowedScopes = new List<string>
-                {
+                AllowedScopes =
+                [
                     IdentityServerConstants.StandardScopes.OpenId,
                     IdentityServerConstants.StandardScopes.Profile,
                     IdentityServerConstants.StandardScopes.Email,
                     "ttv_web_api",
-                },
+                ],
             }
-        };
+        ];
 }

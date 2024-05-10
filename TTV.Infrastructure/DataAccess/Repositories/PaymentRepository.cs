@@ -3,14 +3,9 @@ using TTV.Domain.DomainServices.Repositories;
 using TTV.Domain.Entities;
 
 namespace TTV.Infrastructure.DataAccess.Repositories;
-public class PaymentRepository : IPaymentRepository
+public class PaymentRepository(DataContext dataContext) : IPaymentRepository
 {
-    private readonly DataContext dataContext;
-
-    public PaymentRepository(DataContext dataContext)
-    {
-        this.dataContext = dataContext;
-    }
+    private readonly DataContext dataContext = dataContext;
 
     public void Add(Payment payment)
     {

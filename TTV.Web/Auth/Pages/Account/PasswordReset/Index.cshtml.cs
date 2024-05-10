@@ -10,21 +10,15 @@ namespace TTV.Web.Auth.Pages.Account.PasswordReset;
 
 [SecurityHeaders]
 [AllowAnonymous]
-public class Index : PageModel
+public class Index(UserManager<ApplicationUser> userManager, IBackgroundJobQueue backgroundJob) : PageModel
 {
-    private readonly UserManager<ApplicationUser> userManager;
-    private readonly IBackgroundJobQueue backgroundJob;
+    private readonly UserManager<ApplicationUser> userManager = userManager;
+    private readonly IBackgroundJobQueue backgroundJob = backgroundJob;
 
     [BindProperty]
     public InputModel Input { get; set; }
 
     public ViewModel View { get; set; }
-
-    public Index(UserManager<ApplicationUser> userManager, IBackgroundJobQueue backgroundJob)
-    {
-        this.userManager = userManager;
-        this.backgroundJob = backgroundJob;
-    }
 
     public IActionResult OnGet(string returnUrl)
     {

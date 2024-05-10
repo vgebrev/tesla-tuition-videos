@@ -4,9 +4,9 @@ public class User : BaseEntity<Guid>
 {
     public User()
     {
-        Orders = new HashSet<Order>();
-        OwnedLessons = new HashSet<Lesson>();
-        Notifications = new HashSet<Notification>();
+        Orders = [];
+        OwnedLessons = [];
+        Notifications = [];
     }
     public string? Email { get; set; }
     public virtual ICollection<Order> Orders { get; private set; }

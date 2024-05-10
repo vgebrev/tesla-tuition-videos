@@ -6,10 +6,10 @@ public class Order : BaseEntity
 {
     public Order()
     {
-        Lessons = new HashSet<Lesson>();
-        AppliedVouchers = new HashSet<OrderDiscountVoucher>();
-        Notifications = new HashSet<Notification>();
-        Payments = new HashSet<Payment>();
+        Lessons = [];
+        AppliedVouchers = [];
+        Notifications = [];
+        Payments = [];
     }
 
     public void AddLessons(IEnumerable<Lesson> lessons)
@@ -24,19 +24,19 @@ public class Order : BaseEntity
     {
         var validations = new Validation[]
 {
-            new Validation(
+            new(
                 failIf: () => IsFinalised,
                 error: $"Vouchers cannot be applied to orders with a status of \"{Status.ToDisplayString()}\""),
-            new Validation(
+            new(
                 failIf: () => TotalAmount <= 0,
                 error: "There is no outstanding amount on the order"),
-            new Validation(
+            new(
                 failIf: () => voucher.ClaimedBy is not null && voucher.ClaimedBy != PlacedBy,
                 error: "The voucher has been used by someone else"),
-            new Validation(
+            new(
                 failIf: () => voucher.ExpirationDate.HasValue && voucher.ExpirationDate.Value < DateOnly.FromDateTime(DateTime.Today),
                 error: "The voucher has expired"),
-            new Validation(
+            new(
                 failIf: () => voucher.RemainingAmount <= 0,
                 error: "The voucher has no balance remaining")
         };
@@ -65,16 +65,16 @@ public class Order : BaseEntity
     {
         var validations = new Validation[]
         {
-            new Validation(
+            new(
                 failIf: () => Status == OrderStatus.Completed,
                 error: $"The order is already completed"),
-            new Validation(
+            new(
                 failIf: () => Status == OrderStatus.Cancelled,
                 error: $"The order has been cancelled"),
-            new Validation(
+            new(
                 failIf: () => TotalAmount > 0,
                 error: $"The order has an outstanding amount of R{TotalAmount:0}"),
-            new Validation(
+            new(
                 failIf:() => HasOwnedLessons,
             error: $"The order has lessons that have already been purchased")
         };

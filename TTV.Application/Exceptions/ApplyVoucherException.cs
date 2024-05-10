@@ -1,9 +1,5 @@
 ﻿namespace TTV.Application.Exceptions;
 
-public class ApplyVoucherException : ApplicationException
+public class ApplyVoucherException(string? message) : ApplicationException(message)
 {
-    public ApplyVoucherException(string? message)
-        : base(message)
-    {
-    }
 }

@@ -3,14 +3,10 @@ using TTV.Domain.DomainServices.Repositories;
 using TTV.Domain.Entities;
 
 namespace TTV.Infrastructure.DataAccess.Repositories;
-public class NotificationRepository : INotificationRepository
+public class NotificationRepository(DataContext dataContext) : INotificationRepository
 {
-    private readonly DataContext dataContext;
+    private readonly DataContext dataContext = dataContext;
 
-    public NotificationRepository(DataContext dataContext)
-    {
-        this.dataContext = dataContext;
-    }
     public void Add(Notification notification)
     {
         dataContext.Add(notification);

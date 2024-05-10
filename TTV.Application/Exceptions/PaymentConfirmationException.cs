@@ -1,11 +1,5 @@
 ﻿namespace TTV.Application.Exceptions;
-public class PaymentConfirmationException : ApplicationException
+public class PaymentConfirmationException(Guid paymentId, string? message) : ApplicationException(message)
 {
-    public PaymentConfirmationException(Guid paymentId, string? message)
-        : base(message)
-    {
-        PaymentId = paymentId;
-    }
-
-    public Guid PaymentId { get; }
+    public Guid PaymentId { get; } = paymentId;
 }

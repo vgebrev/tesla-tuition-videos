@@ -5,14 +5,9 @@ using TTV.Web.Blazor.Shared.Store;
 
 namespace TTV.Web.Blazor.Pages.My.Orders.State;
 
-public class Effects
+public class Effects(IOrderApiConsumer orderApi)
 {
-    private readonly IOrderApiConsumer orderApi;
-
-    public Effects(IOrderApiConsumer orderApi)
-    {
-        this.orderApi = orderApi;
-    }
+    private readonly IOrderApiConsumer orderApi = orderApi;
 
     [EffectMethod(typeof(GetOrdersRequest))]
     public async Task HandleGetDiscountVouchersRequest(IDispatcher dispatcher)

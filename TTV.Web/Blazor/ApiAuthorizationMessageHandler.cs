@@ -32,7 +32,7 @@ public sealed class ApiAuthorizationMessageHandler : DelegatingHandler, IDisposa
         }
 
         ConfigureHandler(
-            authorizedUrls: new[] { options.Value.ApiRootUri },
+            authorizedUrls: [options.Value.ApiRootUri],
             scopes: options.Value.ApiScopes);
     }
 
@@ -76,10 +76,7 @@ public sealed class ApiAuthorizationMessageHandler : DelegatingHandler, IDisposa
             throw new InvalidOperationException("Handler already configured.");
         }
 
-        if (authorizedUrls == null)
-        {
-            throw new ArgumentNullException(nameof(authorizedUrls));
-        }
+        ArgumentNullException.ThrowIfNull(authorizedUrls);
 
         var uris = authorizedUrls.Select(uri => new Uri(uri, UriKind.Absolute)).ToArray();
         if (uris.Length == 0)

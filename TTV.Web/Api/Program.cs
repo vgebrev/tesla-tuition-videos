@@ -23,7 +23,7 @@ try
         options.AddDefaultPolicy(policy =>
         {
             var allowedOrigins = builder.Configuration.GetSection("Cors:AllowedOrigins").Get<string[]>();
-            policy.WithOrigins(allowedOrigins ?? Array.Empty<string>()).AllowAnyHeader().AllowAnyMethod();
+            policy.WithOrigins(allowedOrigins ?? []).AllowAnyHeader().AllowAnyMethod();
         });
     });
 
@@ -39,7 +39,7 @@ try
             {
                 ValidAudience = builder.Configuration["IdentityServer:Audience"],
                 ValidIssuer = builder.Configuration["IdentityServer:Authority"],
-                ValidTypes = new[] { "at+jwt" },
+                ValidTypes = ["at+jwt"],
             };
         });
     builder.Services.AddHttpContextAccessor();

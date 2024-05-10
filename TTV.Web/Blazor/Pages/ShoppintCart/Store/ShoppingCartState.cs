@@ -8,6 +8,6 @@ namespace TTV.Web.Blazor.Pages.ShoppintCart.Store;
 public record ShoppingCartState
 {
     public bool IsLoading { get; init; } = false;
-    public LessonDto[] Lessons { get; init; } = Array.Empty<LessonDto>();
+    public LessonDto[] Lessons { get; init; } = [];
     public ErrorState Error { get; init; } = new();
 }

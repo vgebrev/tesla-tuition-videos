@@ -12,21 +12,14 @@ namespace TTV.Web.Auth.Pages.Consent;
 
 [Authorize]
 [SecurityHeadersAttribute]
-public class Index : PageModel
+public class Index(
+    IIdentityServerInteractionService interaction,
+    IEventService events,
+    ILogger<Index> logger) : PageModel
 {
-    private readonly IIdentityServerInteractionService _interaction;
-    private readonly IEventService _events;
-    private readonly ILogger<Index> _logger;
-
-    public Index(
-        IIdentityServerInteractionService interaction,
-        IEventService events,
-        ILogger<Index> logger)
-    {
-        _interaction = interaction;
-        _events = events;
-        _logger = logger;
-    }
+    private readonly IIdentityServerInteractionService _interaction = interaction;
+    private readonly IEventService _events = events;
+    private readonly ILogger<Index> _logger = logger;
 
     public ViewModel View { get; set; }
         

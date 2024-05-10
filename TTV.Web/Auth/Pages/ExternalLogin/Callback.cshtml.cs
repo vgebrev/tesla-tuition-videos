@@ -14,28 +14,19 @@ namespace TTV.Web.Auth.Pages.ExternalLogin;
 
 [AllowAnonymous]
 [SecurityHeaders]
-public class Callback : PageModel
+public class Callback(
+    IIdentityServerInteractionService interaction,
+    IEventService events,
+    ILogger<Callback> logger,
+    UserManager<ApplicationUser> userManager,
+    SignInManager<ApplicationUser> signInManager) : PageModel
 {
-    private readonly UserManager<ApplicationUser> _userManager;
-    private readonly SignInManager<ApplicationUser> _signInManager;
-    private readonly IIdentityServerInteractionService _interaction;
-    private readonly ILogger<Callback> _logger;
-    private readonly IEventService _events;
+    private readonly UserManager<ApplicationUser> _userManager = userManager;
+    private readonly SignInManager<ApplicationUser> _signInManager = signInManager;
+    private readonly IIdentityServerInteractionService _interaction = interaction;
+    private readonly ILogger<Callback> _logger = logger;
+    private readonly IEventService _events = events;
 
-    public Callback(
-        IIdentityServerInteractionService interaction,
-        IEventService events,
-        ILogger<Callback> logger,
-        UserManager<ApplicationUser> userManager,
-        SignInManager<ApplicationUser> signInManager)
-    {
-        _userManager = userManager;
-        _signInManager = signInManager;
-        _interaction = interaction;
-        _logger = logger;
-        _events = events;
-    }
-        
     public async Task<IActionResult> OnGet()
     {
         // read external identity from the temporary cookie
@@ -155,7 +146,7 @@ public class Callback : PageModel
         var identityResult = await _userManager.CreateAsync(user);
         if (!identityResult.Succeeded) throw new Exception(identityResult.Errors.First().Description);
 
-        if (filtered.Any())
+        if (filtered.Count != 0)
         {
             identityResult = await _userManager.AddClaimsAsync(user, filtered);
             if (!identityResult.Succeeded) throw new Exception(identityResult.Errors.First().Description);
@@ -186,7 +177,7 @@ public class Callback : PageModel
         var idToken = externalResult.Properties.GetTokenValue("id_token");
         if (idToken != null)
         {
-            localSignInProps.StoreTokens(new[] { new AuthenticationToken { Name = "id_token", Value = idToken } });
+            localSignInProps.StoreTokens([new AuthenticationToken { Name = "id_token", Value = idToken }]);
         }
     }
 }

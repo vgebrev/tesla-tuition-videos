@@ -8,7 +8,7 @@ public record GetOrdersRequest
 
 public record GetOrdersResponse
 {
-    public OrderDto[] Orders { get; init; } = Array.Empty<OrderDto>();
+    public OrderDto[] Orders { get; init; } = [];
 }
 
 public record GetOrdersError

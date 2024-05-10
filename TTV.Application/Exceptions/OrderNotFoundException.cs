@@ -1,11 +1,5 @@
 ﻿namespace TTV.Application.Exceptions;
-public class OrderNotFoundException : ApplicationException
+public class OrderNotFoundException(int orderId) : ApplicationException("Order not found")
 {
-    public OrderNotFoundException(int orderId)
-        : base("Order not found")
-    {
-        OrderId = orderId;
-    }
-
-    public int OrderId { get; }
+    public int OrderId { get; } = orderId;
 }

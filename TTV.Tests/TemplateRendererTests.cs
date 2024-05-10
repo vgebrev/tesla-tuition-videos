@@ -8,7 +8,7 @@ public class TemplateRendererTests
     [Fact]
     public async Task OrderNotificationRender()
     {
-        ITemplateRenderer renderer = new TemplateRenderer(new NullLogger<TemplateRenderer>());
+        TemplateRenderer renderer = new(new NullLogger<TemplateRenderer>());
         var items = new OrderItem[] { new(1, "Item 1", 10), new(2, "Item 2", 20) };
         var order = new OrderConfirmationTemplate(1, "John Doe", 30, items);
 

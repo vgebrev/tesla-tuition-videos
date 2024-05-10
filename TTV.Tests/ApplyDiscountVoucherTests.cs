@@ -2,14 +2,9 @@
 using TTV.Domain.Entities;
 
 namespace TTV.Tests;
-public  class ApplyDiscountVoucherTests : IClassFixture<ApplyDiscountVoucherTestsContext>
+public  class ApplyDiscountVoucherTests(ApplyDiscountVoucherTestsContext context) : IClassFixture<ApplyDiscountVoucherTestsContext>
 {
-    private readonly ApplyDiscountVoucherTestsContext context;
-
-    public ApplyDiscountVoucherTests(ApplyDiscountVoucherTestsContext context)
-    {
-        this.context = context;
-    }
+    private readonly ApplyDiscountVoucherTestsContext context = context;
 
     [Theory]
     [InlineData(100, 100)]

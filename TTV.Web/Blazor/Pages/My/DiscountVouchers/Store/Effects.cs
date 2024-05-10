@@ -5,14 +5,9 @@ using TTV.Web.Blazor.Shared.Store;
 
 namespace TTV.Web.Blazor.Pages.My.DiscountVouchers.Store;
 
-public class Effects
+public class Effects(IDiscountVoucherApiConsumer discountVoucherApi)
 {
-    private readonly IDiscountVoucherApiConsumer discountVoucherApi;
-
-    public Effects(IDiscountVoucherApiConsumer discountVoucherApi)
-    {
-        this.discountVoucherApi = discountVoucherApi;
-    }
+    private readonly IDiscountVoucherApiConsumer discountVoucherApi = discountVoucherApi;
 
     [EffectMethod(typeof(GetDiscountVouchersRequest))]
     public async Task HandleGetDiscountVouchersRequest(IDispatcher dispatcher)

@@ -4,14 +4,9 @@ using TTV.Domain.Entities;
 
 namespace TTV.Infrastructure.DataAccess.Repositories;
 
-public class VideoRepository : IVideoRepository
+public class VideoRepository(DataContext dataContext) : IVideoRepository
 {
-    private readonly DataContext dataContext;
-
-    public VideoRepository(DataContext dataContext)
-    {
-        this.dataContext = dataContext;
-    }
+    private readonly DataContext dataContext = dataContext;
 
     public async Task<Video?> GetLessonVideoForUserAsync(int lessonId, string? userEmail, CancellationToken cancellationToken = default)
     {

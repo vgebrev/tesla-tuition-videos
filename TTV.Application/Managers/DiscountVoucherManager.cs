@@ -5,18 +5,11 @@ using TTV.Domain.Entities;
 
 namespace TTV.Application.Managers;
 
-public class DiscountVoucherManager : IDiscountVoucherManager
+public class DiscountVoucherManager(IDiscountVoucherCodeGenerator codeGenerator, IUnitOfWorkFactory unitOfWorkFactory, IUserIdentityService userIdentity) : IDiscountVoucherManager
 {
-    private readonly IDiscountVoucherCodeGenerator codeGenerator;
-    private readonly IUnitOfWorkFactory unitOfWorkFactory;
-    private readonly IUserIdentityService userIdentity;
-
-    public DiscountVoucherManager(IDiscountVoucherCodeGenerator codeGenerator, IUnitOfWorkFactory unitOfWorkFactory, IUserIdentityService userIdentity)
-    {
-        this.codeGenerator = codeGenerator;
-        this.unitOfWorkFactory = unitOfWorkFactory;
-        this.userIdentity = userIdentity;
-    }
+    private readonly IDiscountVoucherCodeGenerator codeGenerator = codeGenerator;
+    private readonly IUnitOfWorkFactory unitOfWorkFactory = unitOfWorkFactory;
+    private readonly IUserIdentityService userIdentity = userIdentity;
 
     public async Task<DiscountVoucher> IssueVoucherAsync(decimal amount, DateOnly? expirationDate = null, string? note = null, CancellationToken cancellationToken = default)
     {

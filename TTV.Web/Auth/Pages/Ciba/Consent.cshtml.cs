@@ -11,21 +11,14 @@ namespace TTV.Web.Auth.Pages.Ciba;
 
 [Authorize]
 [SecurityHeadersAttribute]
-public class Consent : PageModel
+public class Consent(
+    IBackchannelAuthenticationInteractionService interaction,
+    IEventService events,
+    ILogger<Consent> logger) : PageModel
 {
-    private readonly IBackchannelAuthenticationInteractionService _interaction;
-    private readonly IEventService _events;
-    private readonly ILogger<Consent> _logger;
-
-    public Consent(
-        IBackchannelAuthenticationInteractionService interaction,
-        IEventService events,
-        ILogger<Consent> logger)
-    {
-        _interaction = interaction;
-        _events = events;
-        _logger = logger;
-    }
+    private readonly IBackchannelAuthenticationInteractionService _interaction = interaction;
+    private readonly IEventService _events = events;
+    private readonly ILogger<Consent> _logger = logger;
 
     public ViewModel View { get; set; }
         
@@ -141,7 +134,7 @@ public class Consent : PageModel
             .ToArray()
         };
 
-        var resourceIndicators = request.RequestedResourceIndicators ?? Enumerable.Empty<string>();
+        var resourceIndicators = request.RequestedResourceIndicators ?? [];
         var apiResources = request.ValidatedResources.Resources.ApiResources.Where(x => resourceIndicators.Contains(x.Name));
 
         var apiScopes = new List<ScopeViewModel>();

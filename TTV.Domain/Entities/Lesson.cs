@@ -4,11 +4,11 @@ public class Lesson : BaseEntity
 {
     public Lesson()
     {
-        Videos = new HashSet<Video>();
-        Tags = new HashSet<Tag>();
-        OwnedBy = new HashSet<User>();
-        Prices = new HashSet<Price>();
-        Documents = new HashSet<Document>();
+        Videos = [];
+        Tags = [];
+        OwnedBy = [];
+        Prices = [];
+        Documents = [];
     }
 
     public string Title { get; set; } = string.Empty;

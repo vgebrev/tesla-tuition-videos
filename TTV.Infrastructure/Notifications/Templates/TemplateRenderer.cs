@@ -4,16 +4,10 @@ using Stubble.Core.Builders;
 
 namespace TTV.Infrastructure.Notifications.Templates;
 
-public class TemplateRenderer : ITemplateRenderer
+public class TemplateRenderer(ILogger<TemplateRenderer> logger) : ITemplateRenderer
 {
-    private readonly StubbleVisitorRenderer stubble;
-    private readonly ILogger<TemplateRenderer> logger;
-
-    public TemplateRenderer(ILogger<TemplateRenderer> logger)
-    {
-        this.logger = logger;
-        stubble = new StubbleBuilder().Build();
-    }
+    private readonly StubbleVisitorRenderer stubble = new StubbleBuilder().Build();
+    private readonly ILogger<TemplateRenderer> logger = logger;
 
     public async Task<string?> RenderAsync<TData>(TData data, string? templateFile = null, CancellationToken cancellationToken = default)
     {

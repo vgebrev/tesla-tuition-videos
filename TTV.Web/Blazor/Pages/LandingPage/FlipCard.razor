@@ -1,0 +1,35 @@
+﻿<div class="card-container col-12 col-sm-12 col-md-6 col-lg-4 py-3 px-4">
+    <div class="card-flip">
+        <div class="card front border-primary rounded-3">
+            <div class="card-body bg-secondary rounded-3 h-100 p-3">
+                <div class="h-100 d-flex flex-column text-center">
+                    <div class="flex-grow-1 d-flex flex-column justify-content-center">
+                        @if (Front != null )
+                        {
+                            @Front
+                        }
+                    </div>
+                    <div class="mx-auto w-100 text-end text-primary">
+                        <i class="bi bi-arrow-return-right"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="card back border-primary rounded-3">
+            <div class="h-100 card-block bg-secondary rounded-3 p-3">
+                @if (Back != null)
+                 {
+                     @Back
+                 }
+            </div>
+        </div>
+    </div>
+</div>
+
+@code {
+    [Parameter]
+    public RenderFragment? Front { get; set; }
+
+    [Parameter]
+    public RenderFragment? Back { get; set; }
+}

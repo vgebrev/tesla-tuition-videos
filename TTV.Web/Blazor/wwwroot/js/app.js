@@ -8,16 +8,15 @@ window.initializeCarousel = (carouselId) => {
   });
 };
 
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.classList.add('visible');
+      observer.unobserve(entry.target);
+    }
+  });
+}, { rootMargin: "0px 0px 0px 0px" });
 window.initIntersectionObserver = (element) => {
-  const observer = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-      if (entry.isIntersecting) {
-        entry.target.classList.add('visible');
-        observer.unobserve(entry.target);
-      }
-    });
-  }, { threshold: 1.0 });
-
   observer.observe(element);
 };
 
@@ -32,5 +31,5 @@ window.initLandingVideo = (videoId) => {
     video.pause();
     video.currentTime = 0;
     video.play();
-  }, 21 * seconds);
+  }, 18 * seconds);
 }

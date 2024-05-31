@@ -1,0 +1,33 @@
+﻿figure {
+    transform: scale(0.5);
+}
+
+@media (min-width: 576px) {
+    figure {
+        transform: scale(0.66);
+    }
+}
+
+@media (min-width: 768px) {
+    figure {
+        transform: scale(0.75);
+    }
+}
+
+@media (min-width: 992px) {
+    figure {
+        transform: scale(1);
+    }
+}
+
+@media (min-width: 1200px) {
+    figure {
+        transform: scale(1);
+    }
+}
+
+@media (min-width: 1400px) {
+    figure {
+        transform: scale(1);
+    }
+}

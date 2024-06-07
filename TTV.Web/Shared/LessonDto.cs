@@ -6,6 +6,7 @@ public record LessonDto
     public string Title { get; init; } = string.Empty;
     public string Description { get; init; } = string.Empty;
     public LookupDto LessonType { get; init; } = new();
+    public bool IsFree { get; init; } = false;
     public SimpleTagDto[] Tags { get; init; } = [];
     public UserDto? Owner { get; init; }
     public PriceDto CurrentPrice { get; init; }  = new();

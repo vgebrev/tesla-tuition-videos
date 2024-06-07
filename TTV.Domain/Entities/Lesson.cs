@@ -14,6 +14,7 @@ public class Lesson : BaseEntity
     public string Title { get; set; } = string.Empty;
     public string Description { get; set; } = string.Empty;
     public LessonType LessonType { get; set; }
+    public bool IsFree { get; set; } = false;
     public virtual ICollection<Video> Videos { get; set; }
     public virtual ICollection<Tag> Tags { get; set; }
     public virtual ICollection<User> OwnedBy { get; private set; }

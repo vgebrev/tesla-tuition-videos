@@ -38,8 +38,7 @@
                 <h6 class="card-subtitle">Additional Lesson Resources:</h6>
                 @foreach (var document in State.Value.Documents)
                 {
-                    <DocumentLink Document
-                    ="document"></DocumentLink>
+                    <DocumentLink Document=@document></DocumentLink>
                 }
             }
         </div>

@@ -1,7 +1,7 @@
 ﻿@using TTV.Web.Shared;
 <AuthorizeView>
     <Authorized>
-        @if ((context.User.FindFirst("sub")?.Value ?? string.Empty) == Lesson.Owner?.Id.ToString())
+        @if (Lesson.IsFree || (context.User.FindFirst("sub")?.Value ?? string.Empty) == Lesson.Owner?.Id.ToString())
         {
             @Owned
         }
@@ -11,7 +11,14 @@
         }
     </Authorized>
     <NotAuthorized>
-        @NotOwned
+        @if (Lesson.IsFree)
+        {
+            @Owned
+        }
+        else
+        {
+            @NotOwned
+        }
     </NotAuthorized>
 </AuthorizeView>
 @code {

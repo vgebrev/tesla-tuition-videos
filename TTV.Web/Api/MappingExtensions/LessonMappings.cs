@@ -12,6 +12,7 @@ internal static class LessonMappings
             Title = lesson.Title,
             Description = lesson.Description,
             LessonType = lesson.LessonType.ToLookupDto(),
+            IsFree = lesson.IsFree,
             Tags = lesson.Tags.ToSimpleTagDtoEnumerable().ToArray(),
             Owner = lesson.OwnedBy.SingleOrDefault()?.ToUserDto(),
             CurrentPrice = lesson.PriceAt(priceDate ?? DateTime.Now).ToPriceDto()

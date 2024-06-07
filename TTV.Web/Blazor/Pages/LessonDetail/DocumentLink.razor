@@ -18,11 +18,16 @@
     protected override async Task OnInitializedAsync()
     {
         await base.OnInitializedAsync();
-        DocumentUri = $"{Config.Value.ApiRootUri}/api/document/{Document.Id}";
         var accessTokenResult = await TokenProvider.RequestAccessToken();
         if (accessTokenResult.TryGetToken(out var token))
         {
-            DocumentUri += $"?access_token={token.Value}";
+            AccessToken = token.Value;
         }
+    }
+
+    protected override async Task OnParametersSetAsync()
+    {
+        await base.OnParametersSetAsync();
+        DocumentUri = $"{Config.Value.ApiRootUri}/api/document/{Document.Id}?access_token={AccessToken}";
     }
 }

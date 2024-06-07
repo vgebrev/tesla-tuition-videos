@@ -25,5 +25,5 @@ internal static class TagMappings
         };
 
     public static IEnumerable<SimpleTagDto> ToSimpleTagDtoEnumerable(this IEnumerable<Tag> tags) =>
-        tags.Select(ToSimpleTagDto);
+        tags.Select(ToSimpleTagDto).OrderBy(t => t.Priority).ThenBy(t => t.Name);
 }

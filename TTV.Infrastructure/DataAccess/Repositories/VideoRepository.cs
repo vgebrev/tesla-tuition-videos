@@ -15,7 +15,7 @@ public class VideoRepository(DataContext dataContext) : IVideoRepository
             .Include(video => video.Lesson)
             .ThenInclude(lesson => lesson.OwnedBy.Where(user => user.Email == userEmail))
             .Where(video => video.Lesson.Id == lessonId)
-            .Where(video => video.VideoType == VideoType.Intro || video.Lesson.OwnedBy.Any(user => user.Email == userEmail));
+            .Where(video => video.VideoType == VideoType.Intro || video.Lesson.IsFree || video.Lesson.OwnedBy.Any(user => user.Email == userEmail));
 
         var videos = await query.Select(video => video).ToListAsync(cancellationToken);
 

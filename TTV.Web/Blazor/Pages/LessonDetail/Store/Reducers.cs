@@ -10,7 +10,7 @@ public static class Reducers
     public static LessonDetailState ReduceGetLessonRequest(LessonDetailState state) =>
         state with
         {
-            IsLoading = true,
+            IsLessonLoading = true,
         };
 
     [ReducerMethod]
@@ -19,7 +19,7 @@ public static class Reducers
         {
             Lesson = action.Lesson,
             Error = new(),
-            IsLoading = false,
+            IsLessonLoading = false,
         };
 
     [ReducerMethod]
@@ -27,14 +27,14 @@ public static class Reducers
         state with
         {
             Error = new ErrorState { IsError = true, ErrorMessage = action.ErrorMessage },
-            IsLoading = false,
+            IsLessonLoading = false,
         };
 
     [ReducerMethod(typeof(GetDocumentsRequest))]
     public static LessonDetailState ReduceGetDocumentsRequest(LessonDetailState state) =>
         state with
         {
-            IsLoading = true,
+            IsDocumentsLoading = true,
         };
 
     [ReducerMethod]
@@ -43,7 +43,7 @@ public static class Reducers
         {
             Documents = action.Documents,
             Error = new(),
-            IsLoading = false,
+            IsDocumentsLoading = false,
         };
 
     [ReducerMethod]
@@ -51,6 +51,6 @@ public static class Reducers
         state with
         {
             Error = new ErrorState { IsError = true, ErrorMessage = action.ErrorMessage },
-            IsLoading = false,
+            IsDocumentsLoading = false,
         };
 }

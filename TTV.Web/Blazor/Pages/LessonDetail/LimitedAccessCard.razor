@@ -3,12 +3,12 @@
 <LessonOwnView Lesson="Lesson">
     <NotOwned>
         <div class="card border-warning mb-3">
-            <div class="card-body pb-2 d-flex align-items-baseline">
-                <p class="card-text me-3">Limited access. Please purchase the lesson for full access. </p>
-                <BuyNowButton Lesson="Lesson" class="btn btn-outline-warning"></BuyNowButton>
+            <div class="card-body d-flex align-items-center flex-wrap">
+                <span class="card-text">Limited access. Please purchase the lesson for full access. </span>
+                <BuyNowButton Lesson="Lesson" class="mx-2 my-2 my-md-0 btn btn-outline-warning flex-grow-1"></BuyNowButton>
                 <AuthorizeView>
                     <NotAuthorized>
-                        <p class="card-text ms-3">If you have already purchased the lesson, please <LogInLink class="text-warning">Log in</LogInLink>.</p>
+                        <span class="card-text">If you have already purchased the lesson, please <LogInLink class="text-warning">Log in</LogInLink>.</span>
                     </NotAuthorized>
                 </AuthorizeView>
             </div>

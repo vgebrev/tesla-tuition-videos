@@ -1,7 +1,11 @@
 ﻿@using TTV.Web.Shared;
 <AuthorizeView>
     <Authorized>
-        @if (Lesson.IsFree || (context.User.FindFirst("sub")?.Value ?? string.Empty) == Lesson.Owner?.Id.ToString())
+        @if (Lesson.IsFree)
+        {
+            @Free
+        } 
+        else if ((context.User.FindFirst("sub")?.Value ?? string.Empty) == Lesson.Owner?.Id.ToString())
         {
             @Owned
         }
@@ -13,7 +17,7 @@
     <NotAuthorized>
         @if (Lesson.IsFree)
         {
-            @Owned
+            @Free
         }
         else
         {
@@ -30,4 +34,7 @@
 
     [Parameter]
     public RenderFragment? NotOwned { get; set; }
+
+    [Parameter]
+    public RenderFragment? Free { get; set; }
 }

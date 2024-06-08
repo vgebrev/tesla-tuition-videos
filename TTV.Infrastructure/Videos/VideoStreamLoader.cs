@@ -30,12 +30,12 @@ public class VideoStreamLoader(ILogger<VideoStreamLoader> logger, IVideoPathCach
     {
         if (videoPathCache.TryGetPath(lessonId, userEmail, out var cachedPath))
         {
-            logger.LogDebug("Path for lesson {LessonId} and user {UserEmail} found in cache", lessonId, userEmail);
+            logger.LogTrace("Path for lesson {LessonId} and user {UserEmail} found in cache", lessonId, userEmail);
             return cachedPath;
         }
         else
         {
-            logger.LogDebug("Path for lesson {LessonId} and user {UserEmail} not found in cache. Getting from database", lessonId, userEmail);
+            logger.LogTrace("Path for lesson {LessonId} and user {UserEmail} not found in cache. Getting from database", lessonId, userEmail);
             var video = await videoManager.GetLessonVideoForUserAsync(lessonId, userEmail, cancellationToken);
             if (video == null)
             {

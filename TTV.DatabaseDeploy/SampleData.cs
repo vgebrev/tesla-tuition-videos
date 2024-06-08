@@ -428,6 +428,7 @@ namespace TTV.DatabaseDeploy
         {
             if (target == null)
                 return;
+
             var existingLessons = await dataContext.Lessons.ToListAsync();
             target.Lessons.Clear();
             foreach (var lesson in source.Lessons)

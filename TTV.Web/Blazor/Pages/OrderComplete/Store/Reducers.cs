@@ -31,29 +31,4 @@ public static class Reducers
         IsLoading = false,
         Error = new() { IsError = true, ErrorMessage = action.ErrorMessage }
     };
-
-    //[ReducerMethod(typeof(GetOrderRequest))]
-    //public static OrderCompleteState ReduceGetOrderRequest(OrderCompleteState state) =>
-    //    state with
-    //    {
-    //        IsLoading = true,
-    //    };
-
-    //[ReducerMethod]
-    //public static OrderCompleteState ReduceGetOrderResponse(OrderCompleteState state, GetOrderResponse action) =>
-
-    //    state with
-    //    {
-    //        IsLoading = false,
-    //        Order = action.Order,
-    //        Error = new()
-    //    };
-
-    //[ReducerMethod]
-    //public static OrderCompleteState ReduceGetOrderError(OrderCompleteState state, GetOrderError action) =>
-    //    state with
-    //    {
-    //        IsLoading = false,
-    //        Error = new() { IsError = true, ErrorMessage = action.ErrorMessage }
-    //    };
 }

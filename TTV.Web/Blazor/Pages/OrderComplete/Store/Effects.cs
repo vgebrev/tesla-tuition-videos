@@ -1,5 +1,4 @@
 ﻿using Fluxor;
-using Microsoft.AspNetCore.Components;
 using TTV.Web.Blazor.Pages.OrderComplete.Store.Actions;
 using TTV.Web.Blazor.Services;
 using TTV.Web.Blazor.Shared.Store;
@@ -17,6 +16,10 @@ public class Effects(IOrderApiConsumer orderApi)
         {
             var resultDto = await orderApi.CompleteOrderAsync(action.OrderId);
             dispatcher.Dispatch(new CompleteOrderResponse() { Result = resultDto });
+            if (resultDto.IsSuccess)
+            {
+                dispatcher.Dispatch(new LessonsList.Store.Actions.UpdateLessons() { Lessons = resultDto.Value.Lessons });
+            }
         }
         catch (Exception)
         {

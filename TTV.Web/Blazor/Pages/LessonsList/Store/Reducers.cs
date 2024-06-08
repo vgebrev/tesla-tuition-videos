@@ -58,4 +58,8 @@ public static class Reducers
             LessonsError = new ErrorState { IsError = true, ErrorMessage = action.ErrorMessage },
             IsLoadingLessons = false
         };
+
+    [ReducerMethod]
+    public static LessonsListState UpdateLessons(LessonsListState state, UpdateLessons action) =>
+        state with { Lessons = state.Lessons?.Select(originalLesson => action.Lessons?.FirstOrDefault(updatedLesson => updatedLesson.Id == originalLesson.Id) ?? originalLesson).ToArray() };
 }

@@ -33,3 +33,10 @@ window.initLandingVideo = (videoId) => {
     video.play();
   }, 18 * seconds);
 }
+
+window.initLessonVideo = (videoId, sourceId, videoUri) => {
+  const video = document.getElementById(videoId);
+  const source = document.getElementById(sourceId);
+  source.src = videoUri;
+  video.load();
+}

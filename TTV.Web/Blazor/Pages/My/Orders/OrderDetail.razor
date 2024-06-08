@@ -50,7 +50,7 @@
     [Parameter]
     public OrderDto Order { get; set; } = new();
 
-    private string ThumbnailUri(int lessonId) => $"{Config.Value.ApiRootUri}/api/video/{lessonId}/thumbnail";
+    private string ThumbnailUri(int lessonId) => $"{Config.Value.ApiRootUri}/api/video/lesson/{lessonId}/thumbnail";
 
     private void CheckoutOrder()
     {

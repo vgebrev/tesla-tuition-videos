@@ -3,9 +3,11 @@
 
 @inject IOptionsSnapshot<LocalConfig> Config
 @inject IAccessTokenProvider TokenProvider
+@inject IJSRuntime JSRuntime
 
-<video oncontextmenu="return false;" controls controlslist="nodownload" class="w-100">
-    <source src="@VideoUri" type="video/mp4" />
+<video id="lesson-video" oncontextmenu="return false;" controls controlslist="nodownload" preload="none" poster="img/video-poster.jpg" class="w-100">
+    <source id="lesson-video-source" src="@VideoUri" type="video/mp4" />
+    Your browser does not support video.
 </video>
 
 @code {
@@ -18,11 +20,30 @@
     protected override async Task OnInitializedAsync()
     {
         await base.OnInitializedAsync();
-        VideoUri = $"{Config.Value.ApiRootUri}/api/video/lesson/{LessonId}";
+        VideoUri = await GetUniqueVideoUri();
+    }
+
+    private async Task<string> GetUniqueVideoUri() {
+        var result = $"{Config.Value.ApiRootUri}/api/video/lesson/{LessonId}?t={DateTime.Now.Ticks}";
         var accessTokenResult = await TokenProvider.RequestAccessToken();
         if (accessTokenResult.TryGetToken(out var token))
         {
-            VideoUri += $"?access_token={token.Value}";
+            result += $"&access_token={token.Value}";
+        }
+
+        return result;
+    }
+    protected override async Task OnParametersSetAsync()
+    {
+        await base.OnParametersSetAsync();
+    }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            VideoUri = await GetUniqueVideoUri();
+            await JSRuntime.InvokeVoidAsync("initLessonVideo", "lesson-video", "lesson-video-source", VideoUri);
         }
     }
 }

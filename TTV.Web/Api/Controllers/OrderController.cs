@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using TTV.Application.Exceptions;
 using TTV.Application.Managers;
 using TTV.Domain.DomainServices;
+using TTV.Infrastructure.Videos;
 using TTV.Web.Api.MappingExtensions;
 using TTV.Web.Shared;
 
@@ -11,11 +12,12 @@ namespace TTV.Web.Api.Controllers;
 [Route("api/[controller]")]
 [ApiController]
 [Authorize]
-public class OrderController(ILogger<OrderController> logger, IOrderManager orderManager, IUserIdentityService userIdentity) : ControllerBase
+public class OrderController(ILogger<OrderController> logger, IOrderManager orderManager, IUserIdentityService userIdentity, IVideoPathCache videoPathCache) : ControllerBase
 {
     private readonly ILogger<OrderController> logger = logger;
     private readonly IOrderManager orderManager = orderManager;
     private readonly IUserIdentityService userIdentity = userIdentity;
+    private readonly IVideoPathCache videoPathCache = videoPathCache;
 
     [HttpPost]
     public async Task<ActionResult<OrderDto>> CreateNewOrder([FromBody] OrderCreateDto createOrderDto, CancellationToken cancellationToken = default)
@@ -55,6 +57,10 @@ public class OrderController(ILogger<OrderController> logger, IOrderManager orde
         if (!response.IsSuccess)
         {
             return UnprocessableEntity(response);
+        }
+        foreach (var lesson in response.Value.Lessons)
+        {
+            videoPathCache.TryRemove(lesson.Id, userIdentity.Email);
         }
         return Ok(response);
     }

@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using System.Collections.Immutable;
 using TTV.Domain.Entities;
 using TTV.Infrastructure.DataAccess;
 
@@ -146,44 +147,44 @@ namespace TTV.DatabaseDeploy
         private static Video[] IntroVideos { get; } =
         [
             // Physics
-            new Video() { Id = 1, Filename = "TTV-Intro-Placeholder.mp4", Thumbnail = $"{Lessons[0].Title}.jpg", VideoType = VideoType.Intro, Lesson = Lessons[0] },
-            new Video() { Id = 2, Filename = "TTV-Intro-Placeholder.mp4", Thumbnail = $"{Lessons[1].Title}.jpg", VideoType = VideoType.Intro, Lesson = Lessons[1] },
-            new Video() { Id = 3, Filename = "TTV-Intro-Placeholder.mp4", Thumbnail = $"{Lessons[2].Title}.jpg", VideoType = VideoType.Intro, Lesson = Lessons[2] },
-            new Video() { Id = 4, Filename = "TTV-Intro-Placeholder.mp4", Thumbnail = $"{Lessons[3].Title}.jpg", VideoType = VideoType.Intro, Lesson = Lessons[3] },
-            new Video() { Id = 5, Filename = "TTV-Intro-Placeholder.mp4", Thumbnail = $"{Lessons[4].Title}.jpg", VideoType = VideoType.Intro, Lesson = Lessons[4] },
-            new Video() { Id = 6, Filename = "TTV-Intro-Placeholder.mp4", Thumbnail = $"{Lessons[5].Title}.jpg", VideoType = VideoType.Intro, Lesson = Lessons[5] },
-            new Video() { Id = 7, Filename = "TTV-Intro-Placeholder.mp4", Thumbnail = $"{Lessons[6].Title}.jpg", VideoType = VideoType.Intro, Lesson = Lessons[6] },
-            new Video() { Id = 8, Filename = "TTV-Intro-Placeholder.mp4", Thumbnail = $"{Lessons[7].Title}.jpg", VideoType = VideoType.Intro, Lesson = Lessons[7] },
-            new Video() { Id = 9, Filename = "TTV-Intro-Placeholder.mp4", Thumbnail = $"{Lessons[8].Title}.jpg", VideoType = VideoType.Intro, Lesson = Lessons[8] },
-            new Video() { Id = 10, Filename = "TTV-Intro-Placeholder.mp4", Thumbnail = $"{Lessons[9].Title}.jpg", VideoType = VideoType.Intro, Lesson = Lessons[9]  },
-            new Video() { Id = 11, Filename = "TTV-Intro-Placeholder.mp4", Thumbnail = $"{Lessons[10].Title}.jpg", VideoType = VideoType.Intro, Lesson = Lessons[10] },
-            new Video() { Id = 12, Filename = "TTV-Intro-Placeholder.mp4", Thumbnail = $"{Lessons[11].Title}.jpg", VideoType = VideoType.Intro, Lesson = Lessons[11] },
-            new Video() { Id = 13, Filename = "TTV-Intro-Placeholder.mp4", Thumbnail = $"{Lessons[12].Title}.jpg", VideoType = VideoType.Intro, Lesson = Lessons[12] },
-            new Video() { Id = 14, Filename = "TTV-Intro-Placeholder.mp4", Thumbnail = $"{Lessons[13].Title}.jpg", VideoType = VideoType.Intro, Lesson = Lessons[13] },
-            new Video() { Id = 15, Filename = "TTV-Intro-Placeholder.mp4", Thumbnail = $"{Lessons[14].Title}.jpg", VideoType = VideoType.Intro, Lesson = Lessons[14] },
-            new Video() { Id = 16, Filename = "TTV-Intro-Placeholder.mp4", Thumbnail = $"{Lessons[15].Title}.jpg", VideoType = VideoType.Intro, Lesson = Lessons[15] },
-            new Video() { Id = 17, Filename = "TTV-Intro-Placeholder.mp4", Thumbnail = $"{Lessons[16].Title}.jpg", VideoType = VideoType.Intro, Lesson = Lessons[16] },
-            new Video() { Id = 18, Filename = "TTV-Intro-Placeholder.mp4", Thumbnail = $"{Lessons[17].Title}.jpg", VideoType = VideoType.Intro, Lesson = Lessons[17] },
+            new Video() { Id = 1, Filename = "TTV-Intro-Placeholder.mp4", Thumbnail = $"{Lessons[0].Title}.jpg", RelativePath = "LimitedAccess", VideoType = VideoType.Intro, Lesson = Lessons[0] },
+            new Video() { Id = 2, Filename = "TTV-Intro-Placeholder.mp4", Thumbnail = $"{Lessons[1].Title}.jpg", RelativePath = "LimitedAccess", VideoType = VideoType.Intro, Lesson = Lessons[1] },
+            new Video() { Id = 3, Filename = "TTV-Intro-Placeholder.mp4", Thumbnail = $"{Lessons[2].Title}.jpg", RelativePath = "LimitedAccess", VideoType = VideoType.Intro, Lesson = Lessons[2] },
+            new Video() { Id = 4, Filename = "TTV-Intro-Placeholder.mp4", Thumbnail = $"{Lessons[3].Title}.jpg", RelativePath = "LimitedAccess", VideoType = VideoType.Intro, Lesson = Lessons[3] },
+            new Video() { Id = 5, Filename = "TTV-Intro-Placeholder.mp4", Thumbnail = $"{Lessons[4].Title}.jpg", RelativePath = "LimitedAccess", VideoType = VideoType.Intro, Lesson = Lessons[4] },
+            new Video() { Id = 6, Filename = "TTV-Intro-Placeholder.mp4", Thumbnail = $"{Lessons[5].Title}.jpg", RelativePath = "LimitedAccess", VideoType = VideoType.Intro, Lesson = Lessons[5] },
+            new Video() { Id = 7, Filename = "TTV-Intro-Placeholder.mp4", Thumbnail = $"{Lessons[6].Title}.jpg", RelativePath = "LimitedAccess", VideoType = VideoType.Intro, Lesson = Lessons[6] },
+            new Video() { Id = 8, Filename = "TTV-Intro-Placeholder.mp4", Thumbnail = $"{Lessons[7].Title}.jpg", RelativePath = "LimitedAccess", VideoType = VideoType.Intro, Lesson = Lessons[7] },
+            new Video() { Id = 9, Filename = "TTV-Intro-Placeholder.mp4", Thumbnail = $"{Lessons[8].Title}.jpg", RelativePath = "LimitedAccess", VideoType = VideoType.Intro, Lesson = Lessons[8] },
+            new Video() { Id = 10, Filename = "TTV-Intro-Placeholder.mp4", Thumbnail = $"{Lessons[9].Title}.jpg", RelativePath = "LimitedAccess", VideoType = VideoType.Intro, Lesson = Lessons[9]  },
+            new Video() { Id = 11, Filename = "TTV-Intro-Placeholder.mp4", Thumbnail = $"{Lessons[10].Title}.jpg", RelativePath = "LimitedAccess", VideoType = VideoType.Intro, Lesson = Lessons[10] },
+            new Video() { Id = 12, Filename = "TTV-Intro-Placeholder.mp4", Thumbnail = $"{Lessons[11].Title}.jpg", RelativePath = "LimitedAccess", VideoType = VideoType.Intro, Lesson = Lessons[11] },
+            new Video() { Id = 13, Filename = "TTV-Intro-Placeholder.mp4", Thumbnail = $"{Lessons[12].Title}.jpg", RelativePath = "LimitedAccess", VideoType = VideoType.Intro, Lesson = Lessons[12] },
+            new Video() { Id = 14, Filename = "TTV-Intro-Placeholder.mp4", Thumbnail = $"{Lessons[13].Title}.jpg", RelativePath = "LimitedAccess", VideoType = VideoType.Intro, Lesson = Lessons[13] },
+            new Video() { Id = 15, Filename = "TTV-Intro-Placeholder.mp4", Thumbnail = $"{Lessons[14].Title}.jpg", RelativePath = "LimitedAccess", VideoType = VideoType.Intro, Lesson = Lessons[14] },
+            new Video() { Id = 16, Filename = "TTV-Intro-Placeholder.mp4", Thumbnail = $"{Lessons[15].Title}.jpg", RelativePath = "LimitedAccess", VideoType = VideoType.Intro, Lesson = Lessons[15] },
+            new Video() { Id = 17, Filename = "TTV-Intro-Placeholder.mp4", Thumbnail = $"{Lessons[16].Title}.jpg", RelativePath = "LimitedAccess", VideoType = VideoType.Intro, Lesson = Lessons[16] },
+            new Video() { Id = 18, Filename = "TTV-Intro-Placeholder.mp4", Thumbnail = $"{Lessons[17].Title}.jpg", RelativePath = "LimitedAccess", VideoType = VideoType.Intro, Lesson = Lessons[17] },
             // Chemistry
-            new Video() { Id = 19, Filename = "TTV-Intro-Placeholder.mp4", Thumbnail = $"{Lessons[18].Title}.jpg", VideoType = VideoType.Intro, Lesson = Lessons[18] },
-            new Video() { Id = 20, Filename = "TTV-Intro-Placeholder.mp4", Thumbnail = $"{Lessons[19].Title}.jpg", VideoType = VideoType.Intro, Lesson = Lessons[19] },
-            new Video() { Id = 21, Filename = "TTV-Intro-Placeholder.mp4", Thumbnail = $"{Lessons[20].Title}.jpg", VideoType = VideoType.Intro, Lesson = Lessons[20] },
-            new Video() { Id = 22, Filename = "TTV-Intro-Placeholder.mp4", Thumbnail = $"{Lessons[21].Title}.jpg", VideoType = VideoType.Intro, Lesson = Lessons[21] },
-            new Video() { Id = 23, Filename = "TTV-Intro-Placeholder.mp4", Thumbnail = $"{Lessons[22].Title}.jpg", VideoType = VideoType.Intro, Lesson = Lessons[22] },
-            new Video() { Id = 24, Filename = "TTV-Intro-Placeholder.mp4", Thumbnail = $"{Lessons[23].Title}.jpg", VideoType = VideoType.Intro, Lesson = Lessons[23] },
-            new Video() { Id = 25, Filename = "TTV-Intro-Placeholder.mp4", Thumbnail = $"{Lessons[24].Title}.jpg", VideoType = VideoType.Intro, Lesson = Lessons[24] },
-            new Video() { Id = 26, Filename = "TTV-Intro-Placeholder.mp4", Thumbnail = $"{Lessons[25].Title}.jpg", VideoType = VideoType.Intro, Lesson = Lessons[25] },
-            new Video() { Id = 27, Filename = "TTV-Intro-Placeholder.mp4", Thumbnail = $"{Lessons[26].Title}.jpg", VideoType = VideoType.Intro, Lesson = Lessons[26] },
-            new Video() { Id = 28, Filename = "TTV-Intro-Placeholder.mp4", Thumbnail = $"{Lessons[27].Title}.jpg", VideoType = VideoType.Intro, Lesson = Lessons[27] },
-            new Video() { Id = 29, Filename = "TTV-Intro-Placeholder.mp4", Thumbnail = $"{Lessons[28].Title}.jpg", VideoType = VideoType.Intro, Lesson = Lessons[28] },
-            new Video() { Id = 30, Filename = "TTV-Intro-Placeholder.mp4", Thumbnail = $"{Lessons[29].Title}.jpg", VideoType = VideoType.Intro, Lesson = Lessons[29] },
-            new Video() { Id = 31, Filename = "TTV-Intro-Placeholder.mp4", Thumbnail = $"{Lessons[30].Title}.jpg", VideoType = VideoType.Intro, Lesson = Lessons[30] },
-            new Video() { Id = 32, Filename = "TTV-Intro-Placeholder.mp4", Thumbnail = $"{Lessons[31].Title}.jpg", VideoType = VideoType.Intro, Lesson = Lessons[31] },
-            new Video() { Id = 33, Filename = "TTV-Intro-Placeholder.mp4", Thumbnail = $"{Lessons[32].Title}.jpg", VideoType = VideoType.Intro, Lesson = Lessons[32] },
-            new Video() { Id = 34, Filename = "TTV-Intro-Placeholder.mp4", Thumbnail = $"{Lessons[33].Title}.jpg", VideoType = VideoType.Intro, Lesson = Lessons[33] },
-            new Video() { Id = 35, Filename = "TTV-Intro-Placeholder.mp4", Thumbnail = $"{Lessons[34].Title}.jpg", VideoType = VideoType.Intro, Lesson = Lessons[34] },
-            new Video() { Id = 36, Filename = "TTV-Intro-Placeholder.mp4", Thumbnail = $"{Lessons[35].Title}.jpg", VideoType = VideoType.Intro, Lesson = Lessons[35] },
-            new Video() { Id = 37, Filename = "TTV-Intro-Placeholder.mp4", Thumbnail = $"{Lessons[36].Title}.jpg", VideoType = VideoType.Intro, Lesson = Lessons[36] },
+            new Video() { Id = 19, Filename = "TTV-Intro-Placeholder.mp4", Thumbnail = $"{Lessons[18].Title}.jpg", RelativePath = "LimitedAccess", VideoType = VideoType.Intro, Lesson = Lessons[18] },
+            new Video() { Id = 20, Filename = "TTV-Intro-Placeholder.mp4", Thumbnail = $"{Lessons[19].Title}.jpg", RelativePath = "LimitedAccess", VideoType = VideoType.Intro, Lesson = Lessons[19] },
+            new Video() { Id = 21, Filename = "TTV-Intro-Placeholder.mp4", Thumbnail = $"{Lessons[20].Title}.jpg", RelativePath = "LimitedAccess", VideoType = VideoType.Intro, Lesson = Lessons[20] },
+            new Video() { Id = 22, Filename = "TTV-Intro-Placeholder.mp4", Thumbnail = $"{Lessons[21].Title}.jpg", RelativePath = "LimitedAccess", VideoType = VideoType.Intro, Lesson = Lessons[21] },
+            new Video() { Id = 23, Filename = "TTV-Intro-Placeholder.mp4", Thumbnail = $"{Lessons[22].Title}.jpg", RelativePath = "LimitedAccess", VideoType = VideoType.Intro, Lesson = Lessons[22] },
+            new Video() { Id = 24, Filename = "TTV-Intro-Placeholder.mp4", Thumbnail = $"{Lessons[23].Title}.jpg", RelativePath = "LimitedAccess", VideoType = VideoType.Intro, Lesson = Lessons[23] },
+            new Video() { Id = 25, Filename = "TTV-Intro-Placeholder.mp4", Thumbnail = $"{Lessons[24].Title}.jpg", RelativePath = "LimitedAccess", VideoType = VideoType.Intro, Lesson = Lessons[24] },
+            new Video() { Id = 26, Filename = "TTV-Intro-Placeholder.mp4", Thumbnail = $"{Lessons[25].Title}.jpg", RelativePath = "LimitedAccess", VideoType = VideoType.Intro, Lesson = Lessons[25] },
+            new Video() { Id = 27, Filename = "TTV-Intro-Placeholder.mp4", Thumbnail = $"{Lessons[26].Title}.jpg", RelativePath = "LimitedAccess", VideoType = VideoType.Intro, Lesson = Lessons[26] },
+            new Video() { Id = 28, Filename = "TTV-Intro-Placeholder.mp4", Thumbnail = $"{Lessons[27].Title}.jpg", RelativePath = "LimitedAccess", VideoType = VideoType.Intro, Lesson = Lessons[27] },
+            new Video() { Id = 29, Filename = "TTV-Intro-Placeholder.mp4", Thumbnail = $"{Lessons[28].Title}.jpg", RelativePath = "LimitedAccess", VideoType = VideoType.Intro, Lesson = Lessons[28] },
+            new Video() { Id = 30, Filename = "TTV-Intro-Placeholder.mp4", Thumbnail = $"{Lessons[29].Title}.jpg", RelativePath = "LimitedAccess", VideoType = VideoType.Intro, Lesson = Lessons[29] },
+            new Video() { Id = 31, Filename = "TTV-Intro-Placeholder.mp4", Thumbnail = $"{Lessons[30].Title}.jpg", RelativePath = "LimitedAccess", VideoType = VideoType.Intro, Lesson = Lessons[30] },
+            new Video() { Id = 32, Filename = "TTV-Intro-Placeholder.mp4", Thumbnail = $"{Lessons[31].Title}.jpg", RelativePath = "LimitedAccess", VideoType = VideoType.Intro, Lesson = Lessons[31] },
+            new Video() { Id = 33, Filename = "TTV-Intro-Placeholder.mp4", Thumbnail = $"{Lessons[32].Title}.jpg", RelativePath = "LimitedAccess", VideoType = VideoType.Intro, Lesson = Lessons[32] },
+            new Video() { Id = 34, Filename = "TTV-Intro-Placeholder.mp4", Thumbnail = $"{Lessons[33].Title}.jpg", RelativePath = "LimitedAccess", VideoType = VideoType.Intro, Lesson = Lessons[33] },
+            new Video() { Id = 35, Filename = "TTV-Intro-Placeholder.mp4", Thumbnail = $"{Lessons[34].Title}.jpg", RelativePath = "LimitedAccess", VideoType = VideoType.Intro, Lesson = Lessons[34] },
+            new Video() { Id = 36, Filename = "TTV-Intro-Placeholder.mp4", Thumbnail = $"{Lessons[35].Title}.jpg", RelativePath = "LimitedAccess", VideoType = VideoType.Intro, Lesson = Lessons[35] },
+            new Video() { Id = 37, Filename = "TTV-Intro-Placeholder.mp4", Thumbnail = $"{Lessons[36].Title}.jpg", RelativePath = "LimitedAccess", VideoType = VideoType.Intro, Lesson = Lessons[36] },
         ];
 
         private static Video[] LessonVideos { get; } =
@@ -306,7 +307,7 @@ namespace TTV.DatabaseDeploy
                 await SyncEntityAsync(Tags);
                 await SyncEntityAsync(Lessons, include: $"{nameof(Lesson.Tags)}", SyncLessonChildEntitiesAsync);
                 await SyncEntityAsync(IntroVideos.Union(LessonVideos), customUpsert: SyncVideoLessonsAsync);
-                await SyncEntityAsync(Documents, customUpsert: SyncDocumentLessonsAsync);
+                await SyncEntityAsync(Documents, include: $"{nameof(Document.Lessons)}", customUpsert: SyncDocumentLessonsAsync);
                 Console.WriteLine("Committing transaction.");
                 await transaction.CommitAsync();
             }
@@ -409,6 +410,9 @@ namespace TTV.DatabaseDeploy
                     target.Tags.Remove(tag);
                 }
             }
+
+            //Documents
+            target.Documents.Clear();
         }
 
         private async Task SyncVideoLessonsAsync(Video source, Video? target)
@@ -422,16 +426,13 @@ namespace TTV.DatabaseDeploy
 
         private async Task SyncDocumentLessonsAsync(Document source, Document? target)
         {
-            var existingLessons = await dataContext.Lessons.ToListAsync();
-            source.Lessons = existingLessons.Where(existingLesson => source.Lessons.Any(sourceLesson => sourceLesson.Id == existingLesson.Id)).ToHashSet();
-            
             if (target == null)
                 return;
-
+            var existingLessons = await dataContext.Lessons.ToListAsync();
             target.Lessons.Clear();
             foreach (var lesson in source.Lessons)
             {
-                target.Lessons.Add(existingLessons.Single(x => x.Id == lesson.Id));
+                target.Lessons.Add(existingLessons.Single(existingLesson => existingLesson.Id == lesson.Id));
             }
         }
     }

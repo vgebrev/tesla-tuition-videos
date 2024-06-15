@@ -8,8 +8,10 @@ body {
     height: 100vh;
 }
 
-.container {
+.app-container {
     height: 100%;
+    display: flex;
+    flex-direction: column;
 }
 
 #blazor-error-ui {
@@ -92,24 +94,23 @@ body {
     transition: opacity 0.6s ease-in-out, transform 0.6s ease-in-out;
 }
 
-.fade-in.visible {
-    opacity: 1;
-    transform: translateX(0);
-}
+    .fade-in.visible {
+        opacity: 1;
+        transform: translateX(0);
+    }
 
 .intro-video-container {
-    position: relative;
     background-color: black;
     z-index: -2;
 }
 
 #intro-video {
     position: absolute;
-    top:0;
-    left:0;
-    width:100%;
-    height:100%;
-    z-index:-1;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
     object-fit: scale-down;
 }
 
@@ -117,7 +118,6 @@ body {
     background-image: url('../img/classroom.jpg');
     background-size: cover;
     background-position: center;
-    height: 1px;
 }
 
 .bg-meet-the-teacher {
@@ -134,10 +134,22 @@ body {
     height: calc(100% - 6rem);
 }
 
+.min-vh-100-6rem {
+    min-height: calc(100vh - 6rem);
+}
+
 .min-h-100 {
     min-height: 100% !important;
 }
 
 .min-h-50 {
     min-height: 50% !important;
+}
+
+.min-vh-75 {
+    min-height: 75vh !important;
+}
+
+footer {
+    margin-top: auto;
 }

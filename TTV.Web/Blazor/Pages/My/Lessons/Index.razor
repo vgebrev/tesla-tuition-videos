@@ -16,47 +16,48 @@
 
 <PageTitle>Tesla Tuition Videos - My Lessons</PageTitle>
 
-<div class="row justify-content-center">
-    <div class="col text-center">
-        <h1 class="header-white">Lesson Library</h1>
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col text-center">
+            <h1 class="header-white">Lesson Library</h1>
+        </div>
     </div>
-</div>
 
-@if (IsLoading)
-{
-    <ProgressLoader IsLoading="IsLoading" class="mb-3"></ProgressLoader>
-}
-
-@if (Lessons != null)
-{
-    @if (Lessons.Length > 0)
+    @if (IsLoading)
     {
-        <div class="row row-cols-sm-1 row-cols-md-2 row-cols-lg-3 g-3">
-
-            @foreach (var lesson in Lessons)
-            {
-                <div class="col-sm-12 col-md-6 col-lg-4">
-                    <LessonCard Lesson="lesson"></LessonCard>
-                </div>
-            }
-        </div>
+        <ProgressLoader IsLoading="IsLoading" class="mb-3"></ProgressLoader>
     }
-    else
+
+    @if (Lessons != null)
     {
-        <div class="row">
-            <div class="col text-center">
-                Your lesson library is empty.
-                <a href="lessons" class="card-link">Find some lessons.</a>
+        @if (Lessons.Length > 0)
+        {
+            <div class="row row-cols-sm-1 row-cols-md-2 row-cols-lg-3 g-3">
+
+                @foreach (var lesson in Lessons)
+                {
+                    <div class="col-sm-12 col-md-6 col-lg-4">
+                        <LessonCard Lesson="lesson"></LessonCard>
+                    </div>
+                }
             </div>
-        </div>
+        }
+        else
+        {
+            <div class="row">
+                <div class="col text-center">
+                    Your lesson library is empty.
+                    <a href="lessons" class="card-link">Find some lessons.</a>
+                </div>
+            </div>
+        }
     }
-}
 
-@if (Error.IsError)
-{
-    <ErrorCard Error="Error"></ErrorCard>
-}
-
+    @if (Error.IsError)
+    {
+        <ErrorCard Error="Error"></ErrorCard>
+    }
+</div>
 @code {
     private LessonDto[]? Lessons => State.Value.Lessons;
     private bool IsLoading => State.Value.IsLoading;

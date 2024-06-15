@@ -16,45 +16,47 @@
 
 <PageTitle>Tesla Tuition Videos - Order Complete</PageTitle>
 
-<div class="row justify-content-center">
-    <div class="col text-center">
-        <h1 class="header-white">Order Complete</h1>
-    </div>
-</div>
-
-@if (IsLoading)
-{
-    <ProgressLoader IsLoading="IsLoading" class="mb-3"></ProgressLoader>
-}
-
-@if (Order != null && (CompleteOrderResult?.IsSuccess ?? false))
-{
+<div class="container">
     <div class="row justify-content-center">
-        <div class="col-lg-6 col-md-8 col-sm-12 text-center">
-            <div class="card border-success my-3">
-                <div class="card-body">
-                    <p class="card-text">Thank you! You've successfully added the lessons  below to <a href="my/library" title="your library">your library</a></p>
-                </div>
-            </div>
+        <div class="col text-center">
+            <h1 class="header-white">Order Complete</h1>
         </div>
     </div>
 
-    <div class="row row-cols-lg-3 row-cols-md-2 row-cols-sm-1 g-3 justify-content-evenly">
+    @if (IsLoading)
+    {
+        <ProgressLoader IsLoading="IsLoading" class="mb-3"></ProgressLoader>
+    }
 
-        @foreach (var lesson in Order.Lessons)
-        {
-            <div class="col-lg-4 col-md-6 col-sm-12">
-                <LessonCard Lesson="lesson"></LessonCard>
+    @if (Order != null && (CompleteOrderResult?.IsSuccess ?? false))
+    {
+        <div class="row justify-content-center">
+            <div class="col-lg-6 col-md-8 col-sm-12 text-center">
+                <div class="card border-success my-3">
+                    <div class="card-body">
+                        <p class="card-text">Thank you! You've successfully added the lessons  below to <a href="my/library" title="your library">your library</a></p>
+                    </div>
+                </div>
             </div>
-        }
-    </div>
+        </div>
 
-}
+        <div class="row row-cols-lg-3 row-cols-md-2 row-cols-sm-1 g-3 justify-content-evenly">
 
-@if (Error.IsError)
-{
-    <ErrorCard Error="Error"></ErrorCard>
-}
+            @foreach (var lesson in Order.Lessons)
+            {
+                <div class="col-lg-4 col-md-6 col-sm-12">
+                    <LessonCard Lesson="lesson"></LessonCard>
+                </div>
+            }
+        </div>
+
+    }
+
+    @if (Error.IsError)
+    {
+        <ErrorCard Error="Error"></ErrorCard>
+    }
+</div>
 
 @code {
     [Parameter]

@@ -11,71 +11,72 @@
 @inject IDispatcher Dispatcher;
 
 <PageTitle>Tesla Tuition Videos - Shopping Cart</PageTitle>
-
-<div class="row justify-content-center">
-    <div class="col text-center">
-        <h1 class="header-white">Shopping Cart</h1>
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col text-center">
+            <h1 class="header-white">Shopping Cart</h1>
+        </div>
     </div>
-</div>
 
-@if (IsLoading)
-{
-    <ProgressLoader IsLoading="IsLoading" class="mb-3"></ProgressLoader>
-}
+    @if (IsLoading)
+    {
+        <ProgressLoader IsLoading="IsLoading" class="mb-3"></ProgressLoader>
+    }
 
-<div class="row justify-content-center">
-    <div class="card border-primary col-sm-12 col-md-12 col-lg-10">
-        <div class="card-body">
-            @if (Lessons.Length > 0)
-            {
-                <LessonPriceList Lessons="Lessons" Context="lesson">
-                    <LessonRow>
-                        <td>@lesson.Title</td>
-                        <td><PriceDisplay Price="lesson.CurrentPrice"></PriceDisplay></td>
-                        <td class="text-end"><button type="button" class="btn btn-outline-primary" title="Remove Lesson" @onclick="() => RemoveLesson(lesson)"><i class="bi bi-trash"></i><span class="d-none d-md-block ms-1">Remove</span></button></td>
-                    </LessonRow>
-                    <Footer>
-                    <tr>
-                        <th class="text-end">Total</th>
-                        <th>R@(Lessons.Sum(lesson => lesson.CurrentPrice.EffectiveAmount).ToString("0"))</th>
-                        <th></th>
-                    </tr>
-                    </Footer>
-                </LessonPriceList>
-            }
-            else
-            {
-                <div class="row">
-                    <div class="col text-center">
-                        Your shopping cart is empty.
-                        <a href="lessons" class="card-link">Find some lessons.</a>
+    <div class="row justify-content-center">
+        <div class="card border-primary col-sm-12 col-md-12 col-lg-10">
+            <div class="card-body">
+                @if (Lessons.Length > 0)
+                {
+                    <LessonPriceList Lessons="Lessons" Context="lesson">
+                        <LessonRow>
+                            <td>@lesson.Title</td>
+                            <td><PriceDisplay Price="lesson.CurrentPrice"></PriceDisplay></td>
+                            <td class="text-end"><button type="button" class="btn btn-outline-primary" title="Remove Lesson" @onclick="() => RemoveLesson(lesson)"><i class="bi bi-trash"></i><span class="d-none d-md-block ms-1">Remove</span></button></td>
+                        </LessonRow>
+                        <Footer>
+                        <tr>
+                            <th class="text-end">Total</th>
+                            <th>R@(Lessons.Sum(lesson => lesson.CurrentPrice.EffectiveAmount).ToString("0"))</th>
+                            <th></th>
+                        </tr>
+                        </Footer>
+                    </LessonPriceList>
+                }
+                else
+                {
+                    <div class="row">
+                        <div class="col text-center">
+                            Your shopping cart is empty.
+                            <a href="lessons" class="card-link">Find some lessons.</a>
+                        </div>
                     </div>
-                </div>
-            }
+                }
+            </div>
         </div>
     </div>
+
+    @if (Lessons.Length > 0)
+    {
+        <div class="row justify-content-center m-3">
+            <div class="col-12 col-md-6 col-lg-6 text-center">
+                <AuthorizeView>
+                    <NotAuthorized>
+                        <LogInLink class="btn btn-primary btn-lg"><i class="bi bi-person-fill me-2"></i> Log in to continue</LogInLink>
+                    </NotAuthorized>
+                    <Authorized>
+                        <button type="button" class="btn btn-primary btn-lg" disabled="@(Lessons.Length == 0)" @onclick="ConfirmOrder"><i class="bi bi-check2-circle"></i><span class="ms-2">Confirm and checkout</span></button>
+                    </Authorized>
+                </AuthorizeView>
+            </div>
+        </div>
+    }
+
+    @if (Error.IsError)
+    {
+        <ErrorCard Error="Error"></ErrorCard>
+    }
 </div>
-
-@if (Lessons.Length > 0)
-{
-    <div class="row justify-content-center m-3">
-        <div class="col-12 col-md-6 col-lg-6 text-center">
-            <AuthorizeView>
-                <NotAuthorized>
-                    <LogInLink class="btn btn-primary btn-lg"><i class="bi bi-person-fill me-2"></i> Log in to continue</LogInLink>
-                </NotAuthorized>
-                <Authorized>
-                    <button type="button" class="btn btn-primary btn-lg" disabled="@(Lessons.Length == 0)" @onclick="ConfirmOrder"><i class="bi bi-check2-circle"></i><span class="ms-2">Confirm and checkout</span></button>
-                </Authorized>
-            </AuthorizeView>
-        </div>
-    </div>
-}
-
-@if (Error.IsError)
-{
-    <ErrorCard Error="Error"></ErrorCard>
-}
 
 @code {
     private bool IsLoading => State.Value.IsLoading;

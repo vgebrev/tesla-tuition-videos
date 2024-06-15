@@ -75,7 +75,7 @@ namespace TTV.Web.Auth.Pages.Account.Register
                 result = await userManager.AddClaimsAsync(user, new Claim[]
                 {
                     new Claim(JwtClaimTypes.Name, $"{Input.FirstName} {Input.Surname}"),
-                    new Claim(JwtClaimTypes.GivenName, Input.FirstName),
+                    new Claim(JwtClaimTypes.GivenName, Input.FirstName ?? Input.Username),
                 });
 
                 if (!result.Succeeded)

@@ -3,6 +3,12 @@
     <Router AppAssembly="@typeof(App).Assembly">
         <Found Context="routeData">
             <AuthorizeRouteView RouteData="@routeData" DefaultLayout="@typeof(MainLayout)">
+                <Authorizing>
+                    <div class="min-vh-100-6rem d-flex flex-column justify-content-center border-1 border-white">
+                        <h3 class="header-white">Loading...</h3>
+                        <ProgressLoader IsLoading="true"></ProgressLoader>
+                    </div>
+                </Authorizing>
                 <NotAuthorized>
                     @if (context.User.Identity?.IsAuthenticated != true)
                     {

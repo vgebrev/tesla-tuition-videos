@@ -277,4 +277,5 @@ nouns.txt
 TTV.Web/Placeholder/**
 Workspace/**
 /TTV.Web/Api/Videos/Thumbnails
+/TTV.Web/Api/Videos/LimitedAccess/**
 /TTV.Web/Api/Documents

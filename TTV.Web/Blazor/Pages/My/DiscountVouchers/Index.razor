@@ -14,25 +14,23 @@
 
 <PageTitle>Tesla Tuition Videos - My Discount Vouchers</PageTitle>
 
-<div class="container">
-    <div class="row justify-content-center">
-        <div class="col text-center">
-            <h1 class="header-white">Discount Vouchers</h1>
-        </div>
+<div class="row justify-content-center">
+    <div class="col text-center">
+        <h1 class="header-white">Discount Vouchers</h1>
     </div>
+</div>
 
     @if (IsLoading)
-    {
-        <ProgressLoader IsLoading="IsLoading" class="mb-3"></ProgressLoader>
-    }
+{
+    <ProgressLoader IsLoading="IsLoading" class="mb-3"></ProgressLoader>
+}
 
-    <DiscountVouchersList></DiscountVouchersList>
+<DiscountVouchersList></DiscountVouchersList>
 
-    @if (Error.IsError)
-    {
-        <ErrorCard Error="Error"></ErrorCard>
-    }
-</div>
+@if (Error.IsError)
+{
+    <ErrorCard Error="Error"></ErrorCard>
+}
 
 @code {
     private bool IsLoading => State.Value.IsLoading;

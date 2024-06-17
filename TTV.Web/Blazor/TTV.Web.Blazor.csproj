@@ -44,7 +44,22 @@
   </ItemGroup>
 
   <ItemGroup>
+    <_ContentIncludedByDefault Remove="Pages\Policies\Cookies\Index.razor" />
+    <_ContentIncludedByDefault Remove="Pages\Policies\Privacy\Index.razor" />
+    <_ContentIncludedByDefault Remove="Pages\Policies\TermsAndConditions\Index.razor" />
     <_ContentIncludedByDefault Remove="Shared\AppFooter.razor" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <UpToDateCheckInput Remove="Pages\Policies\TermsAndConditions\Index.razor" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <UpToDateCheckInput Remove="Pages\Policies\Privacy\Index.razor" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <UpToDateCheckInput Remove="Pages\Policies\Cookies\Index.razor" />
   </ItemGroup>
 
 </Project>

@@ -153,3 +153,7 @@ body {
 footer {
     margin-top: auto;
 }
+
+.table-bordered th, .table-bordered td {
+    border-width: 1px !important;
+}

@@ -7,7 +7,7 @@ public class DocumentManager(IUnitOfWorkFactory unitOfWorkFactory, IUserIdentity
 {
     public async Task<IEnumerable<Document>> GetDocumentsForLessonOwnedByUserAsync(int lessonId, CancellationToken cancellationToken = default)
     {
-        var userId = userIdentity.UserId ?? throw new UnauthenticatedException();
+        var userId = userIdentity.UserId;
         using var unitOfWork = await unitOfWorkFactory.CreateAsync(cancellationToken);
         var documents = await unitOfWork.DocumentRepository.GetDocumentsForLessonOwnedByUserAsync(lessonId, userId, cancellationToken);
         return documents;
@@ -15,7 +15,7 @@ public class DocumentManager(IUnitOfWorkFactory unitOfWorkFactory, IUserIdentity
 
     public async Task<Document?> GetDocumentByIdAsync(int documentId, CancellationToken cancellationToken)
     {
-        var userId = userIdentity.UserId ?? throw new UnauthenticatedException();
+        var userId = userIdentity.UserId;
         using var unitOfWork = await unitOfWorkFactory.CreateAsync(cancellationToken);
         var document = await unitOfWork.DocumentRepository.GetDocumentOwnedByUserAsync(documentId, userId, cancellationToken);
         return document;

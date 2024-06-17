@@ -11,6 +11,7 @@ using IHost host = Host.CreateDefaultBuilder(args)
     .ConfigureServices((context, services) =>
     {
         services.AddDbContext<DataContext>(options => {
+            options.EnableSensitiveDataLogging();
             options.UseSqlServer(context.Configuration.GetConnectionString("DataContext"), sql => sql.MigrationsAssembly("TTV.DatabaseDeploy"));
         });
         services.AddScoped<SampleData>();

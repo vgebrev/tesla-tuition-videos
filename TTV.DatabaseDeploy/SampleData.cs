@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System.Collections.Immutable;
+using System.Drawing;
 using TTV.Domain.Entities;
 using TTV.Infrastructure.DataAccess;
 
@@ -292,8 +293,15 @@ namespace TTV.DatabaseDeploy
             new Document() { Id = 14, DocumentType = DocumentType.ExercisePdf, Title = $"Percentage Purity", Filename = $"Percentage Purity.pdf", RelativePath = "ExercisePdfs", Lessons = [Lessons[21]] },
             new Document() { Id = 15, DocumentType = DocumentType.ExercisePdf, Title = $"Percentage Yield", Filename = $"Percentage Yield.pdf", RelativePath = "ExercisePdfs", Lessons = [Lessons[22]] },
             new Document() { Id = 16, DocumentType = DocumentType.ExercisePdf, Title = $"The Force of Normal", Filename = $"The Force of Normal.pdf", RelativePath = "ExercisePdfs", Lessons = [Lessons[4]] },
+            new Document() { Id = 17, DocumentType = DocumentType.ExercisePdf, Title = $"Acids and Bases (CAPS) Part 1", Filename = $"Acids and Bases (CAPS) Part 1.pdf", RelativePath = "ExercisePdfs", Lessons = [Lessons[32]] },
+            new Document() { Id = 18, DocumentType = DocumentType.ExercisePdf, Title = "Coefficients of Friction", Filename = "Coefficients of Friction.pdf", RelativePath = "ExercisePdfs", Lessons = [Lessons[6]] },
+            new Document() { Id = 19, DocumentType = DocumentType.ExercisePdf, Title = "Converting Moles Between Different Substances in a Chemical Reaction", Filename = "Converting Moles between Different Substances in a Chemical Reaction.pdf", RelativePath="ExercisePdfs", Lessons = [Lessons[19]] },
+            new Document() { Id = 20, DocumentType = DocumentType.ExercisePdf, Title = "Electrostatics Part 1", Filename = "Electrostatics Part 1.pdf", RelativePath="ExercisePdfs", Lessons = [Lessons[12]] },
+            new Document() { Id = 21, DocumentType = DocumentType.ExercisePdf, Title = "Electrostatics Part 2", Filename = "Electrostatics Part 2.pdf", RelativePath="ExercisePdfs", Lessons = [Lessons[13]] },
+            new Document() { Id = 22, DocumentType = DocumentType.ExercisePdf, Title = "Ions, Valency & Writing Molecular Formulae", Filename = "Ions, Valency & Writing Molecular Formulae.pdf", RelativePath="ExercisePdfs", Lessons = [Lessons[36]] },
+            new Document() { Id = 23, DocumentType = DocumentType.ExercisePdf, Title = "Polar and Non-Polar Bonds vs Polar and Non-Polar Molecules", Filename = "Polar and Non-Polar Bonds vs Polar and Non-Polar Molecules.pdf", RelativePath = "ExercisePdfs", Lessons = [Lessons[24]]},
+            new Document() { Id = 24, DocumentType = DocumentType.ExercisePdf, Title = "Quantitative Aspects of Chemical Change", Filename = "Quantitative Aspects of Chemical Change.pdf", RelativePath = "ExercisePdfs", Lessons = [Lessons[23]] },
         ];
-
         public async Task<SampleData> PopulateAsync()
         {
             await using var transaction = await dataContext.Database.BeginTransactionAsync();
@@ -426,11 +434,13 @@ namespace TTV.DatabaseDeploy
 
         private async Task SyncDocumentLessonsAsync(Document source, Document? target)
         {
-            if (target == null)
-                return;
-
+            target ??= source;
             var existingLessons = await dataContext.Lessons.ToListAsync();
-            target.Lessons.Clear();
+
+            if (target != source)
+            {
+                target.Lessons.Clear();
+            }
             foreach (var lesson in source.Lessons)
             {
                 target.Lessons.Add(existingLessons.Single(existingLesson => existingLesson.Id == lesson.Id));

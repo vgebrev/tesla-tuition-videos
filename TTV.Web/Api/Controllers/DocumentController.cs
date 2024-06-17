@@ -12,7 +12,6 @@ namespace TTV.Web.Api.Controllers;
 public class DocumentController(ILogger<DocumentController> logger, IDocumentManager documentManager, IDocumentStreamLoader documentStreamLoader) : ControllerBase
 {
     [HttpGet("lesson/{lessonId}")]
-    [Authorize]
     public async Task<IEnumerable<DocumentDto>> GetDocumentsForLesson([FromRoute] int lessonId, CancellationToken cancellationToken = default)
     {
         logger.LogInformation("{Method}({lessonId})", nameof(GetDocumentsForLesson), lessonId);
@@ -21,7 +20,6 @@ public class DocumentController(ILogger<DocumentController> logger, IDocumentMan
     }
 
     [HttpGet("{documentId}")]
-    [Authorize]
     public async Task<IResult> GetDocumentStream([FromRoute]int documentId, CancellationToken cancellationToken = default)
     {
         logger.LogInformation("{Method}({documentId}", nameof(GetDocumentStream), documentId);

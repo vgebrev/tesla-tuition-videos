@@ -1,6 +1,4 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using System.Collections.Immutable;
-using System.Drawing;
 using TTV.Domain.Entities;
 using TTV.Infrastructure.DataAccess;
 

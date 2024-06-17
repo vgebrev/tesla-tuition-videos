@@ -131,7 +131,15 @@ body {
 }
 
 .h-100-6rem {
-    height: calc(100% - 6rem);
+    height: calc(100% - 6rem) !important;
+}
+
+.h-100-1rem {
+    height: calc(100% - 1.75rem) !important;
+}
+
+.min-vh-100-5rem {
+    min-height: calc(100vh - 5rem);
 }
 
 .min-vh-100-6rem {

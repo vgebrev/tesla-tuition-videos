@@ -24,6 +24,7 @@ public class LessonRepository(DataContext dataContext) : ILessonRepository
         }
 
         query = query.Include(lesson => lesson.Tags).ThenInclude(tag => tag.Category)
+            .Include(lesson => lesson.Videos)
             .Include(lesson => lesson.OwnedBy.Where(user => user.Id == ownerId));
 
         return await query.ToListAsync(cancellationToken);

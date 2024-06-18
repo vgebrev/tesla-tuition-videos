@@ -15,7 +15,8 @@ internal static class LessonMappings
             IsFree = lesson.IsFree,
             Tags = lesson.Tags.ToSimpleTagDtoEnumerable().ToArray(),
             Owner = lesson.OwnedBy.SingleOrDefault()?.ToUserDto(),
-            CurrentPrice = lesson.PriceAt(priceDate ?? DateTime.Now).ToPriceDto()
+            CurrentPrice = lesson.PriceAt(priceDate ?? DateTime.Now).ToPriceDto(),
+            Duration = lesson.Videos.SingleOrDefault(video => video.VideoType == VideoType.FullLesson)?.Duration ?? TimeSpan.Zero
         };
 
 

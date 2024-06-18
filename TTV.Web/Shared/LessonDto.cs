@@ -10,4 +10,5 @@ public record LessonDto
     public SimpleTagDto[] Tags { get; init; } = [];
     public UserDto? Owner { get; init; }
     public PriceDto CurrentPrice { get; init; }  = new();
+    public TimeSpan Duration { get; init; } = TimeSpan.Zero;
 }

@@ -298,7 +298,9 @@ namespace TTV.DatabaseDeploy
             new Document() { Id = 22, DocumentType = DocumentType.ExercisePdf, Title = "Ions, Valency & Writing Molecular Formulae", Filename = "Ions, Valency & Writing Molecular Formulae.pdf", RelativePath="ExercisePdfs", Lessons = [Lessons[36]] },
             new Document() { Id = 23, DocumentType = DocumentType.ExercisePdf, Title = "Polar and Non-Polar Bonds vs Polar and Non-Polar Molecules", Filename = "Polar and Non-Polar Bonds vs Polar and Non-Polar Molecules.pdf", RelativePath = "ExercisePdfs", Lessons = [Lessons[24]]},
             new Document() { Id = 24, DocumentType = DocumentType.ExercisePdf, Title = "Quantitative Aspects of Chemical Change", Filename = "Quantitative Aspects of Chemical Change.pdf", RelativePath = "ExercisePdfs", Lessons = [Lessons[23]] },
+            new Document() { Id = 25, DocumentType = DocumentType.ExercisePdf, Title = "Intermolecular Forces", Filename = "Intermolecular Forces.pdf", RelativePath = "ExercisePdfs", Lessons = [Lessons[25]] },
         ];
+
         public async Task<SampleData> PopulateAsync()
         {
             await using var transaction = await dataContext.Database.BeginTransactionAsync();
@@ -434,11 +436,9 @@ namespace TTV.DatabaseDeploy
             target ??= source;
             var existingLessons = await dataContext.Lessons.ToListAsync();
 
-            if (target != source)
-            {
-                target.Lessons.Clear();
-            }
-            foreach (var lesson in source.Lessons)
+            var sourceLessons = source.Lessons.ToArray();
+            target.Lessons.Clear();
+            foreach (var lesson in sourceLessons)
             {
                 target.Lessons.Add(existingLessons.Single(existingLesson => existingLesson.Id == lesson.Id));
             }

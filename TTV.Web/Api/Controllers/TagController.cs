@@ -5,7 +5,7 @@ using TTV.Web.Shared;
 
 namespace TTV.Web.Api.Controllers;
 
-[Route("api/[controller]")]
+[Route("api/tag")]
 [ApiController]
 public class TagController(ILogger<TagController> logger, ITagManager tagManager) : ControllerBase
 {

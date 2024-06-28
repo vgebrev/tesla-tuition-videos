@@ -7,7 +7,7 @@ using TTV.Web.Shared;
 
 namespace TTV.Web.Api.Controllers;
 
-[Route("api/[controller]")]
+[Route("api/document")]
 [ApiController]
 public class DocumentController(ILogger<DocumentController> logger, IDocumentManager documentManager, IDocumentStreamLoader documentStreamLoader) : ControllerBase
 {

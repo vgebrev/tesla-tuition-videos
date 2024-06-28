@@ -9,7 +9,7 @@ using TTV.Web.Shared;
 
 namespace TTV.Web.Api.Controllers;
 
-[Route("api/[controller]")]
+[Route("api/order")]
 [ApiController]
 [Authorize]
 public class OrderController(ILogger<OrderController> logger, IOrderManager orderManager, IUserIdentityService userIdentity, IVideoPathCache videoPathCache) : ControllerBase

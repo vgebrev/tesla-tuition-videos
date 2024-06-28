@@ -6,7 +6,7 @@ using TTV.Web.Shared;
 
 namespace TTV.Web.Api.Controllers;
 
-[Route("api/[controller]")]
+[Route("api/lesson")]
 [ApiController]
 public class LessonController(ILogger<LessonController> logger, ILessonManager lessonManager) : ControllerBase
 {

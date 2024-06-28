@@ -7,7 +7,7 @@ using TTV.Web.Api.MappingExtensions;
 using TTV.Web.Shared;
 
 namespace TTV.Web.Api.Controllers;
-[Route("api/[controller]")]
+[Route("api/payment")]
 [ApiController]
 public class PaymentController(ILogger<PaymentController> logger, IPaymentManager paymentManager) : ControllerBase
 {

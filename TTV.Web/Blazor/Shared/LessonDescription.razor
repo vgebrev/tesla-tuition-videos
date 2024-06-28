@@ -1,0 +1,29 @@
+﻿@using TTV.Web.Shared
+@inject IJSRuntime JSRuntime
+
+<div class="d-flex my-2">
+<div class="line-clamp-2 card-text small">@Lesson.Description</div>
+    <button @ref="popoverElem" type="button" class="btn btn-sm btn-outline-primary"
+            data-bs-container="body"
+            data-bs-toggle="popover"
+            data-bs-trigger="focus"
+            data-bs-placement="top"
+            data-bs-html="true"
+            data-bs-content="@Lesson.Description<br/><br/>Duration: @Lesson.Duration"
+            data-bs-original-title="@Lesson.Title">
+        <i class="bi-info-circle"></i>
+    </button>
+</div>
+@code {
+    [Parameter]
+    public LessonDto Lesson { get; set; } = new();
+
+    private ElementReference popoverElem;
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            await JSRuntime.InvokeVoidAsync("initPopover", popoverElem);
+        }
+    }
+}

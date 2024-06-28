@@ -40,3 +40,7 @@ window.initLessonVideo = (videoId, sourceId, videoUri) => {
   source.src = videoUri;
   video.load();
 }
+
+window.initPopover = (element) => {
+  new bootstrap.Popover(element);
+}

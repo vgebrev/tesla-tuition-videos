@@ -21,13 +21,14 @@ public class EmailSender(IOptionsSnapshot<SystemSettings> config) : IEmailSender
             smtpClient.Credentials = new NetworkCredential(settings.SmtpUsername, settings.SmtpPassword);
         }
 
-        var mailMessage = new MailMessage(new MailAddress(settings.DefaultFrom ?? from), new MailAddress(settings.DefaultTo ?? to))
+        using var mailMessage = new MailMessage(new MailAddress(settings.DefaultFrom ?? from, "Tesla Tuition Videos"), new MailAddress(settings.DefaultTo ?? to))
         {
             Subject = subject,
             Body = body,
             IsBodyHtml = true,
         };
 
-        await smtpClient.SendMailAsync(mailMessage, cancellationToken);
+        smtpClient.Send(mailMessage);
+        await Task.CompletedTask;
     }
 }

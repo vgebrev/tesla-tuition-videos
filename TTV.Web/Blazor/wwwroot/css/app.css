@@ -165,3 +165,7 @@ footer {
 .table-bordered th, .table-bordered td {
     border-width: 1px !important;
 }
+
+.nav-link, .nav-item {
+    white-space: nowrap;
+}

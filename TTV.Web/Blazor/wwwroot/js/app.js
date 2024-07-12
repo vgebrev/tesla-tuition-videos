@@ -1,5 +1,6 @@
 ﻿const seconds = 1000;
 
+// Bootstrap components
 window.initializeCarousel = (carouselId) => {
   const carouselElem = document.getElementById(carouselId);
   new bootstrap.Carousel(carouselElem, {
@@ -8,6 +9,11 @@ window.initializeCarousel = (carouselId) => {
   });
 };
 
+window.initPopover = (element) => {
+  new bootstrap.Popover(element);
+}
+
+// Intersection observers
 const observer = new IntersectionObserver((entries) => {
   entries.forEach(entry => {
     if (entry.isIntersecting) {
@@ -20,6 +26,7 @@ window.initIntersectionObserver = (element) => {
   observer.observe(element);
 };
 
+// Videos
 let interval;
 window.initLandingVideo = (videoId) => {
   if (interval) {
@@ -41,6 +48,17 @@ window.initLessonVideo = (videoId, sourceId, videoUri) => {
   video.load();
 }
 
-window.initPopover = (element) => {
-  new bootstrap.Popover(element);
-}
+// Consent cookie
+window.getCookie = function (name) {
+  const value = `; ${document.cookie}`;
+  const parts = value.split(`; ${name}=`);
+  if (parts.length === 2) return parts.pop().split(';').shift() === 'true';
+  return false;
+};
+
+window.setCookie = function (name, value, days) {
+  const date = new Date();
+  date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
+  const expires = `expires=${date.toUTCString()}`;
+  document.cookie = `${name}=${value}; ${expires}; path=/; Secure; SameSite=Lax`;
+};

@@ -48,6 +48,7 @@
     <_ContentIncludedByDefault Remove="Pages\Policies\Privacy\Index.razor" />
     <_ContentIncludedByDefault Remove="Pages\Policies\TermsAndConditions\Index.razor" />
     <_ContentIncludedByDefault Remove="Shared\AppFooter.razor" />
+    <_ContentIncludedByDefault Remove="Shared\CookieConsent.razor" />
     <_ContentIncludedByDefault Remove="Shared\FullHeightLoading.razor" />
   </ItemGroup>
 
@@ -65,6 +66,10 @@
 
   <ItemGroup>
     <UpToDateCheckInput Remove="Shared\FullHeightLoading.razor" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <UpToDateCheckInput Remove="Shared\CookieConsent.razor" />
   </ItemGroup>
 
 </Project>

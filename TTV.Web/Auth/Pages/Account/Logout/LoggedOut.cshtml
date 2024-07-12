@@ -2,18 +2,25 @@
 @model TTV.Web.Auth.Pages.Logout.LoggedOut
 
 <div class="logged-out-page">
-    <h1>
-        Logout
-        <small>You are now logged out</small>
-    </h1>
-
-    @if (Model.View.PostLogoutRedirectUri != null)
-    {
-        <div>
-            Click <a class="PostLogoutRedirectUri" href="@Model.View.PostLogoutRedirectUri">here</a> to return to the
-            <span>@Model.View.ClientName</span> application.
+    <div class="row">
+        <div class="col-sm-6 mx-auto mt-3">
+            <div class="card border-primary">
+                <div class="card-header text-primary">
+                    Log out
+                </div>
+                <div class="card-body">
+                    <div>You are now logged out.</div>
+                    @if (Model.View.PostLogoutRedirectUri != null)
+                    {
+                        <div>
+                            Click <a class="PostLogoutRedirectUri" href="@Model.View.PostLogoutRedirectUri">here</a> to return to the
+                            <span>@Model.View.ClientName</span> application.
+                        </div>
+                    }
+                </div>
+            </div>
         </div>
-    }
+    </div>
 
     @if (Model.View.SignOutIframeUrl != null)
     {

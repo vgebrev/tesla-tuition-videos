@@ -2,16 +2,23 @@
 @model TTV.Web.Auth.Pages.Logout.Index
 
 <div class="logout-page">
-    <div class="lead">
-        <h1>Logout</h1>
-        <p>Would you like to logout of IdentityServer?</p>
-    </div>
+    <div class="row">
+        <div class="col-sm-6 mx-auto mt-3">
+            <div class="card border-primary">
+                <div class="card-header text-primary">
+                    Log out
+                </div>
+                <div class="card-body">
+                    <div>Would you like to log out?</div>
+                    <form asp-page="/Account/Logout/Index">
+                        <input type="hidden" name="logoutId" value="@Model.LogoutId" />
 
-    <form asp-page="/Account/Logout/Index">
-        <input type="hidden" name="logoutId" value="@Model.LogoutId"  />
-        
-        <div class="form-group">
-            <button class="btn btn-primary">Yes</button>
+                        <div class="form-group">
+                            <button class="btn btn-primary">Yes</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
         </div>
-    </form>
+    </div>
 </div>

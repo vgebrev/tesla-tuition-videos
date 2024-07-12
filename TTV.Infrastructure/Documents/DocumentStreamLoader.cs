@@ -31,6 +31,7 @@ public class DocumentStreamLoader(ILogger<DocumentStreamLoader> logger, IDocumen
     private static string GetContentType(DocumentType documentType) => documentType switch
     {
         DocumentType.ExercisePdf => "application/pdf",
+        DocumentType.Reference => "application/pdf",
         _ => throw new ApplicationException($"Unknown content type for document type '{documentType.ToDisplayString()}'")
     };
 }

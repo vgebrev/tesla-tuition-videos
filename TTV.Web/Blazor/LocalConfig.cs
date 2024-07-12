@@ -10,6 +10,7 @@ public record LocalConfig
     public string ResponseType { get; init; } = string.Empty;
     public string[] ApiScopes { get; init; } = [];
     public BankAccountConfig BankAccount { get; init; } = new();
+    public bool IsTestEnvironment { get; init; } = false;
 }
 
 public record BankAccountConfig

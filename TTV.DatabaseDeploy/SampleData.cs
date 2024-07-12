@@ -299,6 +299,7 @@ namespace TTV.DatabaseDeploy
             new Document() { Id = 23, DocumentType = DocumentType.ExercisePdf, Title = "Polar and Non-Polar Bonds vs Polar and Non-Polar Molecules", Filename = "Polar and Non-Polar Bonds vs Polar and Non-Polar Molecules.pdf", RelativePath = "ExercisePdfs", Lessons = [Lessons[24]]},
             new Document() { Id = 24, DocumentType = DocumentType.ExercisePdf, Title = "Quantitative Aspects of Chemical Change", Filename = "Quantitative Aspects of Chemical Change.pdf", RelativePath = "ExercisePdfs", Lessons = [Lessons[23]] },
             new Document() { Id = 25, DocumentType = DocumentType.ExercisePdf, Title = "Intermolecular Forces", Filename = "Intermolecular Forces.pdf", RelativePath = "ExercisePdfs", Lessons = [Lessons[25]] },
+            new Document() { Id = 26, DocumentType = DocumentType.Reference, Title = "Common Polyatomic Ions", Filename = "Common Polyatomic Ions.pdf", RelativePath = "Reference", Lessons = [Lessons[36]] },
         ];
 
         public async Task<SampleData> PopulateAsync()

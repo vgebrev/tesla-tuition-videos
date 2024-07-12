@@ -1,0 +1,24 @@
+﻿@using Microsoft.Extensions.Options;
+@inject IJSRuntime JSRuntime
+@inject IOptionsSnapshot<LocalConfig> LocalConfig
+
+@if (LocalConfig.Value.IsTestEnvironment)
+{
+    <div class="position-fixed top-0 w-100 d-flex justify-content-center p-2" style="z-index: 1050;pointer-events:none;">
+        <span @ref="popoverElem" class="badge rounded-pill bg-danger p-2" style="cursor: pointer;pointer-events:auto;"
+              data-bs-toggle="popover" data-bs-content="This is a test environment with no real content or transactions." data-bs-trigger="hover">
+            Test Environment
+        </span>
+    </div>
+}
+
+@code {
+    private ElementReference popoverElem;
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender && LocalConfig.Value.IsTestEnvironment)
+        {
+            await JSRuntime.InvokeVoidAsync("initPopover", popoverElem);
+        }
+    }
+}

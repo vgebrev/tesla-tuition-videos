@@ -50,6 +50,7 @@
     <_ContentIncludedByDefault Remove="Shared\AppFooter.razor" />
     <_ContentIncludedByDefault Remove="Shared\CookieConsent.razor" />
     <_ContentIncludedByDefault Remove="Shared\FullHeightLoading.razor" />
+    <_ContentIncludedByDefault Remove="Shared\TestEnvironmentBanner.razor" />
   </ItemGroup>
 
   <ItemGroup>
@@ -70,6 +71,10 @@
 
   <ItemGroup>
     <UpToDateCheckInput Remove="Shared\CookieConsent.razor" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <UpToDateCheckInput Remove="Shared\TestEnvironmentBanner.razor" />
   </ItemGroup>
 
 </Project>

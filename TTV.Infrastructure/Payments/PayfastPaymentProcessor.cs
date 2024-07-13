@@ -6,18 +6,13 @@ using TTV.Domain.DomainServices;
 using TTV.Domain.Entities;
 
 namespace TTV.Infrastructure.Payments;
-public class PayfastPaymentProcessor : IPaymentProcessor
+public class PayfastPaymentProcessor(PayfastSettings config, IHttpClientFactory httpClientFactory) : IPaymentProcessor
 {
     private record PayfastTransactionIdentifier(string UUID);
 
-    private readonly PayfastSettings settings;
-    private readonly IHttpClientFactory httpClientFactory;
-
-    public PayfastPaymentProcessor(PayfastSettings config, IHttpClientFactory httpClientFactory)
-    {
-        settings = config;
-        this.httpClientFactory = httpClientFactory;
-    }
+    private readonly PayfastSettings settings = config;
+    private readonly IHttpClientFactory httpClientFactory = httpClientFactory;
+    private readonly JsonSerializerOptions jsonOptions = new() { PropertyNameCaseInsensitive = true };
 
     public async Task<Result<Payment>> InitiateAsync(Order order, CancellationToken cancellationToken = default)
     {
@@ -66,7 +61,7 @@ public class PayfastPaymentProcessor : IPaymentProcessor
         var response = await httpClient.PostAsync(settings.PayfastUrl, new FormUrlEncodedContent(paymentData), cancellationToken);
         response.EnsureSuccessStatusCode();
         using var contentStream = await response.Content.ReadAsStreamAsync(cancellationToken);
-        var result = await JsonSerializer.DeserializeAsync<PayfastTransactionIdentifier>(contentStream, new JsonSerializerOptions() { PropertyNameCaseInsensitive = true }, cancellationToken: cancellationToken);
+        var result = await JsonSerializer.DeserializeAsync<PayfastTransactionIdentifier>(contentStream, jsonOptions, cancellationToken: cancellationToken);
         return result?.UUID ?? throw new InvalidOperationException("Payfast did not return a valid response.");
     }
 

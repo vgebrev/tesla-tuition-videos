@@ -10,18 +10,14 @@ namespace TTV.Web.Auth.Pages.Account.Register
 {
     [SecurityHeaders]
     [AllowAnonymous]
-    public class Index : PageModel
+    public class Index(UserManager<ApplicationUser> userManager) : PageModel
     {
-        private readonly UserManager<ApplicationUser> userManager;
+        private readonly UserManager<ApplicationUser> userManager = userManager;
 
         [BindProperty]
         public InputModel Input { get; set; }
 
         public ViewModel View { get; set; }
-        public Index(UserManager<ApplicationUser> userManager)
-        {
-            this.userManager = userManager;
-        }
 
         public IActionResult OnGet(string returnUrl)
         {
@@ -72,11 +68,11 @@ namespace TTV.Web.Auth.Pages.Account.Register
                     return Page();
                 }
 
-                result = await userManager.AddClaimsAsync(user, new Claim[]
-                {
-                    new Claim(JwtClaimTypes.Name, $"{Input.FirstName} {Input.Surname}"),
-                    new Claim(JwtClaimTypes.GivenName, Input.FirstName ?? Input.Username),
-                });
+                result = await userManager.AddClaimsAsync(user,
+                [
+                    new(JwtClaimTypes.Name, $"{Input.FirstName} {Input.Surname}"),
+                    new(JwtClaimTypes.GivenName, Input.FirstName ?? Input.Username),
+                ]);
 
                 if (!result.Succeeded)
                 {

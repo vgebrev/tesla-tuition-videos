@@ -12,8 +12,8 @@ namespace TTV.DatabaseDeploy.Migrations
         {
             migrationBuilder.InsertData(
                 table: "DocumentType",
-                columns: new[] { "Id", "Name" },
-                values: new object[] { 2, "Reference" });
+                columns: ["Id", "Name"],
+                values: [2, "Reference"]);
         }
 
         /// <inheritdoc />

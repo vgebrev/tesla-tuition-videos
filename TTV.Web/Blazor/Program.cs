@@ -1,5 +1,6 @@
 using Blazored.LocalStorage;
 using Fluxor;
+using Fluxor.Blazor.Web.ReduxDevTools;
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 using TTV.Web.Blazor;
@@ -26,7 +27,7 @@ builder.Services.AddFluxor(options =>
     options.ScanAssemblies(typeof(Program).Assembly);
 #if DEBUG
     options.UseReduxDevTools();
-#endif    
+#endif
 });
 
 builder.Services.AddAuthorizationCore(options =>

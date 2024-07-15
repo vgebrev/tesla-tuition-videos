@@ -1,4 +1,5 @@
-﻿using System.Text.Json;
+﻿using System.Globalization;
+using System.Text.Json;
 using TTV.Application;
 using TTV.Application.Payments;
 using TTV.Domain;
@@ -50,7 +51,7 @@ public class PayfastPaymentProcessor(PayfastSettings config, IHttpClientFactory 
             { "notify_url", settings.NotifyUrl },
             { "email_address", order.PlacedBy.Email },
             { "m_payment_id", payment.Id.ToString() },
-            { "amount", order.TotalAmount.ToString("F") },
+            { "amount", order.TotalAmount.ToString("F", CultureInfo.InvariantCulture) },
             { "item_name", $"Order#{order.Id}" },
         };
 
@@ -61,7 +62,7 @@ public class PayfastPaymentProcessor(PayfastSettings config, IHttpClientFactory 
         var response = await httpClient.PostAsync(settings.PayfastUrl, new FormUrlEncodedContent(paymentData), cancellationToken);
         response.EnsureSuccessStatusCode();
         using var contentStream = await response.Content.ReadAsStreamAsync(cancellationToken);
-        var result = await JsonSerializer.DeserializeAsync<PayfastTransactionIdentifier>(contentStream, jsonOptions, cancellationToken: cancellationToken);
+        var result = await JsonSerializer.DeserializeAsync<PayfastTransactionIdentifier>(contentStream, jsonOptions, cancellationToken);
         return result?.UUID ?? throw new InvalidOperationException("Payfast did not return a valid response.");
     }
 

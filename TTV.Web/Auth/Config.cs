@@ -43,8 +43,14 @@ public static class Config
                 ClientName = "Tesla Tuition Videos",
                 RequireClientSecret = false,
                 AllowedGrantTypes = GrantTypes.CodeAndClientCredentials,
-                RedirectUris = { "https://localhost:5003/authentication/login-callback" },
-                PostLogoutRedirectUris = { "https://localhost:5003/authentication/logout-callback" },
+                RedirectUris = { 
+                    //"https://localhost:5003/authentication/login-callback"
+                    "https://teslatuition.video/authentication/login-callback"
+                    },
+                PostLogoutRedirectUris = { 
+                    //"https://localhost:5003/authentication/logout-callback"
+                    "https://teslatuition.video/authentication/logout-callback"
+                },
                 AllowOfflineAccess = true,
                 AllowedScopes =
                 [

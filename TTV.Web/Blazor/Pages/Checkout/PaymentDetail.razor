@@ -131,13 +131,13 @@
         await base.OnAfterRenderAsync(firstRender);
     }
 
-    public new async ValueTask DisposeAsync()
+    protected override async ValueTask DisposeAsyncCore(bool disposing)
     {
-        if (script != null)
+        if (script != null && disposing)
         {
             await script.DisposeAsync();
         }
-        await base.DisposeAsync();
+        await base.DisposeAsyncCore(disposing);
     }
 
     private void CompleteOrder()

@@ -89,16 +89,116 @@ public class SeedData
 
         var userMgr = scope.ServiceProvider.GetRequiredService<UserManager<ApplicationUser>>();
 
-        var admin = userMgr.FindByNameAsync("admin@email.com").Result;
+        #region Dev Users
+        //var admin = userMgr.FindByNameAsync("admin@email.com").Result;
+        //if (admin == null)
+        //{
+        //    admin = new ApplicationUser
+        //    {
+        //        UserName = "admin@email.com",
+        //        Email = "admin@email.com",
+        //        EmailConfirmed = true,
+        //    };
+        //    var result = userMgr.CreateAsync(admin, "Pass123$").Result;
+        //    if (!result.Succeeded)
+        //    {
+        //        throw new Exception(result.Errors.First().Description);
+        //    }
+
+        //    result = userMgr.AddClaimsAsync(admin, [
+        //                    new Claim(JwtClaimTypes.Name, "Admin User"),
+        //                    new Claim(JwtClaimTypes.GivenName, "Admin"),
+        //                ]).Result;
+        //    if (!result.Succeeded)
+        //    {
+        //        throw new Exception(result.Errors.First().Description);
+        //    }
+
+        //    result = userMgr.AddToRoleAsync(admin, "admin").Result;
+        //    if (!result.Succeeded)
+        //    {
+        //        throw new Exception(result.Errors.First().Description);
+        //    }
+        //    Log.Debug("admin created");
+        //}
+        //else
+        //{
+        //    Log.Debug("admin already exists");
+        //}
+
+        //var alice = userMgr.FindByNameAsync("alice@email.com").Result;
+        //if (alice == null)
+        //{
+        //    alice = new ApplicationUser
+        //    {
+        //        UserName = "alice@email.com",
+        //        Email = "AliceSmith@email.com",
+        //        EmailConfirmed = true,
+        //    };
+        //    var result = userMgr.CreateAsync(alice, "Pass123$").Result;
+        //    if (!result.Succeeded)
+        //    {
+        //        throw new Exception(result.Errors.First().Description);
+        //    }
+
+        //    result = userMgr.AddClaimsAsync(alice, [
+        //                    new Claim(JwtClaimTypes.Name, "Alice Smith"),
+        //                    new Claim(JwtClaimTypes.GivenName, "Alice"),
+        //                ]).Result;
+        //    if (!result.Succeeded)
+        //    {
+        //        throw new Exception(result.Errors.First().Description);
+        //    }
+        //    Log.Debug("alice created");
+        //}
+        //else
+        //{
+        //    Log.Debug("alice already exists");
+        //}
+
+        //var bob = userMgr.FindByNameAsync("bob@email.com").Result;
+        //if (bob == null)
+        //{
+        //    bob = new ApplicationUser
+        //    {
+        //        UserName = "bob@email.com",
+        //        Email = "BobSmith@email.com",
+        //        EmailConfirmed = true,
+        //    };
+        //    var result = userMgr.CreateAsync(bob, "Pass123$").Result;
+        //    if (!result.Succeeded)
+        //    {
+        //        throw new Exception(result.Errors.First().Description);
+        //    }
+
+        //    result = userMgr.AddClaimsAsync(bob, [
+        //                    new Claim(JwtClaimTypes.Name, "Bob Smith"),
+        //                    new Claim(JwtClaimTypes.GivenName, "Bob"),
+        //                    new Claim(JwtClaimTypes.FamilyName, "Smith"),
+        //                ]).Result;
+        //    if (!result.Succeeded)
+        //    {
+        //        throw new Exception(result.Errors.First().Description);
+        //    }
+        //    Log.Debug("bob created");
+        //}
+        //else
+        //{
+        //    Log.Debug("bob already exists");
+        //}
+        #endregion
+
+        #region Demo/Test users
+        var admin = userMgr.FindByNameAsync("admin@example.com").Result;
         if (admin == null)
         {
             admin = new ApplicationUser
             {
-                UserName = "admin@email.com",
-                Email = "admin@email.com",
+                UserName = "admin@example.com",
+                Email = "admin@example.com",
                 EmailConfirmed = true,
             };
-            var result = userMgr.CreateAsync(admin, "Pass123$").Result;
+            var result = userMgr.CreateAsync(admin, "SecurePassword123!").Result;
             if (!result.Succeeded)
             {
                 throw new Exception(result.Errors.First().Description);
@@ -107,6 +207,7 @@ public class SeedData
             result = userMgr.AddClaimsAsync(admin, [
                             new Claim(JwtClaimTypes.Name, "Admin User"),
                             new Claim(JwtClaimTypes.GivenName, "Admin"),
+                            new Claim(JwtClaimTypes.FamilyName, "User")
                         ]).Result;
             if (!result.Succeeded)
             {
@@ -118,72 +219,49 @@ public class SeedData
             {
                 throw new Exception(result.Errors.First().Description);
             }
-            Log.Debug("admin created");
+            Log.Debug("Admin created");
         }
         else
         {
-            Log.Debug("admin already exists");
+            Log.Debug("Admin already exists");
         }
 
-        var alice = userMgr.FindByNameAsync("alice@email.com").Result;
-        if (alice == null)
+        var demo = userMgr.FindByNameAsync("demo@example.com").Result;
+        if (demo == null)
         {
-            alice = new ApplicationUser
+            demo = new ApplicationUser
             {
-                UserName = "alice@email.com",
-                Email = "AliceSmith@email.com",
+                UserName = "demo@example.com",
+                Email = "demo@example.com",
                 EmailConfirmed = true,
             };
-            var result = userMgr.CreateAsync(alice, "Pass123$").Result;
+            var result = userMgr.CreateAsync(demo, "SecurePassword123!").Result;
             if (!result.Succeeded)
             {
                 throw new Exception(result.Errors.First().Description);
             }
 
-            result = userMgr.AddClaimsAsync(alice, [
-                            new Claim(JwtClaimTypes.Name, "Alice Smith"),
-                            new Claim(JwtClaimTypes.GivenName, "Alice"),
+            result = userMgr.AddClaimsAsync(demo, [
+                            new Claim(JwtClaimTypes.Name, "Demo User"),
+                            new Claim(JwtClaimTypes.GivenName, "Demo"),
+                            new Claim(JwtClaimTypes.FamilyName, "User")
                         ]).Result;
             if (!result.Succeeded)
             {
                 throw new Exception(result.Errors.First().Description);
             }
-            Log.Debug("alice created");
-        }
-        else
-        {
-            Log.Debug("alice already exists");
-        }
 
-        var bob = userMgr.FindByNameAsync("bob@email.com").Result;
-        if (bob == null)
-        {
-            bob = new ApplicationUser
-            {
-                UserName = "bob@email.com",
-                Email = "BobSmith@email.com",
-                EmailConfirmed = true,
-            };
-            var result = userMgr.CreateAsync(bob, "Pass123$").Result;
+            result = userMgr.AddToRoleAsync(demo, "admin").Result;
             if (!result.Succeeded)
             {
                 throw new Exception(result.Errors.First().Description);
             }
-
-            result = userMgr.AddClaimsAsync(bob, [
-                            new Claim(JwtClaimTypes.Name, "Bob Smith"),
-                            new Claim(JwtClaimTypes.GivenName, "Bob"),
-                            new Claim(JwtClaimTypes.FamilyName, "Smith"),
-                        ]).Result;
-            if (!result.Succeeded)
-            {
-                throw new Exception(result.Errors.First().Description);
-            }
-            Log.Debug("bob created");
+            Log.Debug("Demo created");
         }
         else
         {
-            Log.Debug("bob already exists");
+            Log.Debug("Demo already exists");
         }
+        #endregion
     }
 }

@@ -41,9 +41,12 @@
         Dispatcher.Dispatch(new SearchLessonsRequest() { SearchText = searchText, SearchTags = State.Value.SearchTags });
     }
 
-    protected new async ValueTask DisposeAsync()
+    protected override async ValueTask DisposeAsyncCore(bool disposing)
     {
-        ActionSubscriber.UnsubscribeFromAllActions(this);
-        await base.DisposeAsync();
+        if (disposing)
+        {
+            ActionSubscriber.UnsubscribeFromAllActions(this);
+        }
+        await base.DisposeAsyncCore(disposing);
     }
 }

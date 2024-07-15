@@ -44,9 +44,12 @@
         await base.OnInitializedAsync();
     }
 
-    protected new async ValueTask DisposeAsync()
+    protected override async ValueTask DisposeAsyncCore(bool disposing)
     {
-        AuthenticationStateProvider.AuthenticationStateChanged -= OnAuthenticationStateChanged;
-        await base.DisposeAsync();
+        if (disposing)
+        {
+            AuthenticationStateProvider.AuthenticationStateChanged -= OnAuthenticationStateChanged;
+        }
+        await base.DisposeAsyncCore(disposing);
     }
 }

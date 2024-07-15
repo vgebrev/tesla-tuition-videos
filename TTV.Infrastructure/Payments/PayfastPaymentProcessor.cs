@@ -1,4 +1,5 @@
-﻿using System.Globalization;
+﻿using Microsoft.Extensions.Logging;
+using System.Globalization;
 using System.Text.Json;
 using TTV.Application;
 using TTV.Application.Payments;
@@ -7,16 +8,18 @@ using TTV.Domain.DomainServices;
 using TTV.Domain.Entities;
 
 namespace TTV.Infrastructure.Payments;
-public class PayfastPaymentProcessor(PayfastSettings config, IHttpClientFactory httpClientFactory) : IPaymentProcessor
+public class PayfastPaymentProcessor(ILogger<PayfastPaymentProcessor> logger, PayfastSettings config, IHttpClientFactory httpClientFactory) : IPaymentProcessor
 {
     private record PayfastTransactionIdentifier(string UUID);
 
+    private readonly ILogger<PayfastPaymentProcessor> logger = logger;
     private readonly PayfastSettings settings = config;
     private readonly IHttpClientFactory httpClientFactory = httpClientFactory;
     private readonly JsonSerializerOptions jsonOptions = new() { PropertyNameCaseInsensitive = true };
 
     public async Task<Result<Payment>> InitiateAsync(Order order, CancellationToken cancellationToken = default)
     {
+        logger.LogDebug("Initiating new {PaymentType} for order {OrderId}", PaymentType.Payfast.ToDisplayString(), order.Id);
         var payment = new Payment()
         {
             Id = Guid.NewGuid(),
@@ -36,6 +39,7 @@ public class PayfastPaymentProcessor(PayfastSettings config, IHttpClientFactory 
 
     private async Task<string> GetPayfastIdentifierAsync(Payment payment, CancellationToken cancellationToken = default)
     {
+        logger.LogDebug("Getting Payfast identifier for payment {@Payment}", payment);
         var order = payment.Order;
         if (string.IsNullOrEmpty(order.PlacedBy.Email))
         {
@@ -71,11 +75,12 @@ public class PayfastPaymentProcessor(PayfastSettings config, IHttpClientFactory 
         return string.Join("&", data.Keys.Select(k => $"{k}={Uri.EscapeDataString(data[k])}"));
     }
 
-    private static string GenerateSignature(Dictionary<string, string> data, string? passphrase = null)
+    private string GenerateSignature(Dictionary<string, string> data, string? passphrase = null)
     {
         var signature = DataToString(data);
         if (!string.IsNullOrEmpty(passphrase))
             signature += $"&passphrase={passphrase}";
+        logger.LogDebug("Signature data: {SignatureData}", signature);
         return signature.ToMD5Hash();
     }
 
@@ -89,9 +94,9 @@ public class PayfastPaymentProcessor(PayfastSettings config, IHttpClientFactory 
             PayfastPaymentId = int.Parse(confirmationData["pf_payment_id"]),
             PaymentStatus = confirmationData["payment_status"],
             ItemName = confirmationData["item_name"],
-            AmountGross = decimal.Parse(confirmationData["amount_gross"]),
-            AmountFee = decimal.Parse(confirmationData["amount_fee"]),
-            AmountNet = decimal.Parse(confirmationData["amount_net"]),
+            AmountGross = decimal.Parse(confirmationData["amount_gross"], CultureInfo.InvariantCulture),
+            AmountFee = decimal.Parse(confirmationData["amount_fee"], CultureInfo.InvariantCulture),
+            AmountNet = decimal.Parse(confirmationData["amount_net"], CultureInfo.InvariantCulture),
             Signature = confirmationData["signature"],
         };
 

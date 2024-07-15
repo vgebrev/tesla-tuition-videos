@@ -8,7 +8,7 @@ using TTV.Web.Shared;
 
 namespace TTV.Web.Api.Controllers;
 
-[Route("api/discount-voucher")]
+[Route("discount-vouchers")]
 [ApiController]
 public class DiscountVoucherController(ILogger<DiscountVoucherController> logger, IDiscountVoucherManager discountVoucherManager, IUserIdentityService userIdentity) : ControllerBase
 {

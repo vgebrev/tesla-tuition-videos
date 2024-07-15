@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using TTV.Application.Managers;
 using TTV.Infrastructure.Documents;
 using TTV.Web.Api.MappingExtensions;
@@ -7,7 +6,7 @@ using TTV.Web.Shared;
 
 namespace TTV.Web.Api.Controllers;
 
-[Route("api/document")]
+[Route("documents")]
 [ApiController]
 public class DocumentController(ILogger<DocumentController> logger, IDocumentManager documentManager, IDocumentStreamLoader documentStreamLoader) : ControllerBase
 {

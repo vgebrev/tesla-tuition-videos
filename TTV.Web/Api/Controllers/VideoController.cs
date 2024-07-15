@@ -4,7 +4,7 @@ using TTV.Infrastructure.Videos;
 
 namespace TTV.Web.Api.Controllers;
 
-[Route("api/video")]
+[Route("videos")]
 [ApiController]
 public class VideoController(ILogger<VideoController> logger, IVideoStreamLoader videoStreamLoader, IUserIdentityService userIdentityService) : ControllerBase
 {

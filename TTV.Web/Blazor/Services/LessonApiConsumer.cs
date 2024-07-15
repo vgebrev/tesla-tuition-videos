@@ -11,7 +11,7 @@ public class LessonApiConsumer(HttpClient httpClient) : ILessonApiConsumer
 
     public async Task<LessonDto?> GetLessonAsync(int lessonId, CancellationToken cancellationToken = default)
     {
-        var httpResponse = await httpClient.GetAsync($"api/lesson/{lessonId}", cancellationToken);
+        var httpResponse = await httpClient.GetAsync($"lessons/{lessonId}", cancellationToken);
         if (httpResponse.StatusCode == System.Net.HttpStatusCode.NotFound)
         {
             return null;
@@ -24,13 +24,13 @@ public class LessonApiConsumer(HttpClient httpClient) : ILessonApiConsumer
 
     public async Task<LessonDto[]> GetLessonsOwnedByCurrentUserAsync(CancellationToken cancellationToken = default)
     {
-        var lessons = await httpClient.GetFromJsonAsync<LessonDto[]>("api/lesson/own", cancellationToken) ?? [];
+        var lessons = await httpClient.GetFromJsonAsync<LessonDto[]>("lessons/own", cancellationToken) ?? [];
         return lessons;
     }
 
     public async Task<LessonDto[]> SearchLessonsAsync(LessonSearchDto dto, CancellationToken cancellationToken = default)
     {
-        var httpResponse = await httpClient.PostAsJsonAsync("api/lesson/search", dto, cancellationToken);
+        var httpResponse = await httpClient.PostAsJsonAsync("lessons/search", dto, cancellationToken);
         var responseBody = await httpResponse.Content.ReadAsStringAsync(cancellationToken);
         return JsonSerializer.Deserialize<LessonDto[]>(responseBody, jsonOptions) ?? [];
     }

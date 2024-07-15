@@ -24,7 +24,7 @@
     }
 
     private async Task<string> GetUniqueVideoUri() {
-        var result = $"{Config.Value.ApiRootUri}/api/video/lesson/{LessonId}?t={DateTime.Now.Ticks}";
+        var result = $"{Config.Value.ApiRootUri}/videos/lesson/{LessonId}?t={DateTime.Now.Ticks}";
         var accessTokenResult = await TokenProvider.RequestAccessToken();
         if (accessTokenResult.TryGetToken(out var token))
         {

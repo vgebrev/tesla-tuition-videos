@@ -28,6 +28,6 @@
     protected override async Task OnParametersSetAsync()
     {
         await base.OnParametersSetAsync();
-        DocumentUri = $"{Config.Value.ApiRootUri}/api/document/{Document.Id}?access_token={AccessToken}";
+        DocumentUri = $"{Config.Value.ApiRootUri}/documents/{Document.Id}?access_token={AccessToken}";
     }
 }

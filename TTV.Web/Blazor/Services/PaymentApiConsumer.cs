@@ -11,7 +11,7 @@ public class PaymentApiConsumer(HttpClient httpClient) : IPaymentApiConsumer
 
     public async Task<ResultDto<PaymentDto?>> InitiateOrderPaymentAsync(PaymentInitiateDto dto, CancellationToken cancellationToken = default)
     {
-        var httpResponse = await httpClient.PostAsJsonAsync("api/payment", dto, cancellationToken);
+        var httpResponse = await httpClient.PostAsJsonAsync("payments", dto, cancellationToken);
         var responseBody = await httpResponse.Content.ReadAsStringAsync(cancellationToken);
         return JsonSerializer.Deserialize<ResultDto<PaymentDto?>>(
             responseBody, jsonOptions) ?? throw new InvalidCastException("Unexpected result");

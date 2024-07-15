@@ -10,7 +10,7 @@ public class DocumentApiConsumer(HttpClient httpClient) : IDocumentApiConsumer
 
     public async Task<DocumentDto[]> GetDocumentsForLessonOwnedByCurrentUserAsync(int lessonId, CancellationToken cancellationToken = default)
     {
-        var httpResponse = await httpClient.GetAsync($"api/document/lesson/{lessonId}", cancellationToken);
+        var httpResponse = await httpClient.GetAsync($"documents/lesson/{lessonId}", cancellationToken);
         if (!httpResponse.IsSuccessStatusCode)
         {
             return [];

@@ -9,6 +9,6 @@ public class TagApiConsumer(HttpClient httpClient) : ITagApiConsumer
 
     public async Task<TagDto[]> GetTagsAsync(CancellationToken cancellationToken = default)
     {
-        return await httpClient.GetFromJsonAsync<TagDto[]>("api/tag", cancellationToken) ?? [];
+        return await httpClient.GetFromJsonAsync<TagDto[]>("tags", cancellationToken) ?? [];
     }
 }

@@ -31,5 +31,5 @@
     [Parameter]
     public LessonDto Lesson { get; set; } = new();
 
-    private string ThumbnailUri => $"{Config.Value.ApiRootUri}/api/video/lesson/{Lesson.Id}/thumbnail";
+    private string ThumbnailUri => $"{Config.Value.ApiRootUri}/videos/lesson/{Lesson.Id}/thumbnail";
 }

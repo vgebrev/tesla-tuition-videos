@@ -101,7 +101,7 @@ body {
 
 .intro-video-container {
     background-color: black;
-    z-index: -2;
+    z-index: 0;
 }
 
 #intro-video {

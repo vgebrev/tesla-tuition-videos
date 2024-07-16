@@ -106,12 +106,13 @@ body {
 
 #intro-video {
     position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 70%;
     z-index: -1;
     object-fit: scale-down;
+    box-shadow: 0px 0px 48px 48px black;
 }
 
 .bg-classroom {

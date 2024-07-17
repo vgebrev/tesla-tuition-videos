@@ -31,18 +31,22 @@
     <div class="row">
         <div class="col-lg-6 col-sm-12 mb-3">
             <div class="row">
-                <div class="col-12 mb-3">
-                    <OrderDetail Order="Order"></OrderDetail>
-                </div>
-            </div>
-            <div class="row">
                 <div class="col-12">
-                    <ApplyDiscountVoucher></ApplyDiscountVoucher>
+                    <OrderDetail Order="Order"></OrderDetail>
                 </div>
             </div>
         </div>
         <div class="col-lg-6 col-sm-12">
-            <PaymentDetail Order="Order"></PaymentDetail>
+            <div class="row">
+                <div class="col-12 mb-3">
+                    <ApplyDiscountVoucher></ApplyDiscountVoucher>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-12">
+                    <PaymentDetail Order="Order"></PaymentDetail>
+                </div>
+            </div>
         </div>
     </div>
 }

@@ -15,33 +15,24 @@
 @inject NavigationManager NavigationManager
 
 <div class="card bg-secondary">
-    <div class="card-header">Payment Details</div>
+    <div class="card-header">Payment Method</div>
     <div class="card-body">
-        <h4>Payment Method</h4>
         <EditForm Model="paymentMethod">
             <div class="row">
                 <InputRadioGroup @bind-Value="paymentMethod">
-                    <div class="col-12 col-md-4 mb-2">
+                    <div class="col-6 col-md-6 mb-2 text-center">
                         <div class="form-check disabled">
-                            <InputRadio class="form-check-input" id="payfast" Value="PaymentMethod.Payfast" />
                             <label class="form-check-label" for="payfast">
+                                <InputRadio class="form-check-input" id="payfast" Value="PaymentMethod.Payfast" />
                                 <i class="bi bi-credit-card"></i> Payfast
                             </label>
                         </div>
                     </div>
-                    <div class="col-12 col-md-4 mb-2">
+                    <div class="col-6 col-md-6 mb-2 text-center">
                         <div class="form-check">
-                            <InputRadio class="form-check-input" id="eft" Value="PaymentMethod.BankTransfer" />
                             <label class="form-check-label" for="eft">
+                                <InputRadio class="form-check-input" id="eft" Value="PaymentMethod.BankTransfer" />
                                 <i class="bi bi-bank"></i> Bank Transfer
-                            </label>
-                        </div>
-                    </div>
-                    <div class="col-12 col-md-4 mb-2">
-                        <div class="form-check disabled">
-                            <InputRadio class="form-check-input" id="paypal" Value="PaymentMethod.PayPal" disabled />
-                            <label class="form-check-label" for="paypal">
-                                <i class="bi bi-paypal"></i> PayPal <span class="text-muted">(Coming Soon)</span>
                             </label>
                         </div>
                     </div>

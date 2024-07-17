@@ -7,14 +7,14 @@
     <div class="card-body">
         <div class="row">
             <div class="col-12">
-                <a href="lesson/@Lesson.Id"><img class="rounded-4 w-100" src="@ThumbnailUri" alt="@Lesson.Title" title="@Lesson.Title" /></a>
+                <a href="/lesson/@Lesson.Id"><img class="rounded-4 w-100" src="@ThumbnailUri" alt="@Lesson.Title" title="@Lesson.Title" /></a>
             </div>
         </div>
         <LessonDescription Lesson="Lesson"></LessonDescription>
         <TagBadges Tags="Lesson.Tags"></TagBadges>
     </div>
     <div class="card-footer d-flex justify-content-between align-items-baseline">
-        <a href="lesson/@Lesson.Id" class="card-link">View Lesson</a>
+        <a href="/lesson/@Lesson.Id" class="card-link">View Lesson</a>
         <LessonOwnView Lesson="Lesson">
             <Owned>
                 <span class="text-primary text-sm">You own this lesson</span>

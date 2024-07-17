@@ -9,7 +9,7 @@
 @inject IDispatcher Dispatcher;
 
 <RemoveAlreadyOwnedLessons />
-<NavLink class="nav-link" href="shopping-cart" Match="NavLinkMatch.All"><i class="bi bi-cart4"></i> Cart  <span class="badge bg-primary rounded-pill">@ShoppingCartState.Value.Lessons.Length</span></NavLink>
+<NavLink class="nav-link" href="/shopping-cart" Match="NavLinkMatch.All"><i class="bi bi-cart4"></i> Cart  <span class="badge bg-primary rounded-pill">@ShoppingCartState.Value.Lessons.Length</span></NavLink>
 
 @code {
     protected override void OnAfterRender(bool firstRender)

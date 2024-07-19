@@ -19,6 +19,7 @@ public class Effects(IOrderApiConsumer orderApi)
             if (resultDto.IsSuccess)
             {
                 dispatcher.Dispatch(new LessonsList.Store.Actions.UpdateLessons() { Lessons = resultDto.Value.Lessons });
+                dispatcher.Dispatch(new My.Lessons.Store.Actions.AddLessons() { Lessons = resultDto.Value.Lessons });
             }
         }
         catch (Exception)

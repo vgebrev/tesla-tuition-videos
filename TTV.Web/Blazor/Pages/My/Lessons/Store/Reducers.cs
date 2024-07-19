@@ -29,4 +29,12 @@ public static class Reducers
             IsLoading = false,
             Error = new() { IsError = true, ErrorMessage = action.ErrorMessage }
         };
+
+    [ReducerMethod]
+    public static MyLessonsState UpdateLessons(MyLessonsState state, AddLessons action) =>
+     state with
+     {
+         Lessons = state.Lessons?.Concat(action.Lessons ?? []).GroupBy(lesson => lesson.Id).Select(group => group.Last()).ToArray()
+     };
+
 }

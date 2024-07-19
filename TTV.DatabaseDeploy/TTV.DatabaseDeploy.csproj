@@ -32,4 +32,10 @@
     <Folder Include="Migrations\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Update="Scripts\PostDeployment.Uat.sql">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
 </Project>

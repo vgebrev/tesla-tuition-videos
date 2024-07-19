@@ -14,6 +14,18 @@
     <TreatWarningsAsErrors>True</TreatWarningsAsErrors>
   </PropertyGroup>
 
+  
+  <PropertyGroup>
+    <GenerateAssemblyInfo>true</GenerateAssemblyInfo>
+    <GenerateAssemblyVersionAttribute>false</GenerateAssemblyVersionAttribute>
+    <GenerateAssemblyFileVersionAttribute>false</GenerateAssemblyFileVersionAttribute>
+    <GenerateAssemblyInformationalVersionAttribute>false</GenerateAssemblyInformationalVersionAttribute>
+  </PropertyGroup>
+  
+  <ItemGroup>
+    <Compile Include="..\..\AssemblyVersionInfo.cs" Link="Properties\AssemblyVersionInfo.cs" />
+  </ItemGroup>
+
   <ItemGroup>
     <SupportedPlatform Include="browser" />
   </ItemGroup>

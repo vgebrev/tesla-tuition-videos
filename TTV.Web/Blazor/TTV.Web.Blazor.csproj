@@ -20,7 +20,18 @@
     <WasmStripILAfterAOT>false</WasmStripILAfterAOT>
     <EmccInitialHeapSize>16777216</EmccInitialHeapSize>
   </PropertyGroup>
-  
+
+  <PropertyGroup>
+    <GenerateAssemblyInfo>true</GenerateAssemblyInfo>
+    <GenerateAssemblyVersionAttribute>false</GenerateAssemblyVersionAttribute>
+    <GenerateAssemblyFileVersionAttribute>false</GenerateAssemblyFileVersionAttribute>
+    <GenerateAssemblyInformationalVersionAttribute>false</GenerateAssemblyInformationalVersionAttribute>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Include="..\..\AssemblyVersionInfo.cs" Link="Properties\AssemblyVersionInfo.cs" />
+  </ItemGroup>
+
   <ItemGroup>
     <PackageReference Include="Blazored.LocalStorage" Version="4.5.0" />
     <PackageReference Include="Fluxor.Blazor.Web" Version="6.0.0" />

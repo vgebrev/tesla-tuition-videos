@@ -9,6 +9,17 @@
     <IsTestProject>true</IsTestProject>
   </PropertyGroup>
 
+  <PropertyGroup>
+    <GenerateAssemblyInfo>true</GenerateAssemblyInfo>
+    <GenerateAssemblyVersionAttribute>false</GenerateAssemblyVersionAttribute>
+    <GenerateAssemblyFileVersionAttribute>false</GenerateAssemblyFileVersionAttribute>
+    <GenerateAssemblyInformationalVersionAttribute>false</GenerateAssemblyInformationalVersionAttribute>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Include="..\AssemblyVersionInfo.cs" Link="Properties\AssemblyVersionInfo.cs" />
+  </ItemGroup>
+
   <ItemGroup>
     <PackageReference Include="FakeItEasy" Version="8.3.0" />
     <PackageReference Include="FakeItEasy.Analyzer.CSharp" Version="6.1.1">
@@ -31,6 +42,10 @@
   <ItemGroup>
     <ProjectReference Include="..\TTV.Domain\TTV.Domain.csproj" />
     <ProjectReference Include="..\TTV.Infrastructure\TTV.Infrastructure.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Properties\" />
   </ItemGroup>
 
 </Project>

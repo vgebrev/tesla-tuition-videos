@@ -1,5 +1,6 @@
 ﻿@page "/cookies-policy"
-
+@using Microsoft.Extensions.Options
+@inject IOptionsSnapshot<LocalConfig> LocalConfig
 <PageTitle>Tesla Tuition Videos - Cookies Policy</PageTitle>
 
 <div class="row justify-content-center">
@@ -112,17 +113,17 @@
                 <h5>Contact Information</h5>
                 <p>If you have any questions about this Cookies Policy or our data practices, please contact us at:</p>
                 <ul>
-                    <li>
+                    <li><strong>Address:</strong> 
                         Tesla Tuition Videos,
-                        158 Milner Avenue, Franklin Roosevelt Park, Johannesburg 2195, South Africa
+                        @ContactInfo.Address
                     </li>
-                    <li><strong>Email:</strong> <a href="mailto:support@teslatuitionvideos.co.za">support@teslatuitionvideos.co.za</a></li>
-                    <li><strong>Phone:</strong> +27 84 864 1776</li>
+                    <li><strong>Email:</strong> <a href="@ContactInfo.MailtoLink">@ContactInfo.SupportEmail</a></li>
+                    <li><strong>Phone:</strong> @ContactInfo.PhoneNumber</li>
                 </ul>
             </li>
         </ol>
     </div>
 </div>
 @code {
-
+    private ContactInfoConfig ContactInfo => LocalConfig.Value.ContactInfo;
 }

@@ -1,4 +1,6 @@
 ﻿@page "/privacy-policy"
+@using Microsoft.Extensions.Options
+@inject IOptionsSnapshot<LocalConfig> LocalConfig
 
 <PageTitle>Tesla Tuition Videos - Privacy Policy</PageTitle>
 
@@ -78,7 +80,7 @@
                     <li><strong>Deletion:</strong> You can request the deletion of your personal information.</li>
                     <li><strong>Opt-Out:</strong> You can opt-out of receiving promotional emails by following the unsubscribe instructions.</li>
                 </ul>
-                <p>To exercise these rights, please contact us at <a href="support@teslatuitionvideos.co.za">support@teslatuitionvideos.co.za</a>.</p>
+                <p>To exercise these rights, please contact us at <a href="@ContactInfo.MailtoLink">@ContactInfo.SupportEmail</a>.</p>
             </li>
             <li>
                 <h5>Third-Party Links</h5>
@@ -100,17 +102,17 @@
                 <h5>Contact Information</h5>
                 <p>If you have any questions about this Privacy Policy or our data practices, please contact us at:</p>
                 <ul>
-                    <li>
+                    <li><strong>Address:</strong> 
                         Tesla Tuition Videos,
-                        158 Milner Avenue, Franklin Roosevelt Park, Johannesburg 2195, South Africa
+                        @ContactInfo.Address
                     </li>
-                    <li><strong>Email:</strong> <a href="mailto:support@teslatuitionvideos.co.za">support@teslatuitionvideos.co.za</a></li>
-                    <li><strong>Phone:</strong> +27 84 864 1776</li>
+                    <li><strong>Email:</strong> <a href="@ContactInfo.MailtoLink">@ContactInfo.SupportEmail</a></li>
+                    <li><strong>Phone:</strong> @ContactInfo.PhoneNumber</li>
                 </ul>
             </li>
         </ol>
     </div>
 </div>
 @code {
-
+    private ContactInfoConfig ContactInfo => LocalConfig.Value.ContactInfo;
 }

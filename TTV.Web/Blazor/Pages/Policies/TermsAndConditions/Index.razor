@@ -1,4 +1,6 @@
 ﻿@page "/terms-and-conditions"
+@using Microsoft.Extensions.Options
+@inject IOptionsSnapshot<LocalConfig> LocalConfig
 
 <PageTitle>Tesla Tuition Videos - Terms and Conditions</PageTitle>
 
@@ -104,15 +106,19 @@
             </li>
             <li>
                 <h5>Contact Information</h5>
-                <p>If you have any questions about this Privacy Policy or our data practices, please contact us at:</p>
-                Tesla Tuition Videos
-                158 Milner Avenue, Franklin Roosevelt Park, Johannesburg 2195, South Africa
-                <strong>Email:</strong> <a href="mailto:support@teslatuitionvideos.co.za">support@teslatuitionvideos.co.za</a>
-                <strong>Phone:</strong> +27 84 864 1776
+                <p>If you have any questions about these Terms and Conditions, please contact us at:</p>
+                <ul>
+                    <li><strong>Address:</strong> 
+                        Tesla Tuition Videos,
+                        @ContactInfo.Address
+                    </li>
+                    <li><strong>Email:</strong> <a href="@ContactInfo.MailtoLink">@ContactInfo.SupportEmail</a></li>
+                    <li><strong>Phone:</strong> @ContactInfo.PhoneNumber</li>
+                </ul>
             </li>
         </ol>
     </div>
 </div>
 @code {
-
+    private ContactInfoConfig ContactInfo => LocalConfig.Value.ContactInfo;
 }

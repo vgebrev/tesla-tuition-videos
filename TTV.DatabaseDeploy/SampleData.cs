@@ -300,6 +300,17 @@ namespace TTV.DatabaseDeploy
             new Document() { Id = 24, DocumentType = DocumentType.ExercisePdf, Title = "Quantitative Aspects of Chemical Change", Filename = "Quantitative Aspects of Chemical Change.pdf", RelativePath = "ExercisePdfs", Lessons = [Lessons[23]] },
             new Document() { Id = 25, DocumentType = DocumentType.ExercisePdf, Title = "Intermolecular Forces", Filename = "Intermolecular Forces.pdf", RelativePath = "ExercisePdfs", Lessons = [Lessons[25]] },
             new Document() { Id = 26, DocumentType = DocumentType.Reference, Title = "Common Polyatomic Ions", Filename = "Common Polyatomic Ions.pdf", RelativePath = "Reference", Lessons = [Lessons[36]] },
+
+            new Document() { Id = 27, DocumentType = DocumentType.ExercisePdf, Title = "Acids and Bases (CAPS) Part 2 [Draft]", Filename = "Acids and Bases (CAPS) Part 2.pdf", RelativePath = "ExercisePdfs", Lessons = [Lessons[33]] },
+            new Document() { Id = 28, DocumentType = DocumentType.ExercisePdf, Title = "Chemical Bonding and Intermolecular Forces [Draft]", Filename = "Chemical Bonding and Intermolecular Forces.pdf", RelativePath = "ExercisePdfs", Lessons = [Lessons[26], Lessons[27]] },
+            new Document() { Id = 29, DocumentType = DocumentType.ExercisePdf, Title = "Electromagnetism (CAPS) [Draft]", Filename = "Electromagnetism (CAPS).pdf", RelativePath = "ExercisePdfs", Lessons = [Lessons[17]] },
+            new Document() { Id = 30, DocumentType = DocumentType.ExercisePdf, Title = "Energy and Chemical Change [Draft]", Filename = "Energy and Chemical Change.pdf", RelativePath = "ExercisePdfs", Lessons = [Lessons[28]] },
+            new Document() { Id = 31, DocumentType = DocumentType.ExercisePdf, Title = "Ideal Gases [Draft]", Filename = "Ideal Gases.pdf", RelativePath = "ExercisePdfs", Lessons = [Lessons[35]] },
+            new Document() { Id = 32, DocumentType = DocumentType.ExercisePdf, Title = "IEB Acids and Bases (Part 1) [Draft]", Filename = "IEB Acids and Bases (Part 1).pdf", RelativePath = "ExercisePdfs", Lessons = [Lessons[34]] },
+            new Document() { Id = 33, DocumentType = DocumentType.ExercisePdf, Title = "IEB Electromagnetism [Draft]", Filename = "IEB Electromagnetism.pdf", RelativePath = "ExercisePdfs", Lessons = [Lessons[18]] },
+            new Document() { Id = 34, DocumentType = DocumentType.ExercisePdf, Title = "Redox Reactions (CAPS) Part 1 [Draft]", Filename = "Redox Reactions (CAPS) Part 1.pdf", RelativePath = "ExercisePdfs", Lessons = [Lessons[29]] },
+            new Document() { Id = 35, DocumentType = DocumentType.ExercisePdf, Title = "Redox Reactions (CAPS) Part 2 [Draft]", Filename = "Redox Reactions (CAPS) Part 2.pdf", RelativePath = "ExercisePdfs", Lessons = [Lessons[30]] },
+            new Document() { Id = 36, DocumentType = DocumentType.ExercisePdf, Title = "Redox Reactions (IEB) [Draft]", Filename = "Redox Reactions (IEB).pdf", RelativePath = "ExercisePdfs", Lessons = [Lessons[31]] },
         ];
 
         public async Task<SampleData> PopulateAsync()

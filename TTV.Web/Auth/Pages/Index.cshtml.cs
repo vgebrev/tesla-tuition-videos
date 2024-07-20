@@ -1,16 +1,25 @@
 using System.Reflection;
+using Duende.IdentityServer.Stores;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace TTV.Web.Auth.Pages.Home;
 
 [AllowAnonymous]
-public class Index : PageModel
+public class Index(IClientStore clientStore) : PageModel
 {
+    private readonly IClientStore clientStore = clientStore;
+
     public string Version;
-        
-    public void OnGet()
+    public string ClientUri;
+    public string ClientName;
+    public async Task OnGetAsync()
     {
         Version = typeof(Duende.IdentityServer.Hosting.IdentityServerMiddleware).Assembly.GetCustomAttribute<AssemblyInformationalVersionAttribute>()?.InformationalVersion.Split('+').First();
+        var client = await clientStore.FindClientByIdAsync(Config.Clients.First().ClientId);
+        var redirectUri = new Uri(client.RedirectUris.Last());
+        ClientUri = new Uri(redirectUri.GetLeftPart(UriPartial.Authority)).ToString();
+        ClientName = client.ClientName;
+
     }
 }

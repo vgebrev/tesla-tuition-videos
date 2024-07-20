@@ -1,3 +1,4 @@
+using Duende.IdentityServer.Stores;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -8,9 +9,10 @@ namespace TTV.Web.Auth.Pages.Account.PasswordReset;
 
 [SecurityHeaders]
 [AllowAnonymous]
-public class New(UserManager<ApplicationUser> userManager) : PageModel
+public class New(UserManager<ApplicationUser> userManager, IClientStore clientStore) : PageModel
 {
     private readonly UserManager<ApplicationUser> userManager = userManager;
+    private readonly IClientStore clientStore = clientStore;
 
     [BindProperty]
     public NewInputModel Input { get; set; }
@@ -22,6 +24,15 @@ public class New(UserManager<ApplicationUser> userManager) : PageModel
         View = new NewViewModel() { IsSuccessful = false };
 
         return Page();
+    }
+
+    private async Task GetClientDetails()
+    {
+
+       var client = await clientStore.FindClientByIdAsync(Config.Clients.First().ClientId);
+        var redirectUri = new Uri(client.RedirectUris.Last());
+        View.ClientUri = new Uri(redirectUri.GetLeftPart(UriPartial.Authority)).ToString();
+        View.ClientName = client.ClientName;
     }
 
     public async Task<IActionResult> OnPost()
@@ -44,6 +55,7 @@ public class New(UserManager<ApplicationUser> userManager) : PageModel
         if (result.Succeeded)
         {
             View.IsSuccessful = true;
+            await GetClientDetails();
         }
         else
         {

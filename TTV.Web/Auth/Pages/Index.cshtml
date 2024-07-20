@@ -2,31 +2,35 @@
 @model TTV.Web.Auth.Pages.Home.Index
 
 <div class="welcome-page">
-    <h1>
-        <img src="~/duende-logo.svg" class="logo">
-        Welcome to Duende IdentityServer
-        <small class="text-muted">(version @Model.Version)</small>
-    </h1>
+    <div class="row justify-content-center">
+        <div class="col text-center">
+            <h1 class="text-white">Security Service</h1>
+        </div>
+    </div>
 
-    <ul>
-        <li>
-            IdentityServer publishes a
-            <a href="~/.well-known/openid-configuration">discovery document</a>
-            where you can find metadata and links to all the endpoints, key material, etc.
-        </li>
-        <li>
-            Click <a href="~/diagnostics">here</a> to see the claims for your current session.
-        </li>
-        <li>
-            Click <a href="~/grants">here</a> to manage your stored grants.
-        </li>
-        <li>
-            Click <a href="~/ciba/all">here</a> to view your pending CIBA login requests.
-        </li>
-        <li>
-            Here are links to the
-            <a href="https://github.com/duendesoftware/IdentityServer">source code repository</a>,
-            and <a href="https://github.com/duendesoftware/samples">ready to use samples</a>.
-        </li>
-    </ul>
+    <div class="row justify-content-center">
+        <div class="card border-primary col">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col m-3 text-center">
+                        <p class="fs-5">You've reached our security service that helps us manage and verify your identity, lets you log in and access our application safely.</p>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col m-3 text-center">
+                        <div class="fs-5">
+                            There's not much for you to do here right now. Please head back to <a href="@Model.ClientUri">@Model.ClientName</a> to continue your journey.
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col m-3 text-center">
+                        <div class="fs-6">
+                            Powered by <img src="~/duende-logo.svg" class="logo"> <a href="https://duendesoftware.com/products/identityserver" title="Duende IdentityServer">Duende IdentityServer</a> <small class="text-muted">(version @Model.Version)</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>

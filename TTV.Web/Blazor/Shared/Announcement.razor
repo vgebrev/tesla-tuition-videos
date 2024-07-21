@@ -4,7 +4,7 @@
 
 @if (IsAnnouncementShowable)
 {
-    <button class="@CssClass btn btn-link @(IsAnnouncementShown? "" : "jingling-bell")" @onclick="ShowAnnouncement" title="Announcement">
+    <button class="@CssClass btn btn-link @(IsAnnouncementShown? "" : "jingling-bell text-warning")" @onclick="ShowAnnouncement" title="Announcement">
         <i class="bi @(IsAnnouncementShown ? "bi-bell" : "bi-bell-fill") fs-5"></i>
     </button>
 

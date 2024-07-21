@@ -1,0 +1,41 @@
+﻿@using Microsoft.Extensions.Options
+@inject IJSRuntime JSRuntime
+@inject IOptionsSnapshot<LocalConfig> LocalConfig
+
+@if (IsAnnouncementShowable)
+{
+    <button class="@CssClass btn btn-link @(IsAnnouncementShown? "" : "jingling-bell")" @onclick="ShowAnnouncement" title="Announcement">
+        <i class="bi @(IsAnnouncementShown ? "bi-bell" : "bi-bell-fill") fs-5"></i>
+    </button>
+
+    <Modal IsOpen="IsModalOpen" Title="@AnnouncementData?.Title">
+        <p>@AnnouncementData?.Message</p>
+    </Modal>
+}
+
+@code {
+    [Parameter]
+    public string CssClass { get; set; } = string.Empty;
+
+    private bool IsModalOpen { get; set; }
+    private bool IsAnnouncementShown { get; set; }
+    private AnnouncementConfig? AnnouncementData => LocalConfig.Value.Announcement;
+    private bool IsAnnouncementShowable => AnnouncementData != null && AnnouncementData.EndDate >= DateTime.Now;
+
+    protected override async Task OnInitializedAsync()
+    {
+        IsAnnouncementShown = IsAnnouncementShowable ? await JSRuntime.InvokeAsync<bool>("getCookie", "announcementShown", AnnouncementData?.Id) : true;
+        IsModalOpen = false;
+    }
+
+    private async Task ShowAnnouncement()
+    {
+        if (IsAnnouncementShowable)
+        {
+            var days = AnnouncementData?.EndDate.Subtract(DateTime.Now).Days + 1;
+            await JSRuntime.InvokeVoidAsync("setCookie", "announcementShown", AnnouncementData?.Id, days);
+            IsAnnouncementShown = true;
+            IsModalOpen = true;
+        }
+    }
+}

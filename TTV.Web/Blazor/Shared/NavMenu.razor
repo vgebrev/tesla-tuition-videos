@@ -14,7 +14,9 @@
             </a>
         </div>
 
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
+        
+        <Announcement CssClass="d-lg-none ms-auto"></Announcement>
+        <button class="navbar-toggler px-0" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
 
@@ -25,6 +27,7 @@
                 <AdminNavLink />
                 <NavLink class="nav-link" href="/contact-us" Match="NavLinkMatch.All"><i class="bi bi-envelope-open"></i> Contact us</NavLink>
                 <LoginDisplay />
+                <Announcement CssClass="d-none d-lg-block"></Announcement>
             </div>
         </div>
     </div>

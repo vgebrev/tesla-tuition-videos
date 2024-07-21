@@ -11,6 +11,7 @@ public record LocalConfig
     public string[] ApiScopes { get; init; } = [];
     public BankAccountConfig BankAccount { get; init; } = new();
     public ContactInfoConfig ContactInfo { get; init; } = new();
+    public AnnouncementConfig? Announcement { get; init; }
     public bool IsTestEnvironment { get; init; } = false;
 }
 
@@ -31,4 +32,12 @@ public record ContactInfoConfig
     public string WhatsAppLink => $"https://wa.me/{PhoneNumber.Replace(" ", "").Replace("+", "")}";
     public string TelLink => $"tel:{PhoneNumber.Replace(" ", "")}";
     public string MailtoLink => $"mailto:{SupportEmail}";
+}
+
+public record AnnouncementConfig
+{
+    public string Id { get; init; } = string.Empty;
+    public string Title { get; init; } = string.Empty;
+    public string Message { get; init; } = string.Empty;
+    public DateTime EndDate { get; init; } = DateTime.Now.AddDays(7);
 }

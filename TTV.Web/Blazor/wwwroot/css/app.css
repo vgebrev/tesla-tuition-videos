@@ -179,3 +179,12 @@ footer {
 .nav-link, .nav-item {
     white-space: nowrap;
 }
+
+/* Resolves modal weirdness when the backdrop and the modal are on different stacking contexts and the z-indexes are off (eg announcement modal) */
+.modal {
+    background: rgba(0, 0, 0, 0.5);
+}
+
+.modal-backdrop {
+    display: none;
+}

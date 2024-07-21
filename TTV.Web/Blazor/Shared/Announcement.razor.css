@@ -1,0 +1,20 @@
+﻿.jingling-bell {
+    animation: jingle 10s ease-in-out infinite;
+    transform-origin: top center;
+}
+
+@keyframes jingle {
+    0% { transform: rotate(0); }
+    1% { transform: rotate(-8deg); }
+    2% { transform: rotate(0); }
+    3% { transform: rotate(8deg); }
+    4% { transform: rotate(0); }
+    5% { transform: rotate(-8deg); }
+    6% { transform: rotate(0); }
+    7% { transform: rotate(8deg); }
+    8% { transform: rotate(0); }
+    9% { transform: rotate(-8deg); }
+    10% { transform: rotate(0); }
+    11% { transform: rotate(8deg); }
+    12% { transform: rotate(0); }
+}

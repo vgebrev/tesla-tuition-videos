@@ -48,11 +48,11 @@ window.initLessonVideo = (videoId, sourceId, videoUri) => {
   video.load();
 }
 
-// Consent cookie
-window.getCookie = function (name) {
+// Functional cookies
+window.getCookie = function (name, withValue = 'true') {
   const value = `; ${document.cookie}`;
   const parts = value.split(`; ${name}=`);
-  if (parts.length === 2) return parts.pop().split(';').shift() === 'true';
+  if (parts.length === 2) return parts.pop().split(';').shift() === withValue;
   return false;
 };
 

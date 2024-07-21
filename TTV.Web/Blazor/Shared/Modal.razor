@@ -1,11 +1,11 @@
 ﻿@inject IJSRuntime JS
 @implements IAsyncDisposable
 
-<div class="modal fade" id="@Id" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="modal-label" aria-hidden="true">
+<div class="modal fade" @ref="element" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="modal-label" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h1 class="modal-title fs-5" id="modal-label">Bank Transfer</h1>
+                <h1 class="modal-title fs-5" id="modal-label">@Title</h1>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" @onclick="() => Close()"></button>
             </div>
             <div class="modal-body">
@@ -27,6 +27,11 @@
 
     [Parameter]
     public bool IsOpen { get; set; }
+
+    [Parameter]
+    public string Title { get; set; } = string.Empty;
+
+    private ElementReference element;
 
     private IJSObjectReference? script;
 
@@ -63,13 +68,13 @@
     {
         IsOpen = true;
         if (script != null)
-            await script.InvokeVoidAsync("openModal", Id);
+            await script.InvokeVoidAsync("openModal", element);
     }
 
     public async void Close()
     {
         IsOpen = false;
         if (script != null)
-            await script.InvokeVoidAsync("closeModal", Id);
+            await script.InvokeVoidAsync("closeModal", element);
     }
 }

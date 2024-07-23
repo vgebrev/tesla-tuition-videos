@@ -1,0 +1,89 @@
+﻿@inject IJSRuntime JS
+@implements IAsyncDisposable
+
+<div class="offcanvas offcanvas-end text-bg-dark" data-bs-scroll="true" tabindex="-1" @ref="element" id="@Id" aria-labelledby="@(Id)Label">
+    <div class="offcanvas-header">
+        <h5 class="offcanvas-title" id="@(Id)Label">
+            @if (Title != null)
+            {
+                @Title
+            }
+        </h5>
+        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+    </div>
+    <div class="offcanvas-body p-0">
+        @if (Body != null)
+        {
+            @Body
+        }
+    </div>
+</div>
+
+@code {
+    [Parameter]
+    public string Id { get; set; } = "drawer";
+
+    [Parameter]
+    public RenderFragment? Title { get; set; }
+    [Parameter]
+    public RenderFragment? Body { get; set; }
+    [Parameter]
+    public bool IsOpen { get; set; }
+    [Parameter]
+    public EventCallback<bool> IsOpenChanged { get; set; }
+
+    private ElementReference element;
+    private DotNetObjectReference<Drawer>? dotNetObjectReference;
+    private IJSObjectReference? script;
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender && script == null)
+        {
+            script = await JS.InvokeAsync<IJSObjectReference>("import", "./Shared/Drawer.razor.js");
+            dotNetObjectReference = DotNetObjectReference.Create(this);
+            await script.InvokeVoidAsync("handleOfcanvasHidden", element, dotNetObjectReference);
+        }
+        if (IsOpen)
+        {
+            await Open();
+        }
+        else
+        {
+            await Close();
+        }
+        await base.OnAfterRenderAsync(firstRender);
+    }
+
+    public async ValueTask DisposeAsync()
+    {
+        if (script != null)
+        {
+            await script.DisposeAsync();
+        }
+        dotNetObjectReference?.Dispose();
+    }
+
+    [JSInvokable]
+    public async Task OnOffcanvasHidden()
+    {
+        IsOpen = false;
+        await IsOpenChanged.InvokeAsync(IsOpen);
+    }
+
+    public async Task Open()
+    {
+        //IsOpen = true;
+        if (script != null) {
+            await script.InvokeVoidAsync("openOffcanvas", element);
+        }
+    }
+
+    public async Task Close()
+    {
+        //IsOpen = false;
+        if (script != null) {
+            await script.InvokeVoidAsync("closeOffcanvas", element);
+        }
+    }
+}

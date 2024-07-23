@@ -15,6 +15,7 @@ public record LessonsListState
     public TagDto[]? Tags { get; init; }
     public ErrorState TagsError { get; init; } = new();
 
+    public bool IsTagFilterDrawerOpen { get; init; }
     public string? SearchText { get; init; }
     public TagDto[]? SearchTags { get; init; }
 }

@@ -8,18 +8,41 @@
 @inject IDispatcher Dispatcher
 @inject IActionSubscriber ActionSubscriber
 
-<div class="form-group d-flex">
-    <div class="form-floating flex-fill me-2">
-        <input type="text" class="form-control" id="lesson-search-text" @bind="searchText" @bind:event="oninput" @onkeypress="KeyPressed" placeholder="Search lessons..." />
-        <label for="lesson-search-text">Search lessons</label>
+<div class="form-group">
+    <div class="row g-3">
+        <div class="col-12 col-md-8 col-lg-9">
+            <div class="form-floating">
+                <input type="text" class="form-control" id="lesson-search-text" @bind="searchText" @bind:event="oninput" @onkeypress="KeyPressed" placeholder="Search lessons..." />
+                <label for="lesson-search-text">Search lessons</label>
+            </div>
+        </div>
+        <div class="col-12 col-md-4 col-lg-3">
+            <div class="d-flex gap-3 h-100">
+                <button class="btn @(HasSearchTags ? "btn-primary" :"btn-outline-primary") flex-fill h-100" @onclick="OpenTagFilterDrawer">
+                    <i class="bi bi-sliders"></i> <span>Filters</span>
+                </button>
+                <button class="btn btn-outline-primary flex-fill h-100" type="button" @onclick="SearchClicked">
+                    <i class="bi bi-search me-1"></i> <span>Search</span>
+                </button>
+            </div>
+        </div>
     </div>
-    <button class="btn btn-outline-primary" type="button" @onclick="SearchClicked">
-        <i class="bi bi-search me-1"></i> <span>Search</span>
-    </button>
 </div>
+
+<Drawer IsOpen="IsTagFilterDrawerOpen" IsOpenChanged="HandleTagFilterDrawerVisibilityChange">
+    <Title>
+        <i class="bi bi-sliders"></i> <span>Filters</span>
+    </Title>
+    <Body>
+        <TagFilter></TagFilter>
+    </Body>
+</Drawer>
+
 
 @code {
     string? searchText;
+    bool IsTagFilterDrawerOpen => State.Value.IsTagFilterDrawerOpen;
+    bool HasSearchTags => State.Value.SearchTags?.Length > 0;
 
     protected override void OnInitialized()
     {
@@ -39,6 +62,16 @@
     private void SearchClicked()
     {
         Dispatcher.Dispatch(new SearchLessonsRequest() { SearchText = searchText, SearchTags = State.Value.SearchTags });
+    }
+
+    protected void OpenTagFilterDrawer()
+    {
+        Dispatcher.Dispatch(new SetTagFilterDrawerVisibillity() { IsOpen = true });
+    }
+
+    protected void HandleTagFilterDrawerVisibilityChange(bool isOpen)
+    {
+        Dispatcher.Dispatch(new SetTagFilterDrawerVisibillity() { IsOpen = isOpen });
     }
 
     protected override async ValueTask DisposeAsyncCore(bool disposing)

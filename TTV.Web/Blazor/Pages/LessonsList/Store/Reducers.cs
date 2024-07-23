@@ -30,6 +30,10 @@ public static class Reducers
     [ReducerMethod]
     public static LessonsListState ReduceSetSearchTags(LessonsListState state, SetSearchTags action) =>
         state with { SearchTags = action.SearchTags };
+    
+    [ReducerMethod]
+    public static LessonsListState ReduceSetFiltersVisibility(LessonsListState state, SetTagFilterDrawerVisibillity action) =>
+        state with { IsTagFilterDrawerOpen = action.IsOpen };
 
     [ReducerMethod]
     public static LessonsListState ReduceSearchLessonsRequest(LessonsListState state, SearchLessonsRequest action) =>
@@ -37,6 +41,7 @@ public static class Reducers
         {
             SearchTags = action.SearchTags,
             SearchText = action.SearchText,
+            IsTagFilterDrawerOpen = false,
             IsLoadingLessons = true
         };
 

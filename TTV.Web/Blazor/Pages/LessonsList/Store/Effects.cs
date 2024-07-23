@@ -42,4 +42,14 @@ public class Effects(ITagApiConsumer tagApi, ILessonApiConsumer lessonApi)
             dispatcher.Dispatch(new SearchLessonsError() { ErrorMessage = Consts.DefaultErrorMessage });
         }
     }
+
+    [EffectMethod]
+    public static async Task HandleSetSearchTags(SetSearchTags action, IDispatcher dispatcher)
+    {
+        if (action.AutoSearch)
+        {
+            dispatcher.Dispatch(new SearchLessonsRequest() { SearchTags = action.SearchTags });
+        }
+        await Task.CompletedTask;
+    }
 }

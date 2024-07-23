@@ -5,4 +5,5 @@ namespace TTV.Web.Blazor.Pages.LessonsList.Store.Actions;
 public record SetSearchTags
 {
     public TagDto[]? SearchTags { get; init; }
+    public bool AutoSearch { get; init; }
 }

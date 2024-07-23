@@ -1,0 +1,32 @@
+﻿@using Fluxor;
+@using TTV.Web.Blazor.Pages.LessonsList.Store;
+@using TTV.Web.Blazor.Pages.LessonsList.Store.Actions;
+@using TTV.Web.Shared;
+
+@inherits Fluxor.Blazor.Web.Components.FluxorComponent;
+
+@inject IState<LessonsListState> LessonsState
+@inject IDispatcher Dispatcher
+
+@if (SearchTags.Length > 0)
+{
+    <div class="d-flex align-items-baseline">
+        <small>Filter by</small>
+        <div>
+            <TagBadges Tags="SearchTags"></TagBadges>
+        </div>
+        <button type="button" class="btn btn-sm btn-link m-1" @onclick="ClearFilter"><i class="bi bi-x"></i>Clear Filters</button>
+    </div>
+}
+@code {
+    SimpleTagDto[] SearchTags => LessonsState.Value.SearchTags?.Select(tag => new SimpleTagDto
+        {
+            Name = tag.Name,
+            Priority = tag.Category.Priority
+        }).ToArray() ?? [];
+
+    private void ClearFilter()
+    {
+        Dispatcher.Dispatch(new SearchLessonsRequest() { SearchText = null, SearchTags = null });
+    }
+}

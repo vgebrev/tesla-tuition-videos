@@ -9,6 +9,7 @@ internal static class TagCategoryMappings
         new()
         {
             Id = category.Id,
-            Name = category.Name
+            Name = category.Name,
+            Priority = category.Priority
         };
 }

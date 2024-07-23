@@ -17,8 +17,7 @@
         <ErrorCard Error="LessonsState.Value.TagsError"></ErrorCard>
         @if (Tags != null)
         {
-            <div class="d-flex justify-content-between">
-                <button type="button" class="btn btn-sm btn-outline-primary m-1" @onclick="ApplyFilter"><i class="bi bi-check me-1"></i> Apply</button>
+            <div class="d-flex justify-content-end">
                 <button type="button" class="btn btn-sm btn-outline-primary m-1" @onclick="ClearFilter"><i class="bi bi-x me-1"></i> Clear</button>
             </div>
             foreach (var categoryGroup in Tags.GroupBy(t => t.Category))
@@ -32,7 +31,7 @@
                                 <input class="form-check-input" type="checkbox" checked="@IsChecked(tag)" @onchange="(e) => TagToggled(e, tag)" id="filter-item-@tag.Id">
                                 <label class="form-check-label" for="filter-item-@tag.Id">@tag.Name</label>
                             </div>
-                            <span class="badge bg-primary rounded-pill">@tag.LessonCount</span>
+                            <label class="form-check-label" for="filter-item-@tag.Id"><span class="badge bg-primary rounded-pill">@tag.LessonCount</span></label>
                         </li>
                     }
                 </ul>
@@ -71,13 +70,7 @@
             searchTags.Remove(toggledTag);
         }
 
-        Dispatcher.Dispatch(new SetSearchTags() { SearchTags = searchTags.ToArray() });
-    }
-
-    private void ApplyFilter()
-    {
-        var tags = Tags?.Where(IsChecked).ToArray();
-        Dispatcher.Dispatch(new SearchLessonsRequest() { SearchText = LessonsState.Value.SearchText, SearchTags = tags });
+        Dispatcher.Dispatch(new SetSearchTags() { SearchTags = searchTags.ToArray(), AutoSearch = true });
     }
 
     private void ClearFilter()

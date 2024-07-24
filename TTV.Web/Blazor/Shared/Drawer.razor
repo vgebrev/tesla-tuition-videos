@@ -42,7 +42,7 @@
         {
             script = await JS.InvokeAsync<IJSObjectReference>("import", "./Shared/Drawer.razor.js");
             dotNetObjectReference = DotNetObjectReference.Create(this);
-            await script.InvokeVoidAsync("handleOfcanvasHidden", element, dotNetObjectReference);
+            await script.InvokeVoidAsync("handleOffcanvasHidden", element, dotNetObjectReference);
         }
         if (IsOpen)
         {
@@ -73,7 +73,6 @@
 
     public async Task Open()
     {
-        //IsOpen = true;
         if (script != null) {
             await script.InvokeVoidAsync("openOffcanvas", element);
         }
@@ -81,7 +80,6 @@
 
     public async Task Close()
     {
-        //IsOpen = false;
         if (script != null) {
             await script.InvokeVoidAsync("closeOffcanvas", element);
         }

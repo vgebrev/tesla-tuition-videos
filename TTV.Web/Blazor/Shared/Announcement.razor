@@ -8,7 +8,7 @@
         <i class="bi @(IsAnnouncementShown ? "bi-bell" : "bi-bell-fill") fs-5"></i>
     </button>
 
-    <Modal IsOpen="IsModalOpen" Title="@AnnouncementData?.Title">
+    <Modal IsOpen="IsModalOpen" IsOpenChanged="HandleModalOpenChanged" Title="@AnnouncementData?.Title">
         <p>@AnnouncementData?.Message</p>
     </Modal>
 }
@@ -37,5 +37,10 @@
             IsAnnouncementShown = true;
             IsModalOpen = true;
         }
+    }
+
+    private void HandleModalOpenChanged(bool isOpen)
+    {
+        IsModalOpen = isOpen;
     }
 }

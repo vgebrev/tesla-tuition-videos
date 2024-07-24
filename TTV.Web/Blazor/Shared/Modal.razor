@@ -6,13 +6,13 @@
         <div class="modal-content text-bg-dark">
             <div class="modal-header">
                 <h1 class="modal-title fs-5" id="modal-label">@Title</h1>
-                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close" @onclick="() => Close()"></button>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="@Id" aria-label="Close"></button>
             </div>
             <div class="modal-body">
                 @ChildContent
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" @onclick="() => Close()">Close</button>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="@Id">Close</button>
             </div>
         </div>
     </div>
@@ -27,19 +27,23 @@
 
     [Parameter]
     public bool IsOpen { get; set; }
+    [Parameter]
+    public EventCallback<bool> IsOpenChanged { get; set; }
 
     [Parameter]
     public string Title { get; set; } = string.Empty;
 
     private ElementReference element;
-
+    private DotNetObjectReference<Modal>? dotNetObjectReference;
     private IJSObjectReference? script;
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
         if (firstRender && script == null)
         {
+            dotNetObjectReference = DotNetObjectReference.Create(this);
             script = await JS.InvokeAsync<IJSObjectReference>("import", "./Shared/Modal.razor.js");
+            await script.InvokeVoidAsync("handleModalHidden", element, dotNetObjectReference);
         }
         await base.OnAfterRenderAsync(firstRender);
     }
@@ -64,16 +68,21 @@
         }
     }
 
+    [JSInvokable]
+    public async Task OnModalHidden()
+    {
+        IsOpen = false;
+        await IsOpenChanged.InvokeAsync(IsOpen);
+    }
+
     public async void Open()
     {
-        IsOpen = true;
         if (script != null)
             await script.InvokeVoidAsync("openModal", element);
     }
 
     public async void Close()
     {
-        IsOpen = false;
         if (script != null)
             await script.InvokeVoidAsync("closeModal", element);
     }

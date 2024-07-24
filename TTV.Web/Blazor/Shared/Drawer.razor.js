@@ -1,4 +1,4 @@
-﻿export function handleOfcanvasHidden(element, dotnet) {
+﻿export function handleOffcanvasHidden(element, dotnet) {
   element.addEventListener('hidden.bs.offcanvas', function () {
     dotnet.invokeMethodAsync('OnOffcanvasHidden');
   });

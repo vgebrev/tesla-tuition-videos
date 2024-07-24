@@ -100,6 +100,15 @@ internal static class HostingExtensions
         builder.Services.AddScoped<SendNotification>();
 
         builder.Services.Configure<SystemSettings>(builder.Configuration.GetSection(nameof(SystemSettings)));
+        builder.Services.Configure<IdentityOptions>(options =>
+        {
+            options.Password.RequireDigit = false;
+            options.Password.RequireLowercase = false;
+            options.Password.RequireNonAlphanumeric = false;
+            options.Password.RequireUppercase = false;
+            options.Password.RequiredLength = 1;
+            options.Password.RequiredUniqueChars = 1;
+        });
 
         return builder.Build();
     }

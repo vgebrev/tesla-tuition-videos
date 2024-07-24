@@ -22,17 +22,20 @@
                         <div class="form-group my-3">
                             <label asp-for="Input.Password" class="mb-1"></label> *
                             <div class="input-group">
-                                <input type="password" class="form-control" placeholder="Password" asp-for="Input.Password" autocomplete="off">
+                                <input type="password" class="form-control" placeholder="Password" asp-for="Input.Password" id="password" autocomplete=" off">
                                 <div class="input-group-append">
                                     <button type="button" class="btn btn-secondary text-primary"
                                             data-bs-container="body"
                                             data-bs-toggle="popover"
                                             data-bs-placement="right"
-                                            data-bs-content="Minimum 6 characters, one upper case letter, one digit, one non-alphanumeric character."
-                                            data-bs-original-title="Password requirements">
+                                            data-bs-content="We recommend a long passphrase of random words, or a series of 12 or more characters that don't form a dictionary word, and incorporate lower & upper case letters, digits, and non-alphanumeric characters."
+                                            data-bs-original-title="Password recommendation">
                                         <i class="bi-info-circle"></i>
                                     </button>
                                 </div>
+                            </div>
+                            <div class="progress mt-1">
+                                <div id="password-strength-bar" class="progress-bar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
                             </div>
                             <span asp-validation-for="Input.Password" class="text-danger"></span>
                         </div>

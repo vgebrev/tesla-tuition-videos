@@ -47,7 +47,7 @@ public class LessonRepository(DataContext dataContext) : ILessonRepository
             .Include(lesson => lesson.Tags).ThenInclude(tag => tag.Category)
             .Include(lesson => lesson.Videos)
             .Include(lesson => lesson.OwnedBy.Where(user => user.Id == userId))
-            .Where(lesson => lesson.OwnedBy.Any(user => user.Id == userId))
+            .Where(lesson => lesson.OwnedBy.Any(user => user.Id == userId) || lesson.IsFree)
             .ToListAsync(cancellationToken);
     }
 

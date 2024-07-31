@@ -1,4 +1,5 @@
-﻿@font-face {
+﻿
+@font-face {
     font-family: 'Ethnocentric';
     src: url('../lib/fonts/ethnocentric rg.otf') format('opentype');
 }
@@ -99,6 +100,10 @@ body {
         transform: translateX(0);
     }
 
+.intro {
+    --min-height-value: max(calc(100vh - 6rem), 500px);
+    min-height: var(--min-height-value) !important;
+}
 .intro-video-container {
     background-color: black;
     z-index: 0;

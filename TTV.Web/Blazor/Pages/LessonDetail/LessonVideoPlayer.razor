@@ -19,8 +19,8 @@
 
     protected override async Task OnInitializedAsync()
     {
-        VideoUri = await GetUniqueVideoUri();
         await base.OnInitializedAsync();
+        VideoUri = await GetUniqueVideoUri();
     }
 
     private async Task<string> GetUniqueVideoUri() {
@@ -33,17 +33,13 @@
 
         return result;
     }
-    protected override async Task OnParametersSetAsync()
-    {
-        VideoUri = await GetUniqueVideoUri();
-        await base.OnParametersSetAsync();
-    }
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
         
         if (firstRender)
         {
+            VideoUri = await GetUniqueVideoUri();
             await JSRuntime.InvokeVoidAsync("initLessonVideo", "lesson-video", "lesson-video-source", VideoUri);
         }
     }

@@ -66,26 +66,33 @@ internal static class HostingExtensions
             })
             .AddAspNetIdentity<ApplicationUser>()
             .AddProfileService<CustomProfileService>();
-        
-        builder.Services.AddAuthentication()
-            .AddGoogle("Google", options =>
+
+        var authBuilder = builder.Services.AddAuthentication();
+
+        if (builder.Configuration["Authentication:Google:Enabled"] == "True")
+        {
+            authBuilder.AddGoogle("Google", options =>
             {
                 options.SignInScheme = IdentityServerConstants.ExternalCookieAuthenticationScheme;
 
                 options.ClientId = builder.Configuration["Authentication:Google:ClientId"];
                 options.ClientSecret = builder.Configuration["Authentication:Google:ClientSecret"];
-            })
-        .AddFacebook("Facebook", options =>
-            {
-                options.SignInScheme = IdentityServerConstants.ExternalCookieAuthenticationScheme;
-
-                options.AppId = builder.Configuration["Authentication:Facebook:AppId"];
-                options.AppSecret = builder.Configuration["Authentication:Facebook:AppSecret"];
             });
+        }
+        if (builder.Configuration["Authentication:Facebook:Enabled"] == "True")
+        {
+            authBuilder.AddFacebook("Facebook", options =>
+                {
+                    options.SignInScheme = IdentityServerConstants.ExternalCookieAuthenticationScheme;
+
+                    options.AppId = builder.Configuration["Authentication:Facebook:AppId"];
+                    options.AppSecret = builder.Configuration["Authentication:Facebook:AppSecret"];
+                });
+        }
 
         // TTV Services (for password reset)
         builder.Services.AddDbContextFactory<DataContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("DataContext")));
-        
+
         builder.Services.AddScoped<IEmailSender, EmailSender>();
         builder.Services.AddScoped<INotificationBuilder, NotificationBuilder>();
         builder.Services.AddScoped<INotificationManager, NotificationManager>();
@@ -112,12 +119,12 @@ internal static class HostingExtensions
 
         return builder.Build();
     }
-    
+
     public static WebApplication ConfigurePipeline(this WebApplication app)
-    { 
+    {
         app.UseSerilogRequestLogging();
         app.UseCors(app => app.AllowAnyHeader().AllowAnyMethod().AllowAnyOrigin());
-    
+
         if (app.Environment.IsDevelopment())
         {
             app.UseDeveloperExceptionPage();
@@ -131,7 +138,7 @@ internal static class HostingExtensions
         app.UseRouting();
         app.UseIdentityServer();
         app.UseAuthorization();
-        
+
         app.MapRazorPages()
             .RequireAuthorization();
 

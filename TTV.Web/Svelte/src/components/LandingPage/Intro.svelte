@@ -1,23 +1,23 @@
 <script>
-	import { onMount, onDestroy, getContext } from 'svelte';
-	const observer = getContext('observer');
+	import { onMount, onDestroy } from 'svelte';
+	import { observer } from '$lib/intersection-observer';
 	let headerElem;
 	let videoElem;
 	let interval;
 
 	function initLandingVideo() {
-	  if (interval) {
-	    clearInterval(interval);
-	  }
-	  interval = setInterval(() => {
-	    if (!videoElem) return;
+		if (interval) {
+			clearInterval(interval);
+		}
+		interval = setInterval(() => {
+			if (!videoElem) return;
 			videoElem.pause();
 			videoElem.currentTime = 0;
 			const play = videoElem.play();
 			if (play !== undefined) {
 				play.then(() => {}).catch(() => {});
 			}
-	  }, 18 * 1000);
+		}, 18 * 1000);
 	}
 
 	onMount(() => {

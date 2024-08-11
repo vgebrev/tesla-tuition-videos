@@ -1,8 +1,9 @@
 <script>
-	import {onMount, getContext} from 'svelte';
+	import { onMount } from 'svelte';
+	import { observer } from '$lib/intersection-observer.js';
 	import FlipCard from '$components/LandingPage/FlipCard.svelte';
-  const	observer = getContext('observer');
-  let headerElem;
+
+	let headerElem;
 	onMount(() => {
 		observer.observe(headerElem);
 	});
@@ -10,7 +11,10 @@
 
 <div class="mt-1 mt-md-3 bg-dark p-3 p-md-5">
 	<h1 bind:this={headerElem} class="fade-in header-white">Why choose Tesla Tuition Videos?</h1>
-	<p class="fs-5">Our mission is to make quality Physical Science education accessible and affordable for everyone.</p>
+	<p class="fs-5">
+		Our mission is to make quality Physical Science education accessible and affordable for
+		everyone.
+	</p>
 
 	<div class="row">
 		<FlipCard>

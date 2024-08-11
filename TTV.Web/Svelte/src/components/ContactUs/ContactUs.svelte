@@ -5,26 +5,34 @@
 </div>
 <div class="row">
 	<div class="col m-5 text-center">
-		<p class="fs-5 text-white">We are here to help you. Please feel free to contact us using the following methods:</p>
+		<p class="fs-5 text-white">
+			We are here to help you. Please feel free to contact us using the following methods:
+		</p>
 	</div>
 </div>
 <div class="row">
 	<div class="col-12 col-sm-12 col-md-6 col-lg-4">
 		<div class="d-flex flex-column m-2">
 			<span class="fs-5"><i class="bi bi-whatsapp"></i> WhatsApp</span>
-			<a href="@ContactInfo.WhatsAppLink" target="_blank" class="btn btn-large btn-outline-primary">@ContactInfo.PhoneNumber</a>
+			<a href="@ContactInfo.WhatsAppLink" target="_blank" class="btn btn-large btn-outline-primary"
+				>@ContactInfo.PhoneNumber</a
+			>
 		</div>
 	</div>
 	<div class="col-12 col-sm-12 col-md-6 col-lg-4">
 		<div class="d-flex flex-column m-2">
 			<span class="fs-5"><i class="bi bi-telephone"></i> Call</span>
-			<a href="@ContactInfo.TelLink" class="btn btn-large btn-outline-primary">@ContactInfo.PhoneNumber</a>
+			<a href="@ContactInfo.TelLink" class="btn btn-large btn-outline-primary"
+				>@ContactInfo.PhoneNumber</a
+			>
 		</div>
 	</div>
 	<div class="col-12 col-sm-12 col-md-12 col-lg-4">
 		<div class="d-flex flex-column m-2">
 			<span class="fs-5"><i class="bi bi-envelope-at"></i> Email</span>
-			<a href="@ContactInfo.MailtoLink" class="btn btn-large btn-outline-primary">@ContactInfo.SupportEmail</a>
+			<a href="@ContactInfo.MailtoLink" class="btn btn-large btn-outline-primary"
+				>@ContactInfo.SupportEmail</a
+			>
 		</div>
 	</div>
 </div>
@@ -36,9 +44,15 @@
 <div class="row">
 	<div class="col text-center">
 		<div class="d-flex gap-5 justify-content-center">
-			<a href="https://www.instagram.com/teslatuitionvideos/" target="_blank" title="Instagram"><i class="fs-1 bi bi-instagram"></i></a>
-			<a href="https://www.facebook.com/teslatuitionvideos/" target="_blank" title="Facebook"><i class="fs-1 bi bi-facebook"></i></a>
-			<a href="https://www.youtube.com/@@TeslaTuitionVideos" target="_blank" title="YouTube"><i class="fs-1 bi bi-youtube"></i></a>
+			<a href="https://www.instagram.com/teslatuitionvideos/" target="_blank" title="Instagram"
+				><i class="fs-1 bi bi-instagram"></i></a
+			>
+			<a href="https://www.facebook.com/teslatuitionvideos/" target="_blank" title="Facebook"
+				><i class="fs-1 bi bi-facebook"></i></a
+			>
+			<a href="https://www.youtube.com/@@TeslaTuitionVideos" target="_blank" title="YouTube"
+				><i class="fs-1 bi bi-youtube"></i></a
+			>
 		</div>
 	</div>
 </div>

@@ -1,7 +1,8 @@
 <script>
-	import { onMount, getContext } from 'svelte';
+	import { onMount } from 'svelte';
+	import { observer } from '$lib/intersection-observer.js';
 	import Testimonial from '$components/LandingPage/Testimonial.svelte';
-	const observer = getContext('observer');
+
 	const testimonials = [
 		{
 			seq: 1,
@@ -103,7 +104,7 @@
 						data-bs-target="#testimonialsCarousel"
 						data-bs-slide-to={i}
 						class:active={i === 0}
-						aria-label="Slide {i}"
+						aria-label="Slide {testimonial.seq}"
 					></button>
 				{/each}
 			</div>

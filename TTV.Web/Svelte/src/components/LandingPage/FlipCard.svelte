@@ -21,39 +21,39 @@
 </div>
 
 <style>
-    .card {
-        margin: 10px 0;
-    }
+	.card {
+		margin: 10px 0;
+	}
 
-    .card-container {
-        display: grid;
-        perspective: 700px;
-    }
+	.card-container {
+		display: grid;
+		perspective: 700px;
+	}
 
-    .card-flip {
-        display: grid;
-        grid-template: 1fr / 1fr;
-        grid-template-areas: "frontAndBack";
-        transform-style: preserve-3d;
-        transition: all 0.4s ease;
-        cursor: pointer;
-    }
+	.card-flip {
+		display: grid;
+		grid-template: 1fr / 1fr;
+		grid-template-areas: 'frontAndBack';
+		transform-style: preserve-3d;
+		transition: all 0.4s ease;
+		cursor: pointer;
+	}
 
-    .card-flip div {
-        backface-visibility: hidden;
-        transform-style: preserve-3d;
-    }
+	.card-flip div {
+		backface-visibility: hidden;
+		transform-style: preserve-3d;
+	}
 
-    .front {
-        grid-area: frontAndBack;
-    }
+	.front {
+		grid-area: frontAndBack;
+	}
 
-    .back {
-        grid-area: frontAndBack;
-        transform: rotateY(-180deg);
-    }
+	.back {
+		grid-area: frontAndBack;
+		transform: rotateY(-180deg);
+	}
 
-    .card-container:hover .card-flip {
-        transform: rotateY(180deg);
-    }
+	.card-container:hover .card-flip {
+		transform: rotateY(180deg);
+	}
 </style>

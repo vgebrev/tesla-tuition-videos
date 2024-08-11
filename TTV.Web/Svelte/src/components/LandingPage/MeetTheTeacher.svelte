@@ -1,45 +1,46 @@
 <script>
-	import { onMount } from 'svelte';
-	import { observer } from '$lib/intersection-observer.js';
+  import { onMount } from 'svelte';
+  import { observer } from '$lib/intersection-observer.js';
 
-	let headerElem;
-	onMount(() => {
-		observer.observe(headerElem);
-	});
+  let headerElem;
+
+  onMount(() => {
+    observer.observe(headerElem);
+  });
 </script>
 
 <div class="mt-3 bg-meet-the-teacher p-3 p-md-5">
-	<h1 bind:this={headerElem} class="fade-in header-white">Meet the Teacher</h1>
-	<div class="row pt-2 pt-md-5">
-		<div class="fs-5 col-12 col-sm-12 col-md-9 col-lg-8 col-xl-6">
-			<p>
-				Lesley Robinson is a fully qualified teacher with a Bachelor of Science (University of the
-				Witwatersrand) and a Postgraduate Certificate of Education (UNISA).
-			</p>
-			<p>
-				She has over 14 years of experience as a Physical Science teacher and private tutor for both
-				government and private school learners.
-			</p>
-			<p>
-				Lesley’s patience, passion and clear explanations have transformed numerous students’
-				understanding and enjoyment of the subject.
-			</p>
-			<p>
-				Her ability to make complex concepts accessible and engaging has led to significant
-				improvements in pupils’ grades, confidence and interest in Science.
-			</p>
-			<p>
-				Many students attribute their academic success and newfound passion for Science to her
-				dedicated and insightful approach.
-			</p>
-		</div>
-		<div class="col-12 col-sm-12 col-md-3 col-lg-4 col-xl-6">
-			<img
-				src="../img/lesley.jpg"
-				class="rounded-3 img-fluid btn-outline-light"
-				alt="Lesley Robinson Portrait"
-				style="object-position:center;object-fit: scale-down;"
-			/>
-		</div>
-	</div>
+  <h1 bind:this={headerElem} class="fade-in header-white">Meet the Teacher</h1>
+  <div class="row pt-2 pt-md-5">
+    <div class="fs-5 col-12 col-sm-12 col-md-9 col-lg-8 col-xl-6">
+      <p>
+        Lesley Robinson is a fully qualified teacher with a Bachelor of Science (University of the
+        Witwatersrand) and a Postgraduate Certificate of Education (UNISA).
+      </p>
+      <p>
+        She has over 14 years of experience as a Physical Science teacher and private tutor for both
+        government and private school learners.
+      </p>
+      <p>
+        Lesley’s patience, passion and clear explanations have transformed numerous students’
+        understanding and enjoyment of the subject.
+      </p>
+      <p>
+        Her ability to make complex concepts accessible and engaging has led to significant
+        improvements in pupils’ grades, confidence and interest in Science.
+      </p>
+      <p>
+        Many students attribute their academic success and newfound passion for Science to her
+        dedicated and insightful approach.
+      </p>
+    </div>
+    <div class="col-12 col-sm-12 col-md-3 col-lg-4 col-xl-6">
+      <img
+        src="../img/lesley.jpg"
+        class="rounded-3 img-fluid btn-outline-light"
+        alt="Lesley Robinson Portrait"
+        style="object-position:center;object-fit: scale-down;"
+      />
+    </div>
+  </div>
 </div>

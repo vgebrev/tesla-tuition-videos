@@ -1,5 +1,5 @@
 export function load({ params }) {
-	return {
-		lessonId: params.lessonId
-	};
+  return {
+    lessonId: params.lessonId
+  };
 }

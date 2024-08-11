@@ -1,5 +1,5 @@
 <script>
-	export let lessonId;
+  export let lessonId;
 </script>
 
 <h1>Lesson {lessonId}</h1>

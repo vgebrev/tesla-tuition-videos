@@ -16,9 +16,14 @@
   </PropertyGroup>
 
   <PropertyGroup>
+    <PublishTrimmed>true</PublishTrimmed>
     <RunAOTCompilation>true</RunAOTCompilation>
     <WasmStripILAfterAOT>false</WasmStripILAfterAOT>
-    <EmccInitialHeapSize>16777216</EmccInitialHeapSize>
+    <EmccInitialHeapSize>10354688</EmccInitialHeapSize>
+    <DebuggerSupport>false</DebuggerSupport>
+    <TrimmerRemoveSymbols>true</TrimmerRemoveSymbols>
+    <InvariantGlobalization>true</InvariantGlobalization>
+    <WasmEnableSIMD>false</WasmEnableSIMD>
   </PropertyGroup>
 
   <PropertyGroup>

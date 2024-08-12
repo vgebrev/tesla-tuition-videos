@@ -1,3 +1,9 @@
+<script>
+  import { config } from '$lib/config.js';
+
+  const mailtoLink = `mailto:${config.contactInfo.supportEmail}`;
+</script>
+
 <div class="row justify-content-center">
   <div class="col text-center">
     <h1 class="header-white">Cookies Policy</h1>
@@ -186,12 +192,12 @@
         <ul>
           <li>
             <strong>Address:</strong>
-            Tesla Tuition Videos, @ContactInfo.Address
+            Tesla Tuition Videos, {config.contactInfo.address}
           </li>
           <li>
-            <strong>Email:</strong> <a href="@ContactInfo.MailtoLink">@ContactInfo.SupportEmail</a>
+            <strong>Email:</strong> <a href={mailtoLink}>{config.contactInfo.supportEmail}</a>
           </li>
-          <li><strong>Phone:</strong> @ContactInfo.PhoneNumber</li>
+          <li><strong>Phone:</strong> {config.contactInfo.phoneNumber}</li>
         </ul>
       </li>
     </ol>

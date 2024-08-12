@@ -3,7 +3,7 @@
 </script>
 
 <svelte:head>
-  <title>Tesla Tuition videos - Terms and Conditions</title>
+  <title>Tesla Tuition Videos - Terms and Conditions</title>
 </svelte:head>
 
 <TermsAndConditions />

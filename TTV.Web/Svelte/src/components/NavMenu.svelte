@@ -1,3 +1,7 @@
+<script>
+  import LoginDisplay from '$components/LoginDisplay.svelte';
+</script>
+
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top" data-bs-theme="dark">
   <div class="container">
     <div class="d-flex">
@@ -31,7 +35,7 @@
         <!--				<ShoppingCartNavLink />-->
         <!--				<AdminNavLink />-->
         <a class="nav-link" href="/contact-us"><i class="bi bi-envelope-open"></i> Contact us</a>
-        <!--				<LoginDisplay />-->
+        <LoginDisplay />
         <!--				<Announcement CssClass="d-none d-lg-block"></Announcement>-->
       </div>
     </div>

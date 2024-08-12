@@ -1,3 +1,9 @@
+<script>
+  import { config } from '$lib/config';
+
+  const mailtoLink = `mailto:${config.contactInfo.supportEmail}`;
+</script>
+
 <div class="row justify-content-center">
   <div class="col text-center">
     <h1 class="header-white">Terms and Conditions</h1>
@@ -122,7 +128,7 @@
           <li>
             <strong>Learner Performance:</strong> We strongly believe that our Content, if used appropriately,
             will greatly improve understanding and boost marks. Please note, however, that this material
-            is only supplimentary to official school work and that results are dependent on learners'
+            is only supplementary to official school work and that results are dependent on learners'
             own efforts and preparation.
           </li>
           <li>
@@ -179,12 +185,12 @@
         <ul>
           <li>
             <strong>Address:</strong>
-            Tesla Tuition Videos, @ContactInfo.Address
+            Tesla Tuition Videos, {config.contactInfo.address}
           </li>
           <li>
-            <strong>Email:</strong> <a href="@ContactInfo.MailtoLink">@ContactInfo.SupportEmail</a>
+            <strong>Email:</strong> <a href={mailtoLink}>{config.contactInfo.supportEmail}</a>
           </li>
-          <li><strong>Phone:</strong> @ContactInfo.PhoneNumber</li>
+          <li><strong>Phone:</strong> {config.contactInfo.phoneNumber}</li>
         </ul>
       </li>
     </ol>

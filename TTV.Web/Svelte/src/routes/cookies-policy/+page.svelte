@@ -6,4 +6,4 @@
   <title>Tesla Tuition Videos - Cookies Policy</title>
 </svelte:head>
 
-<Cookies />>
+<Cookies />

@@ -1,14 +1,16 @@
+import { PUBLIC_AUTHORITY_URL, PUBLIC_API_BASE_URL } from '$env/static/public';
+
 export const config = {
   api: {
-    baseUrl: 'https://localhost:5002/api'
+    baseUrl: PUBLIC_API_BASE_URL
   },
   oidc: {
-    authority: 'https://localhost:5001',
+    authority: PUBLIC_AUTHORITY_URL,
     client_id: 'ttv_web_blazor',
-    redirect_uri: 'http://localhost:5173/authentication/login-callback',
+    redirect_uri: `${window.location.origin}/authentication/login-callback`,
     response_type: 'code',
     scope: 'openid profile email ttv_web_api',
-    post_logout_redirect_uri: 'http://localhost:5173/authentication/logout-callback'
+    post_logout_redirect_uri: `${window.location.origin}/authentication/logout-callback`
   },
   contactInfo: {
     phoneNumber: '+27 66 444 5850',

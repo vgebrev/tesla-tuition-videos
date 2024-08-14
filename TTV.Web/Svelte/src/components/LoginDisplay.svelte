@@ -1,52 +1,49 @@
 <script>
   import { userManager } from '$lib/user-manager.js';
-  import { onMount } from 'svelte';
+  import AuthorizeView from '$components/AuthorizeView.svelte';
 
-  let user;
-  onMount(() => {
-    userManager.getUser().then((u) => {
-      user = u;
-    });
-
-    userManager.events.addUserLoaded((u) => {
-      user = u;
-    });
-  });
-
-  function login() {
+  async function login() {
     sessionStorage.setItem('redirect', window.location.pathname);
-    userManager.signinRedirect();
+    try {
+      await userManager.signinSilent();
+    } catch (err) {
+      console.error('Error during silent login:', err);
+      await userManager.signinRedirect();
+    }
   }
 
-  function logout() {
+  async function logout() {
     sessionStorage.setItem('redirect', window.location.pathname);
-    userManager.signoutRedirect();
+    await userManager.signoutRedirect();
   }
 </script>
 
-{#if user}
-  <div class="nav-item dropdown">
-    <a
-      href="/"
-      class="nav-link dropdown-toggle"
-      data-bs-toggle="dropdown"
-      role="button"
-      aria-haspopup="true"
-      aria-expanded="false"
-      on:click|preventDefault={() => {}}
-      ><i class="bi bi-person-circle"></i> {user.profile.name} <b class="caret"></b></a
-    >
+<AuthorizeView>
+  <div slot="authorized" let:user>
+    <div class="nav-item dropdown">
+      <a
+        href="/"
+        class="nav-link dropdown-toggle"
+        data-bs-toggle="dropdown"
+        role="button"
+        aria-haspopup="true"
+        aria-expanded="false"
+        on:click|preventDefault={() => {}}
+        ><i class="bi bi-person-circle"></i> {user.profile.name} <b class="caret"></b></a
+      >
 
-    <div class="dropdown-menu">
-      <a href="/my/library" class="dropdown-item">Lesson Library</a>
-      <a href="/my/orders" class="dropdown-item">Orders</a>
-      <a href="/my/discount-vouchers" class="dropdown-item">Discount Vouchers</a>
-      <hr class="dropdown-divider" />
-      <button class="dropdown-item" type="button" on:click={logout}>Log out</button>
+      <div class="dropdown-menu">
+        <a href="/my/library" class="dropdown-item">Lesson Library</a>
+        <a href="/my/orders" class="dropdown-item">Orders</a>
+        <a href="/my/discount-vouchers" class="dropdown-item">Discount Vouchers</a>
+        <hr class="dropdown-divider" />
+        <button class="dropdown-item" type="button" on:click={logout}>Log out</button>
+      </div>
     </div>
   </div>
-{:else}
-  <div class="nav-item">
-    <a href="/" class="nav-link" on:click|preventDefault={login}>Log in</a>
+  <div slot="unauthorized">
+    <div class="nav-item">
+      <a href="/" class="nav-link" on:click|preventDefault={login}>Log in</a>
+    </div>
   </div>
-{/if}
+</AuthorizeView>

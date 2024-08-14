@@ -4,7 +4,9 @@
 
   onMount(() => {
     userManager.signinRedirectCallback().then(() => {
-      window.location = sessionStorage.getItem('redirect') || '/';
+      const route = sessionStorage.getItem('redirect') || '/';
+      sessionStorage.removeItem('redirect');
+      window.location = route;
     });
   });
 </script>

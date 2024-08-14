@@ -1,4 +1,5 @@
 import { PUBLIC_AUTHORITY_URL, PUBLIC_API_BASE_URL } from '$env/static/public';
+import { WebStorageStateStore } from 'oidc-client';
 
 export const config = {
   api: {
@@ -10,7 +11,10 @@ export const config = {
     redirect_uri: `${window.location.origin}/authentication/login-callback`,
     response_type: 'code',
     scope: 'openid profile email ttv_web_api',
-    post_logout_redirect_uri: `${window.location.origin}/authentication/logout-callback`
+    post_logout_redirect_uri: `${window.location.origin}/authentication/logout-callback`,
+    automaticSilentRenew: true,
+    silent_redirect_uri: `${window.location.origin}/authentication/silent-renew.html`,
+    userStore: new WebStorageStateStore({ store: window.localStorage })
   },
   contactInfo: {
     phoneNumber: '+27 66 444 5850',
@@ -26,3 +30,5 @@ export const config = {
   },
   isTestEnvironment: true
 };
+
+export const defaultErrorMessage = 'Something went wrong. Please refresh the page or try again.';

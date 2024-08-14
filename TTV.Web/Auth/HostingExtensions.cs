@@ -68,13 +68,13 @@ internal static class HostingExtensions
             .AddProfileService<CustomProfileService>();
 
         var authBuilder = builder.Services.AddAuthentication();
-
+        
         if (builder.Configuration["Authentication:Google:Enabled"] == "True")
         {
             authBuilder.AddGoogle("Google", options =>
             {
                 options.SignInScheme = IdentityServerConstants.ExternalCookieAuthenticationScheme;
-
+                options.SaveTokens = true;
                 options.ClientId = builder.Configuration["Authentication:Google:ClientId"];
                 options.ClientSecret = builder.Configuration["Authentication:Google:ClientSecret"];
             });
@@ -89,7 +89,7 @@ internal static class HostingExtensions
                     options.AppSecret = builder.Configuration["Authentication:Facebook:AppSecret"];
                 });
         }
-
+        
         // TTV Services (for password reset)
         builder.Services.AddDbContextFactory<DataContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("DataContext")));
 
@@ -129,9 +129,10 @@ internal static class HostingExtensions
         {
             app.UseDeveloperExceptionPage();
         }
+        var allowedCorsOrigins = app.Configuration.GetSection("Cors:AllowedOrigins").Get<string[]>();
         app.Use(async (context, next) =>
         {
-            context.Response.Headers.Append("Content-Security-Policy", "default-src 'self' data: gap: https://ssl.gstatic.com 'unsafe-eval'; connect-src 'self' wss:; style-src 'self' https://fonts.googleapis.com; font-src 'self' data: https://fonts.gstatic.com; img-src 'self' data: content: https:; media-src *; script-src 'self' 'unsafe-eval' 'sha256-orD0/VhH8hLqrLxKHD/HUEMdwqX6/0ve7c5hspX5VJ8=' 'sha256-fa5rxHhZ799izGRP38+h4ud5QXNT0SFaFlh4eqDumBI='");
+            context.Response.Headers.Append("Content-Security-Policy", $"default-src 'self' data: gap: https://ssl.gstatic.com 'unsafe-eval'; connect-src 'self' wss:; style-src 'self' https://fonts.googleapis.com; font-src 'self' data: https://fonts.gstatic.com; img-src 'self' data: content: https:; media-src *; script-src 'self' 'unsafe-eval' 'sha256-orD0/VhH8hLqrLxKHD/HUEMdwqX6/0ve7c5hspX5VJ8=' 'sha256-fa5rxHhZ799izGRP38+h4ud5QXNT0SFaFlh4eqDumBI='; frame-ancestors 'self' {string.Join(" ", allowedCorsOrigins)}");
             await next();
         });
         app.UseStaticFiles();

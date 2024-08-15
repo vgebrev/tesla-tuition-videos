@@ -14,10 +14,18 @@
     await actions.search(null, null);
   }
 
+  /**
+   * @param {import('$lib/types').Tag} tag
+   * @returns {boolean}
+   */
   function isChecked(tag) {
     return state.searchTags?.some((t) => t.id === tag.id);
   }
 
+  /**
+   * @param {Event} e
+   * @param {import('$lib/types').Tag} tag
+   */
   async function tagToggled(e, tag) {
     const isChecked = e.target.checked;
     let searchTags = state.searchTags || [];

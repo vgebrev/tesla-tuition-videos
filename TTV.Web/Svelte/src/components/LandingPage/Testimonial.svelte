@@ -1,4 +1,5 @@
 <script>
+  /** @type {import('$lib/types').Tesimonial} */
   export let testimonial;
 </script>
 

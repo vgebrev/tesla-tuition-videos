@@ -50,6 +50,11 @@ async function getTags() {
   }
 }
 
+/**
+ * @param {string|null} searchText
+ * @param {import('$lib/types').Tag[]|null}searchTags
+ * @returns {Promise<void>}
+ */
 async function search(searchText, searchTags) {
   lessonListStore.update((state) => ({ ...state, searchText, searchTags, isLoadingLessons: true }));
   try {
@@ -73,13 +78,16 @@ async function search(searchText, searchTags) {
 }
 
 /**
- *
  * @param {boolean} isOpen
  */
 function setTagFilterDrawer(isOpen) {
   lessonListStore.update((state) => ({ ...state, isTagFilterDrawerOpen: isOpen }));
 }
 
+/**
+ * @param {?import('$lib/types').Tag[]} tags
+ * @param {boolean} [triggerSearch=true]
+ */
 async function setSearchTags(tags, triggerSearch = true) {
   lessonListStore.update((state) => ({
     ...state,

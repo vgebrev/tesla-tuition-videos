@@ -4,6 +4,10 @@
   import TagFilterIndicator from '$components/LessonsList/TagFilterIndicator.svelte';
   import { actions, lessonListStore } from '$components/LessonsList/lesson-list.js';
 
+  /**
+   *
+   * @param {KeyboardEvent} event
+   */
   async function keyPressed(event) {
     if (event.key === 'Enter') {
       await search();
@@ -17,10 +21,6 @@
   function openTagFilterDrawer() {
     actions.setTagFilterDrawer(true);
   }
-
-  // function tagFilterDrawerChanged(event) {
-  //   actions.setTagFilterDrawer(event.detail);
-  // }
 
   $: state = $lessonListStore;
 </script>

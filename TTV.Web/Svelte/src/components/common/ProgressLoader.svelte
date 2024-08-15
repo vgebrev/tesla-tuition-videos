@@ -1,7 +1,11 @@
 <script>
+  /** @type {boolean} */
   export let isLoading = false;
+  /** @type {number} */
   export let value = 100;
+  /** @type {number} */
   export let min = 0;
+  /** @type {number} */
   export let max = 100;
 
   $: width = `${(100 * value) / (max - min)}%`;

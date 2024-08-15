@@ -1,4 +1,5 @@
 <script>
+  /** @type {import('$lib/types').ErrorState} */
   export let error = { isError: false, message: null };
 </script>
 

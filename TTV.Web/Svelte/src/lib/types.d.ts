@@ -12,6 +12,12 @@ export type Lookup = {
 
 // ----- Entities ----------------------------------------------------------------------------------
 
+export type Tesimonial = {
+  seq: number;
+  testimonialBy: string;
+  text: string;
+};
+
 export type TagCategory = {
   id: number;
   name: string;

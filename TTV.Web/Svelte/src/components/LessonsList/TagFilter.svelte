@@ -1,53 +1,55 @@
 <script>
-  import { getTags, tagsStore } from '$lib/api/tags.js';
+  import { actions, lessonListStore } from './lesson-list.js';
   import { onMount } from 'svelte';
   import ProgressLoader from '$components/common/ProgressLoader.svelte';
   import ErrorCard from '$components/common/ErrorCard.svelte';
-  import { defaultErrorMessage } from '$lib/config.js';
   import { groupBy } from '$lib/utils.js';
 
-  let isLoading = false;
-  let tagsError = { isError: false, message: null };
-
   onMount(async () => {
-    console.log('here');
-    if (tags.length === 0) {
-      try {
-        isLoading = true;
-        await getTags();
-      } catch {
-        tagsError = { isError: true, message: defaultErrorMessage };
-      } finally {
-        isLoading = false;
-      }
-    }
+    await actions.getTags();
   });
 
-  function clearFilter() {
-    //TODO: Implement clearFilter
+  async function clearFilter() {
+    actions.setTagFilterDrawer(false);
+    await actions.search(null, null);
   }
 
-  function isChecked(tag) {}
+  function isChecked(tag) {
+    return state.searchTags?.some((t) => t.id === tag.id);
+  }
 
-  function tagToggled(e, tag) {}
+  async function tagToggled(e, tag) {
+    const isChecked = e.target.checked;
+    let searchTags = state.searchTags || [];
 
-  $: tags = $tagsStore;
+    if (isChecked && !searchTags.some((t) => t.id === tag.id)) {
+      searchTags = [...searchTags, tag];
+    }
+
+    if (!isChecked) {
+      searchTags = searchTags.filter((t) => t.id !== tag.id);
+    }
+
+    await actions.setSearchTags(searchTags);
+  }
+
+  $: state = $lessonListStore;
 </script>
 
 <div class="card text-white bg-secondary">
   <div class="card-body">
-    <ProgressLoader {isLoading} />
-    <ErrorCard error={tagsError} />
-    {#if tags.length > 0}
+    <ProgressLoader isLoading={state.isLoadingTags} />
+    <ErrorCard error={state.tagsError} />
+    {#if state.tags}
       <div class="d-flex justify-content-end">
         <button type="button" class="btn btn-sm btn-outline-primary m-1" on:click={clearFilter}
           ><i class="bi bi-x me-1"></i> Clear</button
         >
       </div>
-      {#each Object.entries(groupBy(tags, (tag) => tag.category.name)) as [category, tags]}
+      {#each Object.entries(groupBy(state.tags, (tag) => tag.category.name)) as [category, tags]}
         <h5 class="card-title">{category}</h5>
         <ul class="list-group list-group-flush">
-          {#each tags as tag}
+          {#each tags as tag (tag.id)}
             <li class="list-group-item d-flex justify-content-between align-items-center">
               <div class="form-check form-switch">
                 <input
@@ -57,7 +59,7 @@
                   on:change={(e) => tagToggled(e, tag)}
                   id="filter-item-{tag.id}"
                 />
-                <label class="form-check-label" for="filter-item-@tag.Id">{tag.name}</label>
+                <label class="form-check-label" for="filter-item-{tag.id}">{tag.name}</label>
               </div>
               <label class="form-check-label" for="filter-item-{tag.id}"
                 ><span class="badge bg-primary rounded-pill">{tag.lessonCount}</span></label

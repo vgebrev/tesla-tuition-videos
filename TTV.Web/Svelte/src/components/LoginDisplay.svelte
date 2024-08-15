@@ -1,6 +1,6 @@
 <script>
   import { userManager } from '$lib/user-manager.js';
-  import AuthorizeView from '$components/AuthorizeView.svelte';
+  import AuthorizeView from '$components/common/AuthorizeView.svelte';
 
   async function login() {
     sessionStorage.setItem('redirect', window.location.pathname);

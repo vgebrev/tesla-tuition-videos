@@ -17,9 +17,14 @@ const initialState = {
   searchTags: null
 };
 
-//** @type {import {Writable} from 'svelte/store'} */
+/**
+ * Store for the lesson list state
+ */
 export const lessonListStore = writable(initialState);
 
+/**
+ * Actions for the lesson list
+ */
 export const actions = {
   getTags,
   search,
@@ -28,6 +33,10 @@ export const actions = {
   updateLessons
 };
 
+/**
+ * Fetch all tags from the API and populate the store
+ * @returns {Promise<void>}
+ */
 async function getTags() {
   if (get(lessonListStore).tags) return;
   lessonListStore.update((state) => ({ ...state, isLoadingTags: true }));
@@ -51,6 +60,7 @@ async function getTags() {
 }
 
 /**
+ * Search for lessons based on the provided search text and tags
  * @param {string|null} searchText
  * @param {import('$lib/types').Tag[]|null}searchTags
  * @returns {Promise<void>}
@@ -78,6 +88,7 @@ async function search(searchText, searchTags) {
 }
 
 /**
+ * Open or close the tag filter drawer
  * @param {boolean} isOpen
  */
 function setTagFilterDrawer(isOpen) {
@@ -85,6 +96,7 @@ function setTagFilterDrawer(isOpen) {
 }
 
 /**
+ * Set the search tags and, optionally, trigger a search
  * @param {?import('$lib/types').Tag[]} tags
  * @param {boolean} [triggerSearch=true]
  */
@@ -99,6 +111,11 @@ async function setSearchTags(tags, triggerSearch = true) {
   }
 }
 
-function updateLessons() {
+/**
+ * Update the lessons in the store
+ * @param {import('$lib/types').Lesson[]} lessons
+ */
+function updateLessons(lessons) {
   //TODO: Implement updateLessons when an order is complete with the new owner
+  console.log('updateLessons', lessons);
 }

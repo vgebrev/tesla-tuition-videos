@@ -1,5 +1,5 @@
 <script>
-  /** @type {import('$lib/types').Tesimonial} */
+  /** @type {import('$lib/types').Testimonial} */
   export let testimonial;
 </script>
 

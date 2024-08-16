@@ -1,3 +1,4 @@
+/** @type {IntersectionObserver} */
 export let observer;
 if (typeof window !== 'undefined') {
   observer = new IntersectionObserver(

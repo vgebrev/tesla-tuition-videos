@@ -12,7 +12,7 @@ export type Lookup = {
 
 // ----- Entities ----------------------------------------------------------------------------------
 
-export type Tesimonial = {
+export type Testimonial = {
   seq: number;
   testimonialBy: string;
   text: string;
@@ -61,6 +61,11 @@ export type Lesson = {
 
 // ----- Store States ------------------------------------------------------------------------------
 
+export type AuthStoreState = {
+  user: import('oidc-client').User;
+  isAuthenticated: boolean;
+};
+
 export type LessonListStoreState = {
   isLoadingLessons: boolean;
   lessons: ?Lesson[];
@@ -73,4 +78,10 @@ export type LessonListStoreState = {
   isTagFilterDrawerOpen: boolean;
   searchText: ?string;
   searchTags: ?Tag[];
+};
+
+export type ShoppingCartStoreState = {
+  isLoading: boolean;
+  lessons: Lesson[];
+  error: ErrorState;
 };

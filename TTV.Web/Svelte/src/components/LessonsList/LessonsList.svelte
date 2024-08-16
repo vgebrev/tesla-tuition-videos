@@ -2,12 +2,12 @@
   import LessonSearch from '$components/LessonsList/LessonSearch.svelte';
   import ProgressLoader from '$components/common/ProgressLoader.svelte';
   import { onMount } from 'svelte';
-  import { actions, lessonListStore } from '$components/LessonsList/lesson-list.js';
+  import { lessonListActions, lessonListStore } from '$components/LessonsList/lesson-list.js';
   import ErrorCard from '$components/common/ErrorCard.svelte';
   import LessonCard from '$components/common/LessonCard.svelte';
 
   onMount(async () => {
-    if (!state.lessons) await actions.search(state.searchText, state.searchTags);
+    if (!state.lessons) await lessonListActions.search(state.searchText, state.searchTags);
   });
 
   $: state = $lessonListStore;

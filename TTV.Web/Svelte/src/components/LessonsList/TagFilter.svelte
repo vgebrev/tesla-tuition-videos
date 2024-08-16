@@ -1,17 +1,17 @@
 <script>
-  import { actions, lessonListStore } from './lesson-list.js';
+  import { lessonListActions, lessonListStore } from './lesson-list.js';
   import { onMount } from 'svelte';
   import ProgressLoader from '$components/common/ProgressLoader.svelte';
   import ErrorCard from '$components/common/ErrorCard.svelte';
   import { groupBy } from '$lib/utils.js';
 
   onMount(async () => {
-    await actions.getTags();
+    await lessonListActions.getTags();
   });
 
   async function clearFilter() {
-    actions.setTagFilterDrawer(false);
-    await actions.search(null, null);
+    lessonListActions.setTagFilterDrawer(false);
+    await lessonListActions.search(null, null);
   }
 
   /**
@@ -38,7 +38,7 @@
       searchTags = searchTags.filter((t) => t.id !== tag.id);
     }
 
-    await actions.setSearchTags(searchTags);
+    await lessonListActions.setSearchTags(searchTags);
   }
 
   $: state = $lessonListStore;

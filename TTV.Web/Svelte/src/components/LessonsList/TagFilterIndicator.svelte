@@ -1,9 +1,9 @@
 <script>
   import TagBadges from '$components/common/TagBadges.svelte';
-  import { actions, lessonListStore } from './lesson-list.js'; // Assuming the store is managed here
+  import { lessonListActions, lessonListStore } from './lesson-list.js'; // Assuming the store is managed here
 
   async function clearFilter() {
-    await actions.search(null, null);
+    await lessonListActions.search(null, null);
   }
 
   $: searchTags = $lessonListStore.searchTags?.map((tag) => {

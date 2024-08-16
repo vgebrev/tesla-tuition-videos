@@ -17,15 +17,12 @@ const initialState = {
   searchTags: null
 };
 
-/**
- * Store for the lesson list state
- */
+/** Store for the lesson list state
+ * @type {Writable<import('$lib/types').LessonListStoreState>} */
 export const lessonListStore = writable(initialState);
 
-/**
- * Actions for the lesson list
- */
-export const actions = {
+/** Lesson list actions */
+export const lessonListActions = {
   getTags,
   search,
   setTagFilterDrawer,
@@ -48,8 +45,8 @@ async function getTags() {
       tags,
       tagsError: { isError: false, message: '' }
     }));
-  } catch (exception) {
-    console.error(exception);
+  } catch (e) {
+    console.error(e);
     lessonListStore.update((state) => ({
       ...state,
       tagsError: { isError: true, message: defaultErrorMessage }

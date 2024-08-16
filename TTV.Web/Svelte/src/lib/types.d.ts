@@ -55,7 +55,7 @@ export type Lesson = {
   isFree: boolean;
   tags: SimpleTag[];
   owner: User;
-  price: Price;
+  currentPrice: Price;
   duration: string;
 };
 
@@ -83,5 +83,11 @@ export type LessonListStoreState = {
 export type ShoppingCartStoreState = {
   isLoading: boolean;
   lessons: Lesson[];
+  error: ErrorState;
+};
+
+export type MyLessonsStoreState = {
+  isLoading: boolean;
+  lessons: ?Lesson[];
   error: ErrorState;
 };

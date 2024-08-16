@@ -1,21 +1,23 @@
 import { writable } from 'svelte/store';
+import { defaultErrorMessage } from '$lib/config.js';
 
-/** @type {import('$lib/types').ShoppingCartStoreState}*/
+/** @type {import('$lib/types').ShoppingCartStoreState} */
 const initialState = {
   isLoading: false,
   lessons: [],
   error: { isError: false, message: '' }
 };
 
+/** Store for the shopping cart state
+ * @type {Writable<import('$lib/types').ShoppingCartStoreState>} */
 export const shoppingCartStore = writable(initialState);
 
-export const actions = {
+/** Shopping cart store actions */
+export const shoppingCartActions = {
   addLesson,
   removeLesson,
-  clearCart
-  // confirmOrder,
-  // localStorageLoad,
-  // localStorageSave
+  loadFromLocalStorage,
+  confirmOrder
 };
 
 /**
@@ -23,10 +25,15 @@ export const actions = {
  * @param {import('$lib/types').Lesson} lesson
  */
 function addLesson(lesson) {
-  shoppingCartStore.update((state) => ({
-    ...state,
-    lessons: [...state.lessons, lesson]
-  }));
+  shoppingCartStore.update((state) => {
+    /** @type {import('$lib/types').ShoppingCartStoreState} */
+    let newState = {
+      ...state,
+      lessons: [...state.lessons, lesson]
+    };
+    newState = saveToLocalStorage(newState);
+    return newState;
+  });
 }
 
 /**
@@ -34,18 +41,62 @@ function addLesson(lesson) {
  * @param {import('$lib/types').Lesson} lesson
  */
 function removeLesson(lesson) {
-  shoppingCartStore.update((state) => ({
-    ...state,
-    lessons: state.lessons.filter((l) => l.id !== lesson.id)
-  }));
+  shoppingCartStore.update((state) => {
+    /** @type {import('$lib/types').ShoppingCartStoreState} */
+    let newState = {
+      ...state,
+      lessons: state.lessons.filter((l) => l.id !== lesson.id)
+    };
+    newState = saveToLocalStorage(newState);
+    return newState;
+  });
+}
+
+/**
+ * Save lessons to local storage
+ * @param {import('$lib/types').ShoppingCartStoreState} state
+ * @returns {import('$lib/types').ShoppingCartStoreState}
+ */
+function saveToLocalStorage(state) {
+  try {
+    localStorage.setItem('TTV_ShoppingCartState_Lessons', JSON.stringify(state.lessons));
+  } catch (e) {
+    console.error(e);
+    state = { ...state, error: { isError: true, message: defaultErrorMessage } };
+  }
+  return state;
+}
+
+/**
+ * Load the shopping cart from local storage
+ */
+function loadFromLocalStorage() {
+  const lessons = JSON.parse(localStorage.getItem('TTV_ShoppingCartState_Lessons') || '[]');
+  shoppingCartStore.update(
+    (state) =>
+      /** @type {import('$lib/types').ShoppingCartStoreState} */
+      ({ ...state, lessons })
+  );
 }
 
 /**
  * Clear the shopping cart
  */
-function clearCart() {
-  shoppingCartStore.update((state) => ({
-    ...state,
-    lessons: []
-  }));
+// function clearCart() {
+//   shoppingCartStore.update((state) => {
+//     /** @type {import('$lib/types').ShoppingCartStoreState} */
+//     let newState = {
+//       ...state,
+//       lessons: []
+//     };
+//     newState = saveToLocalStorage(newState);
+//     return newState;
+//   });
+// }
+
+/**
+ * Confirm the order
+ */
+function confirmOrder() {
+  console.log('TODO: Confirm order');
 }

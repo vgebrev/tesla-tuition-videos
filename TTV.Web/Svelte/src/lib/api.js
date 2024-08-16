@@ -1,5 +1,5 @@
 import { config } from '$lib/config.js';
-import { userManager } from '$lib/user-manager.js';
+import { userManager } from '$lib/auth.js';
 
 /**
  * Fetch data from the API with the user's access token

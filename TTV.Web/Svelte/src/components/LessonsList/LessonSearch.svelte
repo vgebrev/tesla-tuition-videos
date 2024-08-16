@@ -2,7 +2,7 @@
   import Drawer from '$components/common/Drawer.svelte';
   import TagFilter from '$components/LessonsList/TagFilter.svelte';
   import TagFilterIndicator from '$components/LessonsList/TagFilterIndicator.svelte';
-  import { actions, lessonListStore } from '$components/LessonsList/lesson-list.js';
+  import { lessonListActions, lessonListStore } from '$components/LessonsList/lesson-list.js';
 
   /**
    *
@@ -15,11 +15,11 @@
   }
 
   async function search() {
-    await actions.search(state.searchText, state.searchTags);
+    await lessonListActions.search(state.searchText, state.searchTags);
   }
 
   function openTagFilterDrawer() {
-    actions.setTagFilterDrawer(true);
+    lessonListActions.setTagFilterDrawer(true);
   }
 
   $: state = $lessonListStore;

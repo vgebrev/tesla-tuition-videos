@@ -1,16 +1,7 @@
 <script>
-  import { userManager } from '$lib/user-manager.js';
+  import { userManager } from '$lib/auth.js';
   import AuthorizeView from '$components/common/AuthorizeView.svelte';
-
-  async function login() {
-    sessionStorage.setItem('redirect', window.location.pathname);
-    try {
-      await userManager.signinSilent();
-    } catch (err) {
-      console.error('Error during silent login:', err);
-      await userManager.signinRedirect();
-    }
-  }
+  import LoginLink from '$components/common/LoginLink.svelte';
 
   async function logout() {
     sessionStorage.setItem('redirect', window.location.pathname);
@@ -43,7 +34,7 @@
   </div>
   <div slot="unauthorized">
     <div class="nav-item">
-      <a href="/" class="nav-link" on:click|preventDefault={login}>Log in</a>
+      <LoginLink class="nav-link" />
     </div>
   </div>
 </AuthorizeView>

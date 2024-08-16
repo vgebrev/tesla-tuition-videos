@@ -1,12 +1,13 @@
 <script>
-  import { userManager } from '$lib/user-manager.js';
+  import { userManager } from '$lib/auth.js';
   import { onMount } from 'svelte';
+  import { goto } from '$app/navigation';
 
   onMount(() => {
     userManager.signinRedirectCallback().then(() => {
       const route = sessionStorage.getItem('redirect') || '/';
       sessionStorage.removeItem('redirect');
-      window.location = route;
+      goto(route);
     });
   });
 </script>

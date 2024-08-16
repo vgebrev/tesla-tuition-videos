@@ -1,12 +1,20 @@
-import { PUBLIC_AUTHORITY_URL, PUBLIC_API_BASE_URL } from '$env/static/public';
+import {
+  PUBLIC_OIDC_AUTHORITY,
+  PUBLIC_API_BASEURL,
+  PUBLIC_ANNOUNCEMENT_ACTIVE,
+  PUBLIC_ANNOUNCEMENT_ID,
+  PUBLIC_ANNOUNCEMENT_TITLE,
+  PUBLIC_ANNOUNCEMENT_MESSAGE,
+  PUBLIC_ANNOUNCEMENT_ENDDATE
+} from '$env/static/public';
 import { WebStorageStateStore } from 'oidc-client';
 
 export const config = {
   api: {
-    baseUrl: PUBLIC_API_BASE_URL
+    baseUrl: PUBLIC_API_BASEURL
   },
   oidc: {
-    authority: PUBLIC_AUTHORITY_URL,
+    authority: PUBLIC_OIDC_AUTHORITY,
     client_id: 'ttv_web_blazor',
     redirect_uri: `${window.location.origin}/authentication/login-callback`,
     response_type: 'code',
@@ -22,11 +30,11 @@ export const config = {
     address: '158 Milner Avenue, Franklin Roosevelt Park, Johannesburg 2194, South Africa'
   },
   announcement: {
-    id: 'unique-announcement-id',
-    title: 'Welcome to Tesla Tuition Videos',
-    message:
-      'We are excited to have you on board. Please feel free to reach out to us if you have any questions or need assistance.',
-    endDate: '2022-12-31T23:59:59.999Z'
+    active: PUBLIC_ANNOUNCEMENT_ACTIVE === 'true',
+    id: PUBLIC_ANNOUNCEMENT_ID,
+    title: PUBLIC_ANNOUNCEMENT_TITLE,
+    message: PUBLIC_ANNOUNCEMENT_MESSAGE,
+    endDate: PUBLIC_ANNOUNCEMENT_ENDDATE
   },
   isTestEnvironment: true
 };

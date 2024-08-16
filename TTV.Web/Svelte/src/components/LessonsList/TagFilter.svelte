@@ -3,7 +3,7 @@
   import { onMount } from 'svelte';
   import ProgressLoader from '$components/common/ProgressLoader.svelte';
   import ErrorCard from '$components/common/ErrorCard.svelte';
-  import { groupBy } from '$lib/utils.js';
+  import { groupBy } from '$lib/util.js';
 
   onMount(async () => {
     await lessonListActions.getTags();

@@ -26026,7 +26026,7 @@ EDE.prototype._unpad = DES.prototype._unpad;
 
 /***/ "./node_modules/des.js/lib/des/utils.js":
 /*!**********************************************!*\
-  !*** ./node_modules/des.js/lib/des/utils.js ***!
+  !*** ./node_modules/des.js/lib/des/util.js ***!
   \**********************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
@@ -33996,7 +33996,7 @@ module.exports = {
 
 /***/ "./node_modules/elliptic/lib/elliptic/utils.js":
 /*!*****************************************************!*\
-  !*** ./node_modules/elliptic/lib/elliptic/utils.js ***!
+  !*** ./node_modules/elliptic/lib/elliptic/util.js ***!
   \*****************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
@@ -42670,7 +42670,7 @@ exports.g1_256 = g1_256;
 
 /***/ "./node_modules/hash.js/lib/hash/utils.js":
 /*!************************************************!*\
-  !*** ./node_modules/hash.js/lib/hash/utils.js ***!
+  !*** ./node_modules/hash.js/lib/hash/util.js ***!
   \************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
@@ -48425,7 +48425,7 @@ assert.equal = function assertEqual(l, r, msg) {
 
 /***/ "./node_modules/minimalistic-crypto-utils/lib/utils.js":
 /*!*************************************************************!*\
-  !*** ./node_modules/minimalistic-crypto-utils/lib/utils.js ***!
+  !*** ./node_modules/minimalistic-crypto-utils/lib/util.js ***!
   \*************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {

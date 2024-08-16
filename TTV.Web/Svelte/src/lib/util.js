@@ -26,3 +26,15 @@ export function groupBy(array, keyGetter) {
     return result;
   }, {});
 }
+
+/**
+ * Returns the number of days between the provided date and the current date.
+ * @param {Date} from
+ * @param {Date} [to]
+ * @returns {number}
+ */
+export function daysBetween(from, to = new Date()) {
+  const timeDifference = to - from; // Difference in milliseconds
+  const daysDifference = timeDifference / (1000 * 60 * 60 * 24); // Convert milliseconds to days
+  return Math.floor(daysDifference); // Round down to nearest whole number
+}

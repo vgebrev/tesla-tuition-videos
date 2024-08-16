@@ -1,6 +1,7 @@
 <script>
   import LoginNavLink from '$components/NavMenu/LoginNavLink.svelte';
   import ShoppingCartNavLink from '$components/NavMenu/ShoppingCartNavLink.svelte';
+  import Announcement from '$components/NavMenu/Announcement.svelte';
 </script>
 
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top" data-bs-theme="dark">
@@ -17,7 +18,7 @@
       </a>
     </div>
 
-    <!--		<Announcement CssClass="d-lg-none ms-auto"></Announcement>-->
+    <Announcement cssClass="d-lg-none ms-auto"></Announcement>
     <button
       class="navbar-toggler px-0"
       type="button"
@@ -37,7 +38,7 @@
         <!--				<AdminNavLink />-->
         <a class="nav-link" href="/contact-us"><i class="bi bi-envelope-open"></i> Contact us</a>
         <LoginNavLink />
-        <!--				<Announcement CssClass="d-none d-lg-block"></Announcement>-->
+        <Announcement cssClass="d-none d-lg-block"></Announcement>
       </div>
     </div>
   </div>

@@ -4,7 +4,7 @@ import { userManager } from '$lib/auth.js';
 /**
  * Fetch data from the API with the user's access token
  * @param {RequestInfo | URL} url
- * @param {RequestInit} options
+ * @param {RequestInit} [options]
  * @returns {Promise<Response>}
  */
 async function apiFetch(url, options = {}) {
@@ -31,19 +31,19 @@ export const api = {
   /**
    * GET data from the API
    * @param {RequestInfo | URL} url
-   * @param {RequestInit} options
+   * @param {RequestInit} [options]
    * @returns {Promise<Response>}
    */
-  get: (url, options) => apiFetch(url, { ...options, method: 'GET' }),
+  get: (url, options = {}) => apiFetch(url, { ...options, method: 'GET' }),
 
   /**
    * POST data to the API
    * @param {RequestInfo | URL} url
    * @param {Object} body
-   * @param {RequestInit} options
+   * @param {RequestInit} [options]
    * @returns {Promise<Response>}
    */
-  post: (url, body, options) =>
+  post: (url, body, options = {}) =>
     apiFetch(url, {
       ...options,
       headers: { 'Content-Type': 'application/json' },
@@ -55,10 +55,10 @@ export const api = {
    * PUT data to the API
    * @param {RequestInfo | URL} url
    * @param {Object} body
-   * @param {RequestInit} options
+   * @param {RequestInit} [options]
    * @returns {Promise<Response>}
    */
-  put: (url, body, options) =>
+  put: (url, body, options = {}) =>
     apiFetch(url, {
       ...options,
       headers: { 'Content-Type': 'application/json' },
@@ -69,8 +69,8 @@ export const api = {
   /**
    * DELETE data from the API
    * @param {RequestInfo | URL} url
-   * @param {RequestInit} options
+   * @param {RequestInit} [options]
    * @returns {Promise<Response>}
    */
-  delete: (url, options) => apiFetch(url, { ...options, method: 'DELETE' })
+  delete: (url, options = {}) => apiFetch(url, { ...options, method: 'DELETE' })
 };

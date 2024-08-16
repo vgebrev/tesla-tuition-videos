@@ -12,39 +12,10 @@ export type Lookup = {
 
 // ----- Entities ----------------------------------------------------------------------------------
 
-export type Testimonial = {
-  seq: number;
-  testimonialBy: string;
-  text: string;
-};
-
-export type TagCategory = {
+export type Document = {
   id: number;
-  name: string;
-  priority: number;
-};
-
-export type Tag = {
-  id: number;
-  name: string;
-  category: TagCategory;
-  lessonCount: number;
-};
-
-export type SimpleTag = {
-  name: string;
-  priority: number;
-};
-
-export type User = {
-  id: string;
-  email: ?string;
-};
-
-export type Price = {
-  amount: number;
-  promoAmount: number;
-  effectiveAmount: number;
+  title: string;
+  documentType: Lookup;
 };
 
 export type Lesson = {
@@ -59,11 +30,57 @@ export type Lesson = {
   duration: string;
 };
 
+export type OrderCreate = {
+  lessonIds: number[];
+};
+
+export type Price = {
+  amount: number;
+  promoAmount: number;
+  effectiveAmount: number;
+};
+
+export type SimpleTag = {
+  name: string;
+  priority: number;
+};
+
+export type Tag = {
+  id: number;
+  name: string;
+  category: TagCategory;
+  lessonCount: number;
+};
+
+export type TagCategory = {
+  id: number;
+  name: string;
+  priority: number;
+};
+
+export type Testimonial = {
+  seq: number;
+  testimonialBy: string;
+  text: string;
+};
+
+export type User = {
+  id: string;
+  email: ?string;
+};
+
 // ----- Store States ------------------------------------------------------------------------------
 
 export type AuthStoreState = {
   user: import('oidc-client').User;
   isAuthenticated: boolean;
+};
+
+export type LessonDetailStoreState = {
+  isLoadingLesson: boolean;
+  isLoadingDocuments: boolean;
+  lesson: ?Lesson;
+  error: ErrorState;
 };
 
 export type LessonListStoreState = {
@@ -80,14 +97,14 @@ export type LessonListStoreState = {
   searchTags: ?Tag[];
 };
 
-export type ShoppingCartStoreState = {
-  isLoading: boolean;
-  lessons: Lesson[];
-  error: ErrorState;
-};
-
 export type MyLessonsStoreState = {
   isLoading: boolean;
   lessons: ?Lesson[];
+  error: ErrorState;
+};
+
+export type ShoppingCartStoreState = {
+  isLoading: boolean;
+  lessons: Lesson[];
   error: ErrorState;
 };

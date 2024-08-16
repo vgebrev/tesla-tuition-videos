@@ -36,7 +36,7 @@
             <tr
               class:table-secondary={i % 2 === 0}
               class="align-middle"
-              slot="lessonRow"
+              slot="lesson-row"
               let:lesson
               let:i
             >

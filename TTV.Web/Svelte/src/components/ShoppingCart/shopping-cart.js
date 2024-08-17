@@ -104,8 +104,8 @@ async function confirmOrder() {
   let order;
   shoppingCartStore.update((state) => ({ ...state, isLoading: true }));
   try {
-    const lessonIds = get(shoppingCartStore).lessons.map((lesson) => lesson.id);
-    const response = await api.post('/orders', { lessonIds });
+    const lessonsIds = get(shoppingCartStore).lessons.map((lesson) => lesson.id);
+    const response = await api.post('/orders', { lessonsIds });
     order = await response.json();
     clearCart();
   } catch (e) {

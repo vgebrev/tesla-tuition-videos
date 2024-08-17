@@ -10,26 +10,41 @@ export const userManager = new UserManager(config.oidc);
  * @type {Writable<import('$lib/types').AuthStoreState>} */
 export const authStore = writable({
   user: null,
-  isAuthenticated: false
+  isAuthenticated: false,
+  origin: null
 });
 
 /** Auth store actions */
 export const authActions = {
-  updateStoreWithCurrentUser
+  updateStoreWithCurrentUser,
+  silentSignin
 };
 
-// NOTE: The userLoaded event fires before signinRedirectCallback in /authentication/login-callback which does a 2nd
-// redirect to the original rout. To avoid interrupting authStore subscribers, we update authStore after the 2nd redirect,
-// in +layout.svelte's afterNavigate.
-// auth.events.addUserLoaded((user) => {
-//   authStore.set({ user, isAuthenticated: true });
-// });
-
-userManager.events.addUserUnloaded(() => {
-  authStore.set({ user: null, isAuthenticated: false });
+userManager.events.addUserLoaded((user) => {
+  authStore.set({ user, isAuthenticated: true, origin: 'user-loaded-event' });
 });
 
-async function updateStoreWithCurrentUser() {
+userManager.events.addUserUnloaded(() => {
+  authStore.set({ user: null, isAuthenticated: false, origin: 'user-unloaded-event' });
+});
+
+userManager.events.addAccessTokenExpiring(async () => {
+  await silentSignin();
+});
+
+userManager.events.addAccessTokenExpired(async () => {
+  await silentSignin();
+});
+
+async function updateStoreWithCurrentUser(origin) {
   const user = await userManager.getUser();
-  authStore.set({ user, isAuthenticated: user && !user.expired });
+  authStore.set({ user, isAuthenticated: user && !user.expired, origin });
+}
+
+async function silentSignin() {
+  try {
+    await userManager.signinSilent();
+  } catch {
+    // We'll leave it to the user to explicitly sign in
+  }
 }

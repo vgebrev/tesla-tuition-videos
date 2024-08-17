@@ -4,13 +4,16 @@
   import CookieConsent from '$components/CookieConsent.svelte';
   import { afterNavigate } from '$app/navigation';
   import { authActions } from '$lib/auth.js';
+  import { onMount } from 'svelte';
+
+  onMount(async () => {
+    await authActions.silentSignin();
+  });
 
   afterNavigate(async (navigation) => {
-    // We manually redirect after successful login, so we want to update the auth store after the
-    // redirect has happened, otherwise subscribers to the auth store get interrupted by the redirect
     const isLoginCallback = navigation?.from?.route.id === '/authentication/login-callback';
     if (isLoginCallback) {
-      await authActions.updateStoreWithCurrentUser();
+      await authActions.updateStoreWithCurrentUser('login-callback');
     }
   });
 </script>

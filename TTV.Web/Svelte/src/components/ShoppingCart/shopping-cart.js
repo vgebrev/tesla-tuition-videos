@@ -1,5 +1,7 @@
-import { writable } from 'svelte/store';
+import { get, writable } from 'svelte/store';
 import { defaultErrorMessage } from '$lib/config.js';
+import { api } from '$lib/api.js';
+import { goto } from '$app/navigation';
 
 /** @type {import('$lib/types').ShoppingCartStoreState} */
 const initialState = {
@@ -82,21 +84,37 @@ function loadFromLocalStorage() {
 /**
  * Clear the shopping cart
  */
-// function clearCart() {
-//   shoppingCartStore.update((state) => {
-//     /** @type {import('$lib/types').ShoppingCartStoreState} */
-//     let newState = {
-//       ...state,
-//       lessons: []
-//     };
-//     newState = saveToLocalStorage(newState);
-//     return newState;
-//   });
-// }
+function clearCart() {
+  shoppingCartStore.update((state) => {
+    /** @type {import('$lib/types').ShoppingCartStoreState} */
+    let newState = {
+      ...state,
+      lessons: [],
+      error: { isError: false, message: '' }
+    };
+    newState = saveToLocalStorage(newState);
+    return newState;
+  });
+}
 
 /**
  * Confirm the order
  */
-function confirmOrder() {
-  console.log('TODO: Confirm order');
+async function confirmOrder() {
+  let order;
+  shoppingCartStore.update((state) => ({ ...state, isLoading: true }));
+  try {
+    const lessonIds = get(shoppingCartStore).lessons.map((lesson) => lesson.id);
+    const response = await api.post('/orders', { lessonIds });
+    order = await response.json();
+    clearCart();
+  } catch (e) {
+    console.error(e);
+    shoppingCartStore.update((state) => ({
+      ...state,
+      error: { isError: true, message: defaultErrorMessage }
+    }));
+  }
+  shoppingCartStore.update((state) => ({ ...state, isLoading: false }));
+  if (order) await goto(`/checkout/${order.id}`);
 }

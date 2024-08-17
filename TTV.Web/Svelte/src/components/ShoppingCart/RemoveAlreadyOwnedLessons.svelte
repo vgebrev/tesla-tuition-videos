@@ -5,7 +5,7 @@
   import { onDestroy } from 'svelte';
 
   const unsubscribe = authStore.subscribe(async (authState) => {
-    if (!authState.isAuthenticated) return;
+    if (!authState.isAuthenticated || authState.origin !== 'login-callback') return;
     let lessons = [];
     try {
       shoppingCartActions.loadFromLocalStorage();

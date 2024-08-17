@@ -116,5 +116,5 @@ async function confirmOrder() {
     }));
   }
   shoppingCartStore.update((state) => ({ ...state, isLoading: false }));
-  if (order) await goto(`/checkout/${order.id}`);
+  if (order) await goto(`checkout/${order.id}`);
 }

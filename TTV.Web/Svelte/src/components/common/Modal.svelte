@@ -1,7 +1,9 @@
 <script>
   import { onMount } from 'svelte';
 
+  /** @type {string} */
   export let title;
+  /** @type {boolean} */
   export let isOpen = false;
 
   let _id = crypto.randomUUID().replace(/-/g, '');

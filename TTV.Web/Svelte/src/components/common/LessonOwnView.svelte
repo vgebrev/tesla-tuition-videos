@@ -15,7 +15,7 @@
       <slot name="not-owned" />
     {/if}
   </div>
-  <div slot="unauthorized">
+  <div slot="anonymous">
     {#if lesson.isFree}
       <slot name="free" />
     {:else}

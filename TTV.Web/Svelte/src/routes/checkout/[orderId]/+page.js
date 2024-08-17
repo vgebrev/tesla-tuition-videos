@@ -5,6 +5,7 @@ export function load({ params }) {
   if (isNaN(orderId)) {
     error(404, { message: 'Not Found' });
   }
+
   return {
     orderId
   };

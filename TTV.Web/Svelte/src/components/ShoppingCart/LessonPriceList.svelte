@@ -1,4 +1,5 @@
 <script>
+  /** @type {import('$lib/types').Lesson[]} */
   export let lessons = [];
 </script>
 

@@ -1,3 +1,9 @@
+/**
+ * Returns true if a cookie with the given name and value exists
+ * @param {string} name
+ * @param {string} withValue
+ * @returns {boolean}
+ */
 export function getCookie(name, withValue = 'true') {
   const value = `; ${document.cookie}`;
   const parts = value.split(`; ${name}=`);
@@ -5,6 +11,12 @@ export function getCookie(name, withValue = 'true') {
   return false;
 }
 
+/**
+ * Sets a cookie with the given name, value and days to expire
+ * @param {string} name
+ * @param {string} value
+ * @param {number} days
+ */
 export function setCookie(name, value, days) {
   const date = new Date();
   date.setTime(date.getTime() + days * 24 * 60 * 60 * 1000);

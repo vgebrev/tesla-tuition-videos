@@ -28,9 +28,9 @@ export function groupBy(array, keyGetter) {
 }
 
 /**
- * Returns the number of days between the provided date and the current date.
- * @param {Date} from
- * @param {Date} [to]
+ * Returns the number of days between two dates
+ * @param {Date} from - the start date
+ * @param {Date} [to] - the end date (default is current date and time)
  * @returns {number}
  */
 export function daysBetween(from, to = new Date()) {

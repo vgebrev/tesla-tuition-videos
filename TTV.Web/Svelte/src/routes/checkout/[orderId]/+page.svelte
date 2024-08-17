@@ -1,5 +1,6 @@
 <script>
   import Checkout from '$components/Checkout/Checkout.svelte';
+  import AuthorizeRoute from '$components/common/AuthorizeRoute.svelte';
 
   export let data;
 
@@ -10,4 +11,6 @@
   <title>Tesla Tuition Videos - Checkout</title>
 </svelte:head>
 
-<Checkout {orderId} />
+<AuthorizeRoute>
+  <Checkout {orderId} />
+</AuthorizeRoute>

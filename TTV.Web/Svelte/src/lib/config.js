@@ -5,7 +5,8 @@ import {
   PUBLIC_ANNOUNCEMENT_ID,
   PUBLIC_ANNOUNCEMENT_TITLE,
   PUBLIC_ANNOUNCEMENT_MESSAGE,
-  PUBLIC_ANNOUNCEMENT_ENDDATE
+  PUBLIC_ANNOUNCEMENT_ENDDATE,
+  PUBLIC_ISTESTENVIRONMENT
 } from '$env/static/public';
 import { WebStorageStateStore } from 'oidc-client';
 
@@ -36,7 +37,7 @@ export const config = {
     message: PUBLIC_ANNOUNCEMENT_MESSAGE,
     endDate: PUBLIC_ANNOUNCEMENT_ENDDATE
   },
-  isTestEnvironment: true
+  isTestEnvironment: PUBLIC_ISTESTENVIRONMENT === 'true'
 };
 
 export const defaultErrorMessage = 'Something went wrong. Please refresh the page or try again.';

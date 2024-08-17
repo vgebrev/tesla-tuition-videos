@@ -31,7 +31,7 @@ export type Lesson = {
 };
 
 export type OrderCreate = {
-  lessonIds: number[];
+  lessonsIds: number[];
 };
 
 export type Price = {

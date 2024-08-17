@@ -14,7 +14,7 @@
       <span class="card-text">Limited access. Please purchase the lesson for full access. </span>
       <BuyNowButton {lesson} class="mx-2 my-2 my-md-0 btn btn-outline-warning"></BuyNowButton>
       <AuthorizeView>
-        <span slot="unauthorized" class="card-text"
+        <span slot="anonymous" class="card-text"
           >If you have already purchased the lesson, please <LoginLink class="text-warning"
             >Log in</LoginLink
           >.</span

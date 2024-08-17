@@ -4,6 +4,8 @@
   import { onMount } from 'svelte';
   import { getCookie, setCookie } from '$lib/cookies.js';
   import { daysBetween } from '$lib/util.js';
+
+  /** @type {string} CSS class attribute to apply to the show announcement button */
   export let cssClass = '';
 
   let isOpen = false;

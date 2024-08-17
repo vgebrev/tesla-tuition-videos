@@ -48,3 +48,20 @@ async function silentSignin() {
     // We'll leave it to the user to explicitly sign in
   }
 }
+
+/** Authorization policies */
+export const authorizationPolicies = {
+  /**
+   * Check if the user has the 'admin' role
+   * @param {import('oidc-client').User} user
+   * @returns {boolean}
+   */
+  admin: (user) => user?.profile?.role === 'admin',
+
+  /**
+   * Check if the user has the 'vouchers.issue' permission
+   * @param {import('oidc-client').User} user
+   * @returns {boolean}
+   */
+  canIssueVouchers: (user) => user?.profile?.permission.indexOf('vouchers.issue') > -1
+};

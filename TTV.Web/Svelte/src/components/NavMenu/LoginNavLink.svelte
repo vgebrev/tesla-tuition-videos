@@ -32,7 +32,7 @@
       </div>
     </div>
   </div>
-  <div slot="unauthorized">
+  <div slot="anonymous">
     <div class="nav-item">
       <LoginLink class="nav-link" />
     </div>

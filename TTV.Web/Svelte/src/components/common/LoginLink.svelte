@@ -5,8 +5,7 @@
     sessionStorage.setItem('redirect', window.location.pathname);
     try {
       await userManager.signinSilent();
-    } catch (e) {
-      console.error('Error during silent login:', e);
+    } catch {
       await userManager.signinRedirect();
     }
   }

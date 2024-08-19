@@ -16,12 +16,7 @@ async function apiFetch(url, options = {}) {
     };
   }
 
-  const response = await fetch(config.api.baseUrl + url, options);
-  if (!response.ok) {
-    throw new Error(response.statusText);
-  }
-
-  return response;
+  return await fetch(config.api.baseUrl + url, options);
 }
 
 /**

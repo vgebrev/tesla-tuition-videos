@@ -12,6 +12,12 @@ export type Lookup = {
 
 // ----- Entities ----------------------------------------------------------------------------------
 
+export type AppliedDiscount = {
+  amount: number;
+  voucherBalance: number;
+  voucherCode: string;
+};
+
 export type Document = {
   id: number;
   title: string;
@@ -30,14 +36,55 @@ export type Lesson = {
   duration: string;
 };
 
+export type Order = {
+  id: int;
+  lessons: Lesson[];
+  placedBy: User;
+  placedOn: Date;
+  status: Lookup;
+  statusReason: ?string;
+  totalAmount: number;
+  appliedDiscounts: AppliedDiscount[];
+  payments: Payment[];
+  hasOwnedLessons: boolean;
+  isFinalised: boolean;
+  isPayable: boolean;
+  canComplete: boolean;
+};
+
 export type OrderCreate = {
   lessonsIds: number[];
 };
+
+export type Payment = {
+  id: string;
+  paymentMethod: PaymentMethod;
+  externalIdentifier: ?string;
+  amount: number;
+  status: Lookup;
+};
+
+export enum PaymentMethod {
+  BankTransfer = 1,
+  Payfast = 2,
+  PayPal = 3
+}
 
 export type Price = {
   amount: number;
   promoAmount: number;
   effectiveAmount: number;
+};
+
+export type Result = {
+  isSuccess: boolean;
+  message: ?string;
+};
+
+export type ResultOf<T> = {
+  isSuccess: boolean;
+  message: ?string;
+  value: ?T;
 };
 
 export type SimpleTag = {
@@ -75,6 +122,16 @@ export type AuthStoreState = {
   user: import('oidc-client').User;
   isAuthenticated: boolean;
   origin: 'login-callback' | 'user-loaded-event' | 'user-unloaded-event';
+};
+
+export type CheckoutStoreState = {
+  isLoading: boolean;
+  voucherCode: string;
+  applyVoucherResult: ?ResultOf<?AppliedDiscount>;
+  cancelOrderResult: ?ResultOf<Order>;
+  initiatePaymentResult: ?ResultOf<?Payment>;
+  order: ?Order;
+  error: ErrorState;
 };
 
 export type LessonDetailStoreState = {

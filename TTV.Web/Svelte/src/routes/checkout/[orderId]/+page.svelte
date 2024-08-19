@@ -12,5 +12,7 @@
 </svelte:head>
 
 <AuthorizeRoute>
-  <Checkout {orderId} />
+  <div slot="authorized">
+    <Checkout {orderId} />
+  </div>
 </AuthorizeRoute>

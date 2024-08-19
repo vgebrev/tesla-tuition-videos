@@ -3,20 +3,29 @@
   import ShoppingCartNavLink from '$components/NavMenu/ShoppingCartNavLink.svelte';
   import Announcement from '$components/NavMenu/Announcement.svelte';
   import AdminNavLink from '$components/NavMenu/AdminNavLink.svelte';
+  import NavLink from '$components/NavMenu/NavLink.svelte';
 </script>
 
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top" data-bs-theme="dark">
   <div class="container">
     <div class="d-flex">
-      <a href="/" title="Home page">
-        <img src="img/ttv-logo.svg" title="Logo" alt="Logo" class="icon" />
-      </a>
-      <a href="/" title="Home page" class="navbar-brand d-none d-md-block pt-0">
+      <NavLink title="Home page" cssClass="" target=".navbar-collapse.show"
+        ><img src="img/ttv-logo.svg" title="Logo" alt="Logo" class="icon" /></NavLink
+      >
+      <NavLink
+        title="Home page"
+        cssClass="navbar-brand d-none d-md-block pt-0"
+        target=".navbar-collapse.show"
+      >
         <span class="brand-text h3">Tesla Tuition Videos</span>
-      </a>
-      <a href="/" title="Home page" class="navbar-brand d-sm-block d-md-none pt-0">
+      </NavLink>
+      <NavLink
+        title="Home page"
+        class="navbar-brand d-sm-block d-md-none pt-0"
+        target=".navbar-collapse.show"
+      >
         <span class="brand-text h7">Tesla Tuition Videos</span>
-      </a>
+      </NavLink>
     </div>
 
     <Announcement cssClass="d-lg-none ms-auto"></Announcement>
@@ -34,10 +43,10 @@
 
     <div class="collapse navbar-collapse" id="navbar">
       <div class="navbar-nav ms-md-auto">
-        <a class="nav-link" href="/lessons"><i class="bi bi-book"></i> Lessons</a>
+        <NavLink href="/lessons"><i class="bi bi-book"></i> Lessons</NavLink>
         <ShoppingCartNavLink />
         <AdminNavLink />
-        <a class="nav-link" href="/contact-us"><i class="bi bi-envelope-open"></i> Contact us</a>
+        <NavLink href="/contact-us"><i class="bi bi-envelope-open"></i> Contact us</NavLink>
         <LoginNavLink />
         <Announcement cssClass="d-none d-lg-block"></Announcement>
       </div>

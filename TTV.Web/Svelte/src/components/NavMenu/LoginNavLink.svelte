@@ -2,6 +2,7 @@
   import { userManager } from '$lib/auth.js';
   import AuthorizeView from '$components/common/AuthorizeView.svelte';
   import LoginLink from '$components/common/LoginLink.svelte';
+  import NavLink from '$components/NavMenu/NavLink.svelte';
 
   async function logout() {
     sessionStorage.setItem('redirect', window.location.pathname);
@@ -24,17 +25,27 @@
       >
 
       <div class="dropdown-menu">
-        <a href="/my/library" class="dropdown-item">Lesson Library</a>
-        <a href="/my/orders" class="dropdown-item">Orders</a>
-        <a href="/my/discount-vouchers" class="dropdown-item">Discount Vouchers</a>
+        <NavLink href="/my/library" cssClass="dropdown-item">Lesson Library</NavLink>
+        <NavLink href="/my/orders" cssClass="dropdown-item">Orders</NavLink>
+        <NavLink href="/my/discount-vouchers" cssClass="dropdown-item">Discount Vouchers</NavLink>
         <hr class="dropdown-divider" />
-        <button class="dropdown-item" type="button" on:click={logout}>Log out</button>
+        <button
+          class="dropdown-item"
+          type="button"
+          on:click={logout}
+          data-bs-toggle="collapse"
+          data-bs-target=".navbar-collapse.show">Log out</button
+        >
       </div>
     </div>
   </div>
   <div slot="anonymous">
     <div class="nav-item">
-      <LoginLink class="nav-link" />
+      <LoginLink
+        class="nav-link"
+        data-bs-toggle="collapse"
+        data-bs-target=".navbar-collapse.show"
+      />
     </div>
   </div>
 </AuthorizeView>

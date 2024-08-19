@@ -5,6 +5,7 @@
   } from '$components/ShoppingCart/shopping-cart.js';
   import { onMount } from 'svelte';
   import RemoveAlreadyOwnedLessons from '$components/ShoppingCart/RemoveAlreadyOwnedLessons.svelte';
+  import NavLink from '$components/NavMenu/NavLink.svelte';
 
   onMount(() => {
     shoppingCartActions.loadFromLocalStorage();
@@ -14,7 +15,7 @@
 </script>
 
 <RemoveAlreadyOwnedLessons />
-<a class="nav-link" href="/shopping-cart">
+<NavLink href="/shopping-cart">
   <i class="bi bi-cart4"></i> Cart
   <span class="badge bg-primary rounded-pill">{state.lessons.length}</span>
-</a>
+</NavLink>

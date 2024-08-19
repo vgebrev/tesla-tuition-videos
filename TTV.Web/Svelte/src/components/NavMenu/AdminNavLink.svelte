@@ -1,7 +1,8 @@
 <script>
   import AuthorizeView from '$components/common/AuthorizeView.svelte';
+  import NavLink from '$components/NavMenu/NavLink.svelte';
 </script>
 
 <AuthorizeView authorizationPolicy="admin">
-  <a slot="authorized" class="nav-link" href="/admin"><i class="bi bi-gear"></i> Admin</a>
+  <NavLink href="/admin" slot="authorized"><i class="bi bi-gear"></i> Admin</NavLink>
 </AuthorizeView>

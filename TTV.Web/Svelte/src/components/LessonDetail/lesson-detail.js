@@ -2,7 +2,7 @@ import { writable } from 'svelte/store';
 import { defaultErrorMessage } from '$lib/config.js';
 import { api } from '$lib/api.js';
 
-/** @type {import('$lib/types').LessonDetailStoreState} */
+/** @type {LessonDetailStoreState} */
 const initialState = {
   isLoadingLesson: false,
   isLoadingDocuments: false,
@@ -12,7 +12,7 @@ const initialState = {
 };
 
 /** Lesson detail store
- * @type {Writable<import('$lib/types').LessonDetailStore>} */
+ * @type {Writable<LessonDetailStoreState>} */
 export const lessonDetailStore = writable(initialState);
 
 /** Lesson detail actions */
@@ -26,23 +26,29 @@ export const lessonDetailActions = {
  * @param {number} lessonId
  */
 async function getLesson(lessonId) {
-  lessonDetailStore.update((state) => ({ ...state, isLoadingLesson: true }));
+  lessonDetailStore.update((state) => {
+    state.isLoadingLesson = true;
+    return state;
+  });
   try {
     const response = await api.get(`/lessons/${lessonId}`);
     const lesson = await response.json();
-    lessonDetailStore.update((state) => ({
-      ...state,
-      lesson,
-      error: { isError: false, message: '' }
-    }));
+    lessonDetailStore.update((state) => {
+      state.lesson = lesson;
+      state.error = { isError: false, message: '' };
+      return state;
+    });
   } catch (e) {
     console.error(e);
-    lessonDetailStore.update((state) => ({
-      ...state,
-      error: { isError: true, message: defaultErrorMessage }
-    }));
+    lessonDetailStore.update((state) => {
+      state.error = { isError: true, message: defaultErrorMessage };
+      return state;
+    });
   }
-  lessonDetailStore.update((state) => ({ ...state, isLoadingLesson: false }));
+  lessonDetailStore.update((state) => {
+    state.isLoadingLesson = false;
+    return state;
+  });
 }
 
 /**
@@ -51,22 +57,28 @@ async function getLesson(lessonId) {
  * @returns {Promise<void>}
  */
 async function getDocuments(lessonId) {
-  lessonDetailStore.update((state) => ({ ...state, isLoadingDocuments: true }));
+  lessonDetailStore.update((state) => {
+    state.isLoadingDocuments = true;
+    return state;
+  });
   try {
     const response = await api.get(`/documents/lesson/${lessonId}`);
     const documents = await response.json();
-    lessonDetailStore.update((state) => ({
-      ...state,
-      documents,
-      error: { isError: false, message: '' }
-    }));
+    lessonDetailStore.update((state) => {
+      state.documents = documents;
+      state.error = { isError: false, message: '' };
+      return state;
+    });
   } catch (e) {
     console.error(e);
-    lessonDetailStore.update((state) => ({
-      ...state,
-      documents: [],
-      error: { isError: true, message: defaultErrorMessage }
-    }));
+    lessonDetailStore.update((state) => {
+      state.documents = [];
+      state.error = { isError: true, message: defaultErrorMessage };
+      return state;
+    });
   }
-  lessonDetailStore.update((state) => ({ ...state, isLoadingDocuments: false }));
+  lessonDetailStore.update((state) => {
+    state.isLoadingDocuments = false;
+    return state;
+  });
 }

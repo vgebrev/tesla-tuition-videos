@@ -4,7 +4,7 @@
   export let href = '/';
   export let cssClass = 'nav-link';
   export let toggle = 'collapse';
-  export let target = '#navbar';
+  export let target = '.navbar-collapse.show';
 
   let elem;
 

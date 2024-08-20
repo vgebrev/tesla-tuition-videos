@@ -138,6 +138,7 @@ export type LessonDetailStoreState = {
   isLoadingLesson: boolean;
   isLoadingDocuments: boolean;
   lesson: ?Lesson;
+  documents: Document[];
   error: ErrorState;
 };
 

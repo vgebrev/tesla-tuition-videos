@@ -4,7 +4,7 @@ import { api } from '$lib/api.js';
 import { goto } from '$app/navigation';
 import { checkoutStore } from '$components/Checkout/checkout.js';
 
-/** @type {import('$lib/types').ShoppingCartStoreState} */
+/** @type {ShoppingCartStoreState} */
 const initialState = {
   isLoading: false,
   lessons: [],
@@ -12,7 +12,7 @@ const initialState = {
 };
 
 /** Store for the shopping cart state
- * @type {Writable<import('$lib/types').ShoppingCartStoreState>} */
+ * @type {Writable<ShoppingCartStoreState>} */
 export const shoppingCartStore = writable(initialState);
 
 /** Shopping cart store actions */
@@ -25,40 +25,32 @@ export const shoppingCartActions = {
 
 /**
  * Add a lesson to the shopping cart
- * @param {import('$lib/types').Lesson} lesson
+ * @param {Lesson} lesson
  */
 function addLesson(lesson) {
   shoppingCartStore.update((state) => {
-    /** @type {import('$lib/types').ShoppingCartStoreState} */
-    let newState = {
-      ...state,
-      lessons: [...state.lessons, lesson]
-    };
-    newState = saveToLocalStorage(newState);
-    return newState;
+    state.lessons = [...state.lessons, lesson];
+    state = saveToLocalStorage(state);
+    return state;
   });
 }
 
 /**
  * Remove a lesson from the shopping cart
- * @param {import('$lib/types').Lesson} lesson
+ * @param {Lesson} lesson
  */
 function removeLesson(lesson) {
   shoppingCartStore.update((state) => {
-    /** @type {import('$lib/types').ShoppingCartStoreState} */
-    let newState = {
-      ...state,
-      lessons: state.lessons.filter((l) => l.id !== lesson.id)
-    };
-    newState = saveToLocalStorage(newState);
-    return newState;
+    state.lessons = state.lessons.filter((l) => l.id !== lesson.id);
+    state = saveToLocalStorage(state);
+    return state;
   });
 }
 
 /**
  * Save lessons to local storage
- * @param {import('$lib/types').ShoppingCartStoreState} state
- * @returns {import('$lib/types').ShoppingCartStoreState}
+ * @param {ShoppingCartStoreState} state
+ * @returns {ShoppingCartStoreState}
  */
 function saveToLocalStorage(state) {
   try {
@@ -75,11 +67,10 @@ function saveToLocalStorage(state) {
  */
 function loadFromLocalStorage() {
   const lessons = JSON.parse(localStorage.getItem('TTV_ShoppingCartState_Lessons') || '[]');
-  shoppingCartStore.update(
-    (state) =>
-      /** @type {import('$lib/types').ShoppingCartStoreState} */
-      ({ ...state, lessons })
-  );
+  shoppingCartStore.update((state) => {
+    state.lessons = lessons;
+    return state;
+  });
 }
 
 /**
@@ -87,14 +78,10 @@ function loadFromLocalStorage() {
  */
 function clearCart() {
   shoppingCartStore.update((state) => {
-    /** @type {import('$lib/types').ShoppingCartStoreState} */
-    let newState = {
-      ...state,
-      lessons: [],
-      error: { isError: false, message: '' }
-    };
-    newState = saveToLocalStorage(newState);
-    return newState;
+    state.lessons = [];
+    state.error = { isError: false, message: '' };
+    state = saveToLocalStorage(state);
+    return state;
   });
 }
 
@@ -103,7 +90,10 @@ function clearCart() {
  */
 async function confirmOrder() {
   let order;
-  shoppingCartStore.update((state) => ({ ...state, isLoading: true }));
+  shoppingCartStore.update((state) => {
+    state.isLoading = true;
+    return state;
+  });
   try {
     const lessonsIds = get(shoppingCartStore).lessons.map((lesson) => lesson.id);
     const response = await api.post('/orders', { lessonsIds });
@@ -116,12 +106,14 @@ async function confirmOrder() {
     });
   } catch (e) {
     console.error(e);
-    shoppingCartStore.update((state) => ({
-      ...state,
-      error: { isError: true, message: defaultErrorMessage }
-    }));
+    shoppingCartStore.update((state) => {
+      state.error = { isError: true, message: defaultErrorMessage };
+      return state;
+    });
   }
-  shoppingCartStore.update((state) => ({ ...state, isLoading: false }));
-
+  shoppingCartStore.update((state) => {
+    state.isLoading = false;
+    return state;
+  });
   if (order) await goto(`checkout/${order.id}`);
 }

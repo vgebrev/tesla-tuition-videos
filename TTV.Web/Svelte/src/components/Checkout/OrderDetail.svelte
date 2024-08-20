@@ -109,8 +109,10 @@
     <div class="card-footer row">
       {#if !state.order.isFinalised}
         <div class="col-12 mb-2">
-          <button type="button" class="btn btn-outline-primary" on:click={cancelOrder}
-            ><i class="bi bi-trash me-2"></i> Cancel</button>
+          <button
+            type="button"
+            class="btn btn-outline-primary"
+            on:click={cancelOrder}><i class="bi bi-trash me-2"></i> Cancel</button>
           <small class="text-muted ms-2">Applied discount vouchers will be refunded.</small>
         </div>
       {/if}

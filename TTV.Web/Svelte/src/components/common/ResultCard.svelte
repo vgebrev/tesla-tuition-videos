@@ -3,8 +3,7 @@
   export let result = null;
 
   $: borderCssClass = result?.isSuccess || false ? 'border-success' : 'border-danger';
-  $: resultMessage =
-    result?.message || (result?.isSuccess || false ? 'Successful' : 'Unsuccessful');
+  $: resultMessage = result?.message || (result?.isSuccess || false ? 'Successful' : 'Unsuccessful');
 </script>
 
 {#if result}

@@ -48,7 +48,11 @@
     <div class="modal-content text-bg-dark">
       <div class="modal-header">
         {#if title}
-          <h1 class="modal-title fs-5" id="{_id}modalLabel">{title}</h1>
+          <h1
+            class="modal-title fs-5"
+            id="{_id}modalLabel">
+            {title}
+          </h1>
         {/if}
         <button
           type="button"
@@ -58,7 +62,10 @@
       </div>
       <div class="modal-body"><slot /></div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <button
+          type="button"
+          class="btn btn-secondary"
+          data-bs-dismiss="modal">Close</button>
       </div>
     </div>
   </div>

@@ -6,11 +6,20 @@
   import NavLink from '$components/NavMenu/NavLink.svelte';
 </script>
 
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top" data-bs-theme="dark">
+<nav
+  class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top"
+  data-bs-theme="dark">
   <div class="container">
     <div class="d-flex">
-      <NavLink title="Home page" cssClass="" target=".navbar-collapse.show"
-        ><img src="img/ttv-logo.svg" title="Logo" alt="Logo" class="icon" /></NavLink>
+      <NavLink
+        title="Home page"
+        cssClass=""
+        target=".navbar-collapse.show"
+        ><img
+          src="img/ttv-logo.svg"
+          title="Logo"
+          alt="Logo"
+          class="icon" /></NavLink>
       <NavLink
         title="Home page"
         cssClass="navbar-brand d-none d-md-block pt-0"
@@ -37,7 +46,9 @@
       <span class="navbar-toggler-icon"></span>
     </button>
 
-    <div class="collapse navbar-collapse" id="navbar">
+    <div
+      class="collapse navbar-collapse"
+      id="navbar">
       <div class="navbar-nav ms-md-auto">
         <NavLink href="/lessons"><i class="bi bi-book"></i> Lessons</NavLink>
         <ShoppingCartNavLink />

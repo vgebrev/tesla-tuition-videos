@@ -1,8 +1,5 @@
 <script>
-  import {
-    shoppingCartActions,
-    shoppingCartStore
-  } from '$components/ShoppingCart/shopping-cart.js';
+  import { shoppingCartActions, shoppingCartStore } from '$components/ShoppingCart/shopping-cart.js';
   import { onMount } from 'svelte';
   import RemoveAlreadyOwnedLessons from '$components/ShoppingCart/RemoveAlreadyOwnedLessons.svelte';
   import NavLink from '$components/NavMenu/NavLink.svelte';

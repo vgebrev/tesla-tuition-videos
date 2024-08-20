@@ -34,10 +34,15 @@
     class:text-warning={!isShown}
     on:click={show}
     title="Announcement">
-    <i class:bi-bell={isShown} class:bi-bell-fill={!isShown} class="bi fs-5"></i>
+    <i
+      class:bi-bell={isShown}
+      class:bi-bell-fill={!isShown}
+      class="bi fs-5"></i>
   </button>
 
-  <Modal title={announcement.title} bind:isOpen>
+  <Modal
+    title={announcement.title}
+    bind:isOpen>
     <p>{announcement.message}</p>
   </Modal>
 {/if}

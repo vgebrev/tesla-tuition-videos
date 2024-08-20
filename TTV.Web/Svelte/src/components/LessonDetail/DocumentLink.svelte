@@ -8,5 +8,6 @@
   $: documentUri = `${config.api.baseUrl}/documents/${document.id}${$authStore.isAuthenticated ? `?access_token=${$authStore.user.access_token}` : ''}`;
 </script>
 
-<a href={documentUri} title={document.title}
-  ><i class="bi bi-file-earmark-pdf"></i> {document.title}</a>
+<a
+  href={documentUri}
+  title={document.title}><i class="bi bi-file-earmark-pdf"></i> {document.title}</a>

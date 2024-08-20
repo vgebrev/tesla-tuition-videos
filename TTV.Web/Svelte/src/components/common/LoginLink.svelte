@@ -11,4 +11,7 @@
   }
 </script>
 
-<a href="/" {...$$restProps} on:click|preventDefault={login}><slot>Log in</slot></a>
+<a
+  href="/"
+  {...$$restProps}
+  on:click|preventDefault={login}><slot>Log in</slot></a>

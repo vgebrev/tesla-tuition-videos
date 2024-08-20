@@ -5,10 +5,7 @@
   import LoginLink from '$components/common/LoginLink.svelte';
   import PriceDisplay from '$components/common/PriceDisplay.svelte';
   import ProgressLoader from '$components/common/ProgressLoader.svelte';
-  import {
-    shoppingCartActions,
-    shoppingCartStore
-  } from '$components/ShoppingCart/shopping-cart.js';
+  import { shoppingCartActions, shoppingCartStore } from '$components/ShoppingCart/shopping-cart.js';
   import { sum } from '$lib/util.js';
 
   function confirmOrder() {
@@ -48,8 +45,7 @@
                   class="btn btn-outline-primary"
                   title="Remove Lesson"
                   on:click={() => removeLesson(lesson)}
-                  ><i class="bi bi-trash"></i><span class="d-none d-md-block ms-1">Remove</span
-                  ></button
+                  ><i class="bi bi-trash"></i><span class="d-none d-md-block ms-1">Remove</span></button
                 ></td>
             </tr>
             <tr slot="footer">
@@ -62,7 +58,9 @@
           <div class="row">
             <div class="col text-center">
               Your shopping cart is empty.
-              <a href="/lessons" class="card-link">Find some lessons.</a>
+              <a
+                href="/lessons"
+                class="card-link">Find some lessons.</a>
             </div>
           </div>
         {/if}
@@ -83,8 +81,7 @@
               class="btn btn-primary btn-lg"
               disabled={state.lessons.Length === 0}
               on:click={confirmOrder}
-              ><i class="bi bi-check2-circle"></i><span class="ms-2">Confirm and checkout</span
-              ></button>
+              ><i class="bi bi-check2-circle"></i><span class="ms-2">Confirm and checkout</span></button>
           </div>
         </AuthorizeView>
       </div>

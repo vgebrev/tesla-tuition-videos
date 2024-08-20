@@ -14,9 +14,13 @@
 
 {#if isAuthenticated}
   {#if isAuthorized}
-    <slot name="authorized" user={$authStore.user}></slot>
+    <slot
+      name="authorized"
+      user={$authStore.user}></slot>
   {:else}
-    <slot name="unauthorized" user={$authStore.user}></slot>
+    <slot
+      name="unauthorized"
+      user={$authStore.user}></slot>
   {/if}
 {:else}
   <slot name="anonymous"></slot>

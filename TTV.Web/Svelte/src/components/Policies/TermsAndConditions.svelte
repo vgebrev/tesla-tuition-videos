@@ -16,9 +16,8 @@
       <li>
         <h5>Introduction</h5>
         <p>
-          Welcome to Tesla Tuition Videos! These Terms and Conditions ("Terms") govern your use of
-          our website and services. By accessing or using Tesla Tuition Videos, you agree to comply
-          with and be bound by these Terms.
+          Welcome to Tesla Tuition Videos! These Terms and Conditions ("Terms") govern your use of our website and
+          services. By accessing or using Tesla Tuition Videos, you agree to comply with and be bound by these Terms.
         </p>
       </li>
       <li>
@@ -40,12 +39,11 @@
         <ul>
           <li><strong>Eligibility:</strong> Users must be at least 13 years old.</li>
           <li>
-            <strong>Account Registration:</strong> Users must provide accurate information when creating
-            an account.
+            <strong>Account Registration:</strong> Users must provide accurate information when creating an account.
           </li>
           <li>
-            <strong>User Conduct:</strong> Users must not engage in illegal activities, share account
-            information, or misuse the Content.
+            <strong>User Conduct:</strong> Users must not engage in illegal activities, share account information, or misuse
+            the Content.
           </li>
         </ul>
       </li>
@@ -58,19 +56,17 @@
             <a href="https://payfast.io">Payfast</a>) and manual bank transfers (EFT).
           </li>
           <li>
-            <strong>Pricing:</strong> Prices are displayed in South African Rand (ZAR), including applicable
-            taxes.
+            <strong>Pricing:</strong> Prices are displayed in South African Rand (ZAR), including applicable taxes.
           </li>
           <li>
             <strong>Order Confirmation:</strong> Confirmation emails are sent after a successful purchase.
           </li>
           <li>
-            <strong>Refund Policy:</strong> Refunds are provided at the discretion of Tesla Tuition Videos
-            under certain conditions.
+            <strong>Refund Policy:</strong> Refunds are provided at the discretion of Tesla Tuition Videos under certain
+            conditions.
           </li>
           <li>
-            <strong>Cancellation Policy:</strong> Orders can be cancelled up to the point where a payment
-            is received.
+            <strong>Cancellation Policy:</strong> Orders can be cancelled up to the point where a payment is received.
           </li>
         </ul>
       </li>
@@ -81,8 +77,8 @@
             <strong>Access to Digital Content:</strong> Users receive immediate access after payment.
           </li>
           <li>
-            <strong>License:</strong> Users receive a non-exclusive, non-transferable license for personal
-            and educational use of purchased and/or free Content.
+            <strong>License:</strong> Users receive a non-exclusive, non-transferable license for personal and educational
+            use of purchased and/or free Content.
           </li>
           <li><strong>Usage Restrictions:</strong> No redistribution or commercial use allowed.</li>
         </ul>
@@ -99,8 +95,8 @@
         <h5>Privacy Policy</h5>
         <ul>
           <li>
-            <strong>Data Collection:</strong> We collect personal data (email, optionally name and surname,
-            and details about the device from which the Site is accessed) to provide our services.
+            <strong>Data Collection:</strong> We collect personal data (email, optionally name and surname, and details about
+            the device from which the Site is accessed) to provide our services.
           </li>
           <li>
             <strong>Data Usage:</strong> Data is used to improve user experience and provide support.
@@ -109,12 +105,10 @@
             <strong>Data Protection:</strong> We implement security measures to protect user data.
           </li>
           <li>
-            <strong>Third-Party Sharing:</strong> Data is not shared with third parties, except as required
-            by law.
+            <strong>Third-Party Sharing:</strong> Data is not shared with third parties, except as required by law.
           </li>
           <li>
-            For further information, please refer to our detailed <a href="privacy-policy"
-              >Privacy Policy.</a>
+            For further information, please refer to our detailed <a href="privacy-policy">Privacy Policy.</a>
           </li>
         </ul>
       </li>
@@ -125,21 +119,20 @@
             <strong>Service Availability:</strong> We do not guarantee uninterrupted access to the Site.
           </li>
           <li>
-            <strong>Learner Performance:</strong> We strongly believe that our Content, if used appropriately,
-            will greatly improve understanding and boost marks. Please note, however, that this material
-            is only supplementary to official school work and that results are dependent on learners'
-            own efforts and preparation.
+            <strong>Learner Performance:</strong> We strongly believe that our Content, if used appropriately, will greatly
+            improve understanding and boost marks. Please note, however, that this material is only supplementary to official
+            school work and that results are dependent on learners' own efforts and preparation.
           </li>
           <li>
-            <strong>Content Accuracy:</strong> We are not responsible for errors or omissions in the
-            Content. While we make every effort to keep the Content current and free of errors, we
-            are human and mistakes happen. We welcome all feedback and encourage you to
-            <a href="/contact-us" title="get in touch">get in touch</a> with any corrections and inaccuracies
-            you may find while using the Site.
+            <strong>Content Accuracy:</strong> We are not responsible for errors or omissions in the Content. While we
+            make every effort to keep the Content current and free of errors, we are human and mistakes happen. We
+            welcome all feedback and encourage you to
+            <a
+              href="/contact-us"
+              title="get in touch">get in touch</a> with any corrections and inaccuracies you may find while using the Site.
           </li>
           <li>
-            <strong>Limitation of Liability:</strong> We are not liable for any damages resulting from
-            the use of the Site.
+            <strong>Limitation of Liability:</strong> We are not liable for any damages resulting from the use of the Site.
           </li>
         </ul>
       </li>
@@ -158,12 +151,10 @@
         <h5>Governing Law and Dispute Resolution</h5>
         <ul>
           <li>
-            <strong>Governing Law:</strong> These Terms are governed by the laws of the Republic of South
-            Africa.
+            <strong>Governing Law:</strong> These Terms are governed by the laws of the Republic of South Africa.
           </li>
           <li>
-            <strong>Dispute Resolution:</strong> Disputes will be resolved through arbitration in Johannesburg,
-            South Africa.
+            <strong>Dispute Resolution:</strong> Disputes will be resolved through arbitration in Johannesburg, South Africa.
           </li>
         </ul>
       </li>
@@ -173,8 +164,7 @@
           <li><strong>Modification Rights:</strong> We may modify these Terms at any time.</li>
 
           <li>
-            <strong>Notification:</strong> Users will be notified of significant changes via email or
-            site notification.
+            <strong>Notification:</strong> Users will be notified of significant changes via email or site notification.
           </li>
         </ul>
       </li>

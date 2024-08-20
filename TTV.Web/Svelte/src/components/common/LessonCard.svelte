@@ -29,7 +29,9 @@
     <TagBadges tags={lesson.tags}></TagBadges>
   </div>
   <div class="card-footer d-flex justify-content-between align-items-baseline">
-    <a href="/lesson/{lesson.id}" class="card-link">View Lesson</a>
+    <a
+      href="/lesson/{lesson.id}"
+      class="card-link">View Lesson</a>
     <LessonOwnView {lesson}>
       <div slot="owned">
         <span class="text-primary text-sm">You own this lesson</span>

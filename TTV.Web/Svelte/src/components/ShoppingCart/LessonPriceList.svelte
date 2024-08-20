@@ -13,7 +13,10 @@
   </thead>
   <tbody>
     {#each lessons as lesson, i (lesson.id)}
-      <slot name="lesson-row" {lesson} {i} />
+      <slot
+        name="lesson-row"
+        {lesson}
+        {i} />
     {/each}
   </tbody>
   <tfoot>

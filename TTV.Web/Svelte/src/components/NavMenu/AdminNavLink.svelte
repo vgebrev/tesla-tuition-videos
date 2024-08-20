@@ -4,5 +4,7 @@
 </script>
 
 <AuthorizeView authorizationPolicy="admin">
-  <NavLink href="/admin" slot="authorized"><i class="bi bi-gear"></i> Admin</NavLink>
+  <NavLink
+    href="/admin"
+    slot="authorized"><i class="bi bi-gear"></i> Admin</NavLink>
 </AuthorizeView>

@@ -90,7 +90,11 @@
 
 <div class="bg-classroom p-3 mt-1 mt-md-3 p-md-3 min-vh-75">
   <div class="m-2 mt-5 m-md-5 p-1 p-md-3 bg-body opacity-90 h-100-6rem">
-    <h1 bind:this={headerElem} class="fade-in header-white text-opacity-100 p-2">Testimonials</h1>
+    <h1
+      bind:this={headerElem}
+      class="fade-in header-white text-opacity-100 p-2">
+      Testimonials
+    </h1>
     <div
       bind:this={carouselElem}
       id="testimonialsCarousel"
@@ -108,7 +112,9 @@
       </div>
       <div class="carousel-inner h-100 d-flex align-items-center">
         {#each testimonials as testimonial, i}
-          <div class="carousel-item" class:active={i === 0}>
+          <div
+            class="carousel-item"
+            class:active={i === 0}>
             <Testimonial {testimonial} />
           </div>
         {/each}
@@ -118,7 +124,9 @@
         type="button"
         data-bs-target="#testimonialsCarousel"
         data-bs-slide="prev">
-        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+        <span
+          class="carousel-control-prev-icon"
+          aria-hidden="true"></span>
         <span class="visually-hidden">Previous</span>
       </button>
       <button
@@ -126,7 +134,9 @@
         type="button"
         data-bs-target="#testimonialsCarousel"
         data-bs-slide="next">
-        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+        <span
+          class="carousel-control-next-icon"
+          aria-hidden="true"></span>
         <span class="visually-hidden">Next</span>
       </button>
     </div>

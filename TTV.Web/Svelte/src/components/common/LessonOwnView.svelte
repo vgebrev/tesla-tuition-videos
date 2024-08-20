@@ -6,7 +6,9 @@
 </script>
 
 <AuthorizeView>
-  <div slot="authorized" let:user>
+  <div
+    slot="authorized"
+    let:user>
     {#if lesson.isFree}
       <slot name="free" />
     {:else if user.profile.sub === lesson.owner?.id}

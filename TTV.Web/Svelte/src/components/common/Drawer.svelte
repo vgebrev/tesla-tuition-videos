@@ -43,7 +43,9 @@
   {id}
   aria-labelledby="{id}Label">
   <div class="offcanvas-header">
-    <h5 class="offcanvas-title" id="{id}Label">
+    <h5
+      class="offcanvas-title"
+      id="{id}Label">
       <slot name="title" />
     </h5>
     <button

@@ -1,9 +1,6 @@
 <script>
   import { onMount } from 'svelte';
-  import {
-    lessonDetailActions,
-    lessonDetailStore
-  } from '$components/LessonDetail/lesson-detail.js';
+  import { lessonDetailActions, lessonDetailStore } from '$components/LessonDetail/lesson-detail.js';
   import ProgressLoader from '$components/common/ProgressLoader.svelte';
   import ErrorCard from '$components/common/ErrorCard.svelte';
   import TagBadges from '$components/common/TagBadges.svelte';

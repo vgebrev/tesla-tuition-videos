@@ -41,7 +41,10 @@
     </div>
     <div class="col-12 col-md-4 col-lg-3">
       <div class="d-flex gap-3 h-100">
-        <button class="btn btn-outline-primary flex-fill h-100" type="button" on:click={search}>
+        <button
+          class="btn btn-outline-primary flex-fill h-100"
+          type="button"
+          on:click={search}>
           <i class="bi bi-search me-1"></i> <span>Search</span>
         </button>
         <button

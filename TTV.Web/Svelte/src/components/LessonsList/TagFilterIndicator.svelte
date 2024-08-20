@@ -17,7 +17,10 @@
     <div>
       <TagBadges tags={searchTags}></TagBadges>
     </div>
-    <button type="button" class="btn btn-sm btn-link m-1" on:click={clearFilter}>
+    <button
+      type="button"
+      class="btn btn-sm btn-link m-1"
+      on:click={clearFilter}>
       <i class="bi bi-x"></i> Clear Filters
     </button>
   </div>

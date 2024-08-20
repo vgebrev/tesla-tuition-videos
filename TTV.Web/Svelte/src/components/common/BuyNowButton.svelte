@@ -2,7 +2,7 @@
   import { shoppingCartActions, shoppingCartStore } from '$components/ShoppingCart/shopping-cart.js';
   import PriceDisplay from '$components/common/PriceDisplay.svelte';
 
-  /** @type {import('$lib/types').Lesson} */
+  /** @type {Lesson} */
   export let lesson;
 
   /** type {string} */

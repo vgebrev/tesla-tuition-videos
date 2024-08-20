@@ -4,7 +4,7 @@
   import AuthorizeView from '$components/common/AuthorizeView.svelte';
   import LoginLink from '$components/common/LoginLink.svelte';
 
-  /** @type {import('$lib/types').Lesson} */
+  /** @type {Lesson} */
   export let lesson;
 </script>
 

@@ -1,5 +1,5 @@
 <script>
-  /** @type {import('$lib/types').Price} */
+  /** @type {Price} */
   export let price;
 
   function formatted(amount) {

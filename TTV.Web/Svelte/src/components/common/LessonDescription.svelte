@@ -1,7 +1,7 @@
 <script>
   import { onMount } from 'svelte';
 
-  /** @type {import('$lib/types').Lesson} */
+  /** @type {Lesson} */
   export let lesson;
 
   let popoverElem;

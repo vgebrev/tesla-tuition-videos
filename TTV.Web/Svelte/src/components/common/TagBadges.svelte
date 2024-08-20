@@ -1,5 +1,5 @@
 <script>
-  /** @type {import('$lib/types').SimpleTag[]} */
+  /** @type {SimpleTag[]} */
   export let tags = [];
 
   const backgrounds = ['bg-primary', 'bg-info', 'bg-secondary', 'bg-dark', 'bg-light'];

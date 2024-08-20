@@ -15,7 +15,7 @@
   }
 
   /**
-   * @param {import('$lib/types').Tag} tag
+   * @param {Tag} tag
    * @returns {boolean}
    */
   function isChecked(tag) {
@@ -24,7 +24,7 @@
 
   /**
    * @param {Event} e
-   * @param {import('$lib/types').Tag} tag
+   * @param {Tag} tag
    */
   async function tagToggled(e, tag) {
     const isChecked = e.target.checked;

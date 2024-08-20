@@ -4,14 +4,15 @@
   import ProgressLoader from '$components/common/ProgressLoader.svelte';
   import { onMount } from 'svelte';
   import { checkoutStore, checkoutActions } from '$components/Checkout/checkout.js';
+  import ApplyDiscountVoucher from '$components/Checkout/ApplyDiscountVoucher.svelte';
 
-  /** @type {number} */
+  /** @type {int} */
   export let orderId;
 
   onMount(async () => {
     await checkoutActions.getOrder(orderId, state.order);
   });
-  /** @type {CheckoutStoreState} */
+
   $: state = $checkoutStore;
 </script>
 
@@ -21,7 +22,9 @@
   </div>
 </div>
 
-<ProgressLoader isLoading={state.isLoading} />
+<ProgressLoader
+  isLoading={state.isLoading}
+  class="mb-3" />
 
 {#if state.order}
   <div class="row">
@@ -35,7 +38,7 @@
     <div class="col-lg-6 col-sm-12">
       <div class="row">
         <div class="col-12 mb-3">
-          <!--          <ApplyDiscountVoucher></ApplyDiscountVoucher>-->
+          <ApplyDiscountVoucher />
         </div>
       </div>
       <div class="row">

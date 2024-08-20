@@ -2,6 +2,7 @@ import { get, writable } from 'svelte/store';
 import { defaultErrorMessage } from '$lib/config.js';
 import { api } from '$lib/api.js';
 import { goto } from '$app/navigation';
+import { checkoutStore } from '$components/Checkout/checkout.js';
 
 /** @type {import('$lib/types').ShoppingCartStoreState} */
 const initialState = {
@@ -108,6 +109,11 @@ async function confirmOrder() {
     const response = await api.post('/orders', { lessonsIds });
     order = await response.json();
     clearCart();
+    checkoutStore.update((state) => {
+      state.isLoading = false;
+      state.order = order;
+      return state;
+    });
   } catch (e) {
     console.error(e);
     shoppingCartStore.update((state) => ({
@@ -116,5 +122,6 @@ async function confirmOrder() {
     }));
   }
   shoppingCartStore.update((state) => ({ ...state, isLoading: false }));
+
   if (order) await goto(`checkout/${order.id}`);
 }

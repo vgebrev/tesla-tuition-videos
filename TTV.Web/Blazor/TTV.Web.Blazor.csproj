@@ -15,7 +15,7 @@
     <TreatWarningsAsErrors>True</TreatWarningsAsErrors>
   </PropertyGroup>
 
-  <PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
     <PublishTrimmed>true</PublishTrimmed>
     <RunAOTCompilation>true</RunAOTCompilation>
     <WasmStripILAfterAOT>false</WasmStripILAfterAOT>

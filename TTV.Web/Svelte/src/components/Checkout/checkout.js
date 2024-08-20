@@ -22,23 +22,24 @@ export const checkoutStore = writable(initialState);
 /** Checkout actions */
 export const checkoutActions = {
   getOrder,
-  cancelOrder
+  cancelOrder,
+  applyVoucher
 };
 
 /**
  * Get an order by id.
- * @param {number} orderId
+ * @param {int} orderId
  * @param {Order} currentOrder
  * @returns {Promise<void>}
  */
 async function getOrder(orderId, currentOrder) {
-  checkoutStore.update((state) => ({
-    ...state,
-    isLoading: true,
-    applyVoucherResult: null,
-    cancelOrderResult: null,
-    initiatePaymentResult: null
-  }));
+  checkoutStore.update((state) => {
+    state.isLoading = true;
+    state.applyVoucherResult = null;
+    state.cancelOrderResult = null;
+    state.initiatePaymentResult = null;
+    return state;
+  });
   try {
     let order = currentOrder;
     if (!order || order.id !== orderId) {
@@ -49,26 +50,95 @@ async function getOrder(orderId, currentOrder) {
         order = await response.json();
       }
     }
-    checkoutStore.update((state) => ({
-      ...state,
-      order,
-      error: { isError: false, message: '' }
-    }));
+    checkoutStore.update((state) => {
+      state.order = order;
+      state.error = { isError: false, message: '' };
+      return state;
+    });
   } catch (e) {
     console.error(e);
-    checkoutStore.update((state) => ({
-      ...state,
-      error: { isError: true, message: defaultErrorMessage }
-    }));
+    checkoutStore.update((state) => {
+      state.error = { isError: true, message: defaultErrorMessage };
+      return state;
+    });
   }
-  checkoutStore.update((state) => ({ ...state, isLoading: false }));
+  checkoutStore.update((state) => {
+    state.isLoading = false;
+    return state;
+  });
 }
 
 /**
  * Cancel an order
- * @param orderId
+ * @param {int} orderId
  * @returns {Promise<void>}
  */
 async function cancelOrder(orderId) {
-  console.log('TODO: Cancel Order', orderId);
+  checkoutStore.update((state) => {
+    state.isLoading = true;
+    return state;
+  });
+
+  try {
+    const response = await api.delete(`/orders/${orderId}`);
+    const cancelOrderResult = await response.json();
+    checkoutStore.update((state) => {
+      state.cancelOrderResult = cancelOrderResult;
+      state.order = cancelOrderResult.value;
+      state.error = { isError: false, message: '' };
+      return state;
+    });
+  } catch (e) {
+    console.error(e);
+    checkoutStore.update((state) => {
+      state.cancelOrderResult = null;
+      state.error = { isError: true, message: defaultErrorMessage };
+      return state;
+    });
+  }
+  checkoutStore.update((state) => {
+    state.isLoading = false;
+    return state;
+  });
+}
+
+/**
+ * Apply a discount voucher to an order
+ * @param {int} orderId
+ * @param {string} code
+ * @returns {Promise<void>}
+ */
+async function applyVoucher(orderId, code) {
+  checkoutStore.update((state) => {
+    state.isLoading = true;
+    state.applyVoucherResult = null;
+    return state;
+  });
+  try {
+    const response = await api.put(`/discount-vouchers/${code}/order/${orderId}`, {});
+    const orderResult = await response.json();
+    checkoutStore.update((state) => {
+      if (state.order && orderResult.isSuccess) {
+        state.order = orderResult.value;
+      }
+      state.applyVoucherResult = {
+        isSuccess: orderResult.isSuccess,
+        message: orderResult.message,
+        value: orderResult.value?.appliedDiscounts.slice(-1)[0]
+      };
+      state.error = { isError: false, message: '' };
+      return state;
+    });
+  } catch (e) {
+    console.error(e);
+    checkoutStore.update((state) => {
+      state.applyVoucherResult = null;
+      state.error = { isError: true, message: defaultErrorMessage };
+      return state;
+    });
+  }
+  checkoutStore.update((state) => {
+    state.isLoading = false;
+    return state;
+  });
 }

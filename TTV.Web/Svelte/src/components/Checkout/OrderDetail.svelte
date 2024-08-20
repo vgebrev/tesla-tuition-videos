@@ -4,10 +4,10 @@
   import { sum } from '$lib/util.js';
 
   function userOwnsLesson(lesson) {
-    if (state.order === null || lesson.owner == null) {
+    if (order === null || lesson.owner == null) {
       return false;
     }
-    return lesson.owner.id === state.order.placedBy.id;
+    return lesson.owner.id === order.placedBy.id;
   }
 
   function formatPaymentMethod(paymentMethod) {
@@ -21,26 +21,24 @@
     }
   }
 
-  function cancelOrder() {
-    if (!state.order) return;
-    checkoutActions.cancelOrder(state.order.id);
+  async function cancelOrder() {
+    if (!order) return;
+    await checkoutActions.cancelOrder(order.id);
   }
 
-  /** @type {CheckoutStoreState} */
-  $: state = $checkoutStore;
-  $: orderTotal = state.order
-    ? sum(state.order.lessons, (l) => l.currentPrice.effectiveAmount) -
-      sum(state.order.appliedDiscounts, (d) => d.amount) -
-      sum(
-        state.order.payments.filter((p) => p.status.name === 'Paid'),
-        (p) => p.amount
-      )
+  $: order = $checkoutStore.order;
+  $: cancelOrderResult = $checkoutStore.cancelOrderResult;
+  $: paidPayments = order?.payments.filter((p) => p.status.name === 'Paid') || [];
+  $: orderTotal = order
+    ? sum(order.lessons, (l) => l.currentPrice.effectiveAmount) -
+      sum(order.appliedDiscounts, (d) => d.amount) -
+      sum(paidPayments, (p) => p.amount)
     : 0;
 </script>
 
-{#if state.order}
+{#if order}
   <div class="card bg-secondary">
-    <div class="card-header">Order #{state.order.id} Details</div>
+    <div class="card-header">Order #{order.id} Details</div>
     <div class="card-body">
       <table class="table">
         <thead>
@@ -50,7 +48,7 @@
           </tr>
         </thead>
         <tbody>
-          {#each state.order.lessons as lesson (lesson.id)}
+          {#each order.lessons as lesson (lesson.id)}
             <tr>
               <td>
                 {lesson.title}
@@ -63,12 +61,12 @@
           {/each}
           <tr class="table-secondary border-primary border-bottom border-1">
             <th class="text-end">Sub Total</th>
-            <th>R{sum(state.order.lessons, (l) => l.currentPrice.effectiveAmount).toFixed(0)}</th>
+            <th>R{sum(order.lessons, (l) => l.currentPrice.effectiveAmount).toFixed(0)}</th>
           </tr>
         </tbody>
-        {#if state.order.payments.some((p) => p.status.name === 'Paid')}
+        {#if paidPayments.length > 0}
           <tbody>
-            {#each state.order.payments.filter((p) => p.status.name === 'Paid') as payment (payment.id)}
+            {#each paidPayments as payment (payment.id)}
               <tr>
                 <td>{formatPaymentMethod(payment.paymentMethod)} Payment</td>
                 <td>-R{payment.amount.toFixed(0)}</td>
@@ -76,17 +74,13 @@
             {/each}
             <tr class="table-secondary border-primary border-bottom border-1">
               <th class="text-end">Sub Total</th>
-              <th
-                >-R{sum(
-                  state.order.payments.filter((p) => p.status.name === 'Paid'),
-                  (p) => p.amount
-                ).toFixed(0)}</th>
+              <th>-R{sum(paidPayments, (p) => p.amount).toFixed(0)}</th>
             </tr>
           </tbody>
         {/if}
-        {#if state.order.appliedDiscounts.length > 0}
+        {#if order.appliedDiscounts.length > 0}
           <tbody>
-            {#each state.order.appliedDiscounts as discount (discount.voucherCode)}
+            {#each order.appliedDiscounts as discount (discount.voucherCode)}
               <tr>
                 <td>Discount Voucher {discount.voucherCode}</td>
                 <td>-R{discount.amount.toFixed(0)}</td>
@@ -94,7 +88,7 @@
             {/each}
             <tr class="table-secondary border-primary border-bottom border-1">
               <th class="text-end">Sub Total</th>
-              <th>-R{sum(state.order.appliedDiscounts, (d) => d.amount).toFixed(0)}</th>
+              <th>-R{sum(order.appliedDiscounts, (d) => d.amount).toFixed(0)}</th>
             </tr>
           </tbody>
         {/if}
@@ -107,7 +101,7 @@
       </table>
     </div>
     <div class="card-footer row">
-      {#if !state.order.isFinalised}
+      {#if !order.isFinalised}
         <div class="col-12 mb-2">
           <button
             type="button"
@@ -116,9 +110,9 @@
           <small class="text-muted ms-2">Applied discount vouchers will be refunded.</small>
         </div>
       {/if}
-      {#if state.cancelOrderResult}
+      {#if cancelOrderResult}
         <div class="col-12">
-          <ResultCard result={state.cancelOrderResult}></ResultCard>
+          <ResultCard result={cancelOrderResult}></ResultCard>
         </div>
       {/if}
     </div>

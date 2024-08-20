@@ -23,8 +23,7 @@
   controlslist="nodownload"
   preload="none"
   poster="img/video-poster.jpg"
-  class="w-100"
->
+  class="w-100">
   <source id="lesson-video-source" src={videoUri} type="video/mp4" />
   Your browser does not support video.
 </video>

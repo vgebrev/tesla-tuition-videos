@@ -21,8 +21,7 @@
         aria-haspopup="true"
         aria-expanded="false"
         on:click|preventDefault={() => {}}
-        ><i class="bi bi-person-circle"></i> {user.profile.name} <b class="caret"></b></a
-      >
+        ><i class="bi bi-person-circle"></i> {user.profile.name} <b class="caret"></b></a>
 
       <div class="dropdown-menu">
         <NavLink href="/my/library" cssClass="dropdown-item">Lesson Library</NavLink>
@@ -34,8 +33,7 @@
           type="button"
           on:click={logout}
           data-bs-toggle="collapse"
-          data-bs-target=".navbar-collapse.show">Log out</button
-        >
+          data-bs-target=".navbar-collapse.show">Log out</button>
       </div>
     </div>
   </div>
@@ -44,8 +42,7 @@
       <LoginLink
         class="nav-link"
         data-bs-toggle="collapse"
-        data-bs-target=".navbar-collapse.show"
-      />
+        data-bs-target=".navbar-collapse.show" />
     </div>
   </div>
 </AuthorizeView>

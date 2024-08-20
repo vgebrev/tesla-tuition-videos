@@ -39,8 +39,7 @@
         src="../img/lesley.jpg"
         class="rounded-3 img-fluid btn-outline-light"
         alt="Lesley Robinson Portrait"
-        style="object-position:center;object-fit: scale-down;"
-      />
+        style="object-position:center;object-fit: scale-down;" />
     </div>
   </div>
 </div>

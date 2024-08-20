@@ -55,15 +55,13 @@
                   <td>idsrv.session</td>
                   <td
                     >Used for session management in our authentication service. It ensures that your
-                    session remains active and is essential for maintaining secure access.</td
-                  >
+                    session remains active and is essential for maintaining secure access.</td>
                 </tr>
                 <tr>
                   <td>.AspNetCore.Identity.Application</td>
                   <td
                     >Used for managing user authentication. It stores information about your login
-                    session and is necessary for you to stay logged in as you browse the site.</td
-                  >
+                    session and is necessary for you to stay logged in as you browse the site.</td>
                 </tr>
               </tbody>
             </table>
@@ -85,8 +83,7 @@
                   <td
                     >This cookie is used to prevent Cross-Site Request Forgery (CSRF) attacks. It
                     ensures that requests made to the site are legitimate and helps protect your
-                    data from malicious attacks.</td
-                  >
+                    data from malicious attacks.</td>
                 </tr>
               </tbody>
             </table>
@@ -108,15 +105,13 @@
                   <td>cookieConsent</td>
                   <td
                     >This cookie is used to ensure a cookie consent notification is displayed every
-                    six months.</td
-                  >
+                    six months.</td>
                 </tr>
                 <tr>
                   <td>announcementShown</td>
                   <td
                     >This cookie is used to ensure any site announcements are unobtrusive after you
-                    have already read them.</td
-                  >
+                    have already read them.</td>
                 </tr>
               </tbody>
             </table>

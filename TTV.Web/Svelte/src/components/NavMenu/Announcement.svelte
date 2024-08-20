@@ -33,8 +33,7 @@
     class:jingling-bell={!isShown}
     class:text-warning={!isShown}
     on:click={show}
-    title="Announcement"
-  >
+    title="Announcement">
     <i class:bi-bell={isShown} class:bi-bell-fill={!isShown} class="bi fs-5"></i>
   </button>
 

@@ -51,8 +51,7 @@
     {#if state.tags}
       <div class="d-flex justify-content-end">
         <button type="button" class="btn btn-sm btn-outline-primary m-1" on:click={clearFilter}
-          ><i class="bi bi-x me-1"></i> Clear</button
-        >
+          ><i class="bi bi-x me-1"></i> Clear</button>
       </div>
       {#each Object.entries(groupBy(state.tags, (tag) => tag.category.name)) as [category, tags]}
         <h5 class="card-title">{category}</h5>
@@ -65,13 +64,11 @@
                   type="checkbox"
                   checked={isChecked(tag)}
                   on:change={(e) => tagToggled(e, tag)}
-                  id="filter-item-{tag.id}"
-                />
+                  id="filter-item-{tag.id}" />
                 <label class="form-check-label" for="filter-item-{tag.id}">{tag.name}</label>
               </div>
               <label class="form-check-label" for="filter-item-{tag.id}"
-                ><span class="badge bg-primary rounded-pill">{tag.lessonCount}</span></label
-              >
+                ><span class="badge bg-primary rounded-pill">{tag.lessonCount}</span></label>
             </li>
           {/each}
         </ul>

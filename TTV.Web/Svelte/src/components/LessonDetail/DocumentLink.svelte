@@ -9,5 +9,4 @@
 </script>
 
 <a href={documentUri} title={document.title}
-  ><i class="bi bi-file-earmark-pdf"></i> {document.title}</a
->
+  ><i class="bi bi-file-earmark-pdf"></i> {document.title}</a>

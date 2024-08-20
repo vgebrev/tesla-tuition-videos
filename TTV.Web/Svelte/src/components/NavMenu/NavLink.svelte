@@ -20,5 +20,4 @@
   data-bs-toggle={toggle}
   data-bs-target={target}
   {...$$restProps}
-  on:click|preventDefault={navigate}><slot /></a
->
+  on:click|preventDefault={navigate}><slot /></a>

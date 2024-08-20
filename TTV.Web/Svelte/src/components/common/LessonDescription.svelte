@@ -22,8 +22,7 @@
     data-bs-placement="top"
     data-bs-html="true"
     data-bs-content="{lesson.description}<br/><br/>Duration: {lesson.duration}"
-    data-bs-original-title={lesson.title}
-  >
+    data-bs-original-title={lesson.title}>
     <i class="bi-info-circle"></i>
   </button>
 </div>

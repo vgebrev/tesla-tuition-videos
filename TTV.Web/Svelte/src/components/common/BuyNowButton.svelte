@@ -30,6 +30,6 @@
 {:else}
   <button type="button" {...props} on:click={addToCart}
     ><i class="bi bi-cart4 me-1"></i> Buy Now for <PriceDisplay price={lesson.currentPrice}
-    ></PriceDisplay></button
-  >
+    ></PriceDisplay
+    ></button>
 {/if}

@@ -30,8 +30,7 @@
   {:else}
     <slot name="unauthorized"
       ><h1>403</h1>
-      <p>Forbidden</p></slot
-    >
+      <p>Forbidden</p></slot>
   {/if}
 {:else}
   <slot name="anonymous">

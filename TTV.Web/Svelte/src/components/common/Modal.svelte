@@ -43,8 +43,7 @@
   data-bs-keyboard="true"
   tabindex="-1"
   aria-labelledby="{_id}modalLabel"
-  aria-hidden="true"
->
+  aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content text-bg-dark">
       <div class="modal-header">
@@ -55,8 +54,7 @@
           type="button"
           class="btn-close btn-close-white"
           data-bs-dismiss="modal"
-          aria-label="Close"
-        ></button>
+          aria-label="Close"></button>
       </div>
       <div class="modal-body"><slot /></div>
       <div class="modal-footer">

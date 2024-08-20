@@ -95,8 +95,7 @@
       bind:this={carouselElem}
       id="testimonialsCarousel"
       class="carousel slide h-100-6rem"
-      data-bs-ride="carousel"
-    >
+      data-bs-ride="carousel">
       <div class="carousel-indicators">
         {#each testimonials as testimonial, i}
           <button
@@ -104,8 +103,7 @@
             data-bs-target="#testimonialsCarousel"
             data-bs-slide-to={i}
             class:active={i === 0}
-            aria-label="Slide {testimonial.seq}"
-          ></button>
+            aria-label="Slide {testimonial.seq}"></button>
         {/each}
       </div>
       <div class="carousel-inner h-100 d-flex align-items-center">
@@ -119,8 +117,7 @@
         class="carousel-control-prev"
         type="button"
         data-bs-target="#testimonialsCarousel"
-        data-bs-slide="prev"
-      >
+        data-bs-slide="prev">
         <span class="carousel-control-prev-icon" aria-hidden="true"></span>
         <span class="visually-hidden">Previous</span>
       </button>
@@ -128,8 +125,7 @@
         class="carousel-control-next"
         type="button"
         data-bs-target="#testimonialsCarousel"
-        data-bs-slide="next"
-      >
+        data-bs-slide="next">
         <span class="carousel-control-next-icon" aria-hidden="true"></span>
         <span class="visually-hidden">Next</span>
       </button>

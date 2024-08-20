@@ -35,8 +35,7 @@
           id="lesson-search-text"
           bind:value={$lessonListStore.searchText}
           on:keypress={keyPressed}
-          placeholder="Search lessons..."
-        />
+          placeholder="Search lessons..." />
         <label for="lesson-search-text">Search lessons</label>
       </div>
     </div>
@@ -48,8 +47,7 @@
         <button
           class:btn-secondary={$lessonListStore.searchTags?.length > 0}
           class="btn btn-outline-primary flex-fill h-100"
-          on:click={openTagFilterDrawer}
-        >
+          on:click={openTagFilterDrawer}>
           <i class="bi bi-sliders"></i> <span>Filters</span>
         </button>
       </div>

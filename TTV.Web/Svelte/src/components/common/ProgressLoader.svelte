@@ -20,8 +20,8 @@
         style="width:{width}"
         aria-valuenow={value}
         aria-valuemin={min}
-        aria-valuemax={max}
-      ></div>
+        aria-valuemax={max}>
+      </div>
     </div>
   </div>
 {/if}

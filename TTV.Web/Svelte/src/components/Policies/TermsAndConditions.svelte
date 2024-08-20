@@ -114,8 +114,7 @@
           </li>
           <li>
             For further information, please refer to our detailed <a href="privacy-policy"
-              >Privacy Policy.</a
-            >
+              >Privacy Policy.</a>
           </li>
         </ul>
       </li>

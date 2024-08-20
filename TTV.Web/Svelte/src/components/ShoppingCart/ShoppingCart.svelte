@@ -39,8 +39,7 @@
               class="align-middle"
               slot="lesson-row"
               let:lesson
-              let:i
-            >
+              let:i>
               <td>{lesson.title}</td>
               <td><PriceDisplay price={lesson.currentPrice}></PriceDisplay></td>
               <td class="text-end"
@@ -51,8 +50,7 @@
                   on:click={() => removeLesson(lesson)}
                   ><i class="bi bi-trash"></i><span class="d-none d-md-block ms-1">Remove</span
                   ></button
-                ></td
-              >
+                ></td>
             </tr>
             <tr slot="footer">
               <th class="text-end">Total</th>
@@ -77,8 +75,7 @@
         <AuthorizeView>
           <div slot="unauthorized">
             <LoginLink class="btn btn-primary btn-lg"
-              ><i class="bi bi-person-fill me-2"></i> Log in to continue</LoginLink
-            >
+              ><i class="bi bi-person-fill me-2"></i> Log in to continue</LoginLink>
           </div>
           <div slot="authorized">
             <button
@@ -87,8 +84,7 @@
               disabled={state.lessons.Length === 0}
               on:click={confirmOrder}
               ><i class="bi bi-check2-circle"></i><span class="ms-2">Confirm and checkout</span
-              ></button
-            >
+              ></button>
           </div>
         </AuthorizeView>
       </div>

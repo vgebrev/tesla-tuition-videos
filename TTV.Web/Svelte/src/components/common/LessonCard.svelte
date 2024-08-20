@@ -22,9 +22,7 @@
             class="rounded-4 w-100"
             src={thumbnailUri}
             alt={lesson.title}
-            title={lesson.title}
-          /></a
-        >
+            title={lesson.title} /></a>
       </div>
     </div>
     <LessonDescription {lesson}></LessonDescription>

@@ -17,8 +17,7 @@
         <span slot="anonymous" class="card-text"
           >If you have already purchased the lesson, please <LoginLink class="text-warning"
             >Log in</LoginLink
-          >.</span
-        >
+          >.</span>
       </AuthorizeView>
     </div>
   </div>

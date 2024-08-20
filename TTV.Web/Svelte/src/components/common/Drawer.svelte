@@ -41,8 +41,7 @@
   tabindex="-1"
   bind:this={elem}
   {id}
-  aria-labelledby="{id}Label"
->
+  aria-labelledby="{id}Label">
   <div class="offcanvas-header">
     <h5 class="offcanvas-title" id="{id}Label">
       <slot name="title" />
@@ -51,8 +50,7 @@
       type="button"
       class="btn-close btn-close-white"
       data-bs-dismiss="offcanvas"
-      aria-label="Close"
-    ></button>
+      aria-label="Close"></button>
   </div>
   <div class="offcanvas-body p-0">
     <slot name="body" />

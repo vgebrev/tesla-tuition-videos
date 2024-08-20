@@ -10,20 +10,17 @@
   <div class="container">
     <div class="d-flex">
       <NavLink title="Home page" cssClass="" target=".navbar-collapse.show"
-        ><img src="img/ttv-logo.svg" title="Logo" alt="Logo" class="icon" /></NavLink
-      >
+        ><img src="img/ttv-logo.svg" title="Logo" alt="Logo" class="icon" /></NavLink>
       <NavLink
         title="Home page"
         cssClass="navbar-brand d-none d-md-block pt-0"
-        target=".navbar-collapse.show"
-      >
+        target=".navbar-collapse.show">
         <span class="brand-text h3">Tesla Tuition Videos</span>
       </NavLink>
       <NavLink
         title="Home page"
         class="navbar-brand d-sm-block d-md-none pt-0"
-        target=".navbar-collapse.show"
-      >
+        target=".navbar-collapse.show">
         <span class="brand-text h7">Tesla Tuition Videos</span>
       </NavLink>
     </div>
@@ -36,8 +33,7 @@
       data-bs-target="#navbar"
       aria-controls="navbar"
       aria-expanded="false"
-      aria-label="Toggle navigation"
-    >
+      aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
 

@@ -34,8 +34,7 @@
 
 <div class="position-relative intro w-100 p-0">
   <div
-    class="position-absolute top-0 d-flex flex-column justify-content-between h-100 w-100 p-3 p-md-5"
-  >
+    class="position-absolute top-0 d-flex flex-column justify-content-between h-100 w-100 p-3 p-md-5">
     <div>
       <h1 bind:this={headerElem} class="fade-in header-white">Master Physical Science</h1>
       <h3>High-quality, comprehensive videos for South African high school students</h3>
@@ -46,13 +45,11 @@
       <div class="container row text-center">
         <div class="col-12 col-md-6 my-1">
           <a href="/lessons" class="btn btn-lg btn-outline-primary p-3 flex-fill w-75"
-            >Browse Lessons</a
-          >
+            >Browse Lessons</a>
         </div>
         <div class="col-12 col-md-6 my-1">
           <a href="/lesson/37" class="btn btn-lg btn-outline-primary p-3 flex-fill w-75"
-            >Try a Free Lesson</a
-          >
+            >Try a Free Lesson</a>
         </div>
       </div>
     </div>

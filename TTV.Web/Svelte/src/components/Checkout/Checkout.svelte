@@ -1,9 +1,9 @@
 <script>
-  import ProgressLoader from '$components/common/ProgressLoader.svelte';
   import ErrorCard from '$components/common/ErrorCard.svelte';
+  import OrderDetail from '$components/Checkout/OrderDetail.svelte';
+  import ProgressLoader from '$components/common/ProgressLoader.svelte';
   import { onMount } from 'svelte';
   import { checkoutStore, checkoutActions } from '$components/Checkout/checkout.js';
-  import OrderDetail from '$components/Checkout/OrderDetail.svelte';
 
   /** @type {number} */
   export let orderId;

@@ -28,6 +28,29 @@ export function groupBy(array, keyGetter) {
 }
 
 /**
+ * Sums the elements of an array.
+ *
+ * @template T
+ * @param {T[]} array - The array of elements to sum.
+ * @param {(item: T) => number} [selector] - Optional. A function to project each element of the array into a numeric value.
+ * @returns {number} - The sum of the projected elements or the sum of the elements if no selector is provided.
+ *
+ * @example
+ * const data = [
+ *   {id: 1, amount: 10},
+ *   {id: 2, amount: 20},
+ *   {id: 3, amount: 30},
+ * ];
+ * const total = sum(data, item => item.amount); // total = 60
+ */
+export function sum(array, selector) {
+  if (typeof selector === 'function') {
+    return array.reduce((total, item) => total + selector(item), 0);
+  }
+  return array.reduce((total, item) => total + item, 0);
+}
+
+/**
  * Returns the number of days between two dates
  * @param {Date} from - the start date
  * @param {Date} [to] - the end date (default is current date and time)

@@ -1,9 +1,10 @@
 <script>
-  import { checkoutStore, checkoutActions } from '$components/Checkout/checkout.js';
   import ResultCard from '$components/common/ResultCard.svelte';
+  import { checkoutStore, checkoutActions } from '$components/Checkout/checkout.js';
+  import { sum } from '$lib/util.js';
 
   function userOwnsLesson(lesson) {
-    if (state.order == null || lesson.owner == null) {
+    if (state.order === null || lesson.owner == null) {
       return false;
     }
     return lesson.owner.id === state.order.placedBy.id;
@@ -12,7 +13,7 @@
   function formatPaymentMethod(paymentMethod) {
     switch (paymentMethod) {
       case 1:
-        return 'ManualBankTransfer';
+        return 'Manual Bank Transfer';
       case 2:
         return 'Payfast';
       case 3:
@@ -28,11 +29,12 @@
   /** @type {CheckoutStoreState} */
   $: state = $checkoutStore;
   $: orderTotal = state.order
-    ? state.order.lessons.reduce((sum, lesson) => sum + lesson.currentPrice.effectiveAmount, 0) -
-      state.order.appliedDiscounts.reduce((sum, d) => sum + d.amount, 0) -
-      state.order.payments
-        .filter((p) => p.status.name === 'Paid')
-        .reduce((sum, p) => sum + p.amount, 0)
+    ? sum(state.order.lessons, (l) => l.currentPrice.effectiveAmount) -
+      sum(state.order.appliedDiscounts, (d) => d.amount) -
+      sum(
+        state.order.payments.filter((p) => p.status.name === 'Paid'),
+        (p) => p.amount
+      )
     : 0;
 </script>
 
@@ -48,7 +50,7 @@
           </tr>
         </thead>
         <tbody>
-          {#each state.order.lessons as lesson, i (lesson.id)}
+          {#each state.order.lessons as lesson (lesson.id)}
             <tr>
               <td>
                 {lesson.title}
@@ -61,16 +63,12 @@
           {/each}
           <tr class="table-secondary border-primary border-bottom border-1">
             <th class="text-end">Sub Total</th>
-            <th
-              >R{state.order.lessons
-                .reduce((sum, lesson) => sum + lesson.currentPrice.effectiveAmount, 0)
-                .toFixed(0)}</th
-            >
+            <th>R{sum(state.order.lessons, (l) => l.currentPrice.effectiveAmount).toFixed(0)}</th>
           </tr>
         </tbody>
         {#if state.order.payments.some((p) => p.status.name === 'Paid')}
           <tbody>
-            {#each state.order.payments.filter((p) => p.status.name === 'Paid') as payment, i (payment.id)}
+            {#each state.order.payments.filter((p) => p.status.name === 'Paid') as payment (payment.id)}
               <tr>
                 <td>{formatPaymentMethod(payment.paymentMethod)} Payment</td>
                 <td>-R{payment.amount.toFixed(0)}</td>
@@ -79,17 +77,17 @@
             <tr class="table-secondary border-primary border-bottom border-1">
               <th class="text-end">Sub Total</th>
               <th
-                >-R{state.order.payments
-                  .filter((p) => p.status.name === 'Paid')
-                  .reduce((sum, p) => sum + p.amount, 0)
-                  .toFixed(0)}</th
+                >-R{sum(
+                  state.order.payments.filter((p) => p.status.name === 'Paid'),
+                  (p) => p.amount
+                ).toFixed(0)}</th
               >
             </tr>
           </tbody>
         {/if}
         {#if state.order.appliedDiscounts.length > 0}
           <tbody>
-            {#each state.order.appliedDiscounts as discount, i (discount.voucherCode)}
+            {#each state.order.appliedDiscounts as discount (discount.voucherCode)}
               <tr>
                 <td>Discount Voucher {discount.voucherCode}</td>
                 <td>-R{discount.amount.toFixed(0)}</td>
@@ -97,11 +95,7 @@
             {/each}
             <tr class="table-secondary border-primary border-bottom border-1">
               <th class="text-end">Sub Total</th>
-              <th
-                >-R{state.order.appliedDiscounts
-                  .reduce((sum, d) => sum + d.Amount, 0)
-                  .toFixed(0)}</th
-              >
+              <th>-R{sum(state.order.appliedDiscounts, (d) => d.amount).toFixed(0)}</th>
             </tr>
           </tbody>
         {/if}

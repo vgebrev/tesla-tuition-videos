@@ -1,14 +1,15 @@
 <script>
+  import AuthorizeView from '$components/common/AuthorizeView.svelte';
+  import ErrorCard from '$components/common/ErrorCard.svelte';
+  import LessonPriceList from '$components/ShoppingCart/LessonPriceList.svelte';
+  import LoginLink from '$components/common/LoginLink.svelte';
+  import PriceDisplay from '$components/common/PriceDisplay.svelte';
+  import ProgressLoader from '$components/common/ProgressLoader.svelte';
   import {
     shoppingCartActions,
     shoppingCartStore
   } from '$components/ShoppingCart/shopping-cart.js';
-  import ProgressLoader from '$components/common/ProgressLoader.svelte';
-  import ErrorCard from '$components/common/ErrorCard.svelte';
-  import AuthorizeView from '$components/common/AuthorizeView.svelte';
-  import LoginLink from '$components/common/LoginLink.svelte';
-  import LessonPriceList from '$components/ShoppingCart/LessonPriceList.svelte';
-  import PriceDisplay from '$components/common/PriceDisplay.svelte';
+  import { sum } from '$lib/util.js';
 
   function confirmOrder() {
     shoppingCartActions.confirmOrder();
@@ -55,11 +56,7 @@
             </tr>
             <tr slot="footer">
               <th class="text-end">Total</th>
-              <th
-                >R{state.lessons
-                  .reduce((sum, lesson) => sum + lesson.currentPrice.effectiveAmount, 0)
-                  .toFixed(0)}</th
-              >
+              <th>R{sum(state.lessons, (l) => l.currentPrice.effectiveAmount).toFixed(0)}</th>
               <th></th>
             </tr>
           </LessonPriceList>

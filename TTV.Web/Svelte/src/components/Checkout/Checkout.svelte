@@ -5,6 +5,7 @@
   import { onMount } from 'svelte';
   import { checkoutStore, checkoutActions } from '$components/Checkout/checkout.js';
   import ApplyDiscountVoucher from '$components/Checkout/ApplyDiscountVoucher.svelte';
+  import PaymentDetail from '$components/Checkout/PaymentDetail.svelte';
 
   /** @type {number} */
   export let orderId;
@@ -43,7 +44,7 @@
       </div>
       <div class="row">
         <div class="col-12">
-          <!--          <PaymentDetail Order="Order"></PaymentDetail>-->
+          <PaymentDetail order={state.order}></PaymentDetail>
         </div>
       </div>
     </div>

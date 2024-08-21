@@ -23,7 +23,8 @@ export const checkoutStore = writable(initialState);
 export const checkoutActions = {
   getOrder,
   cancelOrder,
-  applyVoucher
+  applyVoucher,
+  initiatePayment
 };
 
 /**
@@ -133,6 +134,39 @@ async function applyVoucher(orderId, code) {
     console.error(e);
     checkoutStore.update((state) => {
       state.applyVoucherResult = null;
+      state.error = { isError: true, message: defaultErrorMessage };
+      return state;
+    });
+  }
+  checkoutStore.update((state) => {
+    state.isLoading = false;
+    return state;
+  });
+}
+
+/**
+ * Initiate payment for an order
+ * @param {number} orderId
+ * @param {import('$lib/types').PaymentMethod} paymentMethod
+ * @returns {Promise<void>}
+ */
+async function initiatePayment(orderId, paymentMethod) {
+  checkoutStore.update((state) => {
+    state.isLoading = true;
+    return state;
+  });
+  try {
+    const response = await api.post(`/payments`, { orderId, paymentMethod });
+    const initiatePaymentResult = await response.json();
+    checkoutStore.update((state) => {
+      state.initiatePaymentResult = initiatePaymentResult;
+      state.error = { isError: false, message: '' };
+      return state;
+    });
+  } catch (e) {
+    console.error(e);
+    checkoutStore.update((state) => {
+      state.initiatePaymentResult = null;
       state.error = { isError: true, message: defaultErrorMessage };
       return state;
     });

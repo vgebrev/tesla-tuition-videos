@@ -37,7 +37,7 @@ export type Lesson = {
 };
 
 export type Order = {
-  id: int;
+  id: number;
   lessons: Lesson[];
   placedBy: User;
   placedOn: Date;

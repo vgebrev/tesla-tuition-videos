@@ -6,7 +6,10 @@ import {
   PUBLIC_ANNOUNCEMENT_TITLE,
   PUBLIC_ANNOUNCEMENT_MESSAGE,
   PUBLIC_ANNOUNCEMENT_ENDDATE,
-  PUBLIC_ISTESTENVIRONMENT
+  PUBLIC_ISTESTENVIRONMENT,
+  PUBLIC_BANKACCOUNT_BANKNAME,
+  PUBLIC_BANKACCOUNT_ACCOUNTNUMBER,
+  PUBLIC_BANKACCOUNT_BRANCHCODE
 } from '$env/static/public';
 import { WebStorageStateStore } from 'oidc-client';
 
@@ -29,6 +32,11 @@ export const config = {
     phoneNumber: '+27 66 444 5850',
     supportEmail: 'support@teslatuitionvideos.co.za',
     address: '158 Milner Avenue, Franklin Roosevelt Park, Johannesburg 2194, South Africa'
+  },
+  bankAccount: {
+    bankName: PUBLIC_BANKACCOUNT_BANKNAME,
+    accountNumber: PUBLIC_BANKACCOUNT_ACCOUNTNUMBER,
+    branchCode: PUBLIC_BANKACCOUNT_BRANCHCODE
   },
   announcement: {
     active: PUBLIC_ANNOUNCEMENT_ACTIVE === 'true',

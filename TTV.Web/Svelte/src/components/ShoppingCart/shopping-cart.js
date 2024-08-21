@@ -4,7 +4,7 @@ import { api } from '$lib/api.js';
 import { goto } from '$app/navigation';
 import { checkoutStore } from '$components/Checkout/checkout.js';
 
-/** @type {ShoppingCartStoreState} */
+/** @type {import('$lib/types').ShoppingCartStoreState} */
 const initialState = {
   isLoading: false,
   lessons: [],
@@ -12,7 +12,7 @@ const initialState = {
 };
 
 /** Store for the shopping cart state
- * @type {Writable<ShoppingCartStoreState>} */
+ * @type {Writable<import('$lib/types').ShoppingCartStoreState>} */
 export const shoppingCartStore = writable(initialState);
 
 /** Shopping cart store actions */
@@ -49,8 +49,8 @@ function removeLesson(lesson) {
 
 /**
  * Save lessons to local storage
- * @param {ShoppingCartStoreState} state
- * @returns {ShoppingCartStoreState}
+ * @param {import('$lib/types').ShoppingCartStoreState} state
+ * @returns {import('$lib/types').ShoppingCartStoreState}
  */
 function saveToLocalStorage(state) {
   try {
@@ -89,6 +89,7 @@ function clearCart() {
  * Confirm the order
  */
 async function confirmOrder() {
+  /** @type {import('$lib/types').Order} */
   let order;
   shoppingCartStore.update((state) => {
     state.isLoading = true;

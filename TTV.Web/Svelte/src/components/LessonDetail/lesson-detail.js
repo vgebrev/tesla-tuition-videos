@@ -2,7 +2,7 @@ import { writable } from 'svelte/store';
 import { defaultErrorMessage } from '$lib/config.js';
 import { api } from '$lib/api.js';
 
-/** @type {LessonDetailStoreState} */
+/** @type {import('$lib/types').LessonDetailStoreState} */
 const initialState = {
   isLoadingLesson: false,
   isLoadingDocuments: false,
@@ -12,7 +12,7 @@ const initialState = {
 };
 
 /** Lesson detail store
- * @type {Writable<LessonDetailStoreState>} */
+ * @type {Writable<import('$lib/types').LessonDetailStoreState>} */
 export const lessonDetailStore = writable(initialState);
 
 /** Lesson detail actions */

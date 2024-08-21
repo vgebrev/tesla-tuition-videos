@@ -7,7 +7,7 @@ import { config } from '$lib/config';
 export const userManager = new UserManager(config.oidc);
 
 /** Auth store state
- * @type {Writable<import('$lib/types').AuthStoreState>} */
+ * @type {import('svelte/store').Writable<import('$lib/types').AuthStoreState>} */
 export const authStore = writable({
   user: null,
   isAuthenticated: false,

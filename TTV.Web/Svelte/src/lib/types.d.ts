@@ -162,6 +162,13 @@ export type MyLessonsStoreState = {
   error: ErrorState;
 };
 
+export type OrderCompleteStoreState = {
+  isLoading: boolean;
+  completeOrderResult: ?ResultOf<Order>;
+  order: ?Order;
+  error: ErrorState;
+};
+
 export type ShoppingCartStoreState = {
   isLoading: boolean;
   lessons: Lesson[];

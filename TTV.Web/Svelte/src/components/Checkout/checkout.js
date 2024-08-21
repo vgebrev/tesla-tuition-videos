@@ -29,8 +29,8 @@ export const checkoutActions = {
 
 /**
  * Get an order by id.
- * @param {int} orderId
- * @param {Order} currentOrder
+ * @param {number} orderId
+ * @param {import('$lib/types').Order|null} currentOrder
  * @returns {Promise<void>}
  */
 async function getOrder(orderId, currentOrder) {
@@ -71,7 +71,7 @@ async function getOrder(orderId, currentOrder) {
 
 /**
  * Cancel an order
- * @param {int} orderId
+ * @param {number} orderId
  * @returns {Promise<void>}
  */
 async function cancelOrder(orderId) {
@@ -105,7 +105,7 @@ async function cancelOrder(orderId) {
 
 /**
  * Apply a discount voucher to an order
- * @param {int} orderId
+ * @param {number} orderId
  * @param {string|null} code
  * @returns {Promise<void>}
  */

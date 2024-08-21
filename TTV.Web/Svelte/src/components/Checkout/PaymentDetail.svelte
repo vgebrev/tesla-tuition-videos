@@ -2,6 +2,7 @@
   import { checkoutActions, checkoutStore } from '$components/Checkout/checkout.js';
   import Modal from '$components/common/Modal.svelte';
   import PayByBankTransfer from '$components/Checkout/PayByBankTransfer.svelte';
+  import { goto } from '$app/navigation';
 
   const paymentMethods = {
     bankTransfer: 1,
@@ -22,8 +23,9 @@
       latestPayment?.paymentMethod === paymentMethod
     );
   }
-  async function completeOrder() {
-    console.log('TODO: Complete Order');
+
+  function completeOrder() {
+    goto(`/order-complete/${order.id}`);
   }
 
   async function orderPayment() {

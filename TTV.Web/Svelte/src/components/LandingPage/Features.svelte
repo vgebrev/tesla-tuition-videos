@@ -3,6 +3,7 @@
   import { observer } from '$lib/intersection-observer.js';
   import FlipCard from '$components/LandingPage/FlipCard.svelte';
 
+  /** @type {HTMLElement} */
   let headerElem;
   onMount(() => {
     observer.observe(headerElem);

@@ -1,8 +1,8 @@
 /**
  * Groups an array of objects by a key returned by keyGetter.
- * @param {Array<T>}array
- * @param {function(T): *} keyGetter
- * @returns {Object<*, Array<T>>}
+ * @param {Array<*>}array
+ * @param {function(*): *} keyGetter
+ * @returns {Object<*, Array<*>>}
  *
  * @example
  * const data = [

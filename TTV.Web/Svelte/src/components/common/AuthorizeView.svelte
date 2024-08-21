@@ -1,7 +1,7 @@
 <script>
   import { authStore, authorizationPolicies } from '$lib/auth.js';
 
-  /** @type {'admin'|'canIssueVouchers'|?string} */
+  /** @type {'admin'|'canIssueVouchers'|null} */
   export let authorizationPolicy = null;
 
   $: isAuthenticated = $authStore.isAuthenticated;

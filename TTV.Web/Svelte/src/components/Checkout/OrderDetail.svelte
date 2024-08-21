@@ -3,6 +3,10 @@
   import { checkoutStore, checkoutActions } from '$components/Checkout/checkout.js';
   import { sum } from '$lib/util.js';
 
+  /**
+   *
+   * @param {import('$lib/types').Lesson} lesson
+   */
   function userOwnsLesson(lesson) {
     if (order === null || lesson.owner == null) {
       return false;
@@ -10,6 +14,10 @@
     return lesson.owner.id === order.placedBy.id;
   }
 
+  /**
+   *
+   * @param {import('$lib/types').PaymentMethod} paymentMethod
+   */
   function formatPaymentMethod(paymentMethod) {
     switch (paymentMethod) {
       case 1:

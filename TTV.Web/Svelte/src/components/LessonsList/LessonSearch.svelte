@@ -5,7 +5,6 @@
   import { lessonListActions, lessonListStore } from '$components/LessonsList/lesson-list.js';
 
   /**
-   *
    * @param {KeyboardEvent} event
    */
   async function keyPressed(event) {

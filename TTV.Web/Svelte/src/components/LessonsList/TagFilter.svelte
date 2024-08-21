@@ -15,27 +15,39 @@
   }
 
   /**
-   * @param {Tag} tag
+   * @param {import('$lib/types').Tag} tag
    * @returns {boolean}
    */
   function isChecked(tag) {
-    return state.searchTags?.some((t) => t.id === tag.id);
+    return state.searchTags?.some(
+      /** @param {import('$lib/types').Tag} t */
+      (t) => t.id === tag.id
+    );
   }
 
   /**
    * @param {Event} e
-   * @param {Tag} tag
+   * @param {import('$lib/types').Tag} tag
    */
   async function tagToggled(e, tag) {
-    const isChecked = e.target.checked;
+    const isChecked = e.target?.checked || false;
     let searchTags = state.searchTags || [];
 
-    if (isChecked && !searchTags.some((t) => t.id === tag.id)) {
+    if (
+      isChecked &&
+      !searchTags.some(
+        /** @param {import('$lib/types').Tag} t */
+        (t) => t.id === tag.id
+      )
+    ) {
       searchTags = [...searchTags, tag];
     }
 
     if (!isChecked) {
-      searchTags = searchTags.filter((t) => t.id !== tag.id);
+      searchTags = searchTags.filter(
+        /** @param {import('$lib/types').Tag} t */
+        (t) => t.id !== tag.id
+      );
     }
 
     await lessonListActions.setSearchTags(searchTags);

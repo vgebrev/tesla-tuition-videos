@@ -2,6 +2,7 @@
   import { onMount } from 'svelte';
   import { observer } from '$lib/intersection-observer.js';
 
+  /** @type {HTMLElement} */
   let headerElem;
 
   onMount(() => {

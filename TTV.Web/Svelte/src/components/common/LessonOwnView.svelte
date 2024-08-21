@@ -1,7 +1,7 @@
 <script>
   import AuthorizeView from '$components/common/AuthorizeView.svelte';
 
-  /** @type {Lesson} */
+  /** @type {import('$lib/types').Lesson} */
   export let lesson;
 </script>
 

@@ -1,5 +1,5 @@
 <script>
-  /** @type {Result} */
+  /** @type {?import('$lib/types').Result} */
   export let result = null;
 
   $: borderCssClass = result?.isSuccess || false ? 'border-success' : 'border-danger';

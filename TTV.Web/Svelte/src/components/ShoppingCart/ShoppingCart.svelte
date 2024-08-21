@@ -12,6 +12,9 @@
     shoppingCartActions.confirmOrder();
   }
 
+  /**
+   * @param {import('$lib/types').Lesson} lesson
+   */
   function removeLesson(lesson) {
     shoppingCartActions.removeLesson(lesson);
   }

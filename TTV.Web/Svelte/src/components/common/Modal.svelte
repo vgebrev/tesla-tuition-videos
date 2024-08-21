@@ -8,6 +8,7 @@
 
   let _id = crypto.randomUUID().replace(/-/g, '');
   let _isOpen = isOpen;
+  /** @type {HTMLElement} */
   let elem;
 
   onMount(() => {
@@ -23,9 +24,9 @@
     _isOpen = true;
   }
 
-  export function close(element) {
+  export function close() {
     if (!_isOpen) return;
-    bootstrap.Modal.getOrCreateInstance(element).hide();
+    bootstrap.Modal.getOrCreateInstance(elem).hide();
     _isOpen = false;
   }
 

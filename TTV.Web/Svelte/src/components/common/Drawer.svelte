@@ -1,12 +1,13 @@
 <script>
   import { onMount } from 'svelte';
 
-  /* type {string} */
+  /** @type {string} */
   export let id = 'drawer';
-  /* type {boolean} */
+  /** @type {boolean} */
   export let isOpen = false;
 
   let _isOpen = isOpen;
+  /** @type {HTMLElement} */
   let elem;
 
   onMount(() => {

@@ -1,6 +1,6 @@
 <script>
-  /** @type {ErrorState} */
-  export let error = { isError: false, message: null };
+  /** @type {import('$lib/types').ErrorState} */
+  export let error = { isError: false, message: '' };
 </script>
 
 {#if error.isError}

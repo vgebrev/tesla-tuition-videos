@@ -2,7 +2,7 @@
   import { config } from '$lib/config.js';
   import { authStore } from '$lib/auth.js';
 
-  /** @type {Document} */
+  /** @type {import('$lib/types').Document} */
   export let document;
 
   $: documentUri = `${config.api.baseUrl}/documents/${document.id}${$authStore.isAuthenticated ? `?access_token=${$authStore.user.access_token}` : ''}`;

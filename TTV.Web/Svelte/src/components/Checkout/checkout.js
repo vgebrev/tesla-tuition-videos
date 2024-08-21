@@ -2,7 +2,7 @@ import { writable } from 'svelte/store';
 import { api } from '$lib/api.js';
 import { defaultErrorMessage } from '$lib/config.js';
 
-/** @type {CheckoutStoreState} */
+/** @type {import('$lib/types').CheckoutStoreState} */
 const initialState = {
   isLoading: false,
   voucherCode: '',
@@ -15,7 +15,7 @@ const initialState = {
 
 /**
  * Checkout state store.
- * @type {Writable<CheckoutStoreState>}
+ * @type {Writable<import('$lib/types').CheckoutStoreState>}
  */
 export const checkoutStore = writable(initialState);
 
@@ -105,7 +105,7 @@ async function cancelOrder(orderId) {
 /**
  * Apply a discount voucher to an order
  * @param {int} orderId
- * @param {string} code
+ * @param {string|null} code
  * @returns {Promise<void>}
  */
 async function applyVoucher(orderId, code) {

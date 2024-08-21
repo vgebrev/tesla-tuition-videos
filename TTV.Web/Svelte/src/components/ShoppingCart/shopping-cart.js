@@ -25,7 +25,7 @@ export const shoppingCartActions = {
 
 /**
  * Add a lesson to the shopping cart
- * @param {Lesson} lesson
+ * @param {import('$lib/types').Lesson} lesson
  */
 function addLesson(lesson) {
   shoppingCartStore.update((state) => {
@@ -37,7 +37,7 @@ function addLesson(lesson) {
 
 /**
  * Remove a lesson from the shopping cart
- * @param {Lesson} lesson
+ * @param {import('$lib/types').Lesson} lesson
  */
 function removeLesson(lesson) {
   shoppingCartStore.update((state) => {

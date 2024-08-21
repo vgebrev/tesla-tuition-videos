@@ -1,7 +1,8 @@
 <script>
-  /** @type {Price} */
+  /** @type {import('$lib/types').Price} */
   export let price;
 
+  /** @param {number} amount */
   function formatted(amount) {
     return `R${amount.toFixed(0)}`;
   }

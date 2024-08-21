@@ -6,15 +6,12 @@
   export let toggle = 'collapse';
   export let target = '.navbar-collapse.show';
 
-  let elem;
-
   function navigate() {
     goto(href);
   }
 </script>
 
 <a
-  bind:this={elem}
   class={cssClass}
   {href}
   data-bs-toggle={toggle}

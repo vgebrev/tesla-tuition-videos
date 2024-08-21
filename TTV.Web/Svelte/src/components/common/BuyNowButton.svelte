@@ -2,10 +2,10 @@
   import { shoppingCartActions, shoppingCartStore } from '$components/ShoppingCart/shopping-cart.js';
   import PriceDisplay from '$components/common/PriceDisplay.svelte';
 
-  /** @type {Lesson} */
+  /** @type {import('$lib/types').Lesson} */
   export let lesson;
 
-  /** type {string} */
+  /** @type {string} */
   export let cssClass = 'btn btn-primary';
 
   let props = {
@@ -20,7 +20,7 @@
   $: state = $shoppingCartStore;
 </script>
 
-{#if state.lessons.some((l) => l.id === lesson.id)}
+{#if state.lessons.some(/** @param {import('$lib/types').Lesson} l */ (l) => l.id === lesson.id)}
   <span class="text-primary">
     <i class="bi bi-cart-check"></i> Added to
     <a

@@ -75,7 +75,9 @@
       text: "Lesley Robinson came to my rescue during a period of utter despair with physics. Seeking her guidance, she led me through interactive tutoring sessions, unravelling the complexities of the subject. Thanks to her invaluable assistance, I achieved a distinction in Science in my Matric year. Lesley's support, patience, and willingness to explain concepts repeatedly was fundamental in my success. I am extremely grateful to her for not only helping me academically but also for sparking a newfound passion for science within me. Thank you, Lesley, for everything."
     }
   ];
+  /** @type {HTMLElement} */
   let headerElem;
+  /** @type {HTMLElement} */
   let carouselElem;
 
   onMount(() => {

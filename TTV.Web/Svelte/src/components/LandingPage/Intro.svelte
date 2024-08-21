@@ -1,8 +1,12 @@
 <script>
   import { onMount, onDestroy } from 'svelte';
   import { observer } from '$lib/intersection-observer';
+
+  /** @type {HTMLElement} */
   let headerElem;
+  /** @type {HTMLVideoElement} */
   let videoElem;
+  /** @type {number} */
   let interval;
 
   function initLandingVideo() {

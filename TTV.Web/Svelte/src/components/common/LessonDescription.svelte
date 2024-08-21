@@ -1,10 +1,12 @@
 <script>
   import { onMount } from 'svelte';
 
-  /** @type {Lesson} */
+  /** @type {import('$lib/types').Lesson} */
   export let lesson;
 
+  /** @type {HTMLElement} */
   let popoverElem;
+
   onMount(() => {
     new bootstrap.Popover(popoverElem);
   });

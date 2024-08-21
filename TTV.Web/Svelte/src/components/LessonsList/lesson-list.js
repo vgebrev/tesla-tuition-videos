@@ -65,7 +65,7 @@ async function getTags() {
 /**
  * Search for lessons based on the provided search text and tags
  * @param {string | null} searchText
- * @param {Tag[] | null} searchTags
+ * @param {import('$lib/types').Tag[] | null} searchTags
  * @returns {Promise<void>}
  */
 async function search(searchText, searchTags) {
@@ -111,7 +111,7 @@ function setTagFilterDrawer(isOpen) {
 
 /**
  * Set the search tags and, optionally, trigger a search
- * @param {Tag[]|null} tags
+ * @param {import('$lib/types').Tag[]|null} tags
  * @param {boolean} [triggerSearch=true]
  */
 async function setSearchTags(tags, triggerSearch = true) {
@@ -127,7 +127,7 @@ async function setSearchTags(tags, triggerSearch = true) {
 
 /**
  * Update the lessons in the store
- * @param {Lesson[]} lessons
+ * @param {import('$lib/types').Lesson[]} lessons
  */
 function updateLessons(lessons) {
   //TODO: Implement updateLessons when an order is complete with the new owner

@@ -7,7 +7,7 @@ import { config } from '$lib/config';
 export const userManager = new UserManager(config.oidc);
 
 /** Auth store state
- * @type {Writable<AuthStoreState>} */
+ * @type {Writable<import('$lib/types').AuthStoreState>} */
 export const authStore = writable({
   user: null,
   isAuthenticated: false,
@@ -36,6 +36,11 @@ userManager.events.addAccessTokenExpired(async () => {
   await silentSignin();
 });
 
+/**
+ * Update the auth store with the current user
+ * @param {'login-callback' | 'user-loaded-event' | 'user-unloaded-event'} origin
+ * @returns {Promise<void>}
+ */
 async function updateStoreWithCurrentUser(origin) {
   const user = await userManager.getUser();
   authStore.set({ user, isAuthenticated: user && !user.expired, origin });

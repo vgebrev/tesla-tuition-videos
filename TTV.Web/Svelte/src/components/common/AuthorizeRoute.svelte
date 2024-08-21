@@ -3,7 +3,7 @@
   import { onMount } from 'svelte';
   import FullHeightLoading from '$components/common/FullHeightLoading.svelte';
 
-  /** @type {'admin'|'canIssueVouchers'|?string} */
+  /** @type {'admin'|'canIssueVouchers'|null} */
   export let authorizationPolicy = null;
 
   onMount(async () => {

@@ -6,7 +6,7 @@
   import { checkoutStore, checkoutActions } from '$components/Checkout/checkout.js';
   import ApplyDiscountVoucher from '$components/Checkout/ApplyDiscountVoucher.svelte';
 
-  /** @type {int} */
+  /** @type {number} */
   export let orderId;
 
   onMount(async () => {

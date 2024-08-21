@@ -87,7 +87,7 @@
             <h6>Functional Cookies</h6>
             <ul>
               <li>
-                <strong>Purpose:</strong> Cookies that are important for the correct funcioning of our site.
+                <strong>Purpose:</strong> Cookies that are important for the correct functioning of our site.
               </li>
               <li>
                 <strong>Lifespan:</strong> Persistent cookies that expire after a period of time.

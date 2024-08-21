@@ -4,7 +4,7 @@
   import LessonOwnView from '$components/common/LessonOwnView.svelte';
   import BuyNowButton from '$components/common/BuyNowButton.svelte';
   import { config } from '$lib/config';
-  /** @type {Lesson} */
+  /** @type {import('$lib/types').Lesson} */
   export let lesson;
 
   $: thumbnailUri = `${config.api.baseUrl}/videos/lesson/${lesson.id}/thumbnail`;

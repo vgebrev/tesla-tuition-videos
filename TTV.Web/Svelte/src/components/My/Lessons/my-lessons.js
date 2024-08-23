@@ -1,6 +1,7 @@
 import { writable } from 'svelte/store';
 import { api } from '$lib/api.js';
 import { defaultErrorMessage } from '$lib/config.js';
+import { mergeArrays } from '$lib/util.js';
 
 /** @type {import('$lib/types').MyLessonsStoreState} */
 const initialState = {
@@ -15,7 +16,8 @@ export const myLessonsStore = writable(initialState);
 
 /** "My lessons" store actions */
 export const myLessonsActions = {
-  getOwnedLessons
+  getOwnedLessons,
+  addLessons
 };
 
 /**
@@ -45,4 +47,15 @@ async function getOwnedLessons() {
       return state;
     });
   }
+}
+
+/**
+ * Add lessons to the store
+ * @param {import('$lib/types').Lesson[]} lessons
+ */
+function addLessons(lessons) {
+  myLessonsStore.update((state) => {
+    state.lessons = mergeArrays(state.lessons || [], lessons || []);
+    return state;
+  });
 }

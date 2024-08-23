@@ -51,6 +51,39 @@ export function sum(array, selector) {
 }
 
 /**
+ * Merges two arrays, where objects with matching `id` fields are taken from the second array.
+ * @param {Array} array1 - The first array of objects.
+ * @param {Array} array2 - The second array of objects.
+ * @returns {Array} - A new array that is the union of the two arrays.
+ *
+ * @example
+ * const array1 = [
+ *   { id: 1, name: 'Item 1' },
+ *   { id: 2, name: 'Item 2' },
+ *   { id: 3, name: 'Item 3' }
+ * ];
+ *
+ * const array2 = [
+ *   { id: 2, name: 'Updated Item 2' },
+ *   { id: 4, name: 'Item 4' }
+ * ];
+ *
+ * const mergedArray = mergeArrays(array1, array2);
+ * // mergedArray = [
+ * //   { id: 1, name: 'Item 1' },
+ * //   { id: 2, name: 'Updated Item 2' },
+ * //   { id: 3, name: 'Item 3' },
+ * //   { id: 4, name: 'Item 4' }
+ * // ]
+ */
+export function mergeArrays(array1, array2) {
+  const map = new Map();
+  array1.forEach((item) => map.set(item.id, item));
+  array2.forEach((item) => map.set(item.id, item));
+  return Array.from(map.values());
+}
+
+/**
  * Returns the number of days between two dates
  * @param {Date} from - the start date
  * @param {Date} [to] - the end date (default is current date and time)

@@ -1,6 +1,7 @@
 import { writable, get } from 'svelte/store';
 import { api } from '$lib/api.js';
 import { defaultErrorMessage } from '$lib/config.js';
+import { mergeArrays } from '$lib/util.js';
 
 /** @type {import('$lib/types').LessonListStoreState} */
 const initialState = {
@@ -130,6 +131,8 @@ async function setSearchTags(tags, triggerSearch = true) {
  * @param {import('$lib/types').Lesson[]} lessons
  */
 function updateLessons(lessons) {
-  //TODO: Implement updateLessons when an order is complete with the new owner
-  console.log('updateLessons', lessons);
+  lessonListStore.update((state) => {
+    state.lessons = mergeArrays(state.lessons || [], lessons || []);
+    return state;
+  });
 }

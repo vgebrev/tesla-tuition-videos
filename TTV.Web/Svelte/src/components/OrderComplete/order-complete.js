@@ -1,6 +1,8 @@
 import { writable } from 'svelte/store';
 import { defaultErrorMessage } from '$lib/config.js';
 import { api } from '$lib/api.js';
+import { myLessonsActions } from '$components/My/Lessons/my-lessons.js';
+import { lessonListActions } from '$components/LessonsList/lesson-list.js';
 
 /** @type {import('$lib/types').OrderCompleteStoreState} */
 const initialState = {
@@ -38,6 +40,10 @@ async function completeOrder(orderId) {
       state.error = { isError: !completeOrderResult.isSuccess, message: completeOrderResult.message };
       return state;
     });
+    if (completeOrderResult.isSuccess) {
+      myLessonsActions.addLessons(completeOrderResult.value.lessons);
+      lessonListActions.updateLessons(completeOrderResult.value.lessons);
+    }
   } catch (e) {
     console.error(e);
     orderCompleteStore.update((state) => {

@@ -12,7 +12,7 @@ const initialState = {
 };
 
 /** Lesson detail store
- * @type {Writable<import('$lib/types').LessonDetailStoreState>} */
+ * @type {import('svelte/store').Writable<import('$lib/types').LessonDetailStoreState>} */
 export const lessonDetailStore = writable(initialState);
 
 /** Lesson detail actions */

@@ -20,7 +20,7 @@ const initialState = {
 
 /**
  * Checkout state store.
- * @type {Writable<import('$lib/types').CheckoutStoreState>}
+ * @type {import('svelte/store').Writable<import('$lib/types').CheckoutStoreState>}
  */
 export const checkoutStore = writable(initialState);
 
@@ -149,6 +149,11 @@ async function applyVoucher(orderId, code) {
   });
 }
 
+/**
+ * Open the PayFast modal
+ * @param {string} paymentId - The payment external identifier, provided by the PayFast API
+ * @param {number} orderId
+ */
 function payfastModal(paymentId, orderId) {
   window.payfast_do_onsite_payment({
     uuid: paymentId,

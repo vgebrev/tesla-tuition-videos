@@ -14,7 +14,8 @@ export default [
       globals: {
         ...globals.browser,
         ...globals.node,
-        bootstrap: 'readonly'
+        bootstrap: 'readonly',
+        payfast_do_onsite_payment: 'readonly'
       }
     }
   },

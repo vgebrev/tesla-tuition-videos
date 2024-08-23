@@ -19,7 +19,7 @@ const initialState = {
 };
 
 /** Store for the lesson list state
- * @type {Writable<import('$lib/types').LessonListStoreState>} */
+ * @type {import('svelte/store').Writable<import('$lib/types').LessonListStoreState>} */
 export const lessonListStore = writable(initialState);
 
 /** Lesson list actions */

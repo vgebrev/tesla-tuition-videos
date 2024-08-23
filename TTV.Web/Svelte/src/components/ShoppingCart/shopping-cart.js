@@ -12,7 +12,7 @@ const initialState = {
 };
 
 /** Store for the shopping cart state
- * @type {Writable<import('$lib/types').ShoppingCartStoreState>} */
+ * @type {import('svelte/store').Writable<import('$lib/types').ShoppingCartStoreState>} */
 export const shoppingCartStore = writable(initialState);
 
 /** Shopping cart store actions */
@@ -90,7 +90,7 @@ function clearCart() {
  */
 async function confirmOrder() {
   /** @type {import('$lib/types').Order} */
-  let order;
+  let order = null;
   shoppingCartStore.update((state) => {
     state.isLoading = true;
     return state;

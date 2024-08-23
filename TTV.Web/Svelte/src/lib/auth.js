@@ -38,12 +38,12 @@ userManager.events.addAccessTokenExpired(async () => {
 
 /**
  * Update the auth store with the current user
- * @param {'login-callback' | 'user-loaded-event' | 'user-unloaded-event'} origin
+ * @param {'login-callback' | 'user-loaded-event' | 'user-unloaded-event' | null} origin
  * @returns {Promise<void>}
  */
 async function updateStoreWithCurrentUser(origin) {
   const user = await userManager.getUser();
-  authStore.set({ user, isAuthenticated: user && !user.expired, origin });
+  authStore.set({ user, isAuthenticated: (user && !user.expired) || false, origin });
 }
 
 async function silentSignin() {

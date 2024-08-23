@@ -44,17 +44,16 @@ export function groupBy(array, keyGetter) {
  * const total = sum(data, item => item.amount); // total = 60
  */
 export function sum(array, selector) {
-  if (typeof selector === 'function') {
-    return array.reduce((total, item) => total + selector(item), 0);
-  }
-  return array.reduce((total, item) => total + item, 0);
+  if (!selector) return 0;
+  return array.reduce((total, item) => total + selector(item), 0);
 }
 
 /**
+ * @template {{id: number}} T
  * Merges two arrays, where objects with matching `id` fields are taken from the second array.
- * @param {Array} array1 - The first array of objects.
- * @param {Array} array2 - The second array of objects.
- * @returns {Array} - A new array that is the union of the two arrays.
+ * @param {T[]} array1 - The first array of objects.
+ * @param {T[]} array2 - The second array of objects.
+ * @returns {T[]} - A new array that is the union of the two arrays.
  *
  * @example
  * const array1 = [
@@ -90,7 +89,7 @@ export function mergeArrays(array1, array2) {
  * @returns {number}
  */
 export function daysBetween(from, to = new Date()) {
-  const timeDifference = to - from; // Difference in milliseconds
-  const daysDifference = timeDifference / (1000 * 60 * 60 * 24); // Convert milliseconds to days
-  return Math.floor(daysDifference); // Round down to nearest whole number
+  const timeDifference = to.getTime() - from.getTime();
+  const daysDifference = timeDifference / (1000 * 60 * 60 * 24);
+  return Math.floor(daysDifference);
 }

@@ -119,9 +119,9 @@ export type User = {
 // ----- Store States ------------------------------------------------------------------------------
 
 export type AuthStoreState = {
-  user: import('oidc-client').User;
+  user: ?import('oidc-client').User;
   isAuthenticated: boolean;
-  origin: 'login-callback' | 'user-loaded-event' | 'user-unloaded-event';
+  origin: 'login-callback' | 'user-loaded-event' | 'user-unloaded-event' | null;
 };
 
 export type CheckoutStoreState = {

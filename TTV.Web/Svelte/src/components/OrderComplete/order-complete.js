@@ -5,7 +5,7 @@ import { api } from '$lib/api.js';
 /** @type {import('$lib/types').OrderCompleteStoreState} */
 const initialState = {
   isLoading: false,
-  orderCompleteResult: null,
+  completeOrderResult: null,
   order: null,
   error: { isError: false, message: '' }
 };
@@ -31,11 +31,11 @@ async function completeOrder(orderId) {
   });
   try {
     const response = await api.put(`/orders/${orderId}/complete`, {});
-    const orderCompleteResult = await response.json();
+    const completeOrderResult = await response.json();
     orderCompleteStore.update((state) => {
-      state.orderCompleteResult = orderCompleteResult;
-      state.order = orderCompleteResult.value;
-      state.error = { isError: !orderCompleteResult.isSuccess, message: orderCompleteResult.message };
+      state.completeOrderResult = completeOrderResult;
+      state.order = completeOrderResult.value;
+      state.error = { isError: !completeOrderResult.isSuccess, message: completeOrderResult.message };
       return state;
     });
   } catch (e) {

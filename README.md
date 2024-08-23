@@ -1,4 +1,4 @@
-## Payfast Sandbox Integration Setup
+## Payfast Sandbox Integration Setup in Development
 
 Onsite Payments Reference: https://developers.payfast.co.za/docs#onsite_payments
 
@@ -41,11 +41,11 @@ This will give 2 temporal public URLs that look like `https://garbage-sofa-score
 
 * In TTV.Web.Auth:
     * `appsettings.Development.json`: Add the front-end tunnel URL to `Cors:AllowedOrigins`
-    * Update the TTV.Database.Deploy `Scripts\UpdateReverseProxyRedirectUris.sql`:
+    * Update TTV.Database.Deploy `Scripts\UpdateReverseProxyRedirectUris.sql`:
 
           declare @Uri nvarchar(64) = '{front-end-tunnel-url}'
 
-        * Double check the `[Id]` fields actually match the records in the `[auth_cfg].[ClientRedirectUris]` and `[auth_cfg].[ClientPostLogoutRedirectUris]` tables.
+        * Double check the `[Id]` fields actually match the records (if any) in the `[auth_cfg].[ClientRedirectUris]` and `[auth_cfg].[ClientPostLogoutRedirectUris]` tables.
         * Run the script against the Dev database `TTV`.
 
 * In `Web\Svelte\.evn`:
@@ -62,7 +62,7 @@ The following should now work:
 * Access the front-end through the front-end tunnel URL.
 * Authenticate users and redirect back to that URL.
 * Front-end calls the API through the API tunnel URL.
-* API initiates payments with Payfast.
-* Front-end triggers Payfast onsite modal.
-* Payfast confirms payments with the API.
-* Payfast redirects back to front-end when payments are completed/cancelled.
+* API initiates payments with Payfast (Sandbox).
+* Front-end triggers Payfast (Sandbox) onsite modal.
+* Payfast (Sandbox) confirms payments with the API.
+* Payfast (Sandbox) redirects back to front-end when payments are completed/cancelled.

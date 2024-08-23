@@ -8,7 +8,7 @@
 </script>
 
 <svelte:head>
-  <title>Tesla Tuition Videos - Checkout</title>
+  <title>Tesla Tuition Videos - Order Complete</title>
 </svelte:head>
 
 <AuthorizeRoute>

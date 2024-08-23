@@ -28,7 +28,9 @@
       <h1 class="header-white">Shopping Cart</h1>
     </div>
   </div>
-  <ProgressLoader isLoading={state.isLoading} />
+  <ProgressLoader
+    isLoading={state.isLoading}
+    class="mb-3" />
   <div class="row justify-content-center">
     <div class="card border-primary col-sm-12 col-md-12 col-lg-10">
       <div class="card-body">

@@ -2,6 +2,11 @@ import { writable } from 'svelte/store';
 import { api } from '$lib/api.js';
 import { defaultErrorMessage } from '$lib/config.js';
 
+export const paymentMethods = {
+  bankTransfer: 1,
+  payfast: 2
+};
+
 /** @type {import('$lib/types').CheckoutStoreState} */
 const initialState = {
   isLoading: false,
@@ -144,6 +149,14 @@ async function applyVoucher(orderId, code) {
   });
 }
 
+function payfastModal(paymentId, orderId) {
+  window.payfast_do_onsite_payment({
+    uuid: paymentId,
+    return_url: `${window.location.origin}/order-complete/${orderId}`,
+    cancel_url: `${window.location.origin}/payment-cancel/${orderId}`
+  });
+}
+
 /**
  * Initiate payment for an order
  * @param {number} orderId
@@ -163,16 +176,21 @@ async function initiatePayment(orderId, paymentMethod) {
       state.error = { isError: false, message: '' };
       return state;
     });
+    if (
+      initiatePaymentResult.isSuccess &&
+      initiatePaymentResult.value &&
+      initiatePaymentResult.value.paymentMethod === paymentMethods.payfast
+    ) {
+      payfastModal(initiatePaymentResult.value.externalIdentifier, orderId);
+    }
   } catch (e) {
     console.error(e);
     checkoutStore.update((state) => {
       state.initiatePaymentResult = null;
       state.error = { isError: true, message: defaultErrorMessage };
+      state.isLoading = false;
       return state;
     });
   }
-  checkoutStore.update((state) => {
-    state.isLoading = false;
-    return state;
-  });
+  // Don't set isLoading to false here as we normally would, as the page will be redirected to PayFast
 }

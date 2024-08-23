@@ -1,10 +1,11 @@
-declare @Uri nvarchar(64) = 'https://only-fraser-implemented-originally.trycloudflare.com' --Update to the specific tunnel uri
+declare @Uri nvarchar(64) = 'https://mating-remedies-channel-mas.trycloudflare.com' --Update to the specific tunnel uri
 
 set identity_insert [auth_cfg].[ClientRedirectUris] on
 
 merge into [auth_cfg].[ClientRedirectUris] as [Target]
 using (
 	values (2, @Uri + '/authentication/login-callback', 1)
+	, (9, @Uri + '/authentication/silent-renew.html', 1)
 ) as [Source] ([Id], [RedirectUri], [ClientId]) on [Source].[Id] = [Target].[Id]
 when matched then
 	update set 

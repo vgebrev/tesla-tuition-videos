@@ -1,13 +1,9 @@
 <script>
-  import { checkoutActions, checkoutStore } from '$components/Checkout/checkout.js';
+  import { checkoutActions, checkoutStore, paymentMethods } from '$components/Checkout/checkout.js';
   import Modal from '$components/common/Modal.svelte';
   import PayByBankTransfer from '$components/Checkout/PayByBankTransfer.svelte';
   import { goto } from '$app/navigation';
 
-  const paymentMethods = {
-    bankTransfer: 1,
-    payfast: 2
-  };
   let paymentMethod = paymentMethods.payfast;
 
   /** @type {import('$lib/types').Order} */
@@ -96,6 +92,7 @@
     <div class="row">
       {#if !order.canComplete && !order.isPayable}
         <div class="col-12">
+          <div class="mb-2">Payment is not possible:</div>
           {#if order.hasOwnedLessons}
             <div class="card border-danger mb-2">
               <div class="card-body">You already own one or more of the lessons in this order.</div>
@@ -103,7 +100,9 @@
           {/if}
           {#if order.isFinalised}
             <div class="card border-danger">
-              <div class="card-body">The order already has a status of "@Order.Status.Name"</div>
+              <div class="card-body">
+                The order has a status of "{order.status.name}".
+              </div>
             </div>
           {/if}
         </div>

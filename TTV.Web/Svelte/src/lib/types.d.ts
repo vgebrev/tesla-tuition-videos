@@ -18,6 +18,18 @@ export type AppliedDiscount = {
   voucherCode: string;
 };
 
+export type DiscountVoucher = {
+  id: number;
+  code: string;
+  amount: number;
+  balance: number;
+  expirationDate: Date;
+  note: ?string;
+  claimedBy: ?User;
+  issuedBy: User;
+  issuedAt: Date;
+};
+
 export type Document = {
   id: number;
   title: string;
@@ -156,9 +168,21 @@ export type LessonListStoreState = {
   searchTags: ?Tag[];
 };
 
+export type MyDiscountVouchersStoreState = {
+  isLoading: boolean;
+  discountVouchers: ?DiscountVoucher[];
+  error: ErrorState;
+};
+
 export type MyLessonsStoreState = {
   isLoading: boolean;
   lessons: ?Lesson[];
+  error: ErrorState;
+};
+
+export type MyOrdersStoreState = {
+  isLoading: boolean;
+  orders: ?Order[];
   error: ErrorState;
 };
 
@@ -174,3 +198,10 @@ export type ShoppingCartStoreState = {
   lessons: Lesson[];
   error: ErrorState;
 };
+
+// ----- External ----------------------------------------------------------------------------------
+declare global {
+  interface Window {
+    payfast_do_onsite_payment: (options: { uuid: string; return_url: string; cancel_url: string }) => void;
+  }
+}

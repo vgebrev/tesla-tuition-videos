@@ -93,3 +93,20 @@ export function daysBetween(from, to = new Date()) {
   const daysDifference = timeDifference / (1000 * 60 * 60 * 24);
   return Math.floor(daysDifference);
 }
+
+/** Formats a date as dd-mmm-yyyy
+ * @param {?Date} date
+ * @returns {string}
+ *
+ * @example
+ * const date = new Date('2021-12-31');
+ * console.log(formatDate(date)); // '31-Dec-2021'
+ */
+export function formatDate(date) {
+  if (!date) return '';
+  date = new Date(date);
+  const day = String(date.getDate()).padStart(2, '0');
+  const month = date.toLocaleString('default', { month: 'short' });
+  const year = date.getFullYear();
+  return `${day}-${month}-${year}`;
+}

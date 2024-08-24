@@ -89,7 +89,7 @@ function clearCart() {
  * Confirm the order
  */
 async function confirmOrder() {
-  /** @type {import('$lib/types').Order} */
+  /** @type {?import('$lib/types').Order} */
   let order = null;
   shoppingCartStore.update((state) => {
     state.isLoading = true;
@@ -116,5 +116,5 @@ async function confirmOrder() {
     state.isLoading = false;
     return state;
   });
-  if (order) await goto(`checkout/${order.id}`);
+  if (order) await goto(`/checkout/${order.id}`);
 }

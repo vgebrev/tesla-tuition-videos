@@ -16,9 +16,5 @@
 <ProgressLoader
   isLoading={state.isLoading}
   class="mb-3" />
-
 <DiscountVoucherList />
-
-{#if state.error}
-  <ErrorCard error={state.error} />
-{/if}
+<ErrorCard error={state.error} />

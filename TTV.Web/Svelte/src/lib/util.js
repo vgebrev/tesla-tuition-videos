@@ -95,7 +95,7 @@ export function daysBetween(from, to = new Date()) {
 }
 
 /** Formats a date as dd-mmm-yyyy
- * @param {?Date} date
+ * @param {?Date | string} date
  * @returns {string}
  *
  * @example
@@ -109,4 +109,24 @@ export function formatDate(date) {
   const month = date.toLocaleString('default', { month: 'short' });
   const year = date.getFullYear();
   return `${day}-${month}-${year}`;
+}
+
+/**
+ * Formats a date as dd-mmm-yyyy hh:mm
+ * @param {?Date | string} date
+ * @returns {string}
+ *
+ * @example
+ * const date = new Date('2021-12-31 23:59');
+ * console.log(formatDate(date)); // '31-Dec-2021 23:59'
+ */
+export function formatDateTime(date) {
+  if (!date) return '';
+  date = new Date(date);
+  const day = String(date.getDate()).padStart(2, '0');
+  const month = date.toLocaleString('default', { month: 'short' });
+  const year = date.getFullYear();
+  const hours = String(date.getHours()).padStart(2, '0');
+  const minutes = String(date.getMinutes()).padStart(2, '0');
+  return `${day}-${month}-${year} ${hours}:${minutes}`;
 }

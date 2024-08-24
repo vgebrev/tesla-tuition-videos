@@ -84,7 +84,7 @@
             <button
               type="button"
               class="btn btn-primary btn-lg"
-              disabled={state.lessons.Length === 0}
+              disabled={state.lessons.length === 0}
               on:click={confirmOrder}
               ><i class="bi bi-check2-circle"></i><span class="ms-2">Confirm and checkout</span></button>
           </div>
@@ -92,7 +92,5 @@
       </div>
     </div>
   {/if}
-  {#if state.error.isError}
-    <ErrorCard error={state.error} />
-  {/if}
+  <ErrorCard error={state.error} />
 </div>

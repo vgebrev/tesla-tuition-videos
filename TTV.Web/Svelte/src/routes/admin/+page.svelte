@@ -3,6 +3,10 @@
   import Admin from '$components/Admin/Admin.svelte';
 </script>
 
+<svelte:head>
+  <title>Tesla Tuition Videos - Admin Console</title>
+</svelte:head>
+
 <AuthorizeRoute authorizationPolicy="admin">
   <div slot="authorized">
     <Admin />

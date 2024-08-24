@@ -130,6 +130,13 @@ export type User = {
 
 // ----- Store States ------------------------------------------------------------------------------
 
+export type AdminStoreState = {
+  isLoading: boolean;
+  error: ErrorState;
+  discountVouchers: ?DiscountVoucher[];
+  issuedVoucher: ?DiscountVoucher;
+};
+
 export type AuthStoreState = {
   user: ?import('oidc-client').User;
   isAuthenticated: boolean;

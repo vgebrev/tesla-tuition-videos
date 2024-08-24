@@ -13,9 +13,5 @@
 </div>
 
 <ProgressLoader isLoading={state.isLoading} />
-
 <OrderList />
-
-{#if state.error}
-  <ErrorCard error={state.error} />
-{/if}
+<ErrorCard error={state.error} />

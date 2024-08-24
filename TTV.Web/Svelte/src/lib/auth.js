@@ -58,14 +58,14 @@ async function silentSignin() {
 export const authorizationPolicies = {
   /**
    * Check if the user has the 'admin' role
-   * @param {import('oidc-client').User} user
+   * @param {import('oidc-client').User | null} user
    * @returns {boolean}
    */
   admin: (user) => user?.profile?.role === 'admin',
 
   /**
    * Check if the user has the 'vouchers.issue' permission
-   * @param {import('oidc-client').User} user
+   * @param {import('oidc-client').User | null} user
    * @returns {boolean}
    */
   canIssueVouchers: (user) => user?.profile?.permission.indexOf('vouchers.issue') > -1

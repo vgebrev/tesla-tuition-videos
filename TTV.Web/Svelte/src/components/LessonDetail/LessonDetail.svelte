@@ -23,10 +23,8 @@
   <title>Tesla Tuition Videos - {state.lesson?.title}</title>
 </svelte:head>
 
-<ProgressLoader isLoading={state.isLoadingLessons || state.isLoadingDocuments} />
-{#if state.error.isError}
-  <ErrorCard error={state.error} />
-{/if}
+<ProgressLoader isLoading={state.isLoadingLesson || state.isLoadingDocuments} />
+<ErrorCard error={state.error} />
 
 {#if state.lesson}
   <div class="card border-primary">

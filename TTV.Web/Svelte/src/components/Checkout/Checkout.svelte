@@ -59,6 +59,4 @@
   </div>
 {/if}
 
-{#if state.error.isError}
-  <ErrorCard error={state.error} />
-{/if}
+<ErrorCard error={state.error} />

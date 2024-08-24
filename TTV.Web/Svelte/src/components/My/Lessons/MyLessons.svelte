@@ -43,7 +43,5 @@
     {/if}
   {/if}
 
-  {#if state.error}
-    <ErrorCard error={state.error} />
-  {/if}
+  <ErrorCard error={state.error} />
 </div>

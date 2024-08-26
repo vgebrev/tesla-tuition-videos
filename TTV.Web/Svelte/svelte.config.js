@@ -11,6 +11,9 @@ const config = {
     }),
     alias: {
       $components: 'src/components'
+    },
+    version: {
+      pollInterval: 1000 * 60 * 60 // check for new version every hour
     }
   }
 };

@@ -1,14 +1,21 @@
 <script>
-  import NavMenu from '$components/NavMenu/NavMenu.svelte';
   import AppFooter from '$components/AppFooter.svelte';
   import CookieConsent from '$components/CookieConsent.svelte';
-  import { afterNavigate } from '$app/navigation';
+  import NavMenu from '$components/NavMenu/NavMenu.svelte';
+  import NewVersionNotificationBanner from '$components/NewVersionNotificationBanner.svelte';
+  import { afterNavigate, beforeNavigate } from '$app/navigation';
+  import { updated } from '$app/stores';
   import { authActions } from '$lib/auth.js';
   import { onMount } from 'svelte';
-  import NewVersionNotificationBanner from '$components/NewVersionNotificationBanner.svelte';
 
   onMount(async () => {
     await authActions.silentSignin();
+  });
+
+  beforeNavigate(({ willUnload, to }) => {
+    if ($updated && !willUnload && to?.url) {
+      location.href = to.url.href;
+    }
   });
 
   afterNavigate(async (navigation) => {

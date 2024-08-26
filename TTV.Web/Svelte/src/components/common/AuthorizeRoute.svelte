@@ -2,6 +2,7 @@
   import { authStore, userManager, authorizationPolicies } from '$lib/auth.js';
   import { onMount } from 'svelte';
   import FullHeightLoading from '$components/common/FullHeightLoading.svelte';
+  import ErrorView from '$components/common/ErrorView.svelte';
 
   /** @type {'admin'|'canIssueVouchers'|null} */
   export let authorizationPolicy = null;
@@ -29,8 +30,9 @@
     <slot name="authorized" />
   {:else}
     <slot name="unauthorized"
-      ><h1>403</h1>
-      <p>Forbidden</p></slot>
+      ><ErrorView
+        status={403}
+        errorMessage="Forbidden" /></slot>
   {/if}
 {:else}
   <slot name="anonymous">

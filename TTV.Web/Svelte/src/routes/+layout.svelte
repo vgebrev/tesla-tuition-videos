@@ -5,6 +5,7 @@
   import { afterNavigate } from '$app/navigation';
   import { authActions } from '$lib/auth.js';
   import { onMount } from 'svelte';
+  import NewVersionNotificationBanner from '$components/NewVersionNotificationBanner.svelte';
 
   onMount(async () => {
     await authActions.silentSignin();
@@ -19,6 +20,7 @@
 </script>
 
 <NavMenu />
+<NewVersionNotificationBanner />
 
 <div class="container mb-4">
   <slot />

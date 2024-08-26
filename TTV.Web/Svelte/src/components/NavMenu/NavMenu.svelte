@@ -4,7 +4,7 @@
   import Announcement from '$components/NavMenu/Announcement.svelte';
   import AdminNavLink from '$components/NavMenu/AdminNavLink.svelte';
   import NavLink from '$components/NavMenu/NavLink.svelte';
-  import TestEnvironmentBanner from '$components/common/TestEnvironmentBanner.svelte';
+  import TestEnvironmentBanner from '$components/TestEnvironmentBanner.svelte';
 </script>
 
 <nav

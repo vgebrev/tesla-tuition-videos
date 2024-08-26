@@ -141,6 +141,7 @@ export type AuthStoreState = {
   user: ?import('oidc-client').User;
   isAuthenticated: boolean;
   origin: 'login-callback' | 'user-loaded-event' | 'user-unloaded-event' | null;
+  isLoading: boolean;
 };
 
 export type CheckoutStoreState = {

@@ -1,10 +1,14 @@
 <script>
-  import { userManager } from '$lib/auth.js';
+  import { authStore, userManager } from '$lib/auth.js';
   import AuthorizeView from '$components/common/AuthorizeView.svelte';
   import LoginLink from '$components/common/LoginLink.svelte';
   import NavLink from '$components/NavMenu/NavLink.svelte';
 
   async function logout() {
+    authStore.update((state) => {
+      state.isLoading = true;
+      return state;
+    });
     sessionStorage.setItem('redirect', window.location.pathname);
     await userManager.signoutRedirect();
   }
@@ -23,7 +27,7 @@
         aria-haspopup="true"
         aria-expanded="false"
         on:click|preventDefault={() => {}}
-        ><i class="bi bi-person-circle"></i> {user.profile.name} <b class="caret"></b></a>
+        ><i class="bi bi-person-circle"></i> {user?.profile?.name || 'Account'} <b class="caret"></b></a>
 
       <div class="dropdown-menu">
         <NavLink

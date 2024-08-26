@@ -1,7 +1,11 @@
 <script>
-  import { userManager } from '$lib/auth.js';
+  import { authStore, userManager } from '$lib/auth.js';
 
   async function login() {
+    authStore.update((state) => {
+      state.isLoading = true;
+      return state;
+    });
     sessionStorage.setItem('redirect', window.location.pathname);
     try {
       await userManager.signinSilent();

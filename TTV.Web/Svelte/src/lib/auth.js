@@ -11,7 +11,8 @@ export const userManager = new UserManager(config.oidc);
 export const authStore = writable({
   user: null,
   isAuthenticated: false,
-  origin: null
+  origin: null,
+  isLoading: false
 });
 
 /** Auth store actions */
@@ -21,11 +22,14 @@ export const authActions = {
 };
 
 userManager.events.addUserLoaded((user) => {
-  authStore.set({ user, isAuthenticated: true, origin: 'user-loaded-event' });
+  authStore.set({ user, isAuthenticated: true, origin: 'user-loaded-event', isLoading: false });
 });
 
 userManager.events.addUserUnloaded(() => {
-  authStore.set({ user: null, isAuthenticated: false, origin: 'user-unloaded-event' });
+  authStore.update((state) => {
+    state = { ...state, user: null, isAuthenticated: false, origin: 'user-unloaded-event' };
+    return state;
+  });
 });
 
 userManager.events.addAccessTokenExpiring(async () => {
@@ -43,7 +47,7 @@ userManager.events.addAccessTokenExpired(async () => {
  */
 async function updateStoreWithCurrentUser(origin) {
   const user = await userManager.getUser();
-  authStore.set({ user, isAuthenticated: (user && !user.expired) || false, origin });
+  authStore.set({ user, isAuthenticated: (user && !user.expired) || false, origin, isLoading: false });
 }
 
 async function silentSignin() {

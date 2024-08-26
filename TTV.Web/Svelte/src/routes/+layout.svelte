@@ -5,8 +5,9 @@
   import NewVersionNotificationBanner from '$components/NewVersionNotificationBanner.svelte';
   import { afterNavigate, beforeNavigate } from '$app/navigation';
   import { updated } from '$app/stores';
-  import { authActions } from '$lib/auth.js';
+  import { authStore, authActions } from '$lib/auth.js';
   import { onMount } from 'svelte';
+  import FullHeightLoading from '$components/common/FullHeightLoading.svelte';
 
   onMount(async () => {
     await authActions.silentSignin();
@@ -30,7 +31,11 @@
 <NewVersionNotificationBanner />
 
 <div class="container mb-4">
-  <slot />
+  {#if $authStore.isLoading}
+    <FullHeightLoading />
+  {:else}
+    <slot />
+  {/if}
 </div>
 
 <AppFooter />

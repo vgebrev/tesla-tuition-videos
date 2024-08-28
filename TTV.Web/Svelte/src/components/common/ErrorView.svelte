@@ -1,4 +1,5 @@
 <script>
+  export let showStatus = false;
   export let status = 500;
   export let errorMessage = 'Unexpected Error';
 
@@ -39,7 +40,10 @@
 </script>
 
 <main class="container text-center mt-5">
-  <h3 class="text-warning">{status} - {errorMessage}</h3>
+  <h3 class="text-warning">
+    {#if showStatus}{status} -
+    {/if}{errorMessage}
+  </h3>
   <p class="lead">{message}</p>
   <a
     href="/"

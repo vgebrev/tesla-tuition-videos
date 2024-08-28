@@ -27,11 +27,19 @@ userManager.events.addUserLoaded((user) => {
 
 userManager.events.addUserUnloaded(() => {
   authStore.update((state) => {
-    state = { ...state, user: null, isAuthenticated: false, origin: 'user-unloaded-event' };
+    state.user = null;
+    state.isAuthenticated = false;
+    state.origin = 'user-unloaded-event';
     return state;
   });
 });
 
+userManager.events.addSilentRenewError(() => {
+  authStore.update((state) => {
+    state.isLoading = false;
+    return state;
+  });
+});
 userManager.events.addAccessTokenExpiring(async () => {
   await silentSignin();
 });
@@ -55,6 +63,10 @@ async function silentSignin() {
     await userManager.signinSilent();
   } catch {
     // We'll leave it to the user to explicitly sign in
+    authStore.update((state) => {
+      state.isLoading = false;
+      return state;
+    });
   }
 }
 

@@ -36,6 +36,12 @@
   {/if}
 {:else}
   <slot name="anonymous">
-    <FullHeightLoading />
+    {#if $authStore.isLoading}
+      <FullHeightLoading />
+    {:else}
+      <ErrorView
+        status={403}
+        errorMessage="Forbidden" />
+    {/if}
   </slot>
 {/if}

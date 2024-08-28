@@ -1,5 +1,6 @@
 <script>
   import { authStore, userManager } from '$lib/auth.js';
+  import { goto } from '$app/navigation';
 
   async function login() {
     authStore.update((state) => {
@@ -10,7 +11,16 @@
     try {
       await userManager.signinSilent();
     } catch {
-      await userManager.signinRedirect();
+      try {
+        await userManager.signinRedirect();
+      } catch (e) {
+        console.error(e);
+        authStore.update((state) => {
+          state.isLoading = false;
+          return state;
+        });
+        goto('/authentication/error', { replaceState: true });
+      }
     }
   }
 </script>

@@ -230,6 +230,7 @@ namespace TTV.DatabaseDeploy
 
         private static Price[] Prices { get; } =
         [
+            //Initial Prices
             // Physics
             new Price() { Id = 1, Amount = 80, Lesson = Lessons[0] },
             new Price() { Id = 2, Amount = 80, Lesson = Lessons[1] },
@@ -250,7 +251,6 @@ namespace TTV.DatabaseDeploy
             new Price() { Id = 17, Amount = 100, Lesson = Lessons[16] },
             new Price() { Id = 18, Amount = 100, Lesson = Lessons[17] },
             new Price() { Id = 19, Amount = 100, Lesson = Lessons[18] },
-            
             // Chemistry
             new Price() { Id = 20, Amount = 60, Lesson = Lessons[19] },
             new Price() { Id = 21, Amount = 80, Lesson = Lessons[20] },
@@ -270,6 +270,47 @@ namespace TTV.DatabaseDeploy
             new Price() { Id = 35, Amount = 100, Lesson = Lessons[34] },
             new Price() { Id = 36, Amount = 100, Lesson = Lessons[35] },
             new Price() { Id = 37, Amount = 0, Lesson = Lessons[36] },
+
+            //Launch Sale Prices
+            // Physics
+            new Price() { Id = 1, Amount = 80, PromoAmount = 72, EffectiveDate = new DateOnly(2024, 08, 01), Lesson = Lessons[0] },
+            new Price() { Id = 2, Amount = 80, PromoAmount = 72, EffectiveDate = new DateOnly(2024, 08, 01), Lesson = Lessons[1] },
+            new Price() { Id = 3, Amount = 80, PromoAmount = 72, EffectiveDate = new DateOnly(2024, 08, 01), Lesson = Lessons[2] },
+            new Price() { Id = 4, Amount = 80, PromoAmount = 72, EffectiveDate = new DateOnly(2024, 08, 01), Lesson = Lessons[3] },
+            new Price() { Id = 5, Amount = 60, PromoAmount = 54, EffectiveDate = new DateOnly(2024, 08, 01), Lesson = Lessons[4] },
+            new Price() { Id = 6, Amount = 80, PromoAmount = 72, EffectiveDate = new DateOnly(2024, 08, 01), Lesson = Lessons[5] },
+            new Price() { Id = 7, Amount = 80, PromoAmount = 72, EffectiveDate = new DateOnly(2024, 08, 01), Lesson = Lessons[6] },
+            new Price() { Id = 8, Amount = 80, PromoAmount = 72, EffectiveDate = new DateOnly(2024, 08, 01), Lesson = Lessons[7] },
+            new Price() { Id = 9, Amount = 80, PromoAmount = 72, EffectiveDate = new DateOnly(2024, 08, 01), Lesson = Lessons[8] },
+            new Price() { Id = 10, Amount = 80, PromoAmount = 72, EffectiveDate = new DateOnly(2024, 08, 01), Lesson = Lessons[9] },
+            new Price() { Id = 11, Amount = 60, PromoAmount = 54, EffectiveDate = new DateOnly(2024, 08, 01), Lesson = Lessons[10] },
+            new Price() { Id = 12, Amount = 100, PromoAmount = 90, EffectiveDate = new DateOnly(2024, 08, 01), Lesson = Lessons[11] },
+            new Price() { Id = 13, Amount = 100, PromoAmount = 90, EffectiveDate = new DateOnly(2024, 08, 01), Lesson = Lessons[12] },
+            new Price() { Id = 14, Amount = 100, PromoAmount = 90, EffectiveDate = new DateOnly(2024, 08, 01), Lesson = Lessons[13] },
+            new Price() { Id = 15, Amount = 80, PromoAmount = 72, EffectiveDate = new DateOnly(2024, 08, 01), Lesson = Lessons[14] },
+            new Price() { Id = 16, Amount = 80, PromoAmount = 72, EffectiveDate = new DateOnly(2024, 08, 01), Lesson = Lessons[15] },
+            new Price() { Id = 17, Amount = 100, PromoAmount = 90, EffectiveDate = new DateOnly(2024, 08, 01), Lesson = Lessons[16] },
+            new Price() { Id = 18, Amount = 100, PromoAmount = 90, EffectiveDate = new DateOnly(2024, 08, 01), Lesson = Lessons[17] },
+            new Price() { Id = 19, Amount = 100, PromoAmount = 90, EffectiveDate = new DateOnly(2024, 08, 01), Lesson = Lessons[18] },
+            // Chemistry
+            new Price() { Id = 20, Amount = 60, PromoAmount = 54, EffectiveDate = new DateOnly(2024, 08, 01), Lesson = Lessons[19] },
+            new Price() { Id = 21, Amount = 80, PromoAmount = 72, EffectiveDate = new DateOnly(2024, 08, 01), Lesson = Lessons[20] },
+            new Price() { Id = 22, Amount = 80, PromoAmount = 72, EffectiveDate = new DateOnly(2024, 08, 01), Lesson = Lessons[21] },
+            new Price() { Id = 23, Amount = 80, PromoAmount = 72, EffectiveDate = new DateOnly(2024, 08, 01), Lesson = Lessons[22] },
+            new Price() { Id = 24, Amount = 100, PromoAmount = 90, EffectiveDate = new DateOnly(2024, 08, 01), Lesson = Lessons[23] },
+            new Price() { Id = 25, Amount = 80, PromoAmount = 72, EffectiveDate = new DateOnly(2024, 08, 01), Lesson = Lessons[24] },
+            new Price() { Id = 26, Amount = 100, PromoAmount = 90, EffectiveDate = new DateOnly(2024, 08, 01), Lesson = Lessons[25] },
+            new Price() { Id = 27, Amount = 60, PromoAmount = 54, EffectiveDate = new DateOnly(2024, 08, 01), Lesson = Lessons[26] },
+            new Price() { Id = 28, Amount = 60, PromoAmount = 54, EffectiveDate = new DateOnly(2024, 08, 01), Lesson = Lessons[27] },
+            new Price() { Id = 29, Amount = 100, PromoAmount = 90, EffectiveDate = new DateOnly(2024, 08, 01), Lesson = Lessons[28] },
+            new Price() { Id = 30, Amount = 80, PromoAmount = 72, EffectiveDate = new DateOnly(2024, 08, 01), Lesson = Lessons[29] },
+            new Price() { Id = 31, Amount = 80, PromoAmount = 72, EffectiveDate = new DateOnly(2024, 08, 01), Lesson = Lessons[30] },
+            new Price() { Id = 32, Amount = 100, PromoAmount = 90, EffectiveDate = new DateOnly(2024, 08, 01), Lesson = Lessons[31] },
+            new Price() { Id = 33, Amount = 80, PromoAmount = 72, EffectiveDate = new DateOnly(2024, 08, 01), Lesson = Lessons[32] },
+            new Price() { Id = 34, Amount = 100, PromoAmount = 90, EffectiveDate = new DateOnly(2024, 08, 01), Lesson = Lessons[33] },
+            new Price() { Id = 35, Amount = 100, PromoAmount = 90, EffectiveDate = new DateOnly(2024, 08, 01), Lesson = Lessons[34] },
+            new Price() { Id = 36, Amount = 100, PromoAmount = 90, EffectiveDate = new DateOnly(2024, 08, 01), Lesson = Lessons[35] },
+            //new Price() { Id = 37, Amount = 0, Lesson = Lessons[36] },
         ];
 
         private static Document[] Documents { get; set; } =

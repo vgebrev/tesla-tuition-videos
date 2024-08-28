@@ -1,4 +1,6 @@
-﻿namespace TTV.Application;
+﻿using TTV.Domain.Entities;
+
+namespace TTV.Application;
 
 public record SystemSettings
 {
@@ -7,6 +9,7 @@ public record SystemSettings
     public string DiscountVoucherPepper { get; init; } = string.Empty;
     public bool IssueDiscountVoucherOnFirstOrder { get; init; }
     public EmailSettings EmailSettings { get; init; } = new();
+    public NotificationSettings NotificationSettings { get; init; } = new();
     public PayfastSettings PayfastSettings { get; init; } = new();
 }
 
@@ -32,4 +35,9 @@ public record PayfastSettings
     public string CancelUrl { get; init; } = string.Empty;
     public string NotifyUrl { get; init; } = string.Empty;
     public string[] AllowedHosts { get; init; } = [];
+}
+
+public record NotificationSettings
+{
+    public NotificationType[] DisabledNotificationTypes { get; init; } = [];
 }

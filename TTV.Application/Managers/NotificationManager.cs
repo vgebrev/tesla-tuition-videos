@@ -1,4 +1,5 @@
 ﻿using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 using TTV.Application.Exceptions;
 using TTV.Domain.DomainServices;
 using TTV.Domain.Entities;
@@ -7,16 +8,23 @@ namespace TTV.Application.Managers;
 public class NotificationManager(ILogger<NotificationManager> logger,
                            IUnitOfWorkFactory unitOfWorkFactory,
                            INotificationBuilder notificationBuilder,
-                           INotificationSender notificationSender) : INotificationManager
+                           INotificationSender notificationSender,
+                           IOptionsSnapshot<SystemSettings> config) : INotificationManager
 {
     private readonly ILogger<NotificationManager> logger = logger;
     private readonly IUnitOfWorkFactory unitOfWorkFactory = unitOfWorkFactory;
     private readonly INotificationBuilder notificationBuilder = notificationBuilder;
     private readonly INotificationSender notificationSender = notificationSender;
+    private readonly NotificationSettings settings = config.Value.NotificationSettings;
 
-    public async Task<Notification> CreateNotificationAsync(NotificationType notificationType, int orderId, CancellationToken cancellationToken = default)
+    public async Task<Notification?> CreateNotificationAsync(NotificationType notificationType, int orderId, CancellationToken cancellationToken = default)
     {
         logger.LogInformation("{Method}({NotificationType}, {OrderId})", nameof(CreateNotificationAsync), notificationType, orderId);
+        if (settings.DisabledNotificationTypes.Contains(notificationType))
+        {
+            logger.LogWarning("Notification type {NotificationType} is disabled", notificationType);
+            return null;
+        }
         using var unitOfWork = await unitOfWorkFactory.CreateAsync(cancellationToken);
         try
         {
@@ -37,8 +45,14 @@ public class NotificationManager(ILogger<NotificationManager> logger,
         }
     }
 
-    public async Task<Notification> CreateNotificationAsync<TData>(NotificationType notificationType, Guid userId, TData data, CancellationToken cancellationToken = default)
+    public async Task<Notification?> CreateNotificationAsync<TData>(NotificationType notificationType, Guid userId, TData data, CancellationToken cancellationToken = default)
     {
+        logger.LogInformation("{Method}({NotificationType}, {UserId}, {@Data})", nameof(CreateNotificationAsync), notificationType, userId, data);
+        if (settings.DisabledNotificationTypes.Contains(notificationType))
+        {
+            logger.LogWarning("Notification type {NotificationType} is disabled", notificationType);
+            return null;
+        }
         using var unitOfWork = await unitOfWorkFactory.CreateAsync(cancellationToken);
         try
         {

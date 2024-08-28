@@ -15,7 +15,10 @@ public class CreatePasswordResetNotification(ILogger<CreateOrderNotification> lo
         logger.LogInformation("{JobName}.{MethodName}({@Data})", nameof(CreateOrderNotification), nameof(ExecuteAsync), data);
         var jobData = (JobData)data!;
         var notification = await notificationManager.CreateNotificationAsync(NotificationType.PasswordReset, jobData.UserId, jobData.PasswordResetLink, cancellationToken);
-        backgroundJob.Enqueue<SendNotification>(notification.Id);
+        if (notification != null)
+        {
+            backgroundJob.Enqueue<SendNotification>(notification.Id);
+        }
     }
 
     public record JobData(Guid UserId, string PasswordResetLink);

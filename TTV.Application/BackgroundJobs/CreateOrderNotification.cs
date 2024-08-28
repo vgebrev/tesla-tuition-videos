@@ -15,7 +15,10 @@ public class CreateOrderNotification(ILogger<CreateOrderNotification> logger, IN
         logger.LogInformation("{JobName}.{MethodName}({@Data})", nameof(CreateOrderNotification), nameof(ExecuteAsync), data);
         var jobData = (JobData)data!;
         var notification = await notificationManager.CreateNotificationAsync(jobData.NotificationType, jobData.OrderId, cancellationToken);
-        backgroundJob.Enqueue<SendNotification>(notification.Id);
+        if (notification != null)
+        {
+            backgroundJob.Enqueue<SendNotification>(notification.Id);
+        }
     }
 
     public record JobData(int OrderId, NotificationType NotificationType);

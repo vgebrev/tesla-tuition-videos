@@ -47,5 +47,5 @@
   <p class="lead">{message}</p>
   <a
     href="/"
-    class="btn btn-primary mt-4">Back to Home</a>
+    class="mt-4">Back to Home</a>
 </main>

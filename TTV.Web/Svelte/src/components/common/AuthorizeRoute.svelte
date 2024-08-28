@@ -1,5 +1,5 @@
 <script>
-  import { authStore, userManager, authorizationPolicies } from '$lib/auth.js';
+  import { authStore, authorizationPolicies, authActions } from '$lib/auth.js';
   import { onMount } from 'svelte';
   import FullHeightLoading from '$components/common/FullHeightLoading.svelte';
   import ErrorView from '$components/common/ErrorView.svelte';
@@ -9,20 +9,17 @@
 
   onMount(async () => {
     if (!isAuthenticated) {
-      try {
-        await userManager.signinSilent();
-      } catch {
-        sessionStorage.setItem('redirect', window.location.pathname);
-        await userManager.signinRedirect();
-      }
+      await authActions.fullSignin();
     }
   });
+
   $: isAuthenticated = $authStore.isAuthenticated;
   $: isAuthorized = isAuthenticated
     ? authorizationPolicy
       ? authorizationPolicies[authorizationPolicy]($authStore.user)
       : true
     : false;
+  $: isLoading = $authStore.isLoading;
 </script>
 
 {#if isAuthenticated}
@@ -36,7 +33,7 @@
   {/if}
 {:else}
   <slot name="anonymous">
-    {#if $authStore.isLoading}
+    {#if isLoading}
       <FullHeightLoading />
     {:else}
       <ErrorView

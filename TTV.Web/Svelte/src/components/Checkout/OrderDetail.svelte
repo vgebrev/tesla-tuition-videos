@@ -115,7 +115,7 @@
             type="button"
             class="btn btn-outline-primary"
             on:click={cancelOrder}><i class="bi bi-trash me-2"></i> Cancel</button>
-          <small class="text-muted ms-2">Applied discount vouchers will be refunded.</small>
+          <small class="text-primary ms-2">Applied discount vouchers will be refunded.</small>
         </div>
       {/if}
       {#if cancelOrderResult}

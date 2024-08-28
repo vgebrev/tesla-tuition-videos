@@ -197,5 +197,9 @@ async function initiatePayment(orderId, paymentMethod) {
       return state;
     });
   }
-  // Don't set isLoading to false here as we normally would, as the page will be redirected to PayFast
+  if (paymentMethod === paymentMethods.payfast) return;
+  checkoutStore.update((state) => {
+    state.isLoading = false;
+    return state;
+  });
 }

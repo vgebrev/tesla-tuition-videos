@@ -1,6 +1,7 @@
 import { writable } from 'svelte/store';
 import { UserManager } from 'oidc-client';
 import { config } from '$lib/config';
+import { goto } from '$app/navigation';
 
 /** OIDC user manager
  * @type {UserManager} */
@@ -18,7 +19,8 @@ export const authStore = writable({
 /** Auth store actions */
 export const authActions = {
   updateStoreWithCurrentUser,
-  silentSignin
+  silentSignin,
+  fullSignin
 };
 
 userManager.events.addUserLoaded((user) => {
@@ -60,6 +62,10 @@ async function updateStoreWithCurrentUser(origin) {
 
 async function silentSignin() {
   try {
+    authStore.update((state) => {
+      state.isLoading = true;
+      return state;
+    });
     await userManager.signinSilent();
   } catch {
     // We'll leave it to the user to explicitly sign in
@@ -67,6 +73,27 @@ async function silentSignin() {
       state.isLoading = false;
       return state;
     });
+  }
+}
+
+async function fullSignin() {
+  authStore.update((state) => {
+    state.isLoading = true;
+    return state;
+  });
+  try {
+    await userManager.signinSilent();
+  } catch {
+    sessionStorage.setItem('redirect', window.location.pathname);
+    try {
+      await userManager.signinRedirect();
+    } catch {
+      authStore.update((state) => {
+        state.isLoading = false;
+        return state;
+      });
+      await goto('/authentication/error', { replaceState: true });
+    }
   }
 }
 

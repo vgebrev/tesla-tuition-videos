@@ -4,4 +4,4 @@
 
 <ErrorView
   status={500}
-  errorMessage="Unexpected login error" />
+  errorMessage="Unexpected log in error" />

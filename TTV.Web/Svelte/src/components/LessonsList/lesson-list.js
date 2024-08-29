@@ -132,7 +132,9 @@ async function setSearchTags(tags, triggerSearch = true) {
  */
 function updateLessons(lessons) {
   lessonListStore.update((state) => {
-    state.lessons = mergeArrays(state.lessons || [], lessons || []);
+    if (state.lessons) {
+      state.lessons = mergeArrays(state.lessons || [], lessons || []);
+    }
     return state;
   });
 }

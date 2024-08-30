@@ -10,7 +10,7 @@
     </div>
   </div>
   <div class="row">
-    <div class="col text-center">
+    <div class="col text-center d-flex flex-column gap-3 mt-3">
       The payment for Order #{orderId} was cancelled.
       <a
         href="/checkout/{orderId}"

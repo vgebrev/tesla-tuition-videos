@@ -10,7 +10,9 @@
   import FullHeightLoading from '$components/common/FullHeightLoading.svelte';
 
   onMount(async () => {
-    await authActions.silentSignin();
+    if (!$authStore.isAuthenticated) {
+      await authActions.silentSignin();
+    }
   });
 
   beforeNavigate(({ willUnload, to }) => {

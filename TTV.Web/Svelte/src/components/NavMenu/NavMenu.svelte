@@ -63,3 +63,9 @@
 </nav>
 
 <TestEnvironmentBanner />
+
+<style>
+  .fixed-top {
+    z-index: 1;
+  }
+</style>

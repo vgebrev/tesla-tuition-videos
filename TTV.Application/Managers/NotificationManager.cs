@@ -16,6 +16,7 @@ public class NotificationManager(ILogger<NotificationManager> logger,
     private readonly INotificationBuilder notificationBuilder = notificationBuilder;
     private readonly INotificationSender notificationSender = notificationSender;
     private readonly NotificationSettings settings = config.Value.NotificationSettings;
+    private readonly bool isTestEnvironment = config.Value.IsTestEnvironment;
 
     public async Task<Notification?> CreateNotificationAsync(NotificationType notificationType, int orderId, CancellationToken cancellationToken = default)
     {
@@ -81,7 +82,7 @@ public class NotificationManager(ILogger<NotificationManager> logger,
         {
             await unitOfWork.StartAsync(cancellationToken);
             var notification = await unitOfWork.NotificationRepository.GetByIdAsync(notificationId, cancellationToken) ?? throw new NotificationNotFoundException(notificationId);
-            await notificationSender.SendNotificationAsync(notification, cancellationToken);
+            await notificationSender.SendNotificationAsync(notification, isTestEnvironment, cancellationToken);
             await unitOfWork.EndAsync(cancellationToken);
         }
         catch (Exception)

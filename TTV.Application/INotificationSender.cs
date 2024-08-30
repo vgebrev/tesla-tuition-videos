@@ -3,5 +3,5 @@
 namespace TTV.Application;
 public interface INotificationSender
 {
-    Task SendNotificationAsync(Notification notification, CancellationToken cancellationToken = default);
+    Task SendNotificationAsync(Notification notification, bool isTestEnvironment, CancellationToken cancellationToken = default);
 }

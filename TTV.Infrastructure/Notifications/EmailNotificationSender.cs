@@ -9,11 +9,11 @@ public class EmailNotificationSender(ILogger<EmailNotificationSender> logger, IE
     private readonly ILogger<EmailNotificationSender> logger = logger;
     private readonly IEmailSender emailSender = emailSender;
 
-    public async Task SendNotificationAsync(Notification notification, CancellationToken cancellationToken = default)
+    public async Task SendNotificationAsync(Notification notification, bool isTestEnvironment, CancellationToken cancellationToken = default)
     {
         try
         {
-            await emailSender.SendEmailAsync(notification.To, notification.From, notification.Subject, notification.Body, cancellationToken);
+            await emailSender.SendEmailAsync(notification.To, notification.From, (isTestEnvironment ? "[Test] " : "") + notification.Subject, notification.Body, cancellationToken);
             notification.SentOn = DateTime.Now;
             notification.IsSent = true;
         }

@@ -7,7 +7,7 @@ public record SystemSettings
     public string VideosPath { get; init; } = string.Empty;
     public string DocumentsPath { get; init; } = string.Empty;
     public string DiscountVoucherPepper { get; init; } = string.Empty;
-    public bool IssueDiscountVoucherOnFirstOrder { get; init; }
+    public bool IsTestEnvironment { get; set; } = true;
     public EmailSettings EmailSettings { get; init; } = new();
     public NotificationSettings NotificationSettings { get; init; } = new();
     public PayfastSettings PayfastSettings { get; init; } = new();

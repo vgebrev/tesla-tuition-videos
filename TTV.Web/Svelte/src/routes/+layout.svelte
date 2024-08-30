@@ -19,6 +19,10 @@
     if ($updated && !willUnload && to?.url) {
       location.href = to.url.href;
     }
+
+    if (to?.url.origin !== location.origin) {
+      $authStore.isLoading = false;
+    }
   });
 
   afterNavigate(async (navigation) => {

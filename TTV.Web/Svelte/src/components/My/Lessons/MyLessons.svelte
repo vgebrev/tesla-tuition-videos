@@ -33,7 +33,7 @@
       </div>
     {:else}
       <div class="row">
-        <div class="col text-center">
+        <div class="col text-center d-flex flex-column gap-3 mt-3">
           Your lesson library is empty.
           <a
             href="/lessons"

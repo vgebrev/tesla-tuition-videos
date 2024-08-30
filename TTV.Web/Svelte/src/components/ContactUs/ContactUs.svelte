@@ -12,7 +12,7 @@
   </div>
 </div>
 <div class="row">
-  <div class="col m-5 text-center">
+  <div class="col m-2 m-md-5 text-center">
     <p class="fs-5 text-white">We are here to help you. Please feel free to contact us using the following methods:</p>
   </div>
 </div>

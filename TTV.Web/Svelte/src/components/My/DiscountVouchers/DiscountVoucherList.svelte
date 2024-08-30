@@ -50,12 +50,13 @@
       </div>
     {:else if !state.isLoading}
       <div class="row">
-        <div class="col text-center">
+        <div class="col text-center d-flex flex-column gap-3 mt-3">
           We didn't find any vouchers in your name.
-          <a
-            href="/contact-us"
-            title="Contact us"
-            class="card-link">Contact us</a> to find out more.
+          <span
+            ><a
+              href="/contact-us"
+              title="Contact us"
+              class="card-link">Contact us</a> to find out more.</span>
         </div>
       </div>
     {/if}

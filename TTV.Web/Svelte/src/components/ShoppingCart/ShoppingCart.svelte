@@ -31,10 +31,11 @@
   <ProgressLoader
     isLoading={state.isLoading}
     class="mb-3" />
-  <div class="row justify-content-center">
-    <div class="card border-primary col-sm-12 col-md-12 col-lg-10">
-      <div class="card-body">
-        {#if state.lessons.length > 0}
+
+  {#if state.lessons.length > 0}
+    <div class="row justify-content-center">
+      <div class="card border-primary col-sm-12 col-md-12 col-lg-10">
+        <div class="card-body p-1 p-md-3">
           <LessonPriceList lessons={state.lessons}>
             <tr
               class:table-secondary={i % 2 === 0}
@@ -59,19 +60,19 @@
               <th></th>
             </tr>
           </LessonPriceList>
-        {:else}
-          <div class="row">
-            <div class="col text-center">
-              Your shopping cart is empty.
-              <a
-                href="/lessons"
-                class="card-link">Find some lessons.</a>
-            </div>
-          </div>
-        {/if}
+        </div>
       </div>
     </div>
-  </div>
+  {:else}
+    <div class="row">
+      <div class="col text-center d-flex flex-column gap-3 mt-3">
+        Your shopping cart is empty.
+        <a
+          href="/lessons"
+          class="card-link">Find some lessons.</a>
+      </div>
+    </div>
+  {/if}
   {#if state.lessons.length > 0}
     <div class="row justify-content-center m-3">
       <div class="col-12 col-md-6 col-lg-6 text-center">

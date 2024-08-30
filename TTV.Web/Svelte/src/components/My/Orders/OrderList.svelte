@@ -22,7 +22,7 @@
       </div>
     {:else if !state.isLoading}
       <div class="row">
-        <div class="col text-center">
+        <div class="col text-center d-flex flex-column gap-3 mt-3">
           Your order history is empty.
           <a
             href="/lessons"

@@ -4,6 +4,7 @@ using TTV.Domain;
 using TTV.Domain.DomainServices;
 using TTV.Domain.DomainServices.BackgroundJobs;
 using TTV.Domain.Entities;
+using TTV.Domain.Filters;
 
 namespace TTV.Application.Managers;
 
@@ -48,7 +49,13 @@ public class OrderManager(IUnitOfWorkFactory unitOfWorkFactory, IUserIdentitySer
         using var unitOfWork = await unitOfWorkFactory.CreateAsync(cancellationToken);
         var orders = await unitOfWork.OrderRepository.GetPlacedByUserListAsync(userId, cancellationToken);
         return orders;
+    }
 
+    public async Task<IEnumerable<Order>> GetListAsync(OrderListFilter filter, CancellationToken cancellationToken = default)
+    {
+        using var unitOfWork = await unitOfWorkFactory.CreateAsync(cancellationToken);
+        var orders = await unitOfWork.OrderRepository.GetListAsync(filter, cancellationToken);
+        return orders;
     }
 
     public async Task<Order?> GetOrderAsync(int orderId, CancellationToken cancellationToken = default)

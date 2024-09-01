@@ -8,7 +8,7 @@ namespace TTV.Web.Api.Controllers;
 
 [Route("documents")]
 [ApiController]
-public class DocumentController(ILogger<DocumentController> logger, IDocumentManager documentManager, IDocumentStreamLoader documentStreamLoader) : ControllerBase
+public class DocumentsController(ILogger<DocumentsController> logger, IDocumentManager documentManager, IDocumentStreamLoader documentStreamLoader) : ControllerBase
 {
     [HttpGet("lesson/{lessonId}")]
     public async Task<IEnumerable<DocumentDto>> GetDocumentsForLesson([FromRoute] int lessonId, CancellationToken cancellationToken = default)

@@ -43,6 +43,7 @@ public class PaymentManager(ILogger<PaymentManager> logger, IUnitOfWorkFactory u
         {
             var order = await unitOfWork.OrderRepository.GetByIdAsync(orderId, cancellationToken) ?? throw new OrderNotFoundException(orderId);
             order.CancelPendingPayments("Another payment initiated");
+            order.Status = OrderStatus.AwaitingPayment;
 
             var paymentProcessor = paymentProcessorFactory.CreatePaymentProcessor(paymentType);
             var result = await paymentProcessor.InitiateAsync(order, cancellationToken);

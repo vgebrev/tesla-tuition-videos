@@ -8,9 +8,9 @@ namespace TTV.Web.Api.Controllers;
 
 [Route("lessons")]
 [ApiController]
-public class LessonController(ILogger<LessonController> logger, ILessonManager lessonManager) : ControllerBase
+public class LessonsController(ILogger<LessonsController> logger, ILessonManager lessonManager) : ControllerBase
 {
-    private readonly ILogger<LessonController> logger = logger;
+    private readonly ILogger<LessonsController> logger = logger;
     private readonly ILessonManager lessonManager = lessonManager;
 
     [HttpGet("{lessonId}")]

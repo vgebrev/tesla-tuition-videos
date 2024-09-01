@@ -13,4 +13,10 @@ public class UserRepository(DataContext dataContext) : IUserRepository
         return await dataContext.Users.TagWithCallSite()
             .SingleOrDefaultAsync(user => user.Id == userId, cancellationToken);
     }
+
+    public async Task<User[]> GetAllAsync(CancellationToken cancellationToken = default)
+    {
+        return await dataContext.Users.TagWithCallSite()
+            .ToArrayAsync(cancellationToken);
+    }
 }

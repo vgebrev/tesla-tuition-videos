@@ -7,9 +7,9 @@ namespace TTV.Web.Api.Controllers;
 
 [Route("tags")]
 [ApiController]
-public class TagController(ILogger<TagController> logger, ITagManager tagManager) : ControllerBase
+public class TagsController(ILogger<TagsController> logger, ITagManager tagManager) : ControllerBase
 {
-    private readonly ILogger<TagController> logger = logger;
+    private readonly ILogger<TagsController> logger = logger;
     private readonly ITagManager tagManager = tagManager;
 
     [HttpGet]

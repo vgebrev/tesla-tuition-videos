@@ -3,6 +3,8 @@ using Microsoft.AspNetCore.Mvc;
 using TTV.Application.Exceptions;
 using TTV.Application.Managers;
 using TTV.Domain.DomainServices;
+using TTV.Domain.Entities;
+using TTV.Domain.Filters;
 using TTV.Infrastructure.Videos;
 using TTV.Web.Api.MappingExtensions;
 using TTV.Web.Shared;
@@ -12,9 +14,9 @@ namespace TTV.Web.Api.Controllers;
 [Route("orders")]
 [ApiController]
 [Authorize]
-public class OrderController(ILogger<OrderController> logger, IOrderManager orderManager, IUserIdentityService userIdentity, IVideoPathCache videoPathCache) : ControllerBase
+public class OrdersController(ILogger<OrdersController> logger, IOrderManager orderManager, IUserIdentityService userIdentity, IVideoPathCache videoPathCache) : ControllerBase
 {
-    private readonly ILogger<OrderController> logger = logger;
+    private readonly ILogger<OrdersController> logger = logger;
     private readonly IOrderManager orderManager = orderManager;
     private readonly IUserIdentityService userIdentity = userIdentity;
     private readonly IVideoPathCache videoPathCache = videoPathCache;
@@ -34,6 +36,15 @@ public class OrderController(ILogger<OrderController> logger, IOrderManager orde
         var userId = userIdentity.UserId ?? throw new UnauthenticatedException();
         var orders = await orderManager.GetPlacedByUserListAsync(userId, cancellationToken);
         return Ok(orders.ToEnumerableOrderDto());
+    }
+
+    [HttpGet]
+    [Authorize(Policy = "Admin")]
+    public async Task<ActionResult<IEnumerable<OrderDto>>> GetList([FromQuery]OrderListFilter filter, CancellationToken cancellationToken = default)
+    {
+        logger.LogInformation("{MethodName}({@OrderListFilter})", nameof(GetList), filter);
+        var orders = await orderManager.GetListAsync(filter, cancellationToken);
+        return Ok(orders.ToEnumerableOrderDto(includeLessons: false));
     }
 
     [HttpGet("{orderId}")]
@@ -76,5 +87,13 @@ public class OrderController(ILogger<OrderController> logger, IOrderManager orde
             return UnprocessableEntity(response);
         }
         return Ok(response);
+    }
+
+    [HttpGetAttribute("statuses")]
+    public ActionResult<IEnumerable<LookupDto>> GetStatuses()
+    {
+        logger.LogInformation("{MethodName}", nameof(GetStatuses));
+        var statuses = Enum.GetValues<OrderStatus>().Select(EnumMappings.ToLookupDto);
+        return Ok(statuses.ToArray());
     }
 }

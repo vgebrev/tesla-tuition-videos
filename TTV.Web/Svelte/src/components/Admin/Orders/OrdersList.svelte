@@ -1,0 +1,65 @@
+<script>
+  import { adminOrdersStore, adminOrdersActions } from '$components/Admin/Orders/orders.js';
+  import { onMount } from 'svelte';
+  import { formatDateTime } from '$lib/util.js';
+
+  onMount(async () => {
+    await adminOrdersActions.getOrders();
+  });
+
+  /**
+   * Complete the given order.
+   * @param {import('$lib/types').Order} order
+   */
+  async function completeOrder(order) {
+    await adminOrdersActions.completeOrder(order);
+  }
+
+  $: state = $adminOrdersStore;
+</script>
+
+{#if state.orders && state.orders.length > 0}
+  <div class="table-responsive">
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th>Number</th>
+          <th>Total</th>
+          <th>Payments</th>
+          <th>Due</th>
+          <th>Placed By</th>
+          <th>Account Type</th>
+          <th>Placed On</th>
+          <th>Status</th>
+          <th>Reason</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        {#each state.orders as order, i (order.id)}
+          <tr class:table-secondary={i % 2 === 0}>
+            <td>{order.id}</td>
+            <td>R{order.orderTotal.toFixed(0)}</td>
+            <td>R{order.paymentsTotal.toFixed(0)}</td>
+            <td>R{order.totalAmount.toFixed(0)}</td>
+            <td>{order.placedBy.name}</td>
+            <td>{order.placedBy.provider}</td>
+            <td>{formatDateTime(order.placedOn)}</td>
+            <td>{order.status.name}</td>
+            <td>{order.statusReason || ''}</td>
+            <td>
+              {#if !order.isFinalised}
+                <button
+                  type="button"
+                  class="btn btn-primary btn-sm"
+                  on:click={async () => await completeOrder(order)}
+                  ><i class="bi bi-hand-thumbs-up me-2"></i> Complete</button
+                >{/if}</td>
+          </tr>
+        {/each}
+      </tbody>
+    </table>
+  </div>
+{:else if !state.isLoadingOrders}
+  <p>No orders match the criteria.</p>
+{/if}

@@ -42,6 +42,7 @@ public static class ServicesExtensions
         services.AddScoped<ITemplateRenderer, TemplateRenderer>();
         services.AddScoped<IUnitOfWorkFactory, UnitOfWorkFactory>();
         services.AddScoped<IUserIdentityService, ClaimsIdentityService>();
+        services.AddScoped<IUserManager, UserManager>();
         services.AddScoped<IVideoManager, VideoManager>();
         services.AddSingleton<IVideoPathCache, VideoPathCache>();
         services.AddScoped<IVideoStreamLoader, VideoStreamLoader>();
@@ -53,7 +54,7 @@ public static class ServicesExtensions
         services.AddScoped<SendNotification>();
 
         services.AddAuthorizationBuilder()
-            .AddPolicy("Admin", policy => policy.RequireClaim("role", "admin"))
+            .AddPolicy("Admin", policy => policy.RequireRole("admin"))
             .AddPolicy("CanIssueVouchers", policy => policy.RequireClaim("permission", "vouchers.issue"));
         services.Configure<SystemSettings>(configuration.GetSection(nameof(SystemSettings)));
 

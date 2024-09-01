@@ -10,6 +10,14 @@ export type Lookup = {
   name: string;
 };
 
+export type OrderFilterState = {
+  status: ?number;
+  userId: ?string;
+  isFinalised: boolean;
+  from: ?Date;
+  to: ?Date;
+};
+
 // ----- Entities ----------------------------------------------------------------------------------
 
 export type AppliedDiscount = {
@@ -55,6 +63,8 @@ export type Order = {
   placedOn: Date;
   status: Lookup;
   statusReason: ?string;
+  orderTotal: number;
+  paymentsTotal: number;
   totalAmount: number;
   appliedDiscounts: AppliedDiscount[];
   payments: Payment[];
@@ -125,16 +135,31 @@ export type Testimonial = {
 
 export type User = {
   id: string;
+  name: string;
+  provider: string;
   email: ?string;
 };
 
 // ----- Store States ------------------------------------------------------------------------------
 
-export type AdminStoreState = {
+export type AdminDiscountVouchersStoreState = {
   isLoading: boolean;
-  error: ErrorState;
   discountVouchers: ?DiscountVoucher[];
   issuedVoucher: ?DiscountVoucher;
+  error: ErrorState;
+};
+
+export type AdminOrdersStoreState = {
+  isLoadingOrders: boolean;
+  isLoadingUsers: boolean;
+  isLoadingStatuses: boolean;
+  orders: ?Order[];
+  statuses: ?Lookup[];
+  users: ?User[];
+  filter: OrderFilterState;
+  ordersError: ErrorState;
+  statusesError: ErrorState;
+  usersError: ErrorState;
 };
 
 export type AuthStoreState = {

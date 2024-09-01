@@ -5,15 +5,17 @@ namespace TTV.Web.Api.MappingExtensions;
 
 internal static class OrderMappings
 {
-    public static OrderDto ToOrderDto(this Order order) =>
+    public static OrderDto ToOrderDto(this Order order, bool includeLessons = true) =>
         new()
         {
             Id = order.Id,
-            Lessons = order.Lessons.ToLessonDtoEnumerable(order.PlacedOn).ToArray(),
+            Lessons = includeLessons ? order.Lessons.ToLessonDtoEnumerable(order.PlacedOn).ToArray() : [],
             PlacedBy = order.PlacedBy.ToUserDto()!,
             PlacedOn = order.PlacedOn,
             Status = order.Status.ToLookupDto(),
             StatusReason = order.StatusReason,
+            OrderTotal = order.OrderTotal,
+            PaymentsTotal = order.PaymentsTotal,
             TotalAmount = order.TotalAmount,
             AppliedDiscounts = order.AppliedVouchers.Select(ToAppliedDiscountDto).ToArray()!,
             Payments = order.Payments.ToEnumerablePaymentDto().ToArray(),
@@ -23,8 +25,8 @@ internal static class OrderMappings
             CanComplete = order.CanComplete,
         };
 
-    public static IEnumerable<OrderDto> ToEnumerableOrderDto(this IEnumerable<Order> orders) =>
-        orders.Select(ToOrderDto);
+    public static IEnumerable<OrderDto> ToEnumerableOrderDto(this IEnumerable<Order> orders, bool includeLessons = true) =>
+        orders.Select(order => order.ToOrderDto(includeLessons));
 
     public static AppliedDiscountDto? ToAppliedDiscountDto(this OrderDiscountVoucher? orderDiscountVoucher)
     {

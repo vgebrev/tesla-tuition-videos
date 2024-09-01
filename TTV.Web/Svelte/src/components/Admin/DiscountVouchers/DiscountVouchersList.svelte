@@ -1,11 +1,14 @@
 <script>
   import AuthorizeView from '$components/common/AuthorizeView.svelte';
-  import { adminStore, adminActions } from '$components/Admin/admin.js';
+  import {
+    adminDiscountVouchersStore,
+    adminDiscountVouchersActions
+  } from '$components/Admin/DiscountVouchers/discount-vouchers.js';
   import { onMount } from 'svelte';
   import { formatDate, formatDateTime } from '$lib/util.js';
 
   onMount(async () => {
-    await adminActions.getDiscountVouchers();
+    await adminDiscountVouchersActions.getDiscountVouchers();
   });
 
   /**
@@ -18,7 +21,7 @@
     today.setHours(0, 0, 0, 0);
     return new Date(date) < today;
   }
-  $: state = $adminStore;
+  $: state = $adminDiscountVouchersStore;
 </script>
 
 <AuthorizeView authorizationPolicy="admin">

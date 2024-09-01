@@ -6,7 +6,7 @@ namespace TTV.Web.Api.Controllers;
 
 [Route("videos")]
 [ApiController]
-public class VideoController(ILogger<VideoController> logger, IVideoStreamLoader videoStreamLoader, IUserIdentityService userIdentityService) : ControllerBase
+public class VideosController(ILogger<VideosController> logger, IVideoStreamLoader videoStreamLoader, IUserIdentityService userIdentityService) : ControllerBase
 {
     // TODO: This should probably move to the lesson controller, and this controller can serve "always free" videos (eg shorts, "meet the teacher" etc) once that concept exists
     [HttpGet("lesson/{lessonId}")]

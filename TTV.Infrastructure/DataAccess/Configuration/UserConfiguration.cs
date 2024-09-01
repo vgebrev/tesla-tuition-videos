@@ -15,5 +15,23 @@ internal class UserConfiguration : IEntityTypeConfiguration<User>
                 user => user.HasOne<Lesson>().WithMany().HasForeignKey($"{nameof(Lesson)}{nameof(Lesson.Id)}").OnDelete(DeleteBehavior.Restrict),
                 lesson => lesson.HasOne<User>().WithMany().HasForeignKey($"{nameof(User)}{nameof(User.Id)}").OnDelete(DeleteBehavior.Restrict));
         entity.HasMany(user => user.Notifications).WithOne(n => n.User).OnDelete(DeleteBehavior.Restrict);
+
+        entity.OwnsMany(u => u.Claims, claim =>
+        {
+            claim.ToTable("AspNetUserClaims", schema: "user");
+            claim.WithOwner().HasForeignKey("UserId");
+            claim.Property("Id");
+            claim.HasKey("Id");
+        });
+
+        entity.OwnsMany(u => u.Logins, login =>
+        {
+            login.ToTable("AspNetUserLogins", schema: "user");
+            login.WithOwner().HasForeignKey("UserId");
+            login.HasKey(l => new { l.LoginProvider, l.ProviderKey, l.UserId });
+        });
+
+        entity.Ignore(user => user.Name);
+        entity.Ignore(user => user.Provider);
     }
 }

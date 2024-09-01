@@ -10,9 +10,9 @@ namespace TTV.Web.Api.Controllers;
 
 [Route("discount-vouchers")]
 [ApiController]
-public class DiscountVoucherController(ILogger<DiscountVoucherController> logger, IDiscountVoucherManager discountVoucherManager, IUserIdentityService userIdentity) : ControllerBase
+public class DiscountVouchersController(ILogger<DiscountVouchersController> logger, IDiscountVoucherManager discountVoucherManager, IUserIdentityService userIdentity) : ControllerBase
 {
-    private readonly ILogger<DiscountVoucherController> logger = logger;
+    private readonly ILogger<DiscountVouchersController> logger = logger;
     private readonly IDiscountVoucherManager discountVoucherManager = discountVoucherManager;
     private readonly IUserIdentityService userIdentity = userIdentity;
 

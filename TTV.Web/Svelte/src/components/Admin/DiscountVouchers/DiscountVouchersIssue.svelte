@@ -1,12 +1,19 @@
 <script>
   import AuthorizeView from '$components/common/AuthorizeView.svelte';
-  import { adminStore, adminActions } from '$components/Admin/admin.js';
+  import {
+    adminDiscountVouchersStore,
+    adminDiscountVouchersActions
+  } from '$components/Admin/DiscountVouchers/discount-vouchers.js';
 
   async function issueVoucher() {
     if (!model.amount.isValid() || !model.expirationDate.isValid() || !model.note.isValid()) {
       return;
     }
-    await adminActions.issueDiscountVoucher(model.amount.value || 0, model.expirationDate.value, model.note.value);
+    await adminDiscountVouchersActions.issueDiscountVoucher(
+      model.amount.value || 0,
+      model.expirationDate.value,
+      model.note.value
+    );
     model.amount.value = null;
     model.expirationDate.value = null;
     model.note.value = null;
@@ -25,7 +32,7 @@
     }
   };
 
-  $: state = $adminStore;
+  $: state = $adminDiscountVouchersStore;
 </script>
 
 <AuthorizeView authorizationPolicy="canIssueVouchers">

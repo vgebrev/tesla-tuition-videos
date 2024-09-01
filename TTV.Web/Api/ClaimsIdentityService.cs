@@ -13,8 +13,8 @@ public class ClaimsIdentityService : IUserIdentityService
             UserId = userId;
         }
         Email = user?.FindFirst(ClaimTypes.Email)?.Value;
-
     }
+
     public Guid? UserId { get; }
 
     public string? Email { get; }

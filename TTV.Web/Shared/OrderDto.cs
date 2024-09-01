@@ -8,6 +8,8 @@ public record OrderDto
     public DateTime PlacedOn { get; init; }
     public LookupDto Status { get; init; } = new();
     public string? StatusReason { get; init; }
+    public decimal OrderTotal { get; init; }
+    public decimal PaymentsTotal { get; init; }
     public decimal TotalAmount { get; init; }
     public AppliedDiscountDto[] AppliedDiscounts { get; init; } = [];
     public PaymentDto[] Payments { get; init; } = [];

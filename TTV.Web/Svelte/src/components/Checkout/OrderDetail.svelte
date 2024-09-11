@@ -1,6 +1,6 @@
 <script>
   import ResultCard from '$components/common/ResultCard.svelte';
-  import { checkoutStore, checkoutActions } from '$components/Checkout/checkout.js';
+  import { checkoutStore, checkoutActions, formatPaymentMethod } from '$components/Checkout/checkout.js';
   import { sum } from '$lib/util.js';
 
   /**
@@ -12,21 +12,6 @@
       return false;
     }
     return lesson.owner.id === order.placedBy.id;
-  }
-
-  /**
-   *
-   * @param {import('$lib/types').PaymentMethod} paymentMethod
-   */
-  function formatPaymentMethod(paymentMethod) {
-    switch (paymentMethod) {
-      case 1:
-        return 'Manual Bank Transfer';
-      case 2:
-        return 'Payfast';
-      case 3:
-        return 'PayPal';
-    }
   }
 
   async function cancelOrder() {

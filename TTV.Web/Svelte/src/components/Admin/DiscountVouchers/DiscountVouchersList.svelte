@@ -27,7 +27,7 @@
 <AuthorizeView authorizationPolicy="admin">
   <div slot="authorized">
     {#if state.discountVouchers && state.discountVouchers.length > 0}
-      <div class="table-responsive">
+      <div class="table-responsive small">
         <table class="table table-striped">
           <thead>
             <tr>

@@ -167,3 +167,11 @@ footer {
 .modal-backdrop {
 	display: none;
 }
+
+.popover-dark {
+	--bs-popover-bg: var(--bs-secondary);
+	--bs-popover-header-bg: var(--bs-secondary);
+	--bs-popover-body-padding-x: 0.5rem;
+	--bs-popover-body-padding-y: 0.5rem;
+	--bs-popover-max-width: 576px;
+}

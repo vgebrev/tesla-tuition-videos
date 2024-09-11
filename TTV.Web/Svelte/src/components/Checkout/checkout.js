@@ -7,6 +7,19 @@ export const paymentMethods = {
   payfast: 2
 };
 
+/**
+ *
+ * @param {import('$lib/types').PaymentMethod} paymentMethod
+ */
+export function formatPaymentMethod(paymentMethod) {
+  switch (paymentMethod) {
+    case paymentMethods.bankTransfer:
+      return 'Manual Bank Transfer';
+    case paymentMethods.payfast:
+      return 'Payfast';
+  }
+}
+
 /** @type {import('$lib/types').CheckoutStoreState} */
 const initialState = {
   isLoading: false,

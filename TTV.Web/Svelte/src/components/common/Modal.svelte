@@ -47,7 +47,7 @@
   aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content text-bg-dark">
-      <div class="modal-header">
+      <div class="modal-header bg-dark">
         {#if title}
           <h1
             class="modal-title fs-5"

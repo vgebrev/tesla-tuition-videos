@@ -1,7 +1,7 @@
 ﻿using TTV.Domain.Entities;
 
 namespace TTV.Domain.Filters;
-public record OrderListFilter
+public record OrderListFilter : PageFilter
 {
     public Guid? UserId { get; init; } = null;
     public OrderStatus? Status { get; init; } = null;

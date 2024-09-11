@@ -1,5 +1,5 @@
-﻿namespace TTV.Domain.Filters;
-public record PageFilter
+﻿namespace TTV.Web.Shared;
+public record PageInfoDto
 {
     public int Skip { get; init; } = 0;
     public int Take { get; init; } = 12;

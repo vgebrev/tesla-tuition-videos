@@ -1,12 +1,13 @@
 <script>
   import { onMount } from 'svelte';
   import { config } from '$lib/config.js';
+  import Popover from '$components/common/Popover.svelte';
 
   /** @type {HTMLSpanElement} */
   let popoverElem;
   onMount(() => {
     if (!config.isTestEnvironment) return;
-    new bootstrap.Popover(popoverElem, { html: true });
+    //new bootstrap.Popover(popoverElem, { html: true });
   });
 </script>
 
@@ -17,11 +18,17 @@
     <span
       bind:this={popoverElem}
       class="badge rounded-pill bg-danger p-2"
-      style="cursor: pointer;pointer-events:auto;"
-      data-bs-toggle="popover"
-      data-bs-content="This is a test copy of Tesla Tuition Videos. No paid content is shown and no real transactions are processed. The live site is at <a href='https://teslatuitionvideos.co.za' class='text-secondary'>https://teslatuitionvideos.co.za</a>."
-      data-bs-trigger="click">
+      style="cursor: pointer;pointer-events:auto;">
       Test Environment
     </span>
+    <Popover triggerElem={popoverElem}>
+      <div class="p-2 fs-6">
+        This is a test copy of Tesla Tuition Videos. No paid content is shown and no real transactions are processed.
+        The live site is at <a
+          href="https://teslatuitionvideos.co.za"
+          class="text-white">https://teslatuitionvideos.co.za</a
+        >.
+      </div>
+    </Popover>
   </div>
 {/if}

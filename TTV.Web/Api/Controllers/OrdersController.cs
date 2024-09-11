@@ -44,7 +44,7 @@ public class OrdersController(ILogger<OrdersController> logger, IOrderManager or
     {
         logger.LogInformation("{MethodName}({@OrderListFilter})", nameof(GetList), filter);
         var orders = await orderManager.GetListAsync(filter, cancellationToken);
-        return Ok(orders.ToEnumerableOrderDto(includeLessons: false));
+        return Ok(orders.ToEnumerableOrderDto());
     }
 
     [HttpGet("{orderId}")]

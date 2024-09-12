@@ -1,15 +1,11 @@
 <script>
-  import { onMount } from 'svelte';
+  import Popover from '$components/common/Popover.svelte';
 
   /** @type {import('$lib/types').Lesson} */
   export let lesson;
 
   /** @type {HTMLElement} */
   let popoverElem;
-
-  onMount(() => {
-    new bootstrap.Popover(popoverElem);
-  });
 </script>
 
 <div class="d-flex my-2">
@@ -17,16 +13,14 @@
   <button
     bind:this={popoverElem}
     type="button"
-    class="btn btn-sm btn-outline-primary"
-    data-bs-container="body"
-    data-bs-toggle="popover"
-    data-bs-trigger="focus"
-    data-bs-placement="top"
-    data-bs-html="true"
-    data-bs-content="{lesson.description}<br/><br/>Duration: {lesson.duration}"
-    data-bs-original-title={lesson.title}>
+    class="btn btn-link">
     <i class="bi-info-circle"></i>
   </button>
+  <Popover
+    title={lesson.title}
+    triggerElem={popoverElem}>
+    {lesson.description}<br /><br />Duration: {lesson.duration}
+  </Popover>
 </div>
 
 <style>

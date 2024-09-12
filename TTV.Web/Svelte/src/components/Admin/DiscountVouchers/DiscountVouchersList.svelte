@@ -6,6 +6,7 @@
   } from '$components/Admin/DiscountVouchers/discount-vouchers.js';
   import { onMount } from 'svelte';
   import { formatDate, formatDateTime } from '$lib/util.js';
+  import UserDisplay from '$components/Admin/UserDisplay.svelte';
 
   onMount(async () => {
     await adminDiscountVouchersActions.getDiscountVouchers();
@@ -57,10 +58,10 @@
                   {/if}
                 </td>
                 <td class="nowrap">{formatDateTime(voucher.issuedAt)}</td>
-                <td>{voucher.issuedBy.email}</td>
+                <td><UserDisplay user={voucher.issuedBy} /></td>
                 <td>
                   {#if voucher.claimedBy}
-                    {voucher.claimedBy.email}
+                    <UserDisplay user={voucher.claimedBy} />
                   {:else}
                     <span class="text-muted">Not used</span>
                   {/if}

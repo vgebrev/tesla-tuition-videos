@@ -3,20 +3,13 @@
   import Modal from '$components/common/Modal.svelte';
   import PayByBankTransfer from '$components/Checkout/PayByBankTransfer.svelte';
   import { goto } from '$app/navigation';
-  import { onMount } from 'svelte';
+  import PayfastPaymentMethodsPopover from '$components/Checkout/PayfastPaymentMethodsPopover.svelte';
 
   let paymentMethod = paymentMethods.payfast;
 
   /** @type {import('$lib/types').Order} */
   export let order;
   let isEftModalOpen = isBankTransferPaymentInitiated();
-
-  /** @type {HTMLElement} */
-  let popoverElem;
-
-  onMount(() => {
-    new bootstrap.Popover(popoverElem);
-  });
 
   function isBankTransferPaymentInitiated() {
     const initiatePaymentResult = $checkoutStore.initiatePaymentResult;
@@ -58,19 +51,7 @@
             </label>
           </div>
           <small class="text-sm text-primary">(Credit Card, Debit Card, or Zapper)</small>
-          <button
-            bind:this={popoverElem}
-            type="button"
-            class="btn btn-link p-0 ms-1"
-            data-bs-container="body"
-            data-bs-toggle="popover"
-            data-bs-trigger="focus"
-            data-bs-placement="top"
-            data-bs-html="true"
-            data-bs-content="<ul><li><a href='https://payfast.io/features/payment-methods/credit-cheque-cards/' target='_blank' class='link-secondary'>Credit/Cheque Card</a></li><li><a href='https://payfast.io/features/payment-methods/debit-cards/' target='_blank' class='link-secondary'>Debit Card</a></li><li><a href='https://payfast.io/features/payment-methods/zapper/' target='_blank' class='link-secondary'>Zapper</a></li></ul>"
-            data-bs-original-title="Payfast Payment Methods">
-            <i class="bi-info-circle"></i>
-          </button>
+          <PayfastPaymentMethodsPopover />
         </div>
         <div class="col-12 col-md-6 mb-2 text-center">
           <div class="form-check">

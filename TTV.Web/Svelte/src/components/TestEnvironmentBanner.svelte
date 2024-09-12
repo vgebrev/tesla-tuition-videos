@@ -1,14 +1,9 @@
 <script>
-  import { onMount } from 'svelte';
   import { config } from '$lib/config.js';
   import Popover from '$components/common/Popover.svelte';
 
   /** @type {HTMLSpanElement} */
   let popoverElem;
-  onMount(() => {
-    if (!config.isTestEnvironment) return;
-    //new bootstrap.Popover(popoverElem, { html: true });
-  });
 </script>
 
 {#if config.isTestEnvironment}

@@ -162,6 +162,8 @@ footer {
 /* Resolves modal weirdness when the backdrop and the modal are on different stacking contexts and the z-indexes are off (eg announcement modal) */
 .modal {
 	background: rgba(0, 0, 0, 0.5);
+	--bs-modal-border-color: var(--bs-primary);
+	--bs-modal-border-width: 2px;
 }
 
 .modal-backdrop {
@@ -171,7 +173,10 @@ footer {
 .popover-dark {
 	--bs-popover-bg: var(--bs-secondary);
 	--bs-popover-header-bg: var(--bs-secondary);
-	--bs-popover-body-padding-x: 0.5rem;
-	--bs-popover-body-padding-y: 0.5rem;
+	--bs-popover-header-padding-x: 0.75rem;
+	--bs-popover-body-padding-x: 0.75rem;
+	--bs-popover-body-padding-y: 0.75rem;
 	--bs-popover-max-width: 576px;
+	--bs-popover-border-color: var(--bs-primary);
+	--bs-popover-border-width: 2px;
 }

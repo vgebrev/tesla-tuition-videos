@@ -4,15 +4,14 @@
   import { formatDateTime } from '$lib/util.js';
   import Popover from '$components/common/Popover.svelte';
   import { formatPaymentMethod } from '$components/Checkout/checkout.js';
-
-  /** @type HTMLButtonElement[] */
-  let lessonPopoverButtons = [];
+  import UserDisplay from '$components/Admin/UserDisplay.svelte';
+  import OrderItemsPopover from '$components/Admin/Orders/OrderItemsPopover.svelte';
+  import OrderPaymentsPopover from '$components/Admin/Orders/OrderPaymentsPopover.svelte';
 
   /** @type HTMLButtonElement[] */
   let paymentPopoverButtons = [];
 
   const storeUnsub = adminOrdersStore.subscribe((data) => {
-    lessonPopoverButtons = new Array(data.orders?.length || 0);
     paymentPopoverButtons = new Array(data.orders?.length || 0);
   });
 
@@ -29,19 +28,6 @@
    */
   async function completeOrder(order) {
     await adminOrdersActions.completeOrder(order);
-  }
-
-  /**
-   * Get the icon class for the given provider.
-   * @param {string} provider
-   * @returns {string}
-   */
-  function getProviderIconClass(provider) {
-    const icons = {
-      'TTV Account': 'bi bi-person',
-      Google: 'bi bi-google'
-    };
-    return icons[provider] || '';
   }
 
   $: state = $adminOrdersStore;
@@ -70,69 +56,16 @@
             <td
               ><div class="d-flex align-items-start">
                 R{order.orderTotal.toFixed(0)}
-                <div class="ms-auto">
-                  <button
-                    class="btn btn-link pt-0"
-                    bind:this={lessonPopoverButtons[i]}><i class="bi bi-info-circle"></i></button
-                  ><Popover triggerElem={lessonPopoverButtons[i]}>
-                    {#if order.lessons.length > 0}
-                      <h6 class="px-2">Order Items</h6>
-                      <ul class="list-group list-group-flush">
-                        {#each order.lessons as lesson, i (lesson.id)}
-                          <li
-                            class="list-group-item"
-                            class:bg-secondary={i % 2 !== 0}>
-                            {lesson.title}
-                          </li>
-                        {/each}
-                      </ul>{:else}
-                      No items
-                    {/if}</Popover>
-                </div>
+                <div class="ms-auto"><OrderItemsPopover {order} /></div>
               </div></td>
             <td
               ><div class="d-flex align-items-start">
                 R{order.paymentsTotal.toFixed(0)}
-                <div class="ms-auto">
-                  <button
-                    class="btn btn-link pt-0"
-                    bind:this={paymentPopoverButtons[i]}><i class="bi bi-info-circle"></i></button
-                  ><Popover triggerElem={paymentPopoverButtons[i]}>
-                    {#if order.payments.length > 0}
-                      <h6 class="px-2">Payments</h6>
-                      <ul class="list-group list-group-flush">
-                        {#each order.payments as payment, i (payment.id)}
-                          <li
-                            class="list-group-item"
-                            class:bg-secondary={i % 2 !== 0}>
-                            {formatPaymentMethod(payment.paymentMethod)} - R{payment.amount.toFixed(0)} - {payment
-                              .status.name}
-                          </li>
-                        {/each}
-                      </ul>{/if}
-                    {#if order.appliedDiscounts.length > 0}
-                      <h6 class="px-2">Discount Vouchers</h6>
-                      <ul class="list-group list-group-flush">
-                        {#each order.appliedDiscounts as appliedDiscount, i (appliedDiscount.voucherCode)}
-                          <li
-                            class="list-group-item"
-                            class:bg-secondary={i % 2 !== 0}>
-                            {appliedDiscount.voucherCode} - R{appliedDiscount.amount.toFixed(0)}
-                          </li>
-                        {/each}
-                      </ul>{/if}
-                    {#if order.appliedDiscounts.length === 0 && order.payments.length === 0}
-                      No payments or discount vouchers
-                    {/if}
-                  </Popover>
-                </div>
+                <div class="ms-auto"><OrderPaymentsPopover {order} /></div>
               </div></td>
             <td>R{order.totalAmount.toFixed(0)}</td>
             <td>
-              <i
-                class={getProviderIconClass(order.placedBy.provider)}
-                title={order.placedBy.provider}></i>
-              {order.placedBy.name}
+              <UserDisplay user={order.placedBy} />
             </td>
             <td>{formatDateTime(order.placedOn)}</td>
             <td>{order.status.name}</td>

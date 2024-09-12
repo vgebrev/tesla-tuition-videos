@@ -12,18 +12,18 @@
   bind:this={popoverElem}>
   <i class="bi bi-info-circle"></i>
 </button>
-<Popover triggerElem={popoverElem}>
+<Popover
+  triggerElem={popoverElem}
+  title="Order Items">
   {#if order.lessons.length > 0}
-    <h6 class="px-2">Order Items</h6>
     <ul class="list-group list-group-flush">
-      {#each order.lessons as lesson, i (lesson.id)}
-        <li
-          class="list-group-item"
-          class:bg-secondary={i % 2 !== 0}>
-          {lesson.title}
+      {#each order.lessons as lesson (lesson.id)}
+        <li class="list-group-item list-group-item-action">
+          {lesson.title} - R{lesson.currentPrice.effectiveAmount.toFixed(0)}
         </li>
       {/each}
-    </ul>{:else}
-    No items
+    </ul>
+  {:else}
+    <span class="text-muted">No items</span>
   {/if}
 </Popover>

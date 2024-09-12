@@ -14,30 +14,27 @@
   bind:this={popoverElem}>
   <i class="bi bi-info-circle"></i>
 </button>
-<Popover triggerElem={popoverElem}>
-  {#if order.payments.length > 0}
-    <h6 class="px-2">Payments</h6>
-    <ul class="list-group list-group-flush">
-      {#each order.payments as payment, i (payment.id)}
-        <li
-          class="list-group-item"
-          class:bg-secondary={i % 2 !== 0}>
-          {formatPaymentMethod(payment.paymentMethod)} - R{payment.amount.toFixed(0)} - {payment.status.name}
+<Popover
+  triggerElem={popoverElem}
+  title="Payments & Vouchers">
+  <ul class="list-group list-group-flush">
+    {#if order.payments.length > 0}
+      {#each order.payments as payment (payment.id)}
+        <li class="list-group-item list-group-item-action">
+          {payment.status.name}
+          {formatPaymentMethod(payment.paymentMethod)} Payment - R{payment.amount.toFixed(0)}
         </li>
       {/each}
-    </ul>{/if}
-  {#if order.appliedDiscounts.length > 0}
-    <h6 class="px-2">Discount Vouchers</h6>
-    <ul class="list-group list-group-flush">
-      {#each order.appliedDiscounts as appliedDiscount, i (appliedDiscount.voucherCode)}
-        <li
-          class="list-group-item"
-          class:bg-secondary={i % 2 !== 0}>
-          {appliedDiscount.voucherCode} - R{appliedDiscount.amount.toFixed(0)}
+    {/if}
+    {#if order.appliedDiscounts.length > 0}
+      {#each order.appliedDiscounts as appliedDiscount (appliedDiscount.voucherCode)}
+        <li class="list-group-item list-group-item-action">
+          Applied Voucher ({appliedDiscount.voucherCode}) - R{appliedDiscount.amount.toFixed(0)}
         </li>
       {/each}
-    </ul>{/if}
+    {/if}
+  </ul>
   {#if order.appliedDiscounts.length === 0 && order.payments.length === 0}
-    No payments or discount vouchers
+    <span class="text-muted">No payments or discount vouchers</span>
   {/if}
 </Popover>

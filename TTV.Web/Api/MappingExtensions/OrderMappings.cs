@@ -17,8 +17,8 @@ internal static class OrderMappings
             OrderTotal = order.OrderTotal,
             PaymentsTotal = order.PaymentsTotal,
             TotalAmount = order.TotalAmount,
-            AppliedDiscounts = order.AppliedVouchers.Select(ToAppliedDiscountDto).ToArray()!,
-            Payments = order.Payments.ToEnumerablePaymentDto().ToArray(),
+            AppliedDiscounts = order.AppliedVouchers.OrderByDescending(av => av.UsedAt).Select(ToAppliedDiscountDto).ToArray()!,
+            Payments = order.Payments.OrderByDescending(p => p.CreatedOn).ToEnumerablePaymentDto().ToArray(),
             HasOwnedLessons = order.HasOwnedLessons,
             IsFinalised = order.IsFinalised,
             IsPayable = order.IsPayable,
@@ -39,7 +39,8 @@ internal static class OrderMappings
         {
             Amount = orderDiscountVoucher.Amount,
             VoucherBalance = orderDiscountVoucher.Voucher.RemainingAmount,
-            VoucherCode = orderDiscountVoucher.Voucher.Code
+            VoucherCode = orderDiscountVoucher.Voucher.Code,
+            UsedAt = orderDiscountVoucher.UsedAt
         };
     }
 }

@@ -24,6 +24,7 @@ export type AppliedDiscount = {
   amount: number;
   voucherBalance: number;
   voucherCode: string;
+  usedAt: Date;
 };
 
 export type DiscountVoucher = {
@@ -84,6 +85,7 @@ export type Payment = {
   externalIdentifier: ?string;
   amount: number;
   status: Lookup;
+  createdOn: Date;
 };
 
 export enum PaymentMethod {

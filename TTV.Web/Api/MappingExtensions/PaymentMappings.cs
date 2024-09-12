@@ -15,6 +15,7 @@ public static class PaymentMappings
         return new()
         {
             Id = payment.Id,
+            CreatedOn = payment.CreatedOn,
             ExternalIdentifier = payment.ExternalIdentifier,
             PaymentMethod = (PaymentMethod)(int)payment.Type,
             Amount = payment.Amount,

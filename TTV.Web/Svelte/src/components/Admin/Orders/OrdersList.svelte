@@ -41,16 +41,14 @@
         {#each state.orders as order, i (order.id)}
           <tr class:table-secondary={i % 2 === 0}>
             <td>{order.id}</td>
-            <td
-              ><div class="d-flex align-items-start">
-                R{order.orderTotal.toFixed(0)}
-                <div class="ms-auto"><OrderItemsPopover {order} /></div>
-              </div></td>
-            <td
-              ><div class="d-flex align-items-start">
-                R{order.paymentsTotal.toFixed(0)}
-                <div class="ms-auto"><OrderPaymentsPopover {order} /></div>
-              </div></td>
+            <td>
+              <OrderItemsPopover {order} />
+              R{order.orderTotal.toFixed(0)}
+            </td>
+            <td>
+              <OrderPaymentsPopover {order} />
+              R{order.paymentsTotal.toFixed(0)}
+            </td>
             <td>R{order.totalAmount.toFixed(0)}</td>
             <td>
               <UserDisplay user={order.placedBy} />

@@ -8,7 +8,7 @@
 </script>
 
 <button
-  class="btn btn-link pt-0"
+  class="btn btn-link p-0 me-1"
   bind:this={popoverElem}>
   <i class="bi bi-info-circle"></i>
 </button>

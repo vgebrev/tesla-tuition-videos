@@ -1,27 +1,15 @@
 <script>
   import { adminOrdersStore, adminOrdersActions } from '$components/Admin/Orders/orders.js';
-  import { onDestroy, onMount } from 'svelte';
+  import { onMount } from 'svelte';
   import { formatDateTime } from '$lib/util.js';
-  import Popover from '$components/common/Popover.svelte';
-  import { formatPaymentMethod } from '$components/Checkout/checkout.js';
   import UserDisplay from '$components/Admin/UserDisplay.svelte';
   import OrderItemsPopover from '$components/Admin/Orders/OrderItemsPopover.svelte';
   import OrderPaymentsPopover from '$components/Admin/Orders/OrderPaymentsPopover.svelte';
-
-  /** @type HTMLButtonElement[] */
-  let paymentPopoverButtons = [];
-
-  const storeUnsub = adminOrdersStore.subscribe((data) => {
-    paymentPopoverButtons = new Array(data.orders?.length || 0);
-  });
 
   onMount(async () => {
     await adminOrdersActions.getOrders();
   });
 
-  onDestroy(() => {
-    storeUnsub();
-  });
   /**
    * Complete the given order.
    * @param {import('$lib/types').Order} order
@@ -72,12 +60,16 @@
             <td>{order.statusReason || ''}</td>
             <td>
               {#if !order.isFinalised}
-                <button
-                  type="button"
-                  class="btn btn-primary btn-sm"
-                  on:click={async () => await completeOrder(order)}
-                  ><i class="bi bi-hand-thumbs-up me-2"></i> Complete</button
-                >{/if}</td>
+                <div class="d-flex">
+                  <button
+                    type="button"
+                    class="btn btn-primary btn-sm mx-auto"
+                    on:click={async () => await completeOrder(order)}
+                    ><i class="bi bi-hand-thumbs-up me-2"></i> Complete
+                  </button>
+                </div>
+              {/if}
+            </td>
           </tr>
         {/each}
       </tbody>

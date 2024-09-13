@@ -1,7 +1,6 @@
 ﻿namespace TTV.Domain.Filters;
 public record PageFilter
 {
-    public int Skip { get; init; } = 0;
-    public int Take { get; init; } = 12;
-    public int Count { get; init; }
+    public int? Skip { get; init; }
+    public int? Take { get; init; }
 }

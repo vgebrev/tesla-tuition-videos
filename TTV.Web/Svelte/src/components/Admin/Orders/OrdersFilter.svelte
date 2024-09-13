@@ -8,6 +8,7 @@
   });
 
   async function filterOrders() {
+    $adminOrdersStore.filter.skip = 0;
     await adminOrdersActions.getOrders();
   }
 

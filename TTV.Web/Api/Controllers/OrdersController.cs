@@ -32,21 +32,25 @@ public class OrdersController(ILogger<OrdersController> logger, IAdminOrderCompl
     }
 
     [HttpGet("own")]
-    public async Task<ActionResult<IEnumerable<OrderDto>>> GetOwnList(CancellationToken cancellationToken = default)
+    public async Task<ActionResult<PageDto<OrderDto>>> GetOwnList([FromQuery] PageFilter? pageFilter = null, CancellationToken cancellationToken = default)
     {
-        logger.LogInformation("{MethodName}", nameof(GetOwnList));
+        logger.LogInformation("{MethodName}({@PageFilter})", nameof(GetOwnList), pageFilter);
         var userId = userIdentity.UserId ?? throw new UnauthenticatedException();
-        var orders = await orderManager.GetPlacedByUserListAsync(userId, cancellationToken);
-        return Ok(orders.ToEnumerableOrderDto());
+        if (!(pageFilter?.Take.HasValue ?? false)) // ASP.NET Model Binding will always provide a pageFilter instance, even if it's nullable with null default
+        {
+            pageFilter = null;
+        }
+        var page = await orderManager.GetPlacedByUserListAsync(userId, pageFilter, cancellationToken);
+        return Ok(new PageDto<OrderDto>(page.Items.ToEnumerableOrderDto(), page.PageInfo.ToPageInfoDto()));
     }
 
     [HttpGet]
     [Authorize(Policy = "Admin")]
-    public async Task<ActionResult<IEnumerable<OrderDto>>> GetList([FromQuery]OrderListFilter filter, CancellationToken cancellationToken = default)
+    public async Task<ActionResult<PageDto<OrderDto>>> GetList([FromQuery]OrderListFilter filter, CancellationToken cancellationToken = default)
     {
         logger.LogInformation("{MethodName}({@OrderListFilter})", nameof(GetList), filter);
-        var orders = await orderManager.GetListAsync(filter, cancellationToken);
-        return Ok(orders.ToEnumerableOrderDto());
+        var page = await orderManager.GetListAsync(filter, cancellationToken);
+        return Ok(new PageDto<OrderDto>(page.Items.ToEnumerableOrderDto(), page.PageInfo.ToPageInfoDto()));
     }
 
     [HttpGet("{orderId}")]

@@ -35,7 +35,7 @@ async function getOrders() {
     const res = await api.get('/orders/own');
     const orders = await res.json();
     myOrdersStore.update((state) => {
-      state.orders = orders || [];
+      state.orders = orders.items || [];
       state.isLoading = false;
       return state;
     });

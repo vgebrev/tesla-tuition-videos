@@ -44,18 +44,18 @@ public class OrderManager(IUnitOfWorkFactory unitOfWorkFactory, IUserIdentitySer
         }
     }
 
-    public async Task<IEnumerable<Order>> GetPlacedByUserListAsync(Guid userId, CancellationToken cancellationToken = default)
+    public async Task<Page<Order>> GetPlacedByUserListAsync(Guid userId, PageFilter? pageFilter = null, CancellationToken cancellationToken = default)
     {
         using var unitOfWork = await unitOfWorkFactory.CreateAsync(cancellationToken);
-        var orders = await unitOfWork.OrderRepository.GetPlacedByUserListAsync(userId, cancellationToken);
-        return orders;
+        var page = await unitOfWork.OrderRepository.GetPlacedByUserListAsync(userId, pageFilter, cancellationToken);
+        return page;
     }
 
-    public async Task<IEnumerable<Order>> GetListAsync(OrderListFilter filter, CancellationToken cancellationToken = default)
+    public async Task<Page<Order>> GetListAsync(OrderListFilter filter, CancellationToken cancellationToken = default)
     {
         using var unitOfWork = await unitOfWorkFactory.CreateAsync(cancellationToken);
-        var orders = await unitOfWork.OrderRepository.GetListAsync(filter, cancellationToken);
-        return orders;
+        var page = await unitOfWork.OrderRepository.GetListAsync(filter, cancellationToken);
+        return page;
     }
 
     public async Task<Order?> GetOrderAsync(int orderId, CancellationToken cancellationToken = default)

@@ -8,11 +8,12 @@ const initialState = {
   isLoadingUsers: false,
   isLoadingStatuses: false,
 
+  pageInfo: { skip: 0, take: 12, total: 0 },
   orders: null,
   statuses: null,
   users: null,
 
-  filter: { status: null, userId: null, isFinalised: false, from: null, to: null },
+  filter: { status: null, userId: null, isFinalised: false, from: null, to: null, skip: 0, take: 12 },
 
   ordersError: { isError: false, message: '' },
   statusesError: { isError: false, message: '' },
@@ -91,7 +92,8 @@ async function getOrders() {
     const orders = await response.json();
     adminOrdersStore.update((state) => {
       state.isLoadingOrders = false;
-      state.orders = orders;
+      state.pageInfo = orders.pageInfo;
+      state.orders = orders.items;
       return state;
     });
   } catch (e) {

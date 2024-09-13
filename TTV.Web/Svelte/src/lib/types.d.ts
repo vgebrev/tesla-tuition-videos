@@ -16,6 +16,14 @@ export type OrderFilterState = {
   isFinalised: boolean;
   from: ?Date;
   to: ?Date;
+  skip: ?number;
+  take: ?number;
+};
+
+export type PageInfo = {
+  skip: number;
+  take: number;
+  count: number;
 };
 
 // ----- Entities ----------------------------------------------------------------------------------
@@ -111,6 +119,11 @@ export type ResultOf<T> = {
   value: ?T;
 };
 
+export type PageOf<T> = {
+  items: T[];
+  pageInfo: ?PageInfo;
+};
+
 export type SimpleTag = {
   name: string;
   priority: number;
@@ -155,6 +168,7 @@ export type AdminOrdersStoreState = {
   isLoadingOrders: boolean;
   isLoadingUsers: boolean;
   isLoadingStatuses: boolean;
+  pageInfo: ?PageInfo;
   orders: ?Order[];
   statuses: ?Lookup[];
   users: ?User[];

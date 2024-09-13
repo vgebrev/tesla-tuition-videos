@@ -5,9 +5,6 @@
 
   /** @type {HTMLElement} */
   let popoverElem;
-  $: if (order.id === 4121) {
-    console.log(order);
-  }
 </script>
 
 <button

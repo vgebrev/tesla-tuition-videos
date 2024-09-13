@@ -5,6 +5,7 @@
   import UserDisplay from '$components/Admin/UserDisplay.svelte';
   import OrderItemsPopover from '$components/Admin/Orders/OrderItemsPopover.svelte';
   import OrderPaymentsPopover from '$components/Admin/Orders/OrderPaymentsPopover.svelte';
+  import Pagination from '$components/common/Pagination.svelte';
 
   onMount(async () => {
     await adminOrdersActions.getOrders();
@@ -16,6 +17,17 @@
    */
   async function completeOrder(order) {
     await adminOrdersActions.completeOrder(order);
+  }
+
+  /**
+   * Handle page change.
+   * @param {number} skip
+   * @param {number} take
+   */
+  async function onPageChange(skip, take) {
+    $adminOrdersStore.filter.skip = skip;
+    $adminOrdersStore.filter.take = take;
+    await adminOrdersActions.getOrders();
   }
 
   $: state = $adminOrdersStore;
@@ -78,6 +90,11 @@
       </tbody>
     </table>
   </div>
+  {#if state.pageInfo}
+    <Pagination
+      pageInfo={state.pageInfo}
+      {onPageChange} />
+  {/if}
 {:else if !state.isLoadingOrders}
   <p class="text-primary">No orders match the criteria.</p>
 {/if}

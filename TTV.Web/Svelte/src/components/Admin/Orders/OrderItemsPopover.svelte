@@ -5,6 +5,9 @@
 
   /** @type {HTMLElement} */
   let popoverElem;
+  $: if (order.id === 4121) {
+    console.log(order);
+  }
 </script>
 
 <button
@@ -18,7 +21,9 @@
   {#if order.lessons.length > 0}
     <ul class="list-group list-group-flush">
       {#each order.lessons as lesson (lesson.id)}
-        <li class="list-group-item list-group-item-action">
+        <li
+          class="list-group-item list-group-item-action"
+          class:text-danger={!order.isFinalised && lesson.owner?.id === order.placedBy.id}>
           {lesson.title} - R{lesson.currentPrice.effectiveAmount.toFixed(0)}
         </li>
       {/each}

@@ -57,16 +57,21 @@
             <td>{order.status.name}</td>
             <td>{order.statusReason || ''}</td>
             <td>
-              {#if !order.isFinalised}
-                <div class="d-flex">
-                  <button
-                    type="button"
-                    class="btn btn-primary btn-sm mx-auto"
-                    on:click={async () => await completeOrder(order)}
-                    ><i class="bi bi-hand-thumbs-up me-2"></i> Complete
-                  </button>
-                </div>
-              {/if}
+              <div class="d-flex">
+                {#if !order.isFinalised}
+                  {#if !order.hasOwnedLessons}
+                    <button
+                      type="button"
+                      class="btn btn-primary btn-sm ms-auto"
+                      on:click={async () => await completeOrder(order)}
+                      ><i class="bi bi-hand-thumbs-up me-2"></i> Complete
+                    </button>
+                  {:else}
+                    <span class="text-danger ms-auto"
+                      ><i class="bi bi-exclamation-triangle"></i> Contains owned lessons</span>
+                  {/if}
+                {/if}
+              </div>
             </td>
           </tr>
         {/each}
@@ -74,5 +79,5 @@
     </table>
   </div>
 {:else if !state.isLoadingOrders}
-  <p>No orders match the criteria.</p>
+  <p class="text-primary">No orders match the criteria.</p>
 {/if}

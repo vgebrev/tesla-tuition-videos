@@ -67,6 +67,7 @@ public class OrderRepository(DataContext dataContext) : IOrderRepository
 
         query = query
             .Include(order => order.Lessons)
+                .ThenInclude(lesson => lesson.OwnedBy)
             .Include(order => order.AppliedVouchers.OrderBy(map => map.UsedAt)).ThenInclude(map => map.Voucher).ThenInclude(voucher => voucher.OrdersAppliedTo)
             .Include(order => order.Payments)
             .Include(order => order.PlacedBy);
@@ -76,13 +77,13 @@ public class OrderRepository(DataContext dataContext) : IOrderRepository
 
     public async Task<Order?> GetByIdAsync(int orderId, CancellationToken cancellationToken = default)
     {
-        return await dataContext.Orders.TagWithCallSite()
-            .Include(order => order.Lessons)
-                .ThenInclude(lesson => lesson.Videos.Where(video => video.VideoType == VideoType.FullLesson))
-            .Include(order => order.AppliedVouchers.OrderBy(map => map.UsedAt)).ThenInclude(map => map.Voucher).ThenInclude(voucher => voucher.OrdersAppliedTo)
-            .Include(order => order.Payments)
-            .Include(order => order.PlacedBy)
-            .SingleOrDefaultAsync(order => order.Id == orderId, cancellationToken);
+        var placedById = await dataContext.Orders
+            .Include(o => o.PlacedBy)
+            .Where(o => o.Id == orderId)
+            .Select(o => o.PlacedBy.Id)
+            .SingleOrDefaultAsync(cancellationToken);
+
+        return await GetByIdAsync(orderId, placedById, cancellationToken);
     }
 
     public async Task<Order?> GetByIdAsync(int orderId, Guid ownerId, CancellationToken cancellationToken = default)

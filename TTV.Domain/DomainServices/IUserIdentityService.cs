@@ -6,4 +6,5 @@ public interface IUserIdentityService
     public string? Email { get; }
     public bool IsAuthenticated { get; }
     public bool IsAnonymous { get; }
+    public bool IsAdmin { get; }
 }

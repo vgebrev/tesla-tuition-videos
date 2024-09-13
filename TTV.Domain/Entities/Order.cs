@@ -138,6 +138,7 @@ public class Order : BaseEntity
     public virtual ICollection<Notification> Notifications { get; private set; }
     public virtual ICollection<Payment> Payments { get; private set; }
 
+    public Payment? LatestPayment => Payments.OrderByDescending(payment => payment.CreatedOn).FirstOrDefault();
     public decimal OrderTotal => Lessons.Sum(lesson => lesson.PriceAt(PlacedOn).EffectiveAmount);
     public decimal PaymentsTotal => AppliedVouchers.Sum(x => x.Amount) + Payments.Where(x => x.Status == PaymentStatus.Paid).Sum(x => x.Amount);
     public decimal TotalAmount => OrderTotal - PaymentsTotal;

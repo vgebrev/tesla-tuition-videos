@@ -105,5 +105,30 @@ async function getOrders() {
 }
 
 async function completeOrder(order) {
-  console.log('TODO: Manually completing order', order);
+  adminOrdersStore.update((state) => {
+    state.isLoadingOrders = true;
+    return state;
+  });
+
+  try {
+    const response = await api.put(`/orders/${order.id}/complete-admin`, {});
+    const completeOrderResult = await response.json();
+    adminOrdersStore.update((state) => {
+      state.isLoadingOrders = false;
+      if (completeOrderResult.isSuccess) {
+        state.orders = state.orders.map((o) => (o.id === order.id ? completeOrderResult.value : o));
+      } else {
+        state.ordersError = { isError: !completeOrderResult.isSuccess, message: completeOrderResult.message };
+      }
+      return state;
+    });
+    await getOrders();
+  } catch (e) {
+    console.error(e);
+    adminOrdersStore.update((state) => {
+      state.isLoadingOrders = false;
+      state.ordersError = { isError: true, message: defaultErrorMessage };
+      return state;
+    });
+  }
 }

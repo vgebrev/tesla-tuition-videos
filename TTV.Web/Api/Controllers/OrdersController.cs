@@ -63,20 +63,27 @@ public class OrdersController(ILogger<OrdersController> logger, IAdminOrderCompl
 
     [HttpPut("{orderId}/complete-admin")]
     [Authorize(Policy = "Admin")]
-    public async Task<ActionResult<ResultDto<OrderDto>>> CompleteOrderAdmin([FromRoute] int orderId, CancellationToken cancellationToken = default)
+    public async Task<ActionResult<ResultDto<OrderDto?>>> CompleteOrderAsAdmin([FromRoute] int orderId, CancellationToken cancellationToken = default)
     {
-        logger.LogInformation("{MethodName}({OrderId})", nameof(CompleteOrderAdmin), orderId);
-        var result = await adminOrderComplete.CompleteOrderAsync(orderId, cancellationToken);
-        var response = new ResultDto<OrderDto>(result.Value.ToOrderDto(), result.IsSuccess, result.Message);
-        if (!response.IsSuccess)
+        logger.LogInformation("{MethodName}({OrderId})", nameof(CompleteOrderAsAdmin), orderId);
+        try
         {
-            return UnprocessableEntity(response);
+            var result = await adminOrderComplete.CompleteOrderAsync(orderId, cancellationToken);
+            var response = new ResultDto<OrderDto>(result.Value.ToOrderDto(), result.IsSuccess, result.Message);
+            if (!response.IsSuccess)
+            {
+                return UnprocessableEntity(response);
+            }
+            foreach (var lesson in response.Value.Lessons)
+            {
+                videoPathCache.TryRemove(lesson.Id, response.Value.PlacedBy.Email);
+            }
+            return Ok(response);
         }
-        foreach (var lesson in response.Value.Lessons)
+        catch (ApplicationException exception)
         {
-            videoPathCache.TryRemove(lesson.Id, response.Value.PlacedBy.Email);
+            return StatusCode(500, new ResultDto<OrderDto?>(Value: null, IsSuccess: false, Message: exception.Message));
         }
-        return Ok(response);
     }
 
     [HttpPut("{orderId}/complete")]

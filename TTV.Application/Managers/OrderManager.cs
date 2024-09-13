@@ -73,7 +73,16 @@ public class OrderManager(IUnitOfWorkFactory unitOfWorkFactory, IUserIdentitySer
         try
         {
             await unitOfWork.StartAsync(cancellationToken);
-            var order = await unitOfWork.OrderRepository.GetByIdAsync(orderId, userId, cancellationToken) ?? throw new OrderNotFoundException(orderId);
+            Order order;
+            if (userIdentity.IsAdmin)
+            {
+                order = await unitOfWork.OrderRepository.GetByIdAsync(orderId, cancellationToken) ?? throw new OrderNotFoundException(orderId);
+            }
+            else
+            {
+                order = await unitOfWork.OrderRepository.GetByIdAsync(orderId, userId, cancellationToken) ?? throw new OrderNotFoundException(orderId);
+            }
+            
             var result = order.Complete();
             await unitOfWork.EndAsync(cancellationToken);
             if (result.IsSuccess)

@@ -13,6 +13,7 @@ public class ClaimsIdentityService : IUserIdentityService
             UserId = userId;
         }
         Email = user?.FindFirst(ClaimTypes.Email)?.Value;
+        IsAdmin = user?.IsInRole("admin") ?? false;
     }
 
     public Guid? UserId { get; }
@@ -22,4 +23,5 @@ public class ClaimsIdentityService : IUserIdentityService
     public bool IsAuthenticated => !string.IsNullOrEmpty(Email);
 
     public bool IsAnonymous => !IsAuthenticated;
+    public bool IsAdmin { get; }
 }

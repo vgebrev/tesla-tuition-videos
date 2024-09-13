@@ -42,8 +42,25 @@ public class PaymentManager(ILogger<PaymentManager> logger, IUserIdentityService
         await unitOfWork.StartAsync(cancellationToken);
         try
         {
-            var userId = userIdentity.UserId ?? throw new UnauthenticatedException();
-            var order = await unitOfWork.OrderRepository.GetByIdAsync(orderId, userId, cancellationToken) ?? throw new OrderNotFoundException(orderId);
+            Order order;
+
+            if (userIdentity.IsAdmin)
+            {
+                order = await unitOfWork.OrderRepository.GetByIdAsync(orderId, cancellationToken) ?? throw new OrderNotFoundException(orderId);
+            }
+            else 
+            {
+                var userId = userIdentity.UserId ?? throw new UnauthenticatedException();
+                order = await unitOfWork.OrderRepository.GetByIdAsync(orderId, userId, cancellationToken) ?? throw new OrderNotFoundException(orderId);
+            }
+
+            var latestPayment = order.LatestPayment;
+            if (latestPayment != null && latestPayment.Status == PaymentStatus.Pending && latestPayment.Type == paymentType)
+            {
+                await unitOfWork.CancelAsync(cancellationToken);
+                return new Result<Payment>(latestPayment, true, Message: null);
+            }
+
             order.CancelPendingPayments("Another payment initiated");
             order.Status = OrderStatus.AwaitingPayment;
 

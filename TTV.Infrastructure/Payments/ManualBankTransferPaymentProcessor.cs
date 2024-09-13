@@ -26,7 +26,12 @@ public class ManualBankTransferPaymentProcessor : IPaymentProcessor
 
     public async Task<Result> ConfirmAsync(Payment payment, Dictionary<string, string> confirmationData, CancellationToken cancellationToken = default)
     {
-        await Task.CompletedTask;
-        throw new NotImplementedException();
+        var confirmation = new PaymentConfirmation()
+        {
+            ReceivedOn = DateTime.Now,
+            Payment = payment,
+            IsSuccessful = true
+        };
+        return await Task.FromResult(payment.Confirm(confirmation));
     }
 }

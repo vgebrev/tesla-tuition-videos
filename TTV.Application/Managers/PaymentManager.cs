@@ -6,9 +6,10 @@ using TTV.Domain.DomainServices;
 using TTV.Domain.Entities;
 
 namespace TTV.Application.Managers;
-public class PaymentManager(ILogger<PaymentManager> logger, IUnitOfWorkFactory unitOfWorkFactory, IPaymentProcessorFactory paymentProcessorFactory) : IPaymentManager
+public class PaymentManager(ILogger<PaymentManager> logger, IUserIdentityService userIdentity, IUnitOfWorkFactory unitOfWorkFactory, IPaymentProcessorFactory paymentProcessorFactory) : IPaymentManager
 {
     private readonly ILogger<PaymentManager> logger = logger;
+    private readonly IUserIdentityService userIdentity = userIdentity;
     private readonly IUnitOfWorkFactory unitOfWorkFactory = unitOfWorkFactory;
     private readonly IPaymentProcessorFactory paymentProcessorFactory = paymentProcessorFactory;
 
@@ -41,7 +42,8 @@ public class PaymentManager(ILogger<PaymentManager> logger, IUnitOfWorkFactory u
         await unitOfWork.StartAsync(cancellationToken);
         try
         {
-            var order = await unitOfWork.OrderRepository.GetByIdAsync(orderId, cancellationToken) ?? throw new OrderNotFoundException(orderId);
+            var userId = userIdentity.UserId ?? throw new UnauthenticatedException();
+            var order = await unitOfWork.OrderRepository.GetByIdAsync(orderId, userId, cancellationToken) ?? throw new OrderNotFoundException(orderId);
             order.CancelPendingPayments("Another payment initiated");
             order.Status = OrderStatus.AwaitingPayment;
 

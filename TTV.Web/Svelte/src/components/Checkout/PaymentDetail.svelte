@@ -5,10 +5,10 @@
   import { goto } from '$app/navigation';
   import PayfastPaymentMethodsPopover from '$components/Checkout/PayfastPaymentMethodsPopover.svelte';
 
-  let paymentMethod = paymentMethods.payfast;
-
   /** @type {import('$lib/types').Order} */
   export let order;
+
+  let paymentMethod = paymentMethods.payfast;
   let isEftModalOpen = isBankTransferPaymentInitiated();
 
   function isBankTransferPaymentInitiated() {

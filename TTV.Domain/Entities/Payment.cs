@@ -27,7 +27,7 @@ public class Payment : BaseEntity<Guid>
         return new Result(true);
     }
 
-    public Result Confirm(PayfastPaymentConfirmation confirmation)
+    public Result Confirm(PaymentConfirmation confirmation)
     {
         if (confirmation.IsSuccessful)
         {

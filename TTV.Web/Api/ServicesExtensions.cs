@@ -26,6 +26,7 @@ public static class ServicesExtensions
                 sqlOptions.UseQuerySplittingBehavior(QuerySplittingBehavior.SplitQuery)));
         services.AddHttpClient();
 
+        services.AddScoped<IAdminOrderComplete, AdminOrderComplete>();
         services.AddScoped<IDiscountVoucherCodeGenerator, DiscountVoucherCodeGenerator>();
         services.AddScoped<IDiscountVoucherManager, DiscountVoucherManager>();
         services.AddScoped<IDocumentManager, DocumentManager>();

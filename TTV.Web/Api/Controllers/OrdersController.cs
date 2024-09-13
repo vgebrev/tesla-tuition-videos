@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using TTV.Application;
 using TTV.Application.Exceptions;
 using TTV.Application.Managers;
 using TTV.Domain.DomainServices;
@@ -14,9 +15,10 @@ namespace TTV.Web.Api.Controllers;
 [Route("orders")]
 [ApiController]
 [Authorize]
-public class OrdersController(ILogger<OrdersController> logger, IOrderManager orderManager, IUserIdentityService userIdentity, IVideoPathCache videoPathCache) : ControllerBase
+public class OrdersController(ILogger<OrdersController> logger, IAdminOrderComplete adminOrderComplete, IOrderManager orderManager, IUserIdentityService userIdentity, IVideoPathCache videoPathCache) : ControllerBase
 {
     private readonly ILogger<OrdersController> logger = logger;
+    private readonly IAdminOrderComplete adminOrderComplete = adminOrderComplete;
     private readonly IOrderManager orderManager = orderManager;
     private readonly IUserIdentityService userIdentity = userIdentity;
     private readonly IVideoPathCache videoPathCache = videoPathCache;
@@ -57,6 +59,24 @@ public class OrdersController(ILogger<OrdersController> logger, IOrderManager or
             return NotFound(null);
         }
         return Ok(order.ToOrderDto());
+    }
+
+    [HttpPut("{orderId}/complete-admin")]
+    [Authorize(Policy = "Admin")]
+    public async Task<ActionResult<ResultDto<OrderDto>>> CompleteOrderAdmin([FromRoute] int orderId, CancellationToken cancellationToken = default)
+    {
+        logger.LogInformation("{MethodName}({OrderId})", nameof(CompleteOrderAdmin), orderId);
+        var result = await adminOrderComplete.CompleteOrderAsync(orderId, cancellationToken);
+        var response = new ResultDto<OrderDto>(result.Value.ToOrderDto(), result.IsSuccess, result.Message);
+        if (!response.IsSuccess)
+        {
+            return UnprocessableEntity(response);
+        }
+        foreach (var lesson in response.Value.Lessons)
+        {
+            videoPathCache.TryRemove(lesson.Id, response.Value.PlacedBy.Email);
+        }
+        return Ok(response);
     }
 
     [HttpPut("{orderId}/complete")]

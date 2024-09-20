@@ -1,6 +1,6 @@
 import { writable, get } from 'svelte/store';
 import { api } from '$lib/api.js';
-import { defaultErrorMessage } from '$lib/config.js';
+import { defaultErrorMessage, defaultPageSize } from '$lib/config.js';
 
 /** @type {import('$lib/types').AdminOrdersStoreState} */
 const initialState = {
@@ -8,12 +8,12 @@ const initialState = {
   isLoadingUsers: false,
   isLoadingStatuses: false,
 
-  pageInfo: { skip: 0, take: 12, total: 0 },
+  pageInfo: { skip: 0, take: defaultPageSize, total: 0 },
   orders: null,
   statuses: null,
   users: null,
 
-  filter: { status: null, userId: null, isFinalised: false, from: null, to: null, skip: 0, take: 12 },
+  filter: { status: null, userId: null, isFinalised: false, from: null, to: null, skip: 0, take: defaultPageSize },
 
   ordersError: { isError: false, message: '' },
   statusesError: { isError: false, message: '' },

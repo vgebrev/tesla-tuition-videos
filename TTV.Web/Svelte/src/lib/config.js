@@ -37,3 +37,4 @@ export const config = {
 };
 
 export const defaultErrorMessage = 'Something went wrong. Please refresh the page or try again.';
+export const defaultPageSize = 12;

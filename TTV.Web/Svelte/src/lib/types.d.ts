@@ -1,5 +1,7 @@
 // ----- Common ------------------------------------------------------------------------------------
 
+import { Page } from '@sveltejs/kit/src/exports/public';
+
 export type ErrorState = {
   isError: boolean;
   message: string;
@@ -231,6 +233,7 @@ export type MyLessonsStoreState = {
 
 export type MyOrdersStoreState = {
   isLoading: boolean;
+  pageInfo: PageInfo;
   orders: ?Order[];
   error: ErrorState;
 };

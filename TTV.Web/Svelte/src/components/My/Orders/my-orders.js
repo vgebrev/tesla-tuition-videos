@@ -1,10 +1,12 @@
-import { writable } from 'svelte/store';
+import { writable, get } from 'svelte/store';
 import { api } from '$lib/api.js';
+import { defaultPageSize } from '$lib/config.js';
 
 /** @type {import('$lib/types').MyOrdersStoreState} */
 const initialState = {
   isLoading: false,
   error: { isError: false, message: '' },
+  pageInfo: { skip: 0, take: defaultPageSize, total: 0 },
   orders: null
 };
 
@@ -32,9 +34,12 @@ async function getOrders() {
   });
 
   try {
-    const res = await api.get('/orders/own');
+    const pageInfo = get(myOrdersStore).pageInfo;
+    const queryString = `skip=${pageInfo.skip}&take=${pageInfo.take}`;
+    const res = await api.get(`/orders/own?${queryString}`);
     const orders = await res.json();
     myOrdersStore.update((state) => {
+      state.pageInfo = orders.pageInfo;
       state.orders = orders.items || [];
       state.isLoading = false;
       return state;

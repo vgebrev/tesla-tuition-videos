@@ -2,10 +2,23 @@
   import { onMount } from 'svelte';
   import { myOrdersActions, myOrdersStore } from '$components/My/Orders/my-orders.js';
   import OrderDetail from '$components/My/Orders/OrderDetail.svelte';
+  import Pagination from '$components/common/Pagination.svelte';
 
   onMount(async () => {
     await myOrdersActions.getOrders();
   });
+
+  /**
+   * Handle page change.
+   * @param {number} skip
+   * @param {number} take
+   */
+  async function onPageChange(skip, take) {
+    state.pageInfo.skip = skip;
+    state.pageInfo.take = take;
+    await myOrdersActions.getOrders();
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
 
   $: state = $myOrdersStore;
 </script>
@@ -19,6 +32,13 @@
             <OrderDetail {order} />
           </div>
         {/each}
+      </div>
+      <div class="row row-cols-1">
+        <div class="col g-3">
+          <Pagination
+            pageInfo={state.pageInfo}
+            {onPageChange} />
+        </div>
       </div>
     {:else if !state.isLoading}
       <div class="row">

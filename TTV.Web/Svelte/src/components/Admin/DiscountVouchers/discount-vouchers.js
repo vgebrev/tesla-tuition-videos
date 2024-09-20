@@ -1,11 +1,12 @@
-import { writable } from 'svelte/store';
+import { writable, get } from 'svelte/store';
 import { api } from '$lib/api.js';
-import { defaultErrorMessage } from '$lib/config.js';
+import { defaultErrorMessage, defaultPageSize } from '$lib/config.js';
 
 /** @type {import('$lib/types').AdminDiscountVouchersStore} */
 const initialState = {
   isLoading: false,
   error: { isError: false, message: '' },
+  pageInfo: { skip: 0, take: defaultPageSize, count: 0 },
   discountVouchers: null,
   issuedVoucher: null
 };
@@ -21,17 +22,25 @@ export const adminDiscountVouchersActions = {
   issueDiscountVoucher
 };
 
-async function getDiscountVouchers() {
+/** Get discount vouchers
+ *
+ * @param {number|null} [skip]
+ * @param {number|null} [take]
+ * @returns {Promise<void>}
+ */
+async function getDiscountVouchers(skip = null, take = null) {
   adminDiscountVouchersStore.update((state) => {
     state.isLoading = true;
     return state;
   });
   try {
-    const response = await api.get('/discount-vouchers');
+    const queryString = `skip=${skip !== null ? skip : ''}&take=${take !== null ? take : ''}`;
+    const response = await api.get(`/discount-vouchers?${queryString}`);
     const discountVouchers = await response.json();
     adminDiscountVouchersStore.update((state) => {
       state.isLoading = false;
-      state.discountVouchers = discountVouchers;
+      state.discountVouchers = discountVouchers.items;
+      state.pageInfo = discountVouchers.pageInfo;
       return state;
     });
   } catch (e) {
@@ -64,7 +73,8 @@ async function issueDiscountVoucher(amount, expirationDate, note) {
       state.issuedVoucher = issuedVoucher;
       return state;
     });
-    await getDiscountVouchers();
+    const pageInfo = get(adminDiscountVouchersStore).pageInfo;
+    await getDiscountVouchers(pageInfo?.skip || 0, pageInfo?.take || defaultPageSize);
   } catch (e) {
     console.error(e);
     adminDiscountVouchersStore.update((state) => {

@@ -34,7 +34,7 @@ public class LessonRepository(DataContext dataContext) : ILessonRepository
         if (pageFilter is not null)
         {
             var count = await query.CountAsync(cancellationToken);
-            query = (IOrderedQueryable<Lesson>)query.Skip(pageFilter.Skip ?? 0).Take(pageFilter.Take ?? count);
+            query = query.Skip(pageFilter.Skip ?? 0).Take(pageFilter.Take ?? count);
             pageInfo = new PageInfo()
             {
                 Skip = pageFilter.Skip ?? 0,

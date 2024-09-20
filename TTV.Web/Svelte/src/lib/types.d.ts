@@ -161,6 +161,7 @@ export type User = {
 
 export type AdminDiscountVouchersStoreState = {
   isLoading: boolean;
+  pageInfo: ?PageInfo;
   discountVouchers: ?DiscountVoucher[];
   issuedVoucher: ?DiscountVoucher;
   error: ErrorState;
@@ -222,6 +223,7 @@ export type LessonListStoreState = {
 
 export type MyDiscountVouchersStoreState = {
   isLoading: boolean;
+  pageInfo: ?PageInfo;
   discountVouchers: ?DiscountVoucher[];
   error: ErrorState;
 };

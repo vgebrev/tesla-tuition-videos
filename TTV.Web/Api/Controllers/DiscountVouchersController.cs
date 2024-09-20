@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using TTV.Application.Exceptions;
 using TTV.Application.Managers;
 using TTV.Domain.DomainServices;
+using TTV.Domain.Filters;
 using TTV.Web.Api.MappingExtensions;
 using TTV.Web.Shared;
 
@@ -27,21 +28,35 @@ public class DiscountVouchersController(ILogger<DiscountVouchersController> logg
 
     [HttpGet]
     [Authorize(Policy = "CanIssueVouchers")]
-    public async Task<IEnumerable<DiscountVoucherDto>> GetList(CancellationToken cancellationToken = default)
+    public async Task<PageDto<DiscountVoucherDto>> GetList([FromQuery] PageFilter? pageFilter = null, CancellationToken cancellationToken = default)
     {
         logger.LogInformation("{MethodName}", nameof(GetList));
-        var vouchers = await discountVoucherManager.GetListAsync(cancellationToken);
-        return vouchers.ToEnumerableDiscountVoucherDto();
+        if (pageFilter?.Take is null)
+        {
+            pageFilter = null;
+        }
+        var page = await discountVoucherManager.GetListAsync(pageFilter, cancellationToken);
+        return new PageDto<DiscountVoucherDto>(
+            page.Items.ToEnumerableDiscountVoucherDto(),
+            page.PageInfo.ToPageInfoDto()
+        );
     }
 
     [HttpGet("own")]
     [Authorize]
-    public async Task<IEnumerable<DiscountVoucherDto>> GetOwnList(CancellationToken cancellationToken = default)
+    public async Task<PageDto<DiscountVoucherDto>> GetOwnList([FromQuery] PageFilter? pageFilter = null, CancellationToken cancellationToken = default)
     {
         logger.LogInformation("{MethodName}", nameof(GetOwnList));
         var userId = userIdentity.UserId ?? throw new UnauthenticatedException();
-        var vouchers = await discountVoucherManager.GetClaimedByUserListAsync(userId, cancellationToken);
-        return vouchers.ToEnumerableDiscountVoucherDto();
+        if (pageFilter?.Take is null)
+        {
+            pageFilter = null;
+        }
+        var page = await discountVoucherManager.GetClaimedByUserListAsync(userId, pageFilter, cancellationToken);
+        return new PageDto<DiscountVoucherDto>(
+            page.Items.ToEnumerableDiscountVoucherDto(),
+            page.PageInfo.ToPageInfoDto()
+        );
     }
 
     [HttpPut("{voucherCode}/order/{orderId}")]

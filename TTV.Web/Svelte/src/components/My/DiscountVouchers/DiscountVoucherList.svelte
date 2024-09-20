@@ -4,11 +4,25 @@
     myDiscountVouchersStore,
     myDiscountVouchersActions
   } from '$components/My/DiscountVouchers/my-discount-vouchers.js';
-  import { formatDate } from '$lib/util.js';
+  import { formatDate, isPast } from '$lib/util.js';
+  import Pagination from '$components/common/Pagination.svelte';
+  import { defaultPageSize } from '$lib/config.js';
 
   onMount(async () => {
-    await myDiscountVouchersActions.getDiscountVouchers();
+    await myDiscountVouchersActions.getDiscountVouchers(
+      state.pageInfo?.skip || 0,
+      state.pageInfo?.take || defaultPageSize
+    );
   });
+
+  /**
+   * Handle page change.
+   * @param {number} skip
+   * @param {number} take
+   */
+  async function onPageChange(skip, take) {
+    await myDiscountVouchersActions.getDiscountVouchers(skip, take);
+  }
 
   $: state = $myDiscountVouchersStore;
 </script>
@@ -16,7 +30,7 @@
 <div class="row">
   <div class="card-text">
     {#if state.discountVouchers && state.discountVouchers.length > 0}
-      <div class="table-responsive">
+      <div class="table-responsive small">
         <table class="table table-striped">
           <thead>
             <tr>
@@ -34,20 +48,25 @@
                 <td>R{voucher.amount.toFixed(0)}</td>
                 <td>R{voucher.balance.toFixed(0)}</td>
                 <td
-                  nowrap
-                  class:text-warning={voucher.expirationDate < new Date().setHours(0, 0, 0, 0)}>
+                  class="text-nowrap"
+                  class:text-warning={isPast(voucher.expirationDate)}>
                   {#if voucher.expirationDate}
                     {formatDate(voucher.expirationDate)}
                   {:else}
                     <span class="text-muted">Never</span>
                   {/if}
                 </td>
-                <td nowrap>{formatDate(voucher.issuedAt)}</td>
+                <td class="text-nowrap">{formatDate(voucher.issuedAt)}</td>
               </tr>
             {/each}
           </tbody>
         </table>
       </div>
+      {#if state.pageInfo}
+        <Pagination
+          pageInfo={state.pageInfo}
+          {onPageChange} />
+      {/if}
     {:else if !state.isLoading}
       <div class="row">
         <div class="col text-center d-flex flex-column gap-3 mt-3">

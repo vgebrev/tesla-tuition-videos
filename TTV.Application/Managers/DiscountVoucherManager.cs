@@ -2,6 +2,7 @@
 using TTV.Domain;
 using TTV.Domain.DomainServices;
 using TTV.Domain.Entities;
+using TTV.Domain.Filters;
 
 namespace TTV.Application.Managers;
 
@@ -31,16 +32,16 @@ public class DiscountVoucherManager(IDiscountVoucherCodeGenerator codeGenerator,
         return voucher;
     }
 
-    public async Task<IEnumerable<DiscountVoucher>> GetListAsync(CancellationToken cancellationToken = default)
+    public async Task<Page<DiscountVoucher>> GetListAsync(PageFilter? pageFilter = null, CancellationToken cancellationToken = default)
     {
         using var unitOfWork = await unitOfWorkFactory.CreateAsync(cancellationToken);
-        return await unitOfWork.DiscountVoucherRepository.GetListAsync(cancellationToken: cancellationToken);
+        return await unitOfWork.DiscountVoucherRepository.GetListAsync(pageFilter: pageFilter, cancellationToken: cancellationToken);
     }
 
-    public async Task<IEnumerable<DiscountVoucher>> GetClaimedByUserListAsync(Guid userId, CancellationToken cancellationToken = default)
+    public async Task<Page<DiscountVoucher>> GetClaimedByUserListAsync(Guid userId,PageFilter? pageFilter = null, CancellationToken cancellationToken = default)
     {
         using var unitOfWork = await unitOfWorkFactory.CreateAsync(cancellationToken);
-        return await unitOfWork.DiscountVoucherRepository.GetListAsync(userId, cancellationToken);
+        return await unitOfWork.DiscountVoucherRepository.GetListAsync(userId, pageFilter, cancellationToken);
     }
 
     public async Task<Result<OrderDiscountVoucher?>> ApplyDiscountVoucherAsync(string voucherCode, int orderId, CancellationToken cancellationToken = default)

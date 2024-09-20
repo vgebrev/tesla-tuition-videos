@@ -5,23 +5,27 @@
     adminDiscountVouchersActions
   } from '$components/Admin/DiscountVouchers/discount-vouchers.js';
   import { onMount } from 'svelte';
-  import { formatDate, formatDateTime } from '$lib/util.js';
+  import { formatDate, formatDateTime, isPast } from '$lib/util.js';
   import UserDisplay from '$components/Admin/UserDisplay.svelte';
+  import Pagination from '$components/common/Pagination.svelte';
+  import { defaultPageSize } from '$lib/config.js';
 
   onMount(async () => {
-    await adminDiscountVouchersActions.getDiscountVouchers();
+    await adminDiscountVouchersActions.getDiscountVouchers(
+      state.pageInfo?.skip || 0,
+      state.pageInfo?.take || defaultPageSize
+    );
   });
 
   /**
-   * Check if the given date is in the past.
-   * @param {Date | string | null} date
+   * Handle page change.
+   * @param {number} skip
+   * @param {number} take
    */
-  function isPast(date) {
-    if (!date) return false;
-    let today = new Date();
-    today.setHours(0, 0, 0, 0);
-    return new Date(date) < today;
+  async function onPageChange(skip, take) {
+    await adminDiscountVouchersActions.getDiscountVouchers(skip, take);
   }
+
   $: state = $adminDiscountVouchersStore;
 </script>
 
@@ -72,6 +76,11 @@
           </tbody>
         </table>
       </div>
+      {#if state.pageInfo}
+        <Pagination
+          pageInfo={state.pageInfo}
+          {onPageChange} />
+      {/if}
     {:else if !state.isLoading}
       <p>No discount vouchers issued.</p>
     {/if}

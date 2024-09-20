@@ -109,6 +109,17 @@ export function updateArray(array, newItems) {
 }
 
 /**
+ * Check if the given date is in the past.
+ * @param {Date | string | null} date
+ */
+export function isPast(date) {
+  if (!date) return false;
+  let today = new Date();
+  today.setHours(0, 0, 0, 0);
+  return new Date(date) < today;
+}
+
+/**
  * Returns the number of days between two dates
  * @param {Date} from - the start date
  * @param {Date} [to] - the end date (default is current date and time)

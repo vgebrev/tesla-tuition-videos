@@ -83,6 +83,32 @@ export function mergeArrays(array1, array2) {
 }
 
 /**
+ * @template {{id: number}} T
+ * Merges two arrays based on the `id` property, with items from `newItems`
+ * only being added if their `id` is already present in `array`.
+ *
+ * @param {T[]} array - The first array of objects.
+ * @param {T[]} newItems - The second array of objects.
+ * @returns {T[]} A merged array where items from `newItems` are included only if their `id` exists in `array`.
+ *
+ * @example
+ * const array1 = [{ id: 1, name: 'Alice' }, { id: 2, name: 'Bob' }];
+ * const array2 = [{ id: 2, name: 'Bobby' }, { id: 3, name: 'Charlie' }];
+ * const result = mergeArrays(array1, array2);
+ * console.log(result); // [{ id: 1, name: 'Alice' }, { id: 2, name: 'Bobby' }]
+ */
+export function updateArray(array, newItems) {
+  const map = new Map();
+  array.forEach((item) => map.set(item.id, item));
+  newItems.forEach((item) => {
+    if (map.has(item.id)) {
+      map.set(item.id, item);
+    }
+  });
+  return Array.from(map.values());
+}
+
+/**
  * Returns the number of days between two dates
  * @param {Date} from - the start date
  * @param {Date} [to] - the end date (default is current date and time)

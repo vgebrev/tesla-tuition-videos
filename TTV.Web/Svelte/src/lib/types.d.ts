@@ -228,6 +228,8 @@ export type MyDiscountVouchersStoreState = {
 
 export type MyLessonsStoreState = {
   isLoading: boolean;
+  pageInfo: ?PageInfo;
+  pageItems: ?Lesson[];
   lessons: ?Lesson[];
   error: ErrorState;
 };

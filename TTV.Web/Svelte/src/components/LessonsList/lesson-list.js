@@ -1,7 +1,7 @@
 import { writable, get } from 'svelte/store';
 import { api } from '$lib/api.js';
 import { defaultErrorMessage, defaultPageSize } from '$lib/config.js';
-import { mergeArrays } from '$lib/util.js';
+import { updateArray } from '$lib/util.js';
 
 /** @type {import('$lib/types').LessonListStoreState} */
 const initialState = {
@@ -138,7 +138,7 @@ async function setSearchTags(tags, triggerSearch = true) {
 function updateLessons(lessons) {
   lessonListStore.update((state) => {
     if (state.lessons) {
-      state.lessons = mergeArrays(state.lessons || [], lessons || []);
+      state.lessons = updateArray(state.lessons || [], lessons || []);
     }
     return state;
   });

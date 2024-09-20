@@ -24,7 +24,7 @@ public class OrderRepository(DataContext dataContext) : IOrderRepository
                 .ThenInclude(lesson => lesson.Videos.Where(video => video.VideoType == VideoType.FullLesson))
             .Include(order => order.Lessons)
                 .ThenInclude(lesson => lesson.Tags).ThenInclude(tag => tag.Category)
-            .Include(order => order.AppliedVouchers.OrderBy(map => map.UsedAt)).ThenInclude(map => map.Voucher).ThenInclude(voucher => voucher.OrdersAppliedTo)
+            .Include(order => order.AppliedVouchers.OrderBy(map => map.UsedAt)).ThenInclude(map => map.Voucher)
             .Include(order => order.Payments)
             .Include(order => order.PlacedBy)
             .Where(order => order.PlacedBy.Id == userId)
@@ -87,7 +87,7 @@ public class OrderRepository(DataContext dataContext) : IOrderRepository
         query = query
             .Include(order => order.Lessons)
                 .ThenInclude(lesson => lesson.OwnedBy)
-            .Include(order => order.AppliedVouchers.OrderBy(map => map.UsedAt)).ThenInclude(map => map.Voucher).ThenInclude(voucher => voucher.OrdersAppliedTo)
+            .Include(order => order.AppliedVouchers.OrderBy(map => map.UsedAt)).ThenInclude(map => map.Voucher)
             .Include(order => order.Payments)
             .Include(order => order.PlacedBy)
             .OrderByDescending(order => order.PlacedOn).ThenBy(order => order.Status);

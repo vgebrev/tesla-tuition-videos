@@ -142,7 +142,7 @@ public class Order : BaseEntity
     public decimal OrderTotal => Lessons.Sum(lesson => lesson.PriceAt(PlacedOn).EffectiveAmount);
     public decimal PaymentsTotal => AppliedVouchers.Sum(x => x.Amount) + Payments.Where(x => x.Status == PaymentStatus.Paid).Sum(x => x.Amount);
     public decimal TotalAmount => OrderTotal - PaymentsTotal;
-    public bool HasOwnedLessons => Lessons.Any(lesson => lesson.OwnedBy.Any(user => user == PlacedBy));
+    public bool HasOwnedLessons => Lessons.Any(lesson => lesson.OwnedBy.Any(user => user.Id == PlacedBy.Id));
     public bool IsFinalised => Status == OrderStatus.Cancelled || Status == OrderStatus.Completed;
     public bool IsPayable => !IsFinalised && !HasOwnedLessons && TotalAmount > 0;
     public bool CanComplete => !IsFinalised && !HasOwnedLessons && TotalAmount <= 0;

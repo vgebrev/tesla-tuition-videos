@@ -15,7 +15,7 @@ public class DiscountVoucherRepository(DataContext dataContext) : IDiscountVouch
 
     public async Task<IEnumerable<DiscountVoucher>> GetListAsync(Guid? userId = null, CancellationToken cancellationToken = default)
     {
-        var query = dataContext.DiscountVouchers.TagWithCallSite();
+        var query = dataContext.DiscountVouchers.AsNoTracking().TagWithCallSite();
 
         if (userId is not null)
         {

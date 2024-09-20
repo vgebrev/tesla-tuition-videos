@@ -207,6 +207,7 @@ export type LessonDetailStoreState = {
 
 export type LessonListStoreState = {
   isLoadingLessons: boolean;
+  pageInfo: ?PageInfo;
   lessons: ?Lesson[];
   lessonsError: ErrorState;
 

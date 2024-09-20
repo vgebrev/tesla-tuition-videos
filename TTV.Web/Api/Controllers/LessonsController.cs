@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using TTV.Application.Managers;
+using TTV.Domain.Filters;
 using TTV.Web.Api.MappingExtensions;
 using TTV.Web.Shared;
 
@@ -26,19 +27,27 @@ public class LessonsController(ILogger<LessonsController> logger, ILessonManager
     }
 
     [HttpPost("search")]
-    public async Task<IEnumerable<LessonDto>> SearchLessons([FromBody] LessonSearchDto searchDto, CancellationToken cancellationToken = default)
+    public async Task<PageDto<LessonDto>> SearchLessons([FromBody] LessonSearchDto searchDto, [FromQuery] PageFilter? pageFilter = null, CancellationToken cancellationToken = default)
     {
-        logger.LogInformation("{Method}({SearchDto})", nameof(SearchLessons), searchDto);
-        var lessons = await lessonManager.SearchLessonsAsync(searchDto.SearchText, searchDto.SearchTagsIds, cancellationToken);
-        return lessons.ToLessonDtoEnumerable();
+        logger.LogInformation("{Method}({@SearchDto},{@PageFilter})", nameof(SearchLessons), searchDto, pageFilter);
+        if (pageFilter?.Take == null)
+        {
+            pageFilter = null;
+        }
+        var page = await lessonManager.SearchLessonsAsync(searchDto.SearchText, searchDto.SearchTagsIds, pageFilter, cancellationToken);
+        return new PageDto<LessonDto>(page.Items.ToLessonDtoEnumerable(), page.PageInfo.ToPageInfoDto());
     }
 
     [HttpGet("own")]
     [Authorize]
-    public async Task<IEnumerable<LessonDto>> GetLessonsOwnedByUser(CancellationToken cancellationToken = default)
+    public async Task<PageDto<LessonDto>> GetLessonsOwnedByUser([FromQuery] PageFilter? pageFilter = null, CancellationToken cancellationToken = default)
     {
-        logger.LogInformation("{Method}", nameof(GetLessonsOwnedByUser));
-        var lessons = await lessonManager.GetLessonsOwnedByUserAsync(cancellationToken);
-        return lessons.ToLessonDtoEnumerable();
+        logger.LogInformation("{Method}({@PageFilter})", nameof(GetLessonsOwnedByUser), pageFilter);
+        if (pageFilter?.Take == null)
+        {
+            pageFilter = null;
+        }
+        var page = await lessonManager.GetLessonsOwnedByUserAsync(pageFilter, cancellationToken);
+        return new PageDto<LessonDto>(page.Items.ToLessonDtoEnumerable(), page.PageInfo.ToPageInfoDto());
     }
 }

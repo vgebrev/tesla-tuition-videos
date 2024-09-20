@@ -3,7 +3,7 @@
   import { lessonListActions, lessonListStore } from './lesson-list.js';
 
   async function clearFilter() {
-    await lessonListActions.search(null, null);
+    await lessonListActions.search(null, null, 0, $lessonListStore.pageInfo?.take);
   }
 
   $: searchTags = $lessonListStore.searchTags?.map(

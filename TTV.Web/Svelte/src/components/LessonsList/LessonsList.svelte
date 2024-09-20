@@ -5,11 +5,21 @@
   import { lessonListActions, lessonListStore } from '$components/LessonsList/lesson-list.js';
   import ErrorCard from '$components/common/ErrorCard.svelte';
   import LessonCard from '$components/common/LessonCard.svelte';
+  import Pagination from '$components/common/Pagination.svelte';
 
   onMount(async () => {
-    if (!state.lessons) await lessonListActions.search(state.searchText, state.searchTags);
+    if (!state.lessons)
+      await lessonListActions.search(state.searchText, state.searchTags, state.pageInfo?.skip, state.pageInfo?.take);
   });
 
+  /** Handle page change.
+   * @param {number} skip
+   * @param {number} take
+   * */
+  async function onPageChange(skip, take) {
+    await lessonListActions.search(state.searchText, state.searchTags, skip, take);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
   $: state = $lessonListStore;
 </script>
 
@@ -48,6 +58,15 @@
         </div>
       {/each}
     </div>
+    {#if state.pageInfo}
+      <div class="row">
+        <div class="col g-3">
+          <Pagination
+            pageInfo={state.pageInfo}
+            {onPageChange} />
+        </div>
+      </div>
+    {/if}
   {:else}
     <div class="row">
       <div class="col text-center">

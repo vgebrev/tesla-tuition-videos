@@ -14,7 +14,7 @@
   }
 
   async function search() {
-    await lessonListActions.search(state.searchText, state.searchTags);
+    await lessonListActions.search(state.searchText, state.searchTags, 0, state.pageInfo?.take);
   }
 
   function openTagFilterDrawer() {
@@ -47,7 +47,7 @@
           <i class="bi bi-search me-1"></i> <span>Search</span>
         </button>
         <button
-          class:btn-secondary={$lessonListStore.searchTags?.length > 0}
+          class:btn-secondary={$lessonListStore.searchTags?.length || 0 > 0}
           class="btn btn-outline-primary flex-fill h-100"
           on:click={openTagFilterDrawer}>
           <i class="bi bi-sliders"></i> <span>Filters</span>

@@ -1,6 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using TTV.Domain;
 using TTV.Domain.DomainServices.Repositories;
 using TTV.Domain.Entities;
+using TTV.Domain.Filters;
 
 namespace TTV.Infrastructure.DataAccess.Repositories;
 
@@ -8,7 +10,7 @@ public class LessonRepository(DataContext dataContext) : ILessonRepository
 {
     private readonly DataContext dataContext = dataContext;
 
-    public async Task<IEnumerable<Lesson>> SearchAsync(string? searchText, int[]? searchTagsIds, Guid? ownerId, CancellationToken cancellationToken = default)
+    public async Task<Page<Lesson>> SearchAsync(string? searchText, int[]? searchTagsIds, Guid? ownerId, PageFilter? pageFilter = null, CancellationToken cancellationToken = default)
     {
         var query = dataContext.Lessons.TagWithCallSite()
             .AsNoTracking();
@@ -25,9 +27,26 @@ public class LessonRepository(DataContext dataContext) : ILessonRepository
 
         query = query.Include(lesson => lesson.Tags).ThenInclude(tag => tag.Category)
             .Include(lesson => lesson.Videos)
-            .Include(lesson => lesson.OwnedBy.Where(user => user.Id == ownerId));
+            .Include(lesson => lesson.OwnedBy.Where(user => user.Id == ownerId))
+            .OrderBy(lesson => lesson.Id);
 
-        return await query.ToListAsync(cancellationToken);
+        PageInfo? pageInfo = null;
+        if (pageFilter is not null)
+        {
+            var count = await query.CountAsync(cancellationToken);
+            query = (IOrderedQueryable<Lesson>)query.Skip(pageFilter.Skip ?? 0).Take(pageFilter.Take ?? count);
+            pageInfo = new PageInfo()
+            {
+                Skip = pageFilter.Skip ?? 0,
+                Take = pageFilter.Take ?? count,
+                Count = count
+            };
+        }
+        return new Page<Lesson>()
+        {
+            Items = await query.ToListAsync(cancellationToken),
+            PageInfo = pageInfo
+        };
     }
 
     public async Task<Lesson?> GetByIdAsync(int lessonId, Guid? ownerId, CancellationToken cancellationToken = default)
@@ -40,15 +59,34 @@ public class LessonRepository(DataContext dataContext) : ILessonRepository
             .SingleOrDefaultAsync(lesson => lesson.Id == lessonId, cancellationToken);
     }
 
-    public async Task<IEnumerable<Lesson>> GetLessonsOwnedByUserAsync(Guid userId, CancellationToken cancellationToken = default)
+    public async Task<Page<Lesson>> GetLessonsOwnedByUserAsync(Guid userId, PageFilter? pageFilter = null, CancellationToken cancellationToken = default)
     {
-        return await dataContext.Lessons.TagWithCallSite()
+        var query = dataContext.Lessons.TagWithCallSite()
             .AsNoTracking()
             .Include(lesson => lesson.Tags).ThenInclude(tag => tag.Category)
             .Include(lesson => lesson.Videos)
             .Include(lesson => lesson.OwnedBy.Where(user => user.Id == userId))
             .Where(lesson => lesson.OwnedBy.Any(user => user.Id == userId) || lesson.IsFree)
-            .ToListAsync(cancellationToken);
+            .OrderBy(lesson => lesson.Id);
+
+        PageInfo? pageInfo = null;
+        if (pageFilter is not null)
+        {
+            var count = await query.CountAsync(cancellationToken);
+            query = (IOrderedQueryable<Lesson>)query.Skip(pageFilter.Skip ?? 0).Take(pageFilter.Take ?? count);
+            pageInfo = new PageInfo()
+            {
+                Skip = pageFilter.Skip ?? 0,
+                Take = pageFilter.Take ?? count,
+                Count = count
+            };
+        }
+
+        return new Page<Lesson>()
+        {
+            Items = await query.ToListAsync(cancellationToken),
+            PageInfo = pageInfo
+        };
     }
 
     public async Task<IEnumerable<Lesson>> GetLessonsNotOwnedByUserAsync(Guid userId, int[] lessonsIds, CancellationToken cancellationToken = default)

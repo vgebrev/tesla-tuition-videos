@@ -1,6 +1,8 @@
 ﻿using TTV.Application.Exceptions;
+using TTV.Domain;
 using TTV.Domain.DomainServices;
 using TTV.Domain.Entities;
+using TTV.Domain.Filters;
 
 namespace TTV.Application.Managers;
 
@@ -9,10 +11,10 @@ public class LessonManager(IUnitOfWorkFactory unitOfWorkFactory, IUserIdentitySe
     private readonly IUnitOfWorkFactory unitOfWorkFactory = unitOfWorkFactory;
     private readonly IUserIdentityService userIdentity = userIdentity;
 
-    public async Task<IEnumerable<Lesson>> SearchLessonsAsync(string? searchText, int[]? searchTagsIds, CancellationToken cancellationToken = default)
+    public async Task<Page<Lesson>> SearchLessonsAsync(string? searchText, int[]? searchTagsIds, PageFilter? pageFilter = null, CancellationToken cancellationToken = default)
     {
         using var unitOfWork = await unitOfWorkFactory.CreateAsync(cancellationToken);
-        var lessons = await unitOfWork.LessonRepository.SearchAsync(searchText, searchTagsIds, userIdentity.UserId, cancellationToken);
+        var lessons = await unitOfWork.LessonRepository.SearchAsync(searchText, searchTagsIds, userIdentity.UserId, pageFilter, cancellationToken);
         return lessons;
     }
 
@@ -23,23 +25,11 @@ public class LessonManager(IUnitOfWorkFactory unitOfWorkFactory, IUserIdentitySe
         return lesson;
     }
 
-    public async Task<IEnumerable<Lesson>> GetLessonsOwnedByUserAsync(CancellationToken cancellationToken = default)
+    public async Task<Page<Lesson>> GetLessonsOwnedByUserAsync(PageFilter? pageFilter = null, CancellationToken cancellationToken = default)
     {
         var userId = userIdentity.UserId ?? throw new UnauthenticatedException();
         using var unitOfWork = await unitOfWorkFactory.CreateAsync(cancellationToken);
-        var lessons = await unitOfWork.LessonRepository.GetLessonsOwnedByUserAsync(userId, cancellationToken);
-        return lessons;
-    }
-
-    public async Task<IEnumerable<Lesson>> GetLessonsNotOwnedByUserAsync(int[] lessonsIds, CancellationToken cancellationToken = default)
-    {
-        if (userIdentity.UserId == null)
-        {
-            throw new InvalidOperationException("User is not authenticated");
-        }
-
-        using var unitOfWork = await unitOfWorkFactory.CreateAsync(cancellationToken);
-        var lessons = await unitOfWork.LessonRepository.GetLessonsNotOwnedByUserAsync(userIdentity.UserId.Value, lessonsIds, cancellationToken);
+        var lessons = await unitOfWork.LessonRepository.GetLessonsOwnedByUserAsync(userId, pageFilter, cancellationToken);
         return lessons;
     }
 }

@@ -17,7 +17,7 @@ public class OrderRepository(DataContext dataContext) : IOrderRepository
 
     public async Task<Page<Order>> GetPlacedByUserListAsync(Guid userId, PageFilter? pageFilter = null, CancellationToken cancellationToken = default)
     {
-        var query = dataContext.Orders.TagWithCallSite()
+        var query = dataContext.Orders.AsNoTracking().TagWithCallSite()
             .Include(order => order.Lessons)
                 .ThenInclude(lesson => lesson.OwnedBy.Where(user => user.Id == userId))
             .Include(order => order.Lessons)
@@ -52,7 +52,7 @@ public class OrderRepository(DataContext dataContext) : IOrderRepository
 
     public async Task<Page<Order>> GetListAsync(OrderListFilter filter, CancellationToken cancellationToken = default)
     {
-        var query = dataContext.Orders.TagWithCallSite();
+        var query = dataContext.Orders.AsNoTracking().TagWithCallSite();
 
         if (filter.UserId.HasValue)
         {

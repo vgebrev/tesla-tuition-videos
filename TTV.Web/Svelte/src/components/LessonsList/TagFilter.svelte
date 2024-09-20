@@ -11,7 +11,7 @@
 
   async function clearFilter() {
     lessonListActions.setTagFilterDrawer(false);
-    await lessonListActions.search(null, null);
+    await lessonListActions.search(null, null, 0, state.pageInfo?.take);
   }
 
   /**
@@ -19,9 +19,11 @@
    * @returns {boolean}
    */
   function isChecked(tag) {
-    return state.searchTags?.some(
-      /** @param {import('$lib/types').Tag} t */
-      (t) => t.id === tag.id
+    return (
+      state.searchTags?.some(
+        /** @param {import('$lib/types').Tag} t */
+        (t) => t.id === tag.id
+      ) || false
     );
   }
 

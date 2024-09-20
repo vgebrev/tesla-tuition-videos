@@ -1,11 +1,12 @@
 import { writable, get } from 'svelte/store';
 import { api } from '$lib/api.js';
-import { defaultErrorMessage } from '$lib/config.js';
+import { defaultErrorMessage, defaultPageSize } from '$lib/config.js';
 import { mergeArrays } from '$lib/util.js';
 
 /** @type {import('$lib/types').LessonListStoreState} */
 const initialState = {
   isLoadingLessons: false,
+  pageInfo: { skip: 0, take: defaultPageSize, count: 0 },
   lessons: null,
   lessonsError: { isError: false, message: '' },
 
@@ -67,9 +68,11 @@ async function getTags() {
  * Search for lessons based on the provided search text and tags
  * @param {string | null} searchText
  * @param {import('$lib/types').Tag[] | null} searchTags
+ * @param {number | null} [skip]
+ * @param {number | null} [take]
  * @returns {Promise<void>}
  */
-async function search(searchText, searchTags) {
+async function search(searchText, searchTags, skip = null, take = null) {
   lessonListStore.update((state) => {
     state.searchText = searchText;
     state.searchTags = searchTags;
@@ -78,10 +81,12 @@ async function search(searchText, searchTags) {
   });
   try {
     const searchTagsIds = searchTags?.map((tag) => tag.id);
-    const response = await api.post('/lessons/search', { searchText, searchTagsIds });
+    const queryString = `skip=${skip !== null ? skip : ''}&take=${take !== null ? take : ''}`;
+    const response = await api.post(`/lessons/search?${queryString}`, { searchText, searchTagsIds });
     const lessons = await response.json();
     lessonListStore.update((state) => {
-      state.lessons = lessons;
+      state.lessons = lessons.items;
+      state.pageInfo = lessons.pageInfo;
       state.lessonsError = { isError: false, message: '' };
       return state;
     });
@@ -122,7 +127,7 @@ async function setSearchTags(tags, triggerSearch = true) {
     return state;
   });
   if (triggerSearch) {
-    await search(null, tags);
+    await search(null, tags, 0, get(lessonListStore).pageInfo.take);
   }
 }
 

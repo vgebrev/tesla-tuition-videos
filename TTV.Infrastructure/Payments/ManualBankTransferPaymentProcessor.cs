@@ -8,6 +8,15 @@ public class ManualBankTransferPaymentProcessor : IPaymentProcessor
 {
     public async Task<Result<Payment>> InitiateAsync(Order order, CancellationToken cancellationToken = default)
     {
+        var latestPayment = order.LatestPayment;
+        if (latestPayment != null && latestPayment.Status == PaymentStatus.Pending && latestPayment.Type == PaymentType.ManualBankTransfer)
+        {
+            return await Task.FromResult(new Result<Payment>(latestPayment, true, Message: null));
+        }
+
+        order.CancelPendingPayments("Another payment initiated");
+        order.Status = OrderStatus.AwaitingPayment;
+
         var id = Guid.NewGuid();
         var payment = new Payment()
         {

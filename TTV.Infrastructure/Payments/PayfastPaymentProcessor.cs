@@ -20,6 +20,10 @@ public class PayfastPaymentProcessor(ILogger<PayfastPaymentProcessor> logger, Pa
     public async Task<Result<Payment>> InitiateAsync(Order order, CancellationToken cancellationToken = default)
     {
         logger.LogDebug("Initiating new {PaymentType} for order {OrderId}", PaymentType.Payfast.ToDisplayString(), order.Id);
+        
+        order.CancelPendingPayments("Another payment initiated");
+        order.Status = OrderStatus.AwaitingPayment;
+
         var payment = new Payment()
         {
             Id = Guid.NewGuid(),

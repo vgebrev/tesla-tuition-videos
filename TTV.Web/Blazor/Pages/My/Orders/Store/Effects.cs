@@ -1,9 +1,9 @@
 ﻿using Fluxor;
-using TTV.Web.Blazor.Pages.My.Orders.Actions;
+using TTV.Web.Blazor.Pages.My.Orders.Store.Actions;
 using TTV.Web.Blazor.Services;
 using TTV.Web.Blazor.Shared.Store;
 
-namespace TTV.Web.Blazor.Pages.My.Orders.State;
+namespace TTV.Web.Blazor.Pages.My.Orders.Store;
 
 public class Effects(IOrderApiConsumer orderApi)
 {

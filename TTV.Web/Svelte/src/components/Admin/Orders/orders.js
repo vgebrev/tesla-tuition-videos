@@ -1,6 +1,7 @@
 import { writable, get } from 'svelte/store';
 import { api } from '$lib/api.js';
 import { defaultErrorMessage, defaultPageSize } from '$lib/config.js';
+import { toQueryString } from '$lib/util.js';
 
 /** @type {import('$lib/types').AdminOrdersStoreState} */
 const initialState = {
@@ -8,7 +9,7 @@ const initialState = {
   isLoadingUsers: false,
   isLoadingStatuses: false,
 
-  pageInfo: { skip: 0, take: defaultPageSize, total: 0 },
+  pageInfo: { skip: 0, take: defaultPageSize, count: 0 },
   orders: null,
   statuses: null,
   users: null,
@@ -85,9 +86,7 @@ async function getOrders() {
   });
   try {
     const filter = get(adminOrdersStore).filter;
-    const queryString = Object.keys(filter)
-      .map((key) => encodeURIComponent(key) + '=' + encodeURIComponent(filter[key] == null ? '' : filter[key]))
-      .join('&');
+    const queryString = toQueryString(filter);
     const response = await api.get(`/orders?${queryString}`);
     const orders = await response.json();
     adminOrdersStore.update((state) => {
@@ -106,6 +105,11 @@ async function getOrders() {
   }
 }
 
+/**
+ * Complete an order
+ * @param {import('$lib/types').Order} order
+ * @returns {Promise<void>}
+ */
 async function completeOrder(order) {
   adminOrdersStore.update((state) => {
     state.isLoadingOrders = true;
@@ -118,7 +122,7 @@ async function completeOrder(order) {
     adminOrdersStore.update((state) => {
       state.isLoadingOrders = false;
       if (completeOrderResult.isSuccess) {
-        state.orders = state.orders.map((o) => (o.id === order.id ? completeOrderResult.value : o));
+        state.orders = (state.orders || []).map((o) => (o.id === order.id ? completeOrderResult.value : o));
       } else {
         state.ordersError = { isError: !completeOrderResult.isSuccess, message: completeOrderResult.message };
       }

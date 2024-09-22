@@ -1,6 +1,6 @@
 ﻿using TTV.Web.Shared;
 
-namespace TTV.Web.Blazor.Pages.OrderComplete.Store.Actions;
+namespace TTV.Web.Blazor.Pages.OrderComplete.Store;
 
 public record GetOrderRequest
 {

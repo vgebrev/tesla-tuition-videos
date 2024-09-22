@@ -1,5 +1,9 @@
 import { error } from '@sveltejs/kit';
 
+/**
+ * @param {{params: { orderId: string}}} params
+ * @returns
+ */
 export function load({ params }) {
   const orderId = parseInt(params.orderId);
   if (isNaN(orderId)) {

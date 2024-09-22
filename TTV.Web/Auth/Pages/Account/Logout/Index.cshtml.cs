@@ -9,7 +9,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
-namespace TTV.Web.Auth.Pages.Logout;
+namespace TTV.Web.Auth.Pages.Account.Logout;
 
 [SecurityHeaders]
 [AllowAnonymous]
@@ -19,7 +19,7 @@ public class Index(SignInManager<ApplicationUser> signInManager, IIdentityServer
     private readonly IIdentityServerInteractionService _interaction = interaction;
     private readonly IEventService _events = events;
 
-    [BindProperty] 
+    [BindProperty]
     public string LogoutId { get; set; }
 
     public async Task<IActionResult> OnGet(string logoutId)
@@ -42,7 +42,7 @@ public class Index(SignInManager<ApplicationUser> signInManager, IIdentityServer
                 showLogoutPrompt = false;
             }
         }
-            
+
         if (showLogoutPrompt == false)
         {
             // if the request for logout was properly authenticated from IdentityServer, then
@@ -61,7 +61,7 @@ public class Index(SignInManager<ApplicationUser> signInManager, IIdentityServer
             // this captures necessary info from the current logged in user
             // this can still return null if there is no context needed
             LogoutId ??= await _interaction.CreateLogoutContextAsync();
-                
+
             // delete local authentication cookie
             await _signInManager.SignOutAsync();
 

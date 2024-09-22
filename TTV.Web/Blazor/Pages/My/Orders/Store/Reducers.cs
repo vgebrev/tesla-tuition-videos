@@ -1,8 +1,7 @@
 ﻿using Fluxor;
-using TTV.Web.Blazor.Pages.My.Orders.Actions;
-using TTV.Web.Blazor.Pages.My.Orders.Store;
+using TTV.Web.Blazor.Pages.My.Orders.Store.Actions;
 
-namespace TTV.Web.Blazor.Pages.My.Orders.State;
+namespace TTV.Web.Blazor.Pages.My.Orders.Store;
 
 public class Reducers
 {

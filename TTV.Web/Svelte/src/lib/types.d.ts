@@ -20,6 +20,7 @@ export type OrderFilterState = {
   to: ?Date;
   skip: ?number;
   take: ?number;
+  [key: string]: string | number | boolean | Date | null;
 };
 
 export type PageInfo = {

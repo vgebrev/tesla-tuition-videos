@@ -3,7 +3,7 @@
 
 using Duende.IdentityServer.Models;
 
-namespace TTV.Web.Auth.Pages.Error;
+namespace TTV.Web.Auth.Pages.Home.Error;
 
 public class ViewModel
 {

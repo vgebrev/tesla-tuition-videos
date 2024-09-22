@@ -1,4 +1,4 @@
-namespace TTV.Web.Auth.Pages.Login;
+namespace TTV.Web.Auth.Pages.Account.Login;
 
 public class LoginOptions
 {

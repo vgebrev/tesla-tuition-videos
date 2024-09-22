@@ -1,9 +1,7 @@
-
 // Copyright (c) Duende Software. All rights reserved.
 // See LICENSE in the project root for license information.
 
-
-namespace TTV.Web.Auth.Pages.Logout;
+namespace TTV.Web.Auth.Pages.Account.Logout;
 
 public class LoggedOutViewModel
 {

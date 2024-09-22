@@ -2,7 +2,7 @@ import { writable, get } from 'svelte/store';
 import { api } from '$lib/api.js';
 import { defaultErrorMessage, defaultPageSize } from '$lib/config.js';
 
-/** @type {import('$lib/types').AdminDiscountVouchersStore} */
+/** @type {import('$lib/types').AdminDiscountVouchersStoreState} */
 const initialState = {
   isLoading: false,
   error: { isError: false, message: '' },

@@ -167,3 +167,14 @@ export function formatDateTime(date) {
   const minutes = String(date.getMinutes()).padStart(2, '0');
   return `${day}-${month}-${year} ${hours}:${minutes}`;
 }
+
+/**
+ * Returns a query string of all object properties
+ * @param {Record<string, any>} o
+ * @returns {string}
+ */
+export function toQueryString(o) {
+  return Object.keys(o)
+    .map((key) => encodeURIComponent(key) + '=' + encodeURIComponent(o[key] == null ? '' : o[key]))
+    .join('&');
+}

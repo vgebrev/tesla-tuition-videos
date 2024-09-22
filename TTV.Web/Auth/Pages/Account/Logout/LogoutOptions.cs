@@ -1,5 +1,4 @@
-
-namespace TTV.Web.Auth.Pages.Logout;
+namespace TTV.Web.Auth.Pages.Account.Logout;
 
 public class LogoutOptions
 {

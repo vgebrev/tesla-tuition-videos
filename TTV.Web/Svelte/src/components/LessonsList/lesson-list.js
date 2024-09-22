@@ -127,7 +127,7 @@ async function setSearchTags(tags, triggerSearch = true) {
     return state;
   });
   if (triggerSearch) {
-    await search(null, tags, 0, get(lessonListStore).pageInfo.take);
+    await search(null, tags, 0, get(lessonListStore).pageInfo?.take || defaultPageSize);
   }
 }
 

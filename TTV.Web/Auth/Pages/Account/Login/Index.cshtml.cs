@@ -9,7 +9,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
-namespace TTV.Web.Auth.Pages.Login;
+namespace TTV.Web.Auth.Pages.Account.Login;
 
 [SecurityHeaders]
 [AllowAnonymous]
@@ -29,14 +29,14 @@ public class Index(
     private readonly IIdentityProviderStore identityProviderStore = identityProviderStore;
 
     public ViewModel View { get; set; }
-        
+
     [BindProperty]
     public InputModel Input { get; set; }
 
     public async Task<IActionResult> OnGet(string returnUrl)
     {
         await BuildModelAsync(returnUrl);
-            
+
         if (View.IsExternalLoginOnly)
         {
             // we only have one option for logging in and it's an external provider
@@ -45,7 +45,7 @@ public class Index(
 
         return Page();
     }
-        
+
     public async Task<IActionResult> OnPost()
     {
         // check if we are in the context of an authorization request
@@ -115,7 +115,7 @@ public class Index(
                 }
             }
 
-            await events.RaiseAsync(new UserLoginFailureEvent(Input.Username, "invalid credentials", clientId:context?.Client.ClientId));
+            await events.RaiseAsync(new UserLoginFailureEvent(Input.Username, "invalid credentials", clientId: context?.Client.ClientId));
             ModelState.AddModelError(string.Empty, LoginOptions.InvalidCredentialsErrorMessage);
         }
 
@@ -123,14 +123,14 @@ public class Index(
         await BuildModelAsync(Input.ReturnUrl);
         return Page();
     }
-        
+
     private async Task BuildModelAsync(string returnUrl)
     {
         Input = new InputModel
         {
             ReturnUrl = returnUrl
         };
-            
+
         var context = await interaction.GetAuthorizationContextAsync(returnUrl);
         if (context?.IdP != null && await schemeProvider.GetSchemeAsync(context.IdP) != null)
         {

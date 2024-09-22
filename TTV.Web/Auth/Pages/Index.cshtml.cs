@@ -3,7 +3,7 @@ using Duende.IdentityServer.Stores;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
-namespace TTV.Web.Auth.Pages.Home;
+namespace TTV.Web.Auth.Pages;
 
 [AllowAnonymous]
 public class Index(IClientStore clientStore) : PageModel

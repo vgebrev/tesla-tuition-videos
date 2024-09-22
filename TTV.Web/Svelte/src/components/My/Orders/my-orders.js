@@ -6,7 +6,7 @@ import { defaultPageSize } from '$lib/config.js';
 const initialState = {
   isLoading: false,
   error: { isError: false, message: '' },
-  pageInfo: { skip: 0, take: defaultPageSize, total: 0 },
+  pageInfo: { skip: 0, take: defaultPageSize, count: 0 },
   orders: null
 };
 

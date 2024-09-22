@@ -2,7 +2,7 @@ using Duende.IdentityServer.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
-namespace TTV.Web.Auth.Pages.Error;
+namespace TTV.Web.Auth.Pages.Home.Error;
 
 [AllowAnonymous]
 [SecurityHeaders]
@@ -10,7 +10,7 @@ public class Index(IIdentityServerInteractionService interaction, IWebHostEnviro
 {
     private readonly IIdentityServerInteractionService _interaction = interaction;
     private readonly IWebHostEnvironment _environment = environment;
-        
+
     public ViewModel View { get; set; }
 
     public async Task OnGet(string errorId)

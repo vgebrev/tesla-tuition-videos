@@ -77,9 +77,13 @@
         </table>
       </div>
       {#if state.pageInfo}
-        <Pagination
-          pageInfo={state.pageInfo}
-          {onPageChange} />
+        <div class="row row-cols-1">
+          <div class="col d-flex justify-content-center justify-content-md-start">
+            <Pagination
+              pageInfo={state.pageInfo}
+              {onPageChange} />
+          </div>
+        </div>
       {/if}
     {:else if !state.isLoading}
       <p>No discount vouchers issued.</p>

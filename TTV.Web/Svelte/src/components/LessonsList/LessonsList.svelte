@@ -60,7 +60,7 @@
     </div>
     {#if state.pageInfo}
       <div class="row">
-        <div class="col g-3">
+        <div class="col g-3 mx-2 d-flex justify-content-center justify-content-md-start">
           <Pagination
             pageInfo={state.pageInfo}
             {onPageChange} />

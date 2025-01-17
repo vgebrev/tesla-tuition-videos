@@ -54,14 +54,17 @@
       <a
         href="https://www.instagram.com/teslatuitionvideos/"
         target="_blank"
+        aria-label="Instagam"
         title="Instagram"><i class="fs-1 bi bi-instagram"></i></a>
       <a
         href="https://www.facebook.com/teslatuitionvideos/"
         target="_blank"
+        aria-label="Facebook"
         title="Facebook"><i class="fs-1 bi bi-facebook"></i></a>
       <a
         href="https://www.youtube.com/@TeslaTuitionVideos"
         target="_blank"
+        aria-label="YouTube"
         title="YouTube"><i class="fs-1 bi bi-youtube"></i></a>
     </div>
   </div>

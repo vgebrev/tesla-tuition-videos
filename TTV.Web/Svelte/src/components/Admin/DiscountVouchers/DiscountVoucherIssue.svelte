@@ -107,6 +107,7 @@
           <button
             type="button"
             class="btn-close"
+            aria-label="Close alert"
             data-bs-dismiss="alert"></button>
           <strong>Voucher Issued!</strong>
           <p>

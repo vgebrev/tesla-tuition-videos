@@ -1,7 +1,5 @@
 // ----- Common ------------------------------------------------------------------------------------
 
-import { Page } from '@sveltejs/kit/src/exports/public';
-
 export type ErrorState = {
   isError: boolean;
   message: string;

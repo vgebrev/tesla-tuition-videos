@@ -36,7 +36,7 @@
         class="page-link"
         on:click={async () => await setPage(currentPage - 1)}
         aria-label="Previous">
-        <i class="bi bi-chevron-double-left" />
+        <i class="bi bi-chevron-double-left"></i>
       </button>
     </li>
 
@@ -59,7 +59,7 @@
         class="page-link"
         on:click={() => setPage(currentPage + 1)}
         aria-label="Next">
-        <i class="bi bi-chevron-double-right" />
+        <i class="bi bi-chevron-double-right"></i>
       </button>
     </li>
     <li class="page-item align-self-center text-primary small">

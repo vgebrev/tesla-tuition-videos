@@ -33,6 +33,7 @@
     class:jingling-bell={!isShown}
     class:text-warning={!isShown}
     on:click={show}
+    aria-label="Announcement"
     title="Announcement">
     <i
       class:bi-bell={isShown}

@@ -21,7 +21,7 @@
   <div class="row">
     <FlipCard>
       <div slot="front">
-        <h1><i class="bi bi-film"></i></h1>
+        <div class="fs-1"><i class="bi bi-film"></i></div>
         <h4 class="card-title">Video Lessons</h4>
       </div>
       <div slot="back">
@@ -34,7 +34,7 @@
     </FlipCard>
     <FlipCard>
       <div slot="front">
-        <h1><i class="bi bi-journal-text"></i></h1>
+        <div class="fs-1"><i class="bi bi-journal-text"></i></div>
         <h4 class="card-title">Practice Exercises</h4>
       </div>
       <div slot="back">
@@ -48,7 +48,7 @@
     </FlipCard>
     <FlipCard>
       <div slot="front">
-        <h1><i class="bi bi-piggy-bank"></i></h1>
+        <div class="fs-1"><i class="bi bi-piggy-bank"></i></div>
         <h4 class="card-title">Affordable Pricing</h4>
       </div>
       <div slot="back">
@@ -62,7 +62,7 @@
     </FlipCard>
     <FlipCard>
       <div slot="front">
-        <h1><i class="bi bi-mortarboard"></i></h1>
+        <div class="fs-1"><i class="bi bi-mortarboard"></i></div>
         <h4 class="card-title">Broad Range of Topics</h4>
       </div>
       <div slot="back">
@@ -77,7 +77,7 @@
     </FlipCard>
     <FlipCard>
       <div slot="front">
-        <h1><i class="bi bi-file-earmark-plus"></i></h1>
+        <div class="fs-1"><i class="bi bi-file-earmark-plus"></i></div>
         <h4 class="card-title">Living Content</h4>
       </div>
       <div slot="back">
@@ -90,7 +90,7 @@
     </FlipCard>
     <FlipCard>
       <div slot="front">
-        <h1><i class="bi bi-question-circle"></i></h1>
+        <div class="fs-1"><i class="bi bi-question-circle"></i></div>
         <h4 class="card-title">Customer Support</h4>
       </div>
       <div slot="back">

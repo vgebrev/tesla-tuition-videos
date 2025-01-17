@@ -13,7 +13,8 @@
   <button
     bind:this={popoverElem}
     type="button"
-    class="btn btn-link">
+    class="btn btn-link"
+    aria-label="Lesson info">
     <i class="bi-info-circle"></i>
   </button>
   <Popover

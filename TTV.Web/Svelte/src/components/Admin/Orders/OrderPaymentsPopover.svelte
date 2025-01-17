@@ -19,7 +19,8 @@
 
 <button
   class="btn btn-link p-0 me-1"
-  bind:this={popoverElem}>
+  bind:this={popoverElem}
+  aria-label="Payments and vouchers info">
   <i class="bi bi-info-circle"></i>
 </button>
 <Popover

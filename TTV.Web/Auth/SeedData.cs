@@ -1,6 +1,5 @@
 ﻿using Duende.IdentityServer.EntityFramework.DbContexts;
 using Duende.IdentityServer.EntityFramework.Mappers;
-using IdentityModel;
 using TTV.Web.Auth.Data;
 using TTV.Web.Auth.Models;
 using Microsoft.AspNetCore.Identity;
@@ -8,6 +7,7 @@ using Microsoft.EntityFrameworkCore;
 using Serilog;
 using System.Security.Claims;
 using System.Runtime.CompilerServices;
+using Duende.IdentityModel;
 
 namespace TTV.Web.Auth;
 

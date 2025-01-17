@@ -18,7 +18,9 @@
 <!-- svelte-ignore a11y-media-has-caption -->
 <video
   id="lesson-video"
-  oncontextmenu="return false;"
+  oncontextmenu={() => {
+    return false;
+  }}
   controls
   controlslist="nodownload"
   preload="none"

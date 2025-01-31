@@ -28,7 +28,7 @@ public class LessonRepository(DataContext dataContext) : ILessonRepository
         query = query.Include(lesson => lesson.Tags).ThenInclude(tag => tag.Category)
             .Include(lesson => lesson.Videos)
             .Include(lesson => lesson.OwnedBy.Where(user => user.Id == ownerId))
-            .OrderBy(lesson => lesson.Id);
+            .OrderBy(lesson => lesson.Sequence);
 
         PageInfo? pageInfo = null;
         if (pageFilter is not null)
@@ -67,7 +67,7 @@ public class LessonRepository(DataContext dataContext) : ILessonRepository
             .Include(lesson => lesson.Videos)
             .Include(lesson => lesson.OwnedBy.Where(user => user.Id == userId))
             .Where(lesson => lesson.OwnedBy.Any(user => user.Id == userId) || lesson.IsFree)
-            .OrderBy(lesson => lesson.Id);
+            .OrderBy(lesson => lesson.Sequence);
 
         PageInfo? pageInfo = null;
         if (pageFilter is not null)

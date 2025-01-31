@@ -1,4 +1,4 @@
-declare @Uri nvarchar(64) = 'https://mating-remedies-channel-mas.trycloudflare.com' --Update to the specific tunnel uri
+declare @Uri nvarchar(64) = 'https://mit-guns-layer-overcome.trycloudflare.com' --Update to the specific front-end tunnel uri
 
 set identity_insert [auth_cfg].[ClientRedirectUris] on
 

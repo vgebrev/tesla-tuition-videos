@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 using TTV.Domain.Entities;
 using TTV.Infrastructure.DataAccess;
 
@@ -59,91 +60,100 @@ namespace TTV.DatabaseDeploy
             new Tag() { Id = 28, Name = "Ions", Category = TagCategories[3] },
             new Tag() { Id = 29, Name = "Chemical Formulae", Category = TagCategories[3] },
             new Tag() { Id = 30, Name = "Free Lesson", Category = TagCategories[3]},
+
+            //Update 2025-01-31
+            new Tag() { Id = 31, Name = "Electrodynamics", Category = TagCategories[1] },
         ];
 
         private static Lesson[] Lessons { get; } =
         [
             // Physics
-            new Lesson() { Id = 1, Title = "Finding the Resultant of Multiple Forces", Description = "Learn how to correctly calculate the magnitude and direction of the resultant/net force when multiple forces act on a single point/object. This also involves breaking down angled forces into their x (horizontal) and y (vertical) components.", LessonType = LessonType.Video,
+            new Lesson() { Id = 1, Sequence = 1, Title = "Finding the Resultant of Multiple Forces", Description = "Learn how to correctly calculate the magnitude and direction of the resultant/net force when multiple forces act on a single point/object. This also involves breaking down angled forces into their x (horizontal) and y (vertical) components.", LessonType = LessonType.Video,
                 Tags = [Tags[0], Tags[2], Tags[3], Tags[11], Tags[12], Tags[14], Tags[16], Tags[17], Tags[18]] },
-            new Lesson() { Id = 2, Title = "Components of Angled Forces", Description = "Forces at an angle are important for many parts of Physics. Learn how they work and how to resolve them (break them down) into their x (horizontal) and y (vertical) components with the relevant formulae.", LessonType = LessonType.Video,
+            new Lesson() { Id = 2, Sequence = 2, Title = "Components of Angled Forces", Description = "Forces at an angle are important for many parts of Physics. Learn how they work and how to resolve them (break them down) into their x (horizontal) and y (vertical) components with the relevant formulae.", LessonType = LessonType.Video,
                 Tags = [Tags[0], Tags[2], Tags[3], Tags[11], Tags[12], Tags[14], Tags[16], Tags[17], Tags[18]] },
-            new Lesson() { Id = 3, Title = "Forces in Equilibrium", Description = "Learn about what it means for objects to be in equilibrium when the forces acting on them are balanced. This involves techniques from Newton's 1 st Law of Motion and covers examples of equilibrium questions and calculations.", LessonType = LessonType.Video,
+            new Lesson() { Id = 3, Sequence = 3, Title = "Forces in Equilibrium", Description = "Learn about what it means for objects to be in equilibrium when the forces acting on them are balanced. This involves techniques from Newton's 1 st Law of Motion and covers examples of equilibrium questions and calculations.", LessonType = LessonType.Video,
                 Tags = [Tags[0], Tags[2], Tags[3], Tags[11], Tags[12], Tags[14], Tags[16], Tags[17], Tags[18]] },
-            new Lesson() { Id = 4, Title = "Forces on an Inclined Surface", Description = "Learn about how forces work on a slope or incline. This includes how to correctly draw free-body diagrams and the formulae used for calculating the parallel and perpendicular components of an object's weight/force of gravity on a slope.", LessonType = LessonType.Video,
+            new Lesson() { Id = 4, Sequence = 4, Title = "Forces on an Inclined Surface", Description = "Learn about how forces work on a slope or incline. This includes how to correctly draw free-body diagrams and the formulae used for calculating the parallel and perpendicular components of an object's weight/force of gravity on a slope.", LessonType = LessonType.Video,
                 Tags = [Tags[0], Tags[2], Tags[3], Tags[11], Tags[12], Tags[14], Tags[16], Tags[17], Tags[18]] },
-            new Lesson() { Id = 5, Title = "The Force of Normal", Description = "Learn about what the normal force is, how to represent it on diagrams and how to calculate it correctly in a variety of different scenarios (including in the presence of angled forces and on an incline/slope).", LessonType = LessonType.Video,
+            new Lesson() { Id = 5, Sequence = 5, Title = "The Force of Normal", Description = "Learn about what the normal force is, how to represent it on diagrams and how to calculate it correctly in a variety of different scenarios (including in the presence of angled forces and on an incline/slope).", LessonType = LessonType.Video,
                 Tags = [Tags[0], Tags[2], Tags[3], Tags[11], Tags[12], Tags[14], Tags[16], Tags[17], Tags[18]] },
-            new Lesson() { Id = 6, Title = "Frictional Forces", Description = "Learn about the important concepts related to friction, including the difference between static and kinetic friction. This includes how each type of friction works and how to navigate questions that involve frictional forces.", LessonType = LessonType.Video,
+            new Lesson() { Id = 6, Sequence = 6, Title = "Frictional Forces", Description = "Learn about the important concepts related to friction, including the difference between static and kinetic friction. This includes how each type of friction works and how to navigate questions that involve frictional forces.", LessonType = LessonType.Video,
                 Tags = [Tags[0], Tags[2], Tags[3], Tags[11], Tags[12], Tags[14], Tags[16], Tags[17], Tags[18]] },
-            new Lesson() { Id = 7, Title = "Coefficients of Friction", Description = "Learn about what a coefficient of friction is and the difference between the coefficient of static friction and the coefficient of kinetic friction. This includes learning about the formulae, calculations and other questions related to coefficients of friction (with examples).", LessonType = LessonType.Video,
+            new Lesson() { Id = 7, Sequence = 7, Title = "Coefficients of Friction", Description = "Learn about what a coefficient of friction is and the difference between the coefficient of static friction and the coefficient of kinetic friction. This includes learning about the formulae, calculations and other questions related to coefficients of friction (with examples).", LessonType = LessonType.Video,
                 Tags = [Tags[0], Tags[2], Tags[3], Tags[11], Tags[12], Tags[14], Tags[16], Tags[17], Tags[18]] },
-            new Lesson() { Id = 8, Title = "Newton's First Law of Motion", Description = "This lesson deals with the theory and concepts related to Newton's 1st Law of Motion. This includes an explanation of inertia, equilibrium and the techniques used for solving Newton's 1st Law questions (including examples of calculations).", LessonType = LessonType.Video,
+            new Lesson() { Id = 8, Sequence = 8, Title = "Newton's First Law of Motion", Description = "This lesson deals with the theory and concepts related to Newton's 1st Law of Motion. This includes an explanation of inertia, equilibrium and the techniques used for solving Newton's 1st Law questions (including examples of calculations).", LessonType = LessonType.Video,
                 Tags = [Tags[0], Tags[2], Tags[3], Tags[11], Tags[12], Tags[14], Tags[16], Tags[17], Tags[18]] },
-            new Lesson() { Id = 9, Title = "Newton's Second Law of Motion", Description = "This lesson teaches students about the theory and relationships related to Newton's 2nd Law of motion. This includes the formula and techniques needed to navigate Newton's 2nd Law calculations and other related questions.", LessonType = LessonType.Video,
+            new Lesson() { Id = 9, Sequence = 9, Title = "Newton's Second Law of Motion", Description = "This lesson teaches students about the theory and relationships related to Newton's 2nd Law of motion. This includes the formula and techniques needed to navigate Newton's 2nd Law calculations and other related questions.", LessonType = LessonType.Video,
                 Tags = [Tags[0], Tags[2], Tags[3], Tags[11], Tags[12], Tags[14], Tags[16], Tags[17], Tags[18]] },
-            new Lesson() { Id = 10, Title = "Newton's 2nd Law Questions Involving Simultaneous Equations", Description = "Learn about how to navigate the tricky but very common Newton's 2nd Law questions that involve simultaneous equations. This includes the techniques for identifying, interpreting and solving these sorts of questions correctly.", LessonType = LessonType.Video,
+            new Lesson() { Id = 10, Sequence = 10, Title = "Newton's 2nd Law Questions Involving Simultaneous Equations", Description = "Learn about how to navigate the tricky but very common Newton's 2nd Law questions that involve simultaneous equations. This includes the techniques for identifying, interpreting and solving these sorts of questions correctly.", LessonType = LessonType.Video,
                 Tags = [Tags[0], Tags[2], Tags[3], Tags[11], Tags[12], Tags[14], Tags[16], Tags[17], Tags[18]] },
-            new Lesson() { Id = 11, Title = "Newton's Third Law of Motion", Description = "Learn about the theory and concepts related to Newton's 3rd Law of motion. This includes identifying Newton's 3rd Law force pairs (or action/reaction force pairs) and dealing with various types of questions related to Newton's 3rd Law.", LessonType = LessonType.Video,
+            new Lesson() { Id = 11, Sequence = 11, Title = "Newton's Third Law of Motion", Description = "Learn about the theory and concepts related to Newton's 3rd Law of motion. This includes identifying Newton's 3rd Law force pairs (or action/reaction force pairs) and dealing with various types of questions related to Newton's 3rd Law.", LessonType = LessonType.Video,
                 Tags = [Tags[0], Tags[2], Tags[3], Tags[11], Tags[12], Tags[14], Tags[16], Tags[17], Tags[18]] },
-            new Lesson() { Id = 12, Title = "Newton's Law of Universal Gravitation", Description = "This lesson deals with the theory, concepts and relationships related to gravitation on a universal scale. This includes learning how to navigate a variety of questions (including calculations, proportionality questions, and calculating acceleration due to gravity/gravitational field strength on different planets).", LessonType = LessonType.Video,
+            new Lesson() { Id = 12, Sequence = 12, Title = "Newton's Law of Universal Gravitation", Description = "This lesson deals with the theory, concepts and relationships related to gravitation on a universal scale. This includes learning how to navigate a variety of questions (including calculations, proportionality questions, and calculating acceleration due to gravity/gravitational field strength on different planets).", LessonType = LessonType.Video,
                 Tags = [Tags[0], Tags[2], Tags[3], Tags[11], Tags[12], Tags[14], Tags[16], Tags[17], Tags[18]] },
-            new Lesson() { Id = 13, Title = "Electrostatics Part 1", Description = "This lesson revises the basic but fundamental concepts of electrostatics and thoroughly explores Coulomb's Law. This includes the theory, relationships and calculations related to Coulomb's Law (with multiple examples).", LessonType = LessonType.Video,
+            new Lesson() { Id = 13, Sequence = 13, Title = "Electrostatics Part 1", Description = "This lesson revises the basic but fundamental concepts of electrostatics and thoroughly explores Coulomb's Law. This includes the theory, relationships and calculations related to Coulomb's Law (with multiple examples).", LessonType = LessonType.Video,
                 Tags = [Tags[0], Tags[4], Tags[11], Tags[12], Tags[14]] },
-            new Lesson() { Id = 14, Title = "Electrostatics Part 2", Description = "In this lesson we learn about electric fields (including the diagrams), electric field strength at a point (theory and calculations) and other types of electrostatics calculations (including proportionality questions, charged objects touching and separating and the quantisation of charge).", LessonType = LessonType.Video,
+            new Lesson() { Id = 14, Sequence = 14, Title = "Electrostatics Part 2", Description = "In this lesson we learn about electric fields (including the diagrams), electric field strength at a point (theory and calculations) and other types of electrostatics calculations (including proportionality questions, charged objects touching and separating and the quantisation of charge).", LessonType = LessonType.Video,
                 Tags = [Tags[0], Tags[4], Tags[11], Tags[12], Tags[14]] },
-            new Lesson() { Id = 15, Title = "Electric Circuits Part 1", Description = "Learn the fundamental electricity concepts of potential difference, current, resistance and EMF. Also learn about how ammeters and voltmeters work. This lesson also includes the theory related to Ohm's Law (including Ohmic vs. non-Ohmic conductors).", LessonType = LessonType.Video,
+            new Lesson() { Id = 15, Sequence = 15, Title = "Electric Circuits Part 1", Description = "Learn the fundamental electricity concepts of potential difference, current, resistance and EMF. Also learn about how ammeters and voltmeters work. This lesson also includes the theory related to Ohm's Law (including Ohmic vs. non-Ohmic conductors).", LessonType = LessonType.Video,
                 Tags = [Tags[0], Tags[5], Tags[11], Tags[12], Tags[14]] },
-            new Lesson() { Id = 16, Title = "Electric Circuits Part 2", Description = "This lesson teaches the important concepts related to series circuits, parallel circuits and combination circuits. This includes learning about how the different arrangement of resistors affects current, potential difference and total resistance in the circuit and gives techniques for navigating electric circuit diagrams and questions.", LessonType = LessonType.Video,
+            new Lesson() { Id = 16, Sequence = 16, Title = "Electric Circuits Part 2", Description = "This lesson teaches the important concepts related to series circuits, parallel circuits and combination circuits. This includes learning about how the different arrangement of resistors affects current, potential difference and total resistance in the circuit and gives techniques for navigating electric circuit diagrams and questions.", LessonType = LessonType.Video,
                 Tags = [Tags[0], Tags[5], Tags[11], Tags[12], Tags[14]] },
-            new Lesson() { Id = 17, Title = "Electric Circuits Part 3", Description = "Learn about the effect of adding/removing resistors in series/parallel, electrical power and energy, and how to calculate the cost of electricity using kilowatthours. This lesson also includes worked examples of electric circuit calculations.", LessonType = LessonType.Video,
+            new Lesson() { Id = 17, Sequence = 17, Title = "Electric Circuits Part 3", Description = "Learn about the effect of adding/removing resistors in series/parallel, electrical power and energy, and how to calculate the cost of electricity using kilowatthours. This lesson also includes worked examples of electric circuit calculations.", LessonType = LessonType.Video,
                 Tags = [Tags[0], Tags[5], Tags[11], Tags[12], Tags[14]] },
-            new Lesson() { Id = 18, Title = "Electromagnetism (CAPS)", Description = "In this lesson we learn about the magnetic fields induced around current-carrying conductors (including straight wires, circular coils and solenoids). This includes the Right Hand Wire Rule and Right Hand Solenoid Rule. We also learn about Faraday's Law of Electromagnetic Induction (including the concepts of magnetic flux, moving bar-magnets in/out of solenoids, etc.).", LessonType = LessonType.Video,
+            new Lesson() { Id = 18, Sequence = 18, Title = "Electromagnetism (CAPS)", Description = "In this lesson we learn about the magnetic fields induced around current-carrying conductors (including straight wires, circular coils and solenoids). This includes the Right Hand Wire Rule and Right Hand Solenoid Rule. We also learn about Faraday's Law of Electromagnetic Induction (including the concepts of magnetic flux, moving bar-magnets in/out of solenoids, etc.).", LessonType = LessonType.Video,
                 Tags = [Tags[0], Tags[12], Tags[14], Tags[19]] },
-            new Lesson() { Id = 19, Title = "Electromagnetism (IEB)", Description = "In this lesson we learn about the magnetic fields around permanent magnets and those induced around current-carrying conductors (including straight wires, circular coils and solenoids). This includes the Right Hand Wire Rule and Right Hand Solenoid Rule. We also learn about the Motor Effect, where a force acts on current-carrying conductors placed in a magnetic field.", LessonType = LessonType.Video,
+            new Lesson() { Id = 19, Sequence = 19, Title = "Electromagnetism (IEB)", Description = "In this lesson we learn about the magnetic fields around permanent magnets and those induced around current-carrying conductors (including straight wires, circular coils and solenoids). This includes the Right Hand Wire Rule and Right Hand Solenoid Rule. We also learn about the Motor Effect, where a force acts on current-carrying conductors placed in a magnetic field.", LessonType = LessonType.Video,
                 Tags = [Tags[0], Tags[11], Tags[14], Tags[19]] },
             
             // Chemistry
-            new Lesson() { Id = 20, Title = "Converting Moles Between Different Substances in a Chemical Reaction", Description = "This is an essential skill required for a large variety of different stoichiometric calculations. In this lesson I teach an efficient and fool-proof method for correctly converting mole ratios between different substances in a chemical reaction.", LessonType = LessonType.Video,
+            new Lesson() { Id = 20, Sequence = 21, Title = "Converting Moles Between Different Substances in a Chemical Reaction", Description = "This is an essential skill required for a large variety of different stoichiometric calculations. In this lesson I teach an efficient and fool-proof method for correctly converting mole ratios between different substances in a chemical reaction.", LessonType = LessonType.Video,
                 Tags = [Tags[1], Tags[6], Tags[7], Tags[11], Tags[12], Tags[14]] },
-            new Lesson() { Id = 21, Title = "Limiting Reagents", Description = "Learn about the important concepts of limiting and excess reagents. This includes the steps and techniques needed to correctly identify the limiting reagent in a chemical reaction. This lesson also demonstrates examples of calculations related to the limiting and excess reagents, which is important for other types of calculations as well.", LessonType = LessonType.Video,
+            new Lesson() { Id = 21, Sequence = 22, Title = "Limiting Reagents", Description = "Learn about the important concepts of limiting and excess reagents. This includes the steps and techniques needed to correctly identify the limiting reagent in a chemical reaction. This lesson also demonstrates examples of calculations related to the limiting and excess reagents, which is important for other types of calculations as well.", LessonType = LessonType.Video,
                 Tags = [Tags[1], Tags[6], Tags[7], Tags[11], Tags[12], Tags[14]] },
-            new Lesson() { Id = 22, Title = "Percentage Purity", Description = "Learn about the concepts and theory related to percentage purity. This includes a comparison of pure and impure substances, the formula needed to calculate percentage purity, and multiple worked examples of calculations.", LessonType = LessonType.Video,
+            new Lesson() { Id = 22, Sequence = 23, Title = "Percentage Purity", Description = "Learn about the concepts and theory related to percentage purity. This includes a comparison of pure and impure substances, the formula needed to calculate percentage purity, and multiple worked examples of calculations.", LessonType = LessonType.Video,
                 Tags = [Tags[1], Tags[6], Tags[7], Tags[11], Tags[12], Tags[14]] },
-            new Lesson() { Id = 23, Title = "Percentage Yield", Description = "Learn about what percentage yield means (including the concepts of actual yield and theoretical yield). This lesson covers the percentage yield formula and various worked examples of calculations related to percentage yield.", LessonType = LessonType.Video,
+            new Lesson() { Id = 23, Sequence = 24, Title = "Percentage Yield", Description = "Learn about what percentage yield means (including the concepts of actual yield and theoretical yield). This lesson covers the percentage yield formula and various worked examples of calculations related to percentage yield.", LessonType = LessonType.Video,
                 Tags = [Tags[1], Tags[6], Tags[7], Tags[11], Tags[12], Tags[14]] },
-            new Lesson() { Id = 24, Title = "Quantitative Aspects of Chemical Change", Description = "Learn about fundamental concepts of stoichiometry including the mole, Avogadro's number, molecular mass and the various formulae used to convert between mass, number of particles, volume, concentration, etc. This lesson also demonstrates calculations using these formulae.", LessonType = LessonType.Video,
+            new Lesson() { Id = 24, Sequence = 25, Title = "Quantitative Aspects of Chemical Change", Description = "Learn about fundamental concepts of stoichiometry including the mole, Avogadro's number, molecular mass and the various formulae used to convert between mass, number of particles, volume, concentration, etc. This lesson also demonstrates calculations using these formulae.", LessonType = LessonType.Video,
                 Tags = [Tags[1], Tags[6], Tags[7], Tags[11], Tags[12], Tags[14]] },
-            new Lesson() { Id = 25, Title = "Polar and Non-Polar Bonds vs Polar and Non-Polar Molecules", Description = "Learn the difference between polar and non-polar bonds as well as polar and non-polar molecules. This includes the steps required to correctly determine if a molecule is polar or non-polar which is essential for the section of intermolecular forces.", LessonType = LessonType.Video,
+            new Lesson() { Id = 25, Sequence = 26, Title = "Polar and Non-Polar Bonds vs Polar and Non-Polar Molecules", Description = "Learn the difference between polar and non-polar bonds as well as polar and non-polar molecules. This includes the steps required to correctly determine if a molecule is polar or non-polar which is essential for the section of intermolecular forces.", LessonType = LessonType.Video,
                 Tags = [Tags[1], Tags[8], Tags[9], Tags[10], Tags[11], Tags[12], Tags[14]] },
-            new Lesson() { Id = 26, Title = "Intermolecular Forces", Description = "This lesson covers the difference between intermolecular forces and intramolecular bonds. We also learn about the various types of intermolecular forces (including van der Waal's forces such as dipole-dipole forces, London forces and hydrogen bonding). This also includes an explanation of how the strength and type of intra- and intermolecular forces affect physical properties such as melting and boiling point.", LessonType = LessonType.Video,
+            new Lesson() { Id = 26, Sequence = 27, Title = "Intermolecular Forces", Description = "This lesson covers the difference between intermolecular forces and intramolecular bonds. We also learn about the various types of intermolecular forces (including van der Waal's forces such as dipole-dipole forces, London forces and hydrogen bonding). This also includes an explanation of how the strength and type of intra- and intermolecular forces affect physical properties such as melting and boiling point.", LessonType = LessonType.Video,
                 Tags = [Tags[1], Tags[8], Tags[9], Tags[10], Tags[11], Tags[12], Tags[14]] },
-            new Lesson() { Id = 27, Title = "Determining Molecular Shape using the VSEPR Theory", Description = "This lesson explains how the Valence Shell Electron Pair (VSEPR) Theory can be used to predict the three-dimensional shape or geometry of a molecule. This includes a set of steps (using a general formula) used to correctly determine molecular shapes and gives examples of the most common molecular geometries.", LessonType = LessonType.Video,
+            new Lesson() { Id = 27, Sequence = 28, Title = "Determining Molecular Shape using the VSEPR Theory", Description = "This lesson explains how the Valence Shell Electron Pair (VSEPR) Theory can be used to predict the three-dimensional shape or geometry of a molecule. This includes a set of steps (using a general formula) used to correctly determine molecular shapes and gives examples of the most common molecular geometries.", LessonType = LessonType.Video,
                 Tags = [Tags[1], Tags[8], Tags[9], Tags[10], Tags[11], Tags[12], Tags[14]] },
-            new Lesson() { Id = 28, Title = "Dative Covalent Bonding (CAPS)", Description = "Learn about what a dative-covalent/co-ordinate bond is (including its definition). Also learn how to show the formation of dative covalent bonds in polyatomic ions (such as the hydronium and ammonium ions) using Lewis diagrams.", LessonType = LessonType.Video,
+            new Lesson() { Id = 28, Sequence = 29, Title = "Dative Covalent Bonding (CAPS)", Description = "Learn about what a dative-covalent/co-ordinate bond is (including its definition). Also learn how to show the formation of dative covalent bonds in polyatomic ions (such as the hydronium and ammonium ions) using Lewis diagrams.", LessonType = LessonType.Video,
                 Tags = [Tags[1], Tags[8], Tags[9], Tags[10], Tags[12], Tags[14]] },
-            new Lesson() { Id = 29, Title = "Energy and Chemical Change", Description = "Learn about the energy changes that are involved in all chemical reactions. Also learn about concepts such as bond energy, bond length, change in enthalpy/heat of reaction, catalysts, activation energy, etc. This lesson also explains the differences and characteristics of endothermic and exothermic reactions (including their energy profiles) and the potential energy changes associated with bond formation.", LessonType = LessonType.Video,
+            new Lesson() { Id = 29, Sequence = 30, Title = "Energy and Chemical Change", Description = "Learn about the energy changes that are involved in all chemical reactions. Also learn about concepts such as bond energy, bond length, change in enthalpy/heat of reaction, catalysts, activation energy, etc. This lesson also explains the differences and characteristics of endothermic and exothermic reactions (including their energy profiles) and the potential energy changes associated with bond formation.", LessonType = LessonType.Video,
                 Tags = [Tags[1], Tags[8], Tags[9], Tags[10], Tags[11], Tags[12], Tags[14]] },
-            new Lesson() { Id = 30, Title = "Redox Reactions Part 1 (CAPS)", Description = "Learn about the fundamental concepts of redox reactions, including oxidation, reduction, oxidising agents and reducing agents. This includes an in-depth look at the Table of Standard Reduction Potentials and how to use it. We also learn about spontaneous redox reactions, writing and balancing half reactions and writing the net ionic equation.", LessonType = LessonType.Video,
+            new Lesson() { Id = 30, Sequence = 31, Title = "Redox Reactions Part 1 (CAPS)", Description = "Learn about the fundamental concepts of redox reactions, including oxidation, reduction, oxidising agents and reducing agents. This includes an in-depth look at the Table of Standard Reduction Potentials and how to use it. We also learn about spontaneous redox reactions, writing and balancing half reactions and writing the net ionic equation.", LessonType = LessonType.Video,
                 Tags = [Tags[1], Tags[20], Tags[21], Tags[22], Tags[12], Tags[14]] },
-            new Lesson() { Id = 31, Title = "Redox Reactions Part 2 (CAPS)", Description = "This lesson explains the meaning behind oxidation numbers. This includes learning how to assign them, interpret them and use them in redox chemistry. We also look at a variety of different redox reaction questions.", LessonType = LessonType.Video,
+            new Lesson() { Id = 31, Sequence = 32, Title = "Redox Reactions Part 2 (CAPS)", Description = "This lesson explains the meaning behind oxidation numbers. This includes learning how to assign them, interpret them and use them in redox chemistry. We also look at a variety of different redox reaction questions.", LessonType = LessonType.Video,
                 Tags = [Tags[1], Tags[20], Tags[21], Tags[22], Tags[12], Tags[14]] },
-            new Lesson() { Id = 32, Title = "Redox Reactions (IEB)", Description = "This lesson covers the basic concepts related to redox reactions, including oxidation, reduction, oxidising agents and reducing agents. This includes learning about the Table of Standard Electrode Potentials and how to use it. We also learn about spontaneous redox reactions, writing and balancing half reactions and writing the net ionic equation.", LessonType = LessonType.Video,
+            new Lesson() { Id = 32, Sequence = 33, Title = "Redox Reactions (IEB)", Description = "This lesson covers the basic concepts related to redox reactions, including oxidation, reduction, oxidising agents and reducing agents. This includes learning about the Table of Standard Electrode Potentials and how to use it. We also learn about spontaneous redox reactions, writing and balancing half reactions and writing the net ionic equation.", LessonType = LessonType.Video,
                 Tags = [Tags[1], Tags[20], Tags[21], Tags[22], Tags[11], Tags[14]] },
-            new Lesson() { Id = 33, Title = "Acids & Bases Part 1 (CAPS)", Description = "This lesson teaches the basic theory and concepts of acid-base chemistry. This includes the Arrhenius and Brønsted-Lowry theories, common acids and bases, conjugate acid-base pairs, ampholytes and monoprotic vs. polyprotic acids.", LessonType = LessonType.Video,
+            new Lesson() { Id = 33, Sequence = 34, Title = "Acids & Bases Part 1 (CAPS)", Description = "This lesson teaches the basic theory and concepts of acid-base chemistry. This includes the Arrhenius and Brønsted-Lowry theories, common acids and bases, conjugate acid-base pairs, ampholytes and monoprotic vs. polyprotic acids.", LessonType = LessonType.Video,
                 Tags = [Tags[1], Tags[20], Tags[23], Tags[12], Tags[14]] },
-            new Lesson() { Id = 34, Title = "Acids & Bases Part 2 (CAPS)", Description = "This lesson explores the various formats of acid-base/neutralisation reactions with multiple examples (including a recap on writing correct chemical formulae). We also cover a brief overview of titrations and work through various examples of acid-base calculations and questions.", LessonType = LessonType.Video,
+            new Lesson() { Id = 34, Sequence = 35, Title = "Acids & Bases Part 2 (CAPS)", Description = "This lesson explores the various formats of acid-base/neutralisation reactions with multiple examples (including a recap on writing correct chemical formulae). We also cover a brief overview of titrations and work through various examples of acid-base calculations and questions.", LessonType = LessonType.Video,
                 Tags = [Tags[1], Tags[20], Tags[23], Tags[12], Tags[14]] },
-            new Lesson() { Id = 35, Title = "Acids & Bases Part 1 (IEB)", Description = "Learn about the fundamental concepts in acid-base chemistry, including the Lowry- Brønsted theory, common acids and bases, conjugate acid-base pairs and amphoteric substances. This lesson also explains the differences between strong vs. weak acids and as well as strong vs. weak bases.", LessonType = LessonType.Video,
+            new Lesson() { Id = 35, Sequence = 36, Title = "Acids & Bases Part 1 (IEB)", Description = "Learn about the fundamental concepts in acid-base chemistry, including the Lowry- Brønsted theory, common acids and bases, conjugate acid-base pairs and amphoteric substances. This lesson also explains the differences between strong vs. weak acids and as well as strong vs. weak bases.", LessonType = LessonType.Video,
                 Tags = [Tags[1], Tags[20], Tags[23], Tags[11], Tags[14]] },
-            new Lesson() { Id = 36, Title = "Ideal Gases (CAPS)", Description = "This lesson explains the concepts of the kinetic theory of gases including the differences between real gases and ideal gases. We also learn about Boyle's law (including the theory, experiments and calculations, with examples).", LessonType = LessonType.Video,
+            new Lesson() { Id = 36, Sequence = 37, Title = "Ideal Gases (CAPS)", Description = "This lesson explains the concepts of the kinetic theory of gases including the differences between real gases and ideal gases. We also learn about Boyle's law (including the theory, experiments and calculations, with examples).", LessonType = LessonType.Video,
                 Tags = [Tags[1], Tags[24], Tags[12], Tags[14]] },
-            new Lesson() { Id = 37, Title = "Ions, Valency & Writing Molecular Formulae", Description = "This lesson covers the important and fundamental concepts of ions and valency. It also teaches an effective method (called the Cross-Over Method) for using the charges of ions to correctly determine the chemical formulae of compounds. These essential skills are required throughout chemistry regardless of grade or syllabus.", IsFree = true, LessonType = LessonType.Video,
+            new Lesson() { Id = 37, Sequence = 38, Title = "Ions, Valency & Writing Molecular Formulae", Description = "This lesson covers the important and fundamental concepts of ions and valency. It also teaches an effective method (called the Cross-Over Method) for using the charges of ions to correctly determine the chemical formulae of compounds. These essential skills are required throughout chemistry regardless of grade or syllabus.", IsFree = true, LessonType = LessonType.Video,
                 Tags = [Tags[1], Tags[11], Tags[12], Tags[14], Tags[25], Tags[26], Tags[27], Tags[28], Tags[29]] },
+
+            // 2025 Published lessons
+            new Lesson() { Id = 38, Sequence = 20, Title = "Electromagnetic Induction (IEB)", Description = "This lesson covers the IEB topic of Electromagnetic Induction, which is part of the bigger section known as Electrodynamics. In this lesson we will cover how electricity is induced in a conductor when magnets and conductors move relative to each other. This principle will be explained using Faraday's Law of Electromagnetic Induction. We will also cover concepts such as magnetic flux, magnetic flux density, magnetic flux linkage and Lenz's Law. We will take a look at the various scenarios of inserting and removing magnetic poles into/out of solenoids (also using the Right Hand Solenoid Rule) and will finish off the lesson by working through a couple of exam-type questions.", LessonType = LessonType.Video,
+                Tags = [Tags[0], Tags[11], Tags[14], Tags[19], Tags[30]] },
+
         ];
 
         private static Video[] IntroVideos { get; } =
         [
+            //Initial Lessons
             // Physics
             new Video() { Id = 1, Filename = $"{Lessons[0].Title}.mp4", Thumbnail = $"{Lessons[0].Title}.jpg", RelativePath = "LimitedAccess", VideoType = VideoType.Intro, Lesson = Lessons[0] },
             new Video() { Id = 2, Filename = $"{Lessons[1].Title}.mp4", Thumbnail = $"{Lessons[1].Title}.jpg", RelativePath = "LimitedAccess", VideoType = VideoType.Intro, Lesson = Lessons[1] },
@@ -183,10 +193,14 @@ namespace TTV.DatabaseDeploy
             new Video() { Id = 35, Filename = $"{Lessons[34].Title}.mp4", Thumbnail = $"{Lessons[34].Title}.jpg", RelativePath = "LimitedAccess", VideoType = VideoType.Intro, Lesson = Lessons[34] },
             new Video() { Id = 36, Filename = $"{Lessons[35].Title}.mp4", Thumbnail = $"{Lessons[35].Title}.jpg", RelativePath = "LimitedAccess", VideoType = VideoType.Intro, Lesson = Lessons[35] },
             new Video() { Id = 37, Filename = $"{Lessons[36].Title}.mp4", Thumbnail = $"{Lessons[36].Title}.jpg", RelativePath = "LimitedAccess", VideoType = VideoType.Intro, Lesson = Lessons[36] },
+            
+            // 2025 Published lessons
+            new Video() { Id = 75, Filename = $"{Lessons[37].Title}.mp4", Thumbnail = $"{Lessons[37].Title}.jpg", RelativePath = "LimitedAccess", VideoType = VideoType.Intro, Lesson = Lessons[37] },
         ];
 
         private static Video[] LessonVideos { get; } =
         [
+            // Initial Lessons
             // Physics
             new Video() { Id = 38, Filename = $"{Lessons[0].Title}.mp4", Thumbnail = $"{Lessons[0].Title}.jpg", VideoType = VideoType.FullLesson, Lesson = Lessons[0], Duration = new TimeSpan(0, 41, 06) },
             new Video() { Id = 39, Filename = $"{Lessons[1].Title}.mp4", Thumbnail = $"{Lessons[1].Title}.jpg", VideoType = VideoType.FullLesson, Lesson = Lessons[1], Duration = new TimeSpan(0,32,41) },
@@ -226,6 +240,9 @@ namespace TTV.DatabaseDeploy
             new Video() { Id = 72, Filename = $"{Lessons[34].Title}.mp4", Thumbnail = $"{Lessons[34].Title}.jpg", VideoType = VideoType.FullLesson, Lesson = Lessons[34], Duration = new TimeSpan(1, 34, 14) },
             new Video() { Id = 73, Filename = $"{Lessons[35].Title}.mp4", Thumbnail = $"{Lessons[35].Title}.jpg", VideoType = VideoType.FullLesson, Lesson = Lessons[35], Duration = new TimeSpan(1, 34, 53) },
             new Video() { Id = 74, Filename = $"{Lessons[36].Title}.mp4", Thumbnail = $"{Lessons[36].Title}.jpg", VideoType = VideoType.FullLesson, Lesson = Lessons[36], Duration = new TimeSpan(1, 5, 24) },
+            // 2025 Published lessons
+            new Video() { Id = 76, Filename = $"{Lessons[37].Title}.mp4", Thumbnail = $"{Lessons[37].Title}.jpg", VideoType = VideoType.FullLesson, Lesson = Lessons[37], Duration = new TimeSpan(1,8,21) },
+
         ];
 
         private static Price[] Prices { get; } =
@@ -273,85 +290,87 @@ namespace TTV.DatabaseDeploy
 
             //Launch Sale Prices
             // Physics
-            new Price() { Id = 1, Amount = 80, PromoAmount = 72, EffectiveDate = new DateOnly(2024, 08, 01), Lesson = Lessons[0] },
-            new Price() { Id = 2, Amount = 80, PromoAmount = 72, EffectiveDate = new DateOnly(2024, 08, 01), Lesson = Lessons[1] },
-            new Price() { Id = 3, Amount = 80, PromoAmount = 72, EffectiveDate = new DateOnly(2024, 08, 01), Lesson = Lessons[2] },
-            new Price() { Id = 4, Amount = 80, PromoAmount = 72, EffectiveDate = new DateOnly(2024, 08, 01), Lesson = Lessons[3] },
-            new Price() { Id = 5, Amount = 60, PromoAmount = 54, EffectiveDate = new DateOnly(2024, 08, 01), Lesson = Lessons[4] },
-            new Price() { Id = 6, Amount = 80, PromoAmount = 72, EffectiveDate = new DateOnly(2024, 08, 01), Lesson = Lessons[5] },
-            new Price() { Id = 7, Amount = 80, PromoAmount = 72, EffectiveDate = new DateOnly(2024, 08, 01), Lesson = Lessons[6] },
-            new Price() { Id = 8, Amount = 80, PromoAmount = 72, EffectiveDate = new DateOnly(2024, 08, 01), Lesson = Lessons[7] },
-            new Price() { Id = 9, Amount = 80, PromoAmount = 72, EffectiveDate = new DateOnly(2024, 08, 01), Lesson = Lessons[8] },
-            new Price() { Id = 10, Amount = 80, PromoAmount = 72, EffectiveDate = new DateOnly(2024, 08, 01), Lesson = Lessons[9] },
-            new Price() { Id = 11, Amount = 60, PromoAmount = 54, EffectiveDate = new DateOnly(2024, 08, 01), Lesson = Lessons[10] },
-            new Price() { Id = 12, Amount = 100, PromoAmount = 90, EffectiveDate = new DateOnly(2024, 08, 01), Lesson = Lessons[11] },
-            new Price() { Id = 13, Amount = 100, PromoAmount = 90, EffectiveDate = new DateOnly(2024, 08, 01), Lesson = Lessons[12] },
-            new Price() { Id = 14, Amount = 100, PromoAmount = 90, EffectiveDate = new DateOnly(2024, 08, 01), Lesson = Lessons[13] },
-            new Price() { Id = 15, Amount = 80, PromoAmount = 72, EffectiveDate = new DateOnly(2024, 08, 01), Lesson = Lessons[14] },
-            new Price() { Id = 16, Amount = 80, PromoAmount = 72, EffectiveDate = new DateOnly(2024, 08, 01), Lesson = Lessons[15] },
-            new Price() { Id = 17, Amount = 100, PromoAmount = 90, EffectiveDate = new DateOnly(2024, 08, 01), Lesson = Lessons[16] },
-            new Price() { Id = 18, Amount = 100, PromoAmount = 90, EffectiveDate = new DateOnly(2024, 08, 01), Lesson = Lessons[17] },
-            new Price() { Id = 19, Amount = 100, PromoAmount = 90, EffectiveDate = new DateOnly(2024, 08, 01), Lesson = Lessons[18] },
+            new Price() { Id = 38, Amount = 80, PromoAmount = 72, EffectiveDate = new DateOnly(2024, 08, 01), Lesson = Lessons[0] },
+            new Price() { Id = 39, Amount = 80, PromoAmount = 72, EffectiveDate = new DateOnly(2024, 08, 01), Lesson = Lessons[1] },
+            new Price() { Id = 40, Amount = 80, PromoAmount = 72, EffectiveDate = new DateOnly(2024, 08, 01), Lesson = Lessons[2] },
+            new Price() { Id = 41, Amount = 80, PromoAmount = 72, EffectiveDate = new DateOnly(2024, 08, 01), Lesson = Lessons[3] },
+            new Price() { Id = 42, Amount = 60, PromoAmount = 54, EffectiveDate = new DateOnly(2024, 08, 01), Lesson = Lessons[4] },
+            new Price() { Id = 43, Amount = 80, PromoAmount = 72, EffectiveDate = new DateOnly(2024, 08, 01), Lesson = Lessons[5] },
+            new Price() { Id = 44, Amount = 80, PromoAmount = 72, EffectiveDate = new DateOnly(2024, 08, 01), Lesson = Lessons[6] },
+            new Price() { Id = 45, Amount = 80, PromoAmount = 72, EffectiveDate = new DateOnly(2024, 08, 01), Lesson = Lessons[7] },
+            new Price() { Id = 46, Amount = 80, PromoAmount = 72, EffectiveDate = new DateOnly(2024, 08, 01), Lesson = Lessons[8] },
+            new Price() { Id = 47, Amount = 80, PromoAmount = 72, EffectiveDate = new DateOnly(2024, 08, 01), Lesson = Lessons[9] },
+            new Price() { Id = 48, Amount = 60, PromoAmount = 54, EffectiveDate = new DateOnly(2024, 08, 01), Lesson = Lessons[10] },
+            new Price() { Id = 49, Amount = 100, PromoAmount = 90, EffectiveDate = new DateOnly(2024, 08, 01), Lesson = Lessons[11] },
+            new Price() { Id = 50, Amount = 100, PromoAmount = 90, EffectiveDate = new DateOnly(2024, 08, 01), Lesson = Lessons[12] },
+            new Price() { Id = 51, Amount = 100, PromoAmount = 90, EffectiveDate = new DateOnly(2024, 08, 01), Lesson = Lessons[13] },
+            new Price() { Id = 52, Amount = 80, PromoAmount = 72, EffectiveDate = new DateOnly(2024, 08, 01), Lesson = Lessons[14] },
+            new Price() { Id = 53, Amount = 80, PromoAmount = 72, EffectiveDate = new DateOnly(2024, 08, 01), Lesson = Lessons[15] },
+            new Price() { Id = 54, Amount = 100, PromoAmount = 90, EffectiveDate = new DateOnly(2024, 08, 01), Lesson = Lessons[16] },
+            new Price() { Id = 55, Amount = 100, PromoAmount = 90, EffectiveDate = new DateOnly(2024, 08, 01), Lesson = Lessons[17] },
+            new Price() { Id = 56, Amount = 100, PromoAmount = 90, EffectiveDate = new DateOnly(2024, 08, 01), Lesson = Lessons[18] },
             // Chemistry
-            new Price() { Id = 20, Amount = 60, PromoAmount = 54, EffectiveDate = new DateOnly(2024, 08, 01), Lesson = Lessons[19] },
-            new Price() { Id = 21, Amount = 80, PromoAmount = 72, EffectiveDate = new DateOnly(2024, 08, 01), Lesson = Lessons[20] },
-            new Price() { Id = 22, Amount = 80, PromoAmount = 72, EffectiveDate = new DateOnly(2024, 08, 01), Lesson = Lessons[21] },
-            new Price() { Id = 23, Amount = 80, PromoAmount = 72, EffectiveDate = new DateOnly(2024, 08, 01), Lesson = Lessons[22] },
-            new Price() { Id = 24, Amount = 100, PromoAmount = 90, EffectiveDate = new DateOnly(2024, 08, 01), Lesson = Lessons[23] },
-            new Price() { Id = 25, Amount = 80, PromoAmount = 72, EffectiveDate = new DateOnly(2024, 08, 01), Lesson = Lessons[24] },
-            new Price() { Id = 26, Amount = 100, PromoAmount = 90, EffectiveDate = new DateOnly(2024, 08, 01), Lesson = Lessons[25] },
-            new Price() { Id = 27, Amount = 60, PromoAmount = 54, EffectiveDate = new DateOnly(2024, 08, 01), Lesson = Lessons[26] },
-            new Price() { Id = 28, Amount = 60, PromoAmount = 54, EffectiveDate = new DateOnly(2024, 08, 01), Lesson = Lessons[27] },
-            new Price() { Id = 29, Amount = 100, PromoAmount = 90, EffectiveDate = new DateOnly(2024, 08, 01), Lesson = Lessons[28] },
-            new Price() { Id = 30, Amount = 80, PromoAmount = 72, EffectiveDate = new DateOnly(2024, 08, 01), Lesson = Lessons[29] },
-            new Price() { Id = 31, Amount = 80, PromoAmount = 72, EffectiveDate = new DateOnly(2024, 08, 01), Lesson = Lessons[30] },
-            new Price() { Id = 32, Amount = 100, PromoAmount = 90, EffectiveDate = new DateOnly(2024, 08, 01), Lesson = Lessons[31] },
-            new Price() { Id = 33, Amount = 80, PromoAmount = 72, EffectiveDate = new DateOnly(2024, 08, 01), Lesson = Lessons[32] },
-            new Price() { Id = 34, Amount = 100, PromoAmount = 90, EffectiveDate = new DateOnly(2024, 08, 01), Lesson = Lessons[33] },
-            new Price() { Id = 35, Amount = 100, PromoAmount = 90, EffectiveDate = new DateOnly(2024, 08, 01), Lesson = Lessons[34] },
-            new Price() { Id = 36, Amount = 100, PromoAmount = 90, EffectiveDate = new DateOnly(2024, 08, 01), Lesson = Lessons[35] },
-            //new Price() { Id = 37, Amount = 0, Lesson = Lessons[36] },
+            new Price() { Id = 57, Amount = 60, PromoAmount = 54, EffectiveDate = new DateOnly(2024, 08, 01), Lesson = Lessons[19] },
+            new Price() { Id = 58, Amount = 80, PromoAmount = 72, EffectiveDate = new DateOnly(2024, 08, 01), Lesson = Lessons[20] },
+            new Price() { Id = 59, Amount = 80, PromoAmount = 72, EffectiveDate = new DateOnly(2024, 08, 01), Lesson = Lessons[21] },
+            new Price() { Id = 60, Amount = 80, PromoAmount = 72, EffectiveDate = new DateOnly(2024, 08, 01), Lesson = Lessons[22] },
+            new Price() { Id = 61, Amount = 100, PromoAmount = 90, EffectiveDate = new DateOnly(2024, 08, 01), Lesson = Lessons[23] },
+            new Price() { Id = 62, Amount = 80, PromoAmount = 72, EffectiveDate = new DateOnly(2024, 08, 01), Lesson = Lessons[24] },
+            new Price() { Id = 63, Amount = 100, PromoAmount = 90, EffectiveDate = new DateOnly(2024, 08, 01), Lesson = Lessons[25] },
+            new Price() { Id = 64, Amount = 60, PromoAmount = 54, EffectiveDate = new DateOnly(2024, 08, 01), Lesson = Lessons[26] },
+            new Price() { Id = 65, Amount = 60, PromoAmount = 54, EffectiveDate = new DateOnly(2024, 08, 01), Lesson = Lessons[27] },
+            new Price() { Id = 66, Amount = 100, PromoAmount = 90, EffectiveDate = new DateOnly(2024, 08, 01), Lesson = Lessons[28] },
+            new Price() { Id = 67, Amount = 80, PromoAmount = 72, EffectiveDate = new DateOnly(2024, 08, 01), Lesson = Lessons[29] },
+            new Price() { Id = 68, Amount = 80, PromoAmount = 72, EffectiveDate = new DateOnly(2024, 08, 01), Lesson = Lessons[30] },
+            new Price() { Id = 69, Amount = 100, PromoAmount = 90, EffectiveDate = new DateOnly(2024, 08, 01), Lesson = Lessons[31] },
+            new Price() { Id = 70, Amount = 80, PromoAmount = 72, EffectiveDate = new DateOnly(2024, 08, 01), Lesson = Lessons[32] },
+            new Price() { Id = 71, Amount = 100, PromoAmount = 90, EffectiveDate = new DateOnly(2024, 08, 01), Lesson = Lessons[33] },
+            new Price() { Id = 72, Amount = 100, PromoAmount = 90, EffectiveDate = new DateOnly(2024, 08, 01), Lesson = Lessons[34] },
+            new Price() { Id = 73, Amount = 100, PromoAmount = 90, EffectiveDate = new DateOnly(2024, 08, 01), Lesson = Lessons[35] },
+            //new Price() { Id = 74, Amount = 0, Lesson = Lessons[36] },
 
             // 2025 Prices
             // Physics
-            new Price() { Id = 1, Amount = 80, EffectiveDate = new DateOnly(2025, 01, 11), Lesson = Lessons[0] },
-            new Price() { Id = 2, Amount = 80, EffectiveDate = new DateOnly(2025, 01, 11), Lesson = Lessons[1] },
-            new Price() { Id = 3, Amount = 80, EffectiveDate = new DateOnly(2025, 01, 11), Lesson = Lessons[2] },
-            new Price() { Id = 4, Amount = 80, EffectiveDate = new DateOnly(2025, 01, 11), Lesson = Lessons[3] },
-            new Price() { Id = 5, Amount = 60, EffectiveDate = new DateOnly(2025, 01, 11), Lesson = Lessons[4] },
-            new Price() { Id = 6, Amount = 80, EffectiveDate = new DateOnly(2025, 01, 11), Lesson = Lessons[5] },
-            new Price() { Id = 7, Amount = 80, EffectiveDate = new DateOnly(2025, 01, 11), Lesson = Lessons[6] },
-            new Price() { Id = 8, Amount = 80, EffectiveDate = new DateOnly(2025, 01, 11), Lesson = Lessons[7] },
-            new Price() { Id = 9, Amount = 80, EffectiveDate = new DateOnly(2025, 01, 11), Lesson = Lessons[8] },
-            new Price() { Id = 10, Amount = 80, EffectiveDate = new DateOnly(2025, 01, 11), Lesson = Lessons[9] },
-            new Price() { Id = 11, Amount = 60, EffectiveDate = new DateOnly(2025, 01, 11), Lesson = Lessons[10] },
-            new Price() { Id = 12, Amount = 100, EffectiveDate = new DateOnly(2025, 01, 11), Lesson = Lessons[11] },
-            new Price() { Id = 13, Amount = 100, EffectiveDate = new DateOnly(2025, 01, 11), Lesson = Lessons[12] },
-            new Price() { Id = 14, Amount = 100, EffectiveDate = new DateOnly(2025, 01, 11), Lesson = Lessons[13] },
-            new Price() { Id = 15, Amount = 80, EffectiveDate = new DateOnly(2025, 01, 11), Lesson = Lessons[14] },
-            new Price() { Id = 16, Amount = 80, EffectiveDate = new DateOnly(2025, 01, 11), Lesson = Lessons[15] },
-            new Price() { Id = 17, Amount = 100, EffectiveDate = new DateOnly(2025, 01, 11), Lesson = Lessons[16] },
-            new Price() { Id = 18, Amount = 100, EffectiveDate = new DateOnly(2025, 01, 11), Lesson = Lessons[17] },
-            new Price() { Id = 19, Amount = 100, EffectiveDate = new DateOnly(2025, 01, 11), Lesson = Lessons[18] },
+            new Price() { Id = 74, Amount = 80, EffectiveDate = new DateOnly(2025, 01, 11), Lesson = Lessons[0] },
+            new Price() { Id = 75, Amount = 80, EffectiveDate = new DateOnly(2025, 01, 11), Lesson = Lessons[1] },
+            new Price() { Id = 76, Amount = 80, EffectiveDate = new DateOnly(2025, 01, 11), Lesson = Lessons[2] },
+            new Price() { Id = 77, Amount = 80, EffectiveDate = new DateOnly(2025, 01, 11), Lesson = Lessons[3] },
+            new Price() { Id = 78, Amount = 60, EffectiveDate = new DateOnly(2025, 01, 11), Lesson = Lessons[4] },
+            new Price() { Id = 79, Amount = 80, EffectiveDate = new DateOnly(2025, 01, 11), Lesson = Lessons[5] },
+            new Price() { Id = 80, Amount = 80, EffectiveDate = new DateOnly(2025, 01, 11), Lesson = Lessons[6] },
+            new Price() { Id = 81, Amount = 80, EffectiveDate = new DateOnly(2025, 01, 11), Lesson = Lessons[7] },
+            new Price() { Id = 82, Amount = 80, EffectiveDate = new DateOnly(2025, 01, 11), Lesson = Lessons[8] },
+            new Price() { Id = 83, Amount = 80, EffectiveDate = new DateOnly(2025, 01, 11), Lesson = Lessons[9] },
+            new Price() { Id = 84, Amount = 60, EffectiveDate = new DateOnly(2025, 01, 11), Lesson = Lessons[10] },
+            new Price() { Id = 85, Amount = 100, EffectiveDate = new DateOnly(2025, 01, 11), Lesson = Lessons[11] },
+            new Price() { Id = 86, Amount = 100, EffectiveDate = new DateOnly(2025, 01, 11), Lesson = Lessons[12] },
+            new Price() { Id = 87, Amount = 100, EffectiveDate = new DateOnly(2025, 01, 11), Lesson = Lessons[13] },
+            new Price() { Id = 88, Amount = 80, EffectiveDate = new DateOnly(2025, 01, 11), Lesson = Lessons[14] },
+            new Price() { Id = 89, Amount = 80, EffectiveDate = new DateOnly(2025, 01, 11), Lesson = Lessons[15] },
+            new Price() { Id = 90, Amount = 100, EffectiveDate = new DateOnly(2025, 01, 11), Lesson = Lessons[16] },
+            new Price() { Id = 91, Amount = 100, EffectiveDate = new DateOnly(2025, 01, 11), Lesson = Lessons[17] },
+            new Price() { Id = 92, Amount = 100, EffectiveDate = new DateOnly(2025, 01, 11), Lesson = Lessons[18] },
             // Chemistry
-            new Price() { Id = 20, Amount = 60, EffectiveDate = new DateOnly(2025, 01, 11), Lesson = Lessons[19] },
-            new Price() { Id = 21, Amount = 80, EffectiveDate = new DateOnly(2025, 01, 11), Lesson = Lessons[20] },
-            new Price() { Id = 22, Amount = 80, EffectiveDate = new DateOnly(2025, 01, 11), Lesson = Lessons[21] },
-            new Price() { Id = 23, Amount = 80, EffectiveDate = new DateOnly(2025, 01, 11), Lesson = Lessons[22] },
-            new Price() { Id = 24, Amount = 100, EffectiveDate = new DateOnly(2025, 01, 11), Lesson = Lessons[23] },
-            new Price() { Id = 25, Amount = 80, EffectiveDate = new DateOnly(2025, 01, 11), Lesson = Lessons[24] },
-            new Price() { Id = 26, Amount = 100, EffectiveDate = new DateOnly(2025, 01, 11), Lesson = Lessons[25] },
-            new Price() { Id = 27, Amount = 60, EffectiveDate = new DateOnly(2025, 01, 11), Lesson = Lessons[26] },
-            new Price() { Id = 28, Amount = 60, EffectiveDate = new DateOnly(2025, 01, 11), Lesson = Lessons[27] },
-            new Price() { Id = 29, Amount = 100, EffectiveDate = new DateOnly(2025, 01, 11), Lesson = Lessons[28] },
-            new Price() { Id = 30, Amount = 80, EffectiveDate = new DateOnly(2025, 01, 11), Lesson = Lessons[29] },
-            new Price() { Id = 31, Amount = 80, EffectiveDate = new DateOnly(2025, 01, 11), Lesson = Lessons[30] },
-            new Price() { Id = 32, Amount = 100, EffectiveDate = new DateOnly(2025, 01, 11), Lesson = Lessons[31] },
-            new Price() { Id = 33, Amount = 80, EffectiveDate = new DateOnly(2025, 01, 11), Lesson = Lessons[32] },
-            new Price() { Id = 34, Amount = 100, EffectiveDate = new DateOnly(2025, 01, 11), Lesson = Lessons[33] },
-            new Price() { Id = 35, Amount = 100, EffectiveDate = new DateOnly(2025, 01, 11), Lesson = Lessons[34] },
-            new Price() { Id = 36, Amount = 100, EffectiveDate = new DateOnly(2025, 01, 11), Lesson = Lessons[35] },
+            new Price() { Id = 93, Amount = 60, EffectiveDate = new DateOnly(2025, 01, 11), Lesson = Lessons[19] },
+            new Price() { Id = 94, Amount = 80, EffectiveDate = new DateOnly(2025, 01, 11), Lesson = Lessons[20] },
+            new Price() { Id = 95, Amount = 80, EffectiveDate = new DateOnly(2025, 01, 11), Lesson = Lessons[21] },
+            new Price() { Id = 96, Amount = 80, EffectiveDate = new DateOnly(2025, 01, 11), Lesson = Lessons[22] },
+            new Price() { Id = 97, Amount = 100, EffectiveDate = new DateOnly(2025, 01, 11), Lesson = Lessons[23] },
+            new Price() { Id = 98, Amount = 80, EffectiveDate = new DateOnly(2025, 01, 11), Lesson = Lessons[24] },
+            new Price() { Id = 99, Amount = 100, EffectiveDate = new DateOnly(2025, 01, 11), Lesson = Lessons[25] },
+            new Price() { Id = 100, Amount = 60, EffectiveDate = new DateOnly(2025, 01, 11), Lesson = Lessons[26] },
+            new Price() { Id = 101, Amount = 60, EffectiveDate = new DateOnly(2025, 01, 11), Lesson = Lessons[27] },
+            new Price() { Id = 102, Amount = 100, EffectiveDate = new DateOnly(2025, 01, 11), Lesson = Lessons[28] },
+            new Price() { Id = 103, Amount = 80, EffectiveDate = new DateOnly(2025, 01, 11), Lesson = Lessons[29] },
+            new Price() { Id = 104, Amount = 80, EffectiveDate = new DateOnly(2025, 01, 11), Lesson = Lessons[30] },
+            new Price() { Id = 105, Amount = 100, EffectiveDate = new DateOnly(2025, 01, 11), Lesson = Lessons[31] },
+            new Price() { Id = 106, Amount = 80, EffectiveDate = new DateOnly(2025, 01, 11), Lesson = Lessons[32] },
+            new Price() { Id = 107, Amount = 100, EffectiveDate = new DateOnly(2025, 01, 11), Lesson = Lessons[33] },
+            new Price() { Id = 108, Amount = 100, EffectiveDate = new DateOnly(2025, 01, 11), Lesson = Lessons[34] },
+            new Price() { Id = 109, Amount = 100, EffectiveDate = new DateOnly(2025, 01, 11), Lesson = Lessons[35] },
             //new Price() { Id = 37, Amount = 0, Lesson = Lessons[36] },
+
+            new Price() { Id = 110, Amount = 100, EffectiveDate = new DateOnly(2025, 01, 11), Lesson = Lessons[37] }
         ];
 
         private static Document[] Documents { get; set; } =
@@ -405,7 +424,7 @@ namespace TTV.DatabaseDeploy
 
                 Console.WriteLine("Syncing Data.");
                 await SyncEntityAsync(TagCategories);
-                await SyncEntityAsync(Tags);
+                await SyncEntityAsync(Tags, include: $"{nameof(Tag.Category)}", SyncTagCategories);
                 await SyncEntityAsync(Lessons, include: $"{nameof(Lesson.Tags)}", SyncLessonChildEntitiesAsync);
                 await SyncEntityAsync(IntroVideos.Union(LessonVideos), customUpsert: SyncVideoLessonsAsync);
                 await SyncEntityAsync(Documents, include: $"{nameof(Document.Lessons)}", customUpsert: SyncDocumentLessonsAsync);
@@ -479,10 +498,7 @@ namespace TTV.DatabaseDeploy
 
         private async Task SyncLessonChildEntitiesAsync(Lesson source, Lesson? target)
         {
-            if (target == null)
-            {
-                return;
-            }
+            target ??= source;
 
             // Prices
             var prices = Prices.Where(price => price.Lesson.Id == target.Id);
@@ -494,21 +510,14 @@ namespace TTV.DatabaseDeploy
 
             // Tags
             var existingTags = await dataContext.Tags.ToListAsync();
-
-            foreach (var tag in source.Tags)
+            var sourceTags = source.Tags.ToArray();
+            target.Tags.Clear();
+            foreach (var tag in sourceTags)
             {
                 var existingTag = existingTags.Single(x => x.Id == tag.Id);
                 if (!target.Tags.Contains(existingTag))
                 {
                     target.Tags.Add(existingTag);
-                }
-            }
-
-            foreach (var tag in target.Tags)
-            {
-                if (!source.Tags.Any(sourceTag => sourceTag.Id == tag.Id))
-                {
-                    target.Tags.Remove(tag);
                 }
             }
 
@@ -518,8 +527,7 @@ namespace TTV.DatabaseDeploy
 
         private async Task SyncVideoLessonsAsync(Video source, Video? target)
         {
-            if (target == null)
-                return;
+            target ??= source;
 
             var existingLessons = await dataContext.Lessons.ToListAsync();
             target.Lesson = existingLessons.Single(x => x.Id == source.Lesson.Id);
@@ -536,6 +544,16 @@ namespace TTV.DatabaseDeploy
             {
                 target.Lessons.Add(existingLessons.Single(existingLesson => existingLesson.Id == lesson.Id));
             }
+
+
+        }
+        private async Task SyncTagCategories(Tag source, Tag? target)
+        {
+            if (target != null)
+                return;
+
+            var existingTagCategories = await dataContext.TagCategories.ToListAsync();
+            source.Category = existingTagCategories.Single(x => x.Id == source.Category.Id);
         }
     }
 }

@@ -14,6 +14,8 @@ public class TagRepository(DataContext dataContext) : ITagRepository
             .AsNoTracking()
             .Include(tag => tag.Category)
             .Include(tag => tag.Lessons)
+            .OrderBy(tag => tag.Category.Id)
+            .ThenBy(tag => tag.Name)
             .ToListAsync(cancellationToken);
     }
 }

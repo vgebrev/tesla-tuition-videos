@@ -20,6 +20,6 @@ public class DiscountVoucherCodeGenerator(IOptionsSnapshot<SystemSettings> confi
         byte[] hash = System.Security.Cryptography.SHA256.HashData(dataToHash);
         byte[] truncated = hash.Take(6).ToArray(); // We can only store 6 bytes in a 12 character hex string. 2^48 is still more than enough unique voucher codes.
 
-        return BitConverter.ToString(truncated).Replace("-", "");
+        return Convert.ToHexString(truncated);
     }
 }

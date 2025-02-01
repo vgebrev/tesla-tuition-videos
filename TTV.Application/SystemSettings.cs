@@ -11,6 +11,7 @@ public record SystemSettings
     public EmailSettings EmailSettings { get; init; } = new();
     public NotificationSettings NotificationSettings { get; init; } = new();
     public PayfastSettings PayfastSettings { get; init; } = new();
+    public OllamaAiTutorSettings OllamaAiTutorSettings { get; init; } = new();
 }
 
 public record EmailSettings
@@ -40,4 +41,13 @@ public record PayfastSettings
 public record NotificationSettings
 {
     public NotificationType[] DisabledNotificationTypes { get; init; } = [];
+}
+
+public record OllamaAiTutorSettings
+{
+    public bool IsEnabled { get; init; }
+    public string Uri { get; init; } = string.Empty;
+    public string Model { get; init; } = string.Empty;
+    public string EmbeddingsModel { get; init; } = string.Empty;
+    public float QuestionRelevanceThreshold { get; init; }
 }

@@ -67,5 +67,13 @@ export const api = {
    * @param {RequestInit} [options]
    * @returns {Promise<Response>}
    */
-  delete: (url, options = {}) => apiFetch(url, { ...options, method: 'DELETE' })
+  delete: (url, options = {}) => apiFetch(url, { ...options, method: 'DELETE' }),
+
+  /**
+   * Generic fetch from the API
+   * @param url
+   * @param options
+   * @returns {Promise<Response>}
+   */
+  fetch: (url, options = {}) => apiFetch(url, { ...options })
 };

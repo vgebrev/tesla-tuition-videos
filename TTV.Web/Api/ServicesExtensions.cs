@@ -27,6 +27,7 @@ public static class ServicesExtensions
         services.AddHttpClient();
 
         services.AddScoped<IAdminOrderComplete, AdminOrderComplete>();
+        services.AddScoped<IAiTutor, OllamaAiTutor>();
         services.AddScoped<IDiscountVoucherCodeGenerator, DiscountVoucherCodeGenerator>();
         services.AddScoped<IDiscountVoucherManager, DiscountVoucherManager>();
         services.AddScoped<IDocumentManager, DocumentManager>();

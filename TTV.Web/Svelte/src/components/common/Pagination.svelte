@@ -40,6 +40,7 @@
       </button>
     </li>
 
+    <!-- eslint-disable-next-line no-unused-vars -->
     {#each Array(totalPages) as _, i}
       <li
         class="page-item"

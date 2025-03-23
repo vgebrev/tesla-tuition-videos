@@ -55,6 +55,7 @@
 <div class="row my-2">
   <div class="col">
     <div class="response pre-wrap">
+      <!-- eslint-disable-next-line svelte/no-at-html-tags -->
       {@html markdown}
     </div>
   </div>

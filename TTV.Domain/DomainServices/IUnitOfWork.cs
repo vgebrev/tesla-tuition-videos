@@ -10,6 +10,7 @@ public interface IUnitOfWork : IDisposable
 
     IDiscountVoucherRepository DiscountVoucherRepository { get; }
     IDocumentRepository DocumentRepository { get; }
+    ILearningPathRepository LearningPathRepository { get; }
     ILessonRepository LessonRepository { get; }
     INotificationRepository NotificationRepository { get; }
     IOrderRepository OrderRepository { get; }

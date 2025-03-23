@@ -11,6 +11,7 @@ public class DataContext : DbContext
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         base.OnModelCreating(modelBuilder);
+        modelBuilder.HasEnumLookup<Curriculum>();
         modelBuilder.HasEnumLookup<DocumentType>();
         modelBuilder.HasEnumLookup<LessonType>();
         modelBuilder.HasEnumLookup<NotificationType>();
@@ -22,6 +23,8 @@ public class DataContext : DbContext
     }
     public DbSet<DiscountVoucher> DiscountVouchers { get; set; }
     public DbSet<Document> Documents { get; set; }
+    public DbSet<LearningPath> LearningPaths { get; set; }
+    public DbSet<LearningPathItem> LearningPathItems { get; set; }
     public DbSet<Lesson> Lessons { get; set; }
     public DbSet<Notification> Notifications { get; set; }
     public DbSet<Order> Orders { get; set; }

@@ -13,6 +13,7 @@ public class UnitOfWork(DataContext dataContext) : IUnitOfWork
 
     public IDiscountVoucherRepository DiscountVoucherRepository { get; } = new DiscountVoucherRepository(dataContext);
     public IDocumentRepository DocumentRepository { get; } = new DocumentRepository(dataContext);
+    public ILearningPathRepository LearningPathRepository { get; } = new LearningPathRepository(dataContext);
     public ILessonRepository LessonRepository { get; } = new LessonRepository(dataContext);
     public INotificationRepository NotificationRepository { get; } = new NotificationRepository(dataContext);
     public IOrderRepository OrderRepository { get; } = new OrderRepository(dataContext);

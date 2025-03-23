@@ -6,6 +6,7 @@
 </script>
 
 <button
+  aria-label="Payfast Payment Methods Info"
   bind:this={popoverElem}
   type="button"
   class="btn btn-link p-0 ms-1">

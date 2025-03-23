@@ -1,5 +1,4 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.IdentityModel.Tokens;
 using TTV.Domain.Entities;
 using TTV.Infrastructure.DataAccess;
 
@@ -63,6 +62,7 @@ namespace TTV.DatabaseDeploy
 
             //Update 2025-01-31
             new Tag() { Id = 31, Name = "Electrodynamics", Category = TagCategories[1] },
+            new Tag() { Id = 32, Name = "Organic Chemistry", Category = TagCategories[1] },
         ];
 
         private static Lesson[] Lessons { get; } =
@@ -148,7 +148,8 @@ namespace TTV.DatabaseDeploy
             // 2025 Published lessons
             new Lesson() { Id = 38, Sequence = 20, Title = "Electromagnetic Induction (IEB)", Description = "This lesson covers the IEB topic of Electromagnetic Induction, which is part of the bigger section known as Electrodynamics. In this lesson we will cover how electricity is induced in a conductor when magnets and conductors move relative to each other. This principle will be explained using Faraday's Law of Electromagnetic Induction. We will also cover concepts such as magnetic flux, magnetic flux density, magnetic flux linkage and Lenz's Law. We will take a look at the various scenarios of inserting and removing magnetic poles into/out of solenoids (also using the Right Hand Solenoid Rule) and will finish off the lesson by working through a couple of exam-type questions.", LessonType = LessonType.Video,
                 Tags = [Tags[0], Tags[11], Tags[14], Tags[19], Tags[30]] },
-
+            new Lesson() { Id = 39, Sequence = 39, Title = "Organic Chemistry Part 1", Description = "In this Chemistry lesson we are introduced to the section of Organic Chemistry. We will cover the special properties of carbon, look at some important definitions, and look at the ways in which organic molecules are represented (e.g. structural formulae, condensed formulae, IUPAC names, etc.). We will also look at the general steps that will be followed for naming most organic molecules.", LessonType = LessonType.Video,
+                Tags = [Tags[1], Tags[11], Tags[12], Tags[15], Tags[31]] },
         ];
 
         private static Video[] IntroVideos { get; } =
@@ -196,6 +197,7 @@ namespace TTV.DatabaseDeploy
             
             // 2025 Published lessons
             new Video() { Id = 75, Filename = $"{Lessons[37].Title}.mp4", Thumbnail = $"{Lessons[37].Title}.jpg", RelativePath = "LimitedAccess", VideoType = VideoType.Intro, Lesson = Lessons[37] },
+            new Video() { Id = 77, Filename = $"{Lessons[38].Title}.mp4", Thumbnail = $"{Lessons[38].Title}.jpg", RelativePath = "LimitedAccess", VideoType = VideoType.Intro, Lesson = Lessons[38] },
         ];
 
         private static Video[] LessonVideos { get; } =
@@ -242,7 +244,7 @@ namespace TTV.DatabaseDeploy
             new Video() { Id = 74, Filename = $"{Lessons[36].Title}.mp4", Thumbnail = $"{Lessons[36].Title}.jpg", VideoType = VideoType.FullLesson, Lesson = Lessons[36], Duration = new TimeSpan(1, 5, 24) },
             // 2025 Published lessons
             new Video() { Id = 76, Filename = $"{Lessons[37].Title}.mp4", Thumbnail = $"{Lessons[37].Title}.jpg", VideoType = VideoType.FullLesson, Lesson = Lessons[37], Duration = new TimeSpan(1,8,21) },
-
+            new Video() { Id = 78, Filename = $"{Lessons[38].Title}.mp4", Thumbnail = $"{Lessons[38].Title}.jpg", VideoType = VideoType.FullLesson, Lesson = Lessons[38], Duration = new TimeSpan(0,51,39) },
         ];
 
         private static Price[] Prices { get; } =
@@ -370,7 +372,52 @@ namespace TTV.DatabaseDeploy
             new Price() { Id = 109, Amount = 100, EffectiveDate = new DateOnly(2025, 01, 11), Lesson = Lessons[35] },
             //new Price() { Id = 37, Amount = 0, Lesson = Lessons[36] },
 
-            new Price() { Id = 110, Amount = 100, EffectiveDate = new DateOnly(2025, 01, 11), Lesson = Lessons[37] }
+            new Price() { Id = 110, Amount = 100, EffectiveDate = new DateOnly(2025, 01, 11), Lesson = Lessons[37] },
+
+            // 2025 Permanently Reduced Prices
+            // Physics
+            new Price() { Id = 111, Amount = 72, EffectiveDate = new DateOnly(2025, 02, 17), Lesson = Lessons[0] },
+            new Price() { Id = 112, Amount = 72, EffectiveDate = new DateOnly(2025, 02, 17), Lesson = Lessons[1] },
+            new Price() { Id = 113, Amount = 72, EffectiveDate = new DateOnly(2025, 02, 17), Lesson = Lessons[2] },
+            new Price() { Id = 114, Amount = 72, EffectiveDate = new DateOnly(2025, 02, 17), Lesson = Lessons[3] },
+            new Price() { Id = 115, Amount = 54, EffectiveDate = new DateOnly(2025, 02, 17), Lesson = Lessons[4] },
+            new Price() { Id = 116, Amount = 72, EffectiveDate = new DateOnly(2025, 02, 17), Lesson = Lessons[5] },
+            new Price() { Id = 117, Amount = 72, EffectiveDate = new DateOnly(2025, 02, 17), Lesson = Lessons[6] },
+            new Price() { Id = 118, Amount = 72, EffectiveDate = new DateOnly(2025, 02, 17), Lesson = Lessons[7] },
+            new Price() { Id = 119, Amount = 72, EffectiveDate = new DateOnly(2025, 02, 17), Lesson = Lessons[8] },
+            new Price() { Id = 120, Amount = 72, EffectiveDate = new DateOnly(2025, 02, 17), Lesson = Lessons[9] },
+            new Price() { Id = 121, Amount = 54, EffectiveDate = new DateOnly(2025, 02, 17), Lesson = Lessons[10] },
+            new Price() { Id = 122, Amount = 90, EffectiveDate = new DateOnly(2025, 02, 17), Lesson = Lessons[11] },
+            new Price() { Id = 123, Amount = 90, EffectiveDate = new DateOnly(2025, 02, 17), Lesson = Lessons[12] },
+            new Price() { Id = 124, Amount = 90, EffectiveDate = new DateOnly(2025, 02, 17), Lesson = Lessons[13] },
+            new Price() { Id = 125, Amount = 72, EffectiveDate = new DateOnly(2025, 02, 17), Lesson = Lessons[14] },
+            new Price() { Id = 126, Amount = 72, EffectiveDate = new DateOnly(2025, 02, 17), Lesson = Lessons[15] },
+            new Price() { Id = 127, Amount = 90, EffectiveDate = new DateOnly(2025, 02, 17), Lesson = Lessons[16] },
+            new Price() { Id = 128, Amount = 90, EffectiveDate = new DateOnly(2025, 02, 17), Lesson = Lessons[17] },
+            new Price() { Id = 129, Amount = 90, EffectiveDate = new DateOnly(2025, 02, 17), Lesson = Lessons[18] },
+            // Chemistry
+            new Price() { Id = 130, Amount = 54, EffectiveDate = new DateOnly(2025, 02, 17), Lesson = Lessons[19] },
+            new Price() { Id = 131, Amount = 72, EffectiveDate = new DateOnly(2025, 02, 17), Lesson = Lessons[20] },
+            new Price() { Id = 132, Amount = 72, EffectiveDate = new DateOnly(2025, 02, 17), Lesson = Lessons[21] },
+            new Price() { Id = 133, Amount = 72, EffectiveDate = new DateOnly(2025, 02, 17), Lesson = Lessons[22] },
+            new Price() { Id = 134, Amount = 90, EffectiveDate = new DateOnly(2025, 02, 17), Lesson = Lessons[23] },
+            new Price() { Id = 135, Amount = 72, EffectiveDate = new DateOnly(2025, 02, 17), Lesson = Lessons[24] },
+            new Price() { Id = 136, Amount = 90, EffectiveDate = new DateOnly(2025, 02, 17), Lesson = Lessons[25] },
+            new Price() { Id = 137, Amount = 54, EffectiveDate = new DateOnly(2025, 02, 17), Lesson = Lessons[26] },
+            new Price() { Id = 138, Amount = 54, EffectiveDate = new DateOnly(2025, 02, 17), Lesson = Lessons[27] },
+            new Price() { Id = 139, Amount = 90, EffectiveDate = new DateOnly(2025, 02, 17), Lesson = Lessons[28] },
+            new Price() { Id = 140, Amount = 72, EffectiveDate = new DateOnly(2025, 02, 17), Lesson = Lessons[29] },
+            new Price() { Id = 141, Amount = 72, EffectiveDate = new DateOnly(2025, 02, 17), Lesson = Lessons[30] },
+            new Price() { Id = 142, Amount = 90, EffectiveDate = new DateOnly(2025, 02, 17), Lesson = Lessons[31] },
+            new Price() { Id = 143, Amount = 72, EffectiveDate = new DateOnly(2025, 02, 17), Lesson = Lessons[32] },
+            new Price() { Id = 144, Amount = 90, EffectiveDate = new DateOnly(2025, 02, 17), Lesson = Lessons[33] },
+            new Price() { Id = 145, Amount = 90, EffectiveDate = new DateOnly(2025, 02, 17), Lesson = Lessons[34] },
+            new Price() { Id = 146, Amount = 90, EffectiveDate = new DateOnly(2025, 02, 17), Lesson = Lessons[35] },
+            //new Price() { Id = 37, Amount = 0, Lesson = Lessons[36] },
+
+            new Price() { Id = 147, Amount = 90, EffectiveDate = new DateOnly(2025, 02, 17), Lesson = Lessons[37] },
+            new Price() { Id = 148, Amount = 90, EffectiveDate = new DateOnly(2025, 02, 17), Lesson = Lessons[38] }
+            //TODO - Prices permanent 10% reduction plus add Organic Chemistry Part 1
         ];
 
         private static Document[] Documents { get; set; } =
@@ -412,6 +459,12 @@ namespace TTV.DatabaseDeploy
             new Document() { Id = 34, DocumentType = DocumentType.ExercisePdf, Title = "Redox Reactions (CAPS) Part 1 [Draft]", Filename = "Redox Reactions (CAPS) Part 1.pdf", RelativePath = "ExercisePdfs", Lessons = [Lessons[29]] },
             new Document() { Id = 35, DocumentType = DocumentType.ExercisePdf, Title = "Redox Reactions (CAPS) Part 2 [Draft]", Filename = "Redox Reactions (CAPS) Part 2.pdf", RelativePath = "ExercisePdfs", Lessons = [Lessons[30]] },
             new Document() { Id = 36, DocumentType = DocumentType.ExercisePdf, Title = "Redox Reactions (IEB) [Draft]", Filename = "Redox Reactions (IEB).pdf", RelativePath = "ExercisePdfs", Lessons = [Lessons[31]] },
+        ];
+
+        private static LearningPath[] LearningPaths { get; set; } = 
+        [
+            new LearningPath() { Id = 1, Name = "Physics (Paper 1)" },
+            new LearningPath() { Id = 2, Name = "Chemistry (Paper 2)"},
         ];
 
         public async Task<SampleData> PopulateAsync()

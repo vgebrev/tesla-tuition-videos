@@ -63,6 +63,15 @@ namespace TTV.DatabaseDeploy
             //Update 2025-01-31
             new Tag() { Id = 31, Name = "Electrodynamics", Category = TagCategories[1] },
             new Tag() { Id = 32, Name = "Organic Chemistry", Category = TagCategories[1] },
+
+            //Update 2025-03-27
+            new Tag() { Id = 33, Name = "Homologous Series", Category = TagCategories[3] },
+            new Tag() { Id = 34, Name = "Functional Group", Category = TagCategories[3] },
+            new Tag() { Id = 35, Name = "Carbon Compounds", Category = TagCategories[3] },
+            new Tag() { Id = 36, Name = "IUPAC Name", Category = TagCategories[3] },
+            new Tag() { Id = 37, Name = "Hydrocarbon", Category = TagCategories[3] },
+            new Tag() { Id = 38, Name = "Alkanes", Category = TagCategories[3] },
+            new Tag() { Id = 39, Name = "Haloalkanes", Category = TagCategories[3] },
         ];
 
         private static Lesson[] Lessons { get; } =
@@ -149,7 +158,9 @@ namespace TTV.DatabaseDeploy
             new Lesson() { Id = 38, Sequence = 20, Title = "Electromagnetic Induction (IEB)", Description = "This lesson covers the IEB topic of Electromagnetic Induction, which is part of the bigger section known as Electrodynamics. In this lesson we will cover how electricity is induced in a conductor when magnets and conductors move relative to each other. This principle will be explained using Faraday's Law of Electromagnetic Induction. We will also cover concepts such as magnetic flux, magnetic flux density, magnetic flux linkage and Lenz's Law. We will take a look at the various scenarios of inserting and removing magnetic poles into/out of solenoids (also using the Right Hand Solenoid Rule) and will finish off the lesson by working through a couple of exam-type questions.", LessonType = LessonType.Video,
                 Tags = [Tags[0], Tags[11], Tags[14], Tags[19], Tags[30]] },
             new Lesson() { Id = 39, Sequence = 39, Title = "Organic Chemistry Part 1", Description = "In this Chemistry lesson we are introduced to the section of Organic Chemistry. We will cover the special properties of carbon, look at some important definitions, and look at the ways in which organic molecules are represented (e.g. structural formulae, condensed formulae, IUPAC names, etc.). We will also look at the general steps that will be followed for naming most organic molecules.", LessonType = LessonType.Video,
-                Tags = [Tags[1], Tags[11], Tags[12], Tags[15], Tags[31]] },
+                Tags = [Tags[1], Tags[11], Tags[12], Tags[15], Tags[31], Tags[32], Tags[33], Tags[34], Tags[35], Tags[36]] },
+            new Lesson() { Id = 40, Sequence = 40, Title = "Organic Chemistry Part 2", Description = "In this lesson we focus on two homologous series known as the alkanes and the haloalkanes. We will cover how to draw their structural formulae (including their condensed structural formulae) as well as how to correctly name them.  We will also learn the system for naming carbon branches (which are called alkyl groups).", LessonType = LessonType.Video,
+                Tags = [Tags[1], Tags[11], Tags[12], Tags[15], Tags[31], Tags[32], Tags[34], Tags[35], Tags[36], Tags[37], Tags[38]] },
         ];
 
         private static Video[] IntroVideos { get; } =
@@ -198,6 +209,7 @@ namespace TTV.DatabaseDeploy
             // 2025 Published lessons
             new Video() { Id = 75, Filename = $"{Lessons[37].Title}.mp4", Thumbnail = $"{Lessons[37].Title}.jpg", RelativePath = "LimitedAccess", VideoType = VideoType.Intro, Lesson = Lessons[37] },
             new Video() { Id = 77, Filename = $"{Lessons[38].Title}.mp4", Thumbnail = $"{Lessons[38].Title}.jpg", RelativePath = "LimitedAccess", VideoType = VideoType.Intro, Lesson = Lessons[38] },
+            new Video() { Id = 79, Filename = $"{Lessons[39].Title}.mp4", Thumbnail = $"{Lessons[39].Title}.jpg", RelativePath = "LimitedAccess", VideoType = VideoType.Intro, Lesson = Lessons[39] },
         ];
 
         private static Video[] LessonVideos { get; } =
@@ -245,6 +257,7 @@ namespace TTV.DatabaseDeploy
             // 2025 Published lessons
             new Video() { Id = 76, Filename = $"{Lessons[37].Title}.mp4", Thumbnail = $"{Lessons[37].Title}.jpg", VideoType = VideoType.FullLesson, Lesson = Lessons[37], Duration = new TimeSpan(1,8,21) },
             new Video() { Id = 78, Filename = $"{Lessons[38].Title}.mp4", Thumbnail = $"{Lessons[38].Title}.jpg", VideoType = VideoType.FullLesson, Lesson = Lessons[38], Duration = new TimeSpan(0,51,39) },
+            new Video() { Id = 80, Filename = $"{Lessons[39].Title}.mp4", Thumbnail = $"{Lessons[39].Title}.jpg", VideoType = VideoType.FullLesson, Lesson = Lessons[39], Duration = new TimeSpan(1,25,06) },
         ];
 
         private static Price[] Prices { get; } =
@@ -416,8 +429,8 @@ namespace TTV.DatabaseDeploy
             //new Price() { Id = 37, Amount = 0, Lesson = Lessons[36] },
 
             new Price() { Id = 147, Amount = 90, EffectiveDate = new DateOnly(2025, 02, 17), Lesson = Lessons[37] },
-            new Price() { Id = 148, Amount = 90, EffectiveDate = new DateOnly(2025, 02, 17), Lesson = Lessons[38] }
-            //TODO - Prices permanent 10% reduction plus add Organic Chemistry Part 1
+            new Price() { Id = 148, Amount = 90, EffectiveDate = new DateOnly(2025, 02, 17), Lesson = Lessons[38] },
+            new Price() { Id = 149, Amount = 90, EffectiveDate = new DateOnly(2025, 02, 17), Lesson = Lessons[39] }
         ];
 
         private static Document[] Documents { get; set; } =

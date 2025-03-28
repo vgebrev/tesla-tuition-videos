@@ -476,8 +476,117 @@ namespace TTV.DatabaseDeploy
 
         private static LearningPath[] LearningPaths { get; set; } = 
         [
-            new LearningPath() { Id = 1, Name = "Physics (Paper 1)" },
-            new LearningPath() { Id = 2, Name = "Chemistry (Paper 2)"},
+            new LearningPath([Curriculum.CAPS, Curriculum.IEB]) { Id = 1, Name = "Physics (Paper 1)", Description = "Lessons on topics examinable in Paper 1 (Physics)."},
+            new LearningPath([Curriculum.CAPS, Curriculum.IEB]) { Id = 2, Name = "Chemistry (Paper 2)", Description = "Lessons on topics examinable in Paper 2 (Chemistry)."},
+        ];
+
+        private static LearningPathItem[] PhysicsSections { get; set; } =
+        [
+            new LearningPathItem([Curriculum.CAPS, Curriculum.IEB]) { Id = 1, Sequence = 1, Name = "Mechanics/Kinematics", Description = "Lessons on Mechanics and Kinematics.", LearningPath = LearningPaths[0] },
+            new LearningPathItem([Curriculum.CAPS, Curriculum.IEB]) { Id = 2, Sequence = 2, Name = "Electrostatics", Description = "Lessons on Electrostatics.", LearningPath = LearningPaths[0] },
+            new LearningPathItem([Curriculum.CAPS, Curriculum.IEB]) { Id = 3, Sequence = 3, Name = "Electric Circuits", Description = "Lessons on Electric Circuits.", LearningPath = LearningPaths[0] },
+            new LearningPathItem([Curriculum.CAPS, Curriculum.IEB]) { Id = 4, Sequence = 4, Name = "Electromagnetism/Electrodynamics", Description = "Lessons on Electromagnetism.", LearningPath = LearningPaths[0] },
+        ];
+
+        private static LearningPathItem[] ChemistrySections { get; set; } =
+        [
+            new LearningPathItem([Curriculum.CAPS, Curriculum.IEB]) { Id = 5, Sequence = 1, Name = "Ions, Valcency & Writing Molecular Formulae", Description = "Lesson on Ions and Molecular Formulae.", LearningPath = LearningPaths[1], Lesson = Lessons[36] },
+            new LearningPathItem([Curriculum.CAPS, Curriculum.IEB]) { Id = 6, Sequence = 2, Name = "Chemical Bonding, Molecular Shape & Intermolecular Forces", Description = "Lessons on Chemical Bonding.", LearningPath = LearningPaths[1] },
+            new LearningPathItem([Curriculum.CAPS, Curriculum.IEB]) { Id = 7, Sequence = 3, Name = "Energy and Chemical Change", Description = "Lesson on Energy and Chemical Change", LearningPath = LearningPaths[1], Lesson = Lessons[28] },
+            new LearningPathItem([Curriculum.CAPS, Curriculum.IEB]) { Id = 8, Sequence = 4, Name = "Stoichiometry/Quantitative Aspects of Chemical Change", Description = "Lessons on Stoichiometry.", LearningPath = LearningPaths[1] },
+            new LearningPathItem([Curriculum.CAPS])                 { Id = 9, Sequence = 5, Name = "Ideal Gases (CAPS)", Description = "Lesson on Ideal Gases.", LearningPath = LearningPaths[1], Lesson = Lessons[35] },
+            new LearningPathItem([Curriculum.CAPS, Curriculum.IEB]) { Id = 10, Sequence = 6, Name = "Redox Reactions/Electrochemistry", Description = "Lessons on Redox Reactions.", LearningPath = LearningPaths[1] },
+            new LearningPathItem([Curriculum.CAPS, Curriculum.IEB]) { Id = 11, Sequence = 7, Name = "Acids and Bases", Description = "Lessons on Acids and Bases.", LearningPath = LearningPaths[1] },
+            new LearningPathItem([Curriculum.CAPS, Curriculum.IEB]) { Id = 12, Sequence = 8, Name = "Organic Chemistry", Description = "Lessons on Organic Chemistry.", LearningPath = LearningPaths[1] },
+        ];
+
+        // Physics branches
+        private static LearningPathItem[] MechanicsKinematicsItems { get; set; } =
+        [
+            new LearningPathItem([Curriculum.CAPS, Curriculum.IEB]) { Id = 13, Sequence = 1, Name = "Forces & Newton's Laws", Description = "Lessons on Forces and Newton's Laws.", LearningPath = LearningPaths[0], Parent = PhysicsSections[0] },
+        ];
+
+        private static LearningPathItem[] ElectrostaticsItems { get; set; } =
+        [
+            new LearningPathItem([Curriculum.CAPS, Curriculum.IEB]) { Id = 14, Sequence = 1, Name = "Electrostatics Part 1", Description = "Lesson on Electrostatics.", LearningPath = LearningPaths[0], Parent = PhysicsSections[1], Lesson = Lessons[12] },
+            new LearningPathItem([Curriculum.CAPS, Curriculum.IEB]) { Id = 15, Sequence = 2, Name = "Electrostatics Part 2", Description = "Lesson on Electrostatics.", LearningPath = LearningPaths[0], Parent = PhysicsSections[1], Lesson = Lessons[13] },
+        ];
+        private static LearningPathItem[] ElectricCircuitsItems { get; set; } =
+        [
+            new LearningPathItem([Curriculum.CAPS, Curriculum.IEB]) { Id = 16, Sequence = 1, Name = "Electric Circuits Part 1", Description = "Lesson on Electric Circuits.", LearningPath = LearningPaths[0], Parent = PhysicsSections[2], Lesson = Lessons[14] },
+            new LearningPathItem([Curriculum.CAPS, Curriculum.IEB]) { Id = 17, Sequence = 2, Name = "Electric Circuits Parts 2", Description = "Lesson on Electric Circuits.", LearningPath = LearningPaths[0], Parent = PhysicsSections[2], Lesson = Lessons[15] },
+            new LearningPathItem([Curriculum.CAPS, Curriculum.IEB]) { Id = 18, Sequence = 3, Name = "Electric Circuits Parts 3", Description = "Lesson on Electric Circuits.", LearningPath = LearningPaths[0], Parent = PhysicsSections[2], Lesson = Lessons[16] },
+        ];
+
+        private static LearningPathItem[] ElectromagnetismElectrodynamicsItems { get; set; } =
+        [
+            new LearningPathItem([Curriculum.CAPS]) { Id = 19, Sequence = 1, Name = "Electromagnetism (CAPS)", Description = "Lesson on Electromagnetism.", LearningPath = LearningPaths[0], Parent = PhysicsSections[3], Lesson = Lessons[17] },
+            new LearningPathItem([Curriculum.IEB]) { Id = 20, Sequence = 1, Name = "Electromagnetism (IEB)", Description = "Lesson on Electromagnetism.", LearningPath = LearningPaths[0], Parent = PhysicsSections[3], Lesson = Lessons[18] },
+            new LearningPathItem([Curriculum.IEB]) { Id = 21, Sequence = 2, Name = "Electromagnetic Induction (IEB)", Description = "Lesson on Electromagnetic Induction.", LearningPath = LearningPaths[0], Parent = PhysicsSections[3], Lesson = Lessons[37] },
+        ];
+
+        private static LearningPathItem[] ForcesAndNewtownsLawsItems { get; set; } =
+        [
+            new LearningPathItem([Curriculum.CAPS, Curriculum.IEB]) { Id = 22, Sequence = 1, Name = "Forces", Description = "Lessons on Forces.", LearningPath = LearningPaths[0], Parent = MechanicsKinematicsItems[0] },
+            new LearningPathItem([Curriculum.CAPS, Curriculum.IEB]) { Id = 23, Sequence = 2, Name = "Newton's Laws", Description = "Lessons on Newton's Laws.", LearningPath = LearningPaths[0], Parent = MechanicsKinematicsItems[0] },
+        ];
+
+        private static LearningPathItem[] ForcesItems { get; set; } =
+        [
+            new LearningPathItem([Curriculum.CAPS, Curriculum.IEB]) { Id = 24, Sequence = 1, Name = "Components of Angled Forces", Description = "Lesson on Components of Angled Forces.", LearningPath = LearningPaths[0], Parent = ForcesAndNewtownsLawsItems[0], Lesson = Lessons[1] },
+            new LearningPathItem([Curriculum.CAPS, Curriculum.IEB]) { Id = 25, Sequence = 2, Name = "Finding the Resultant of Multiple Forces", Description = "Lesson on Finding the Resultant of Multiple Forces.", LearningPath = LearningPaths[0], Parent = ForcesAndNewtownsLawsItems[0], Lesson = Lessons[0] },
+            new LearningPathItem([Curriculum.CAPS, Curriculum.IEB]) { Id = 26, Sequence = 3, Name = "Forces in Equilibrium", Description = "Lesson on Forces in Equilibrium.", LearningPath = LearningPaths[0], Parent = ForcesAndNewtownsLawsItems[0], Lesson = Lessons[2] },
+            new LearningPathItem([Curriculum.CAPS, Curriculum.IEB]) { Id = 27, Sequence = 4, Name = "Forces on an Inclined Surface", Description = "Lesson on Forces on an Inclined Surface.", LearningPath = LearningPaths[0], Parent = ForcesAndNewtownsLawsItems[0], Lesson = Lessons[3] },
+            new LearningPathItem([Curriculum.CAPS, Curriculum.IEB]) { Id = 28, Sequence = 5, Name = "The Force of Normal", Description = "Lesson on The Force of Normal.", LearningPath = LearningPaths[0], Parent = ForcesAndNewtownsLawsItems[0], Lesson = Lessons[4] },
+            new LearningPathItem([Curriculum.CAPS, Curriculum.IEB]) { Id = 29, Sequence = 6, Name = "Frictional Forces", Description = "Lesson on Frictional Forces.", LearningPath = LearningPaths[0], Parent = ForcesAndNewtownsLawsItems[0], Lesson = Lessons[5] },
+            new LearningPathItem([Curriculum.CAPS, Curriculum.IEB]) { Id = 30, Sequence = 7, Name = "Coefficients of Friction", Description = "Lesson on Coefficients of Friction.", LearningPath = LearningPaths[0], Parent = ForcesAndNewtownsLawsItems[0], Lesson = Lessons[6] },
+        ];
+
+        private static LearningPathItem[] NewtonsLawsItems { get; set; } =
+        [
+            new LearningPathItem([Curriculum.CAPS, Curriculum.IEB]) { Id = 31, Sequence = 1, Name = "Newton's First Law of Motion", Description = "Lesson on Newton's First Law of Motion.", LearningPath = LearningPaths[0], Parent = ForcesAndNewtownsLawsItems[1], Lesson = Lessons[7] },
+            new LearningPathItem([Curriculum.CAPS, Curriculum.IEB]) { Id = 32, Sequence = 2, Name = "Newton's Second Law of Motion", Description = "Lesson on Newton's Second Law of Motion.", LearningPath = LearningPaths[0], Parent = ForcesAndNewtownsLawsItems[1], Lesson = Lessons[8] },
+            new LearningPathItem([Curriculum.CAPS, Curriculum.IEB]) { Id = 33, Sequence = 3, Name = "Newton's 2nd Law Questions Involving Simultaneous Equations", Description = "Lesson on Newton's 2nd Law Questions Involving Simultaneous Equations.", LearningPath = LearningPaths[0], Parent = ForcesAndNewtownsLawsItems[1], Lesson = Lessons[9] },
+            new LearningPathItem([Curriculum.CAPS, Curriculum.IEB]) { Id = 34, Sequence = 4, Name = "Newton's Third Law of Motion", Description = "Lesson on Newton's Third Law of Motion.", LearningPath = LearningPaths[0], Parent = ForcesAndNewtownsLawsItems[1], Lesson = Lessons[10] },
+            new LearningPathItem([Curriculum.CAPS, Curriculum.IEB]) { Id = 35, Sequence = 5, Name = "Newton's Law of Universal Gravitation", Description = "Lesson on Newton's Law of Universal Gravitation.", LearningPath = LearningPaths[0], Parent = ForcesAndNewtownsLawsItems[1], Lesson = Lessons[11] },
+        ];
+
+        // Chemistry branches
+        private static LearningPathItem[] ChemicalBondingMolecularShapeAndIntermolecularForcesItems { get; set; } =
+        [
+            new LearningPathItem([Curriculum.CAPS,Curriculum.IEB]){ Id = 36, Sequence = 1, Name = "Determining Molecular Shape using the VSEPR Theory", Description = "Lesson on Determining Molecular Shape using the VSEPR Theory.", LearningPath = LearningPaths[1], Parent = ChemistrySections[1], Lesson = Lessons[26] },
+            new LearningPathItem([Curriculum.CAPS,Curriculum.IEB]){ Id = 37, Sequence = 2, Name = "Polar and Non-Polar Bonds vs Polar and Non-Polar Molecules", Description = "Lesson on Polar and Non-Polar Bonds vs Polar and Non-Polar Molecules.", LearningPath = LearningPaths[1], Parent = ChemistrySections[1], Lesson = Lessons[24] },
+            new LearningPathItem([Curriculum.CAPS,Curriculum.IEB]){ Id = 38, Sequence = 3, Name = "Intermolecular Forces", Description = "Lesson on Intermolecular Forces.", LearningPath = LearningPaths[1], Parent = ChemistrySections[1], Lesson = Lessons[25] },
+            new LearningPathItem([Curriculum.CAPS               ]){ Id = 39, Sequence = 4, Name = "Dative Covalend Bonding (CAPS)", Description = "Lesson on Dative Covalend Bonding.", LearningPath = LearningPaths[1], Parent = ChemistrySections[1], Lesson = Lessons[27] },
+        ];
+
+        private static LearningPathItem[] StoichiometryQuantitativeAspectsOfChemicalChangeItems { get; set; } =
+        [
+            new LearningPathItem([Curriculum.CAPS,Curriculum.IEB]){ Id = 40, Sequence = 1, Name = "Quantitative Aspects of Chemical Change", Description = "Lesson on Quantitative Aspects of Chemical Change.", LearningPath = LearningPaths[1], Parent = ChemistrySections[3], Lesson = Lessons[23] },
+            new LearningPathItem([Curriculum.CAPS,Curriculum.IEB]){ Id = 41, Sequence = 2, Name = "Converting Moles Between Different Substances in a Chemical Reaction", Description = "Lesson on Converting Moles Between Different Substances in a Chemical Reaction.", LearningPath = LearningPaths[1], Parent = ChemistrySections[3], Lesson = Lessons[19] },
+            new LearningPathItem([Curriculum.CAPS,Curriculum.IEB]){ Id = 42, Sequence = 3, Name = "Limiting Reagents", Description = "Lesson on Limiting Reagents.", LearningPath = LearningPaths[1], Parent = ChemistrySections[3], Lesson = Lessons[20] },
+            new LearningPathItem([Curriculum.CAPS,Curriculum.IEB]){ Id = 43, Sequence = 4, Name = "Percentage Yield", Description = "Lesson on Percentage Yield.", LearningPath = LearningPaths[1], Parent = ChemistrySections[3], Lesson = Lessons[22] },
+            new LearningPathItem([Curriculum.CAPS,Curriculum.IEB]){ Id = 44, Sequence = 5, Name = "Percentage Purity", Description = "Lesson on Percentage Purity.", LearningPath = LearningPaths[1], Parent = ChemistrySections[3], Lesson = Lessons[21] },
+        ];
+
+        private static LearningPathItem[] RedoxReactionsElectrochemistryItems { get; set; } =
+        [
+            new LearningPathItem([Curriculum.CAPS]){ Id = 45, Sequence = 1, Name = "Redox Reactions Part 1 (CAPS)", Description = "Lesson on Redox Reactions.", LearningPath = LearningPaths[1], Parent = ChemistrySections[5], Lesson = Lessons[29] },
+            new LearningPathItem([Curriculum.CAPS]){ Id = 46, Sequence = 2, Name = "Redox Reactions Part 2 (CAPS)", Description = "Lesson on Redox Reactions.", LearningPath = LearningPaths[1], Parent = ChemistrySections[5], Lesson = Lessons[30] },
+            new LearningPathItem([Curriculum.IEB]){ Id = 47, Sequence = 3, Name = "Redox Reactions (IEB)", Description = "Lesson on Redox Reactions.", LearningPath = LearningPaths[1], Parent = ChemistrySections[5], Lesson = Lessons[31] },
+        ];
+
+        private static LearningPathItem[] AcidsAndBasesItems { get; set; } =
+        [
+            new LearningPathItem([Curriculum.CAPS]){ Id = 48, Sequence = 1, Name = "Acids & Bases Part 1 (CAPS)", Description = "Lesson on Acids and Bases.", LearningPath = LearningPaths[1], Parent = ChemistrySections[6], Lesson = Lessons[32] },
+            new LearningPathItem([Curriculum.CAPS]){ Id = 49, Sequence = 2, Name = "Acids & Bases Part 2 (CAPS)", Description = "Lesson on Acids and Bases.", LearningPath = LearningPaths[1], Parent = ChemistrySections[6], Lesson = Lessons[33] },
+            new LearningPathItem([Curriculum.IEB]){ Id = 50, Sequence = 3, Name = "Acids & Bases Part 1 (IEB)", Description = "Lesson on Acids and Bases.", LearningPath = LearningPaths[1], Parent = ChemistrySections[6], Lesson = Lessons[34] },
+        ];
+
+        private static LearningPathItem[] OrganicChemistryItems { get; set; } =
+        [
+            new LearningPathItem([Curriculum.CAPS,Curriculum.IEB]){ Id = 51, Sequence = 1, Name = "Organic Chemistry Part 1", Description = "Lesson on Organic Chemistry.", LearningPath = LearningPaths[1], Parent = ChemistrySections[7], Lesson = Lessons[38] },
+            new LearningPathItem([Curriculum.CAPS,Curriculum.IEB]){ Id = 52, Sequence = 2, Name = "Organic Chemistry Part 2", Description = "Lesson on Organic Chemistry.", LearningPath = LearningPaths[1], Parent = ChemistrySections[7], Lesson = Lessons[39] },
         ];
 
         public async Task<SampleData> PopulateAsync()
@@ -490,10 +599,28 @@ namespace TTV.DatabaseDeploy
 
                 Console.WriteLine("Syncing Data.");
                 await SyncEntityAsync(TagCategories);
-                await SyncEntityAsync(Tags, include: $"{nameof(Tag.Category)}", SyncTagCategories);
-                await SyncEntityAsync(Lessons, include: $"{nameof(Lesson.Tags)}", SyncLessonChildEntitiesAsync);
+                await SyncEntityAsync(Tags, includes: $"{nameof(Tag.Category)}", SyncTagCategories);
+                await SyncEntityAsync(Lessons, includes: $"{nameof(Lesson.Tags)}", SyncLessonChildEntitiesAsync);
                 await SyncEntityAsync(IntroVideos.Union(LessonVideos), customUpsert: SyncVideoLessonsAsync);
-                await SyncEntityAsync(Documents, include: $"{nameof(Document.Lessons)}", customUpsert: SyncDocumentLessonsAsync);
+                await SyncEntityAsync(Documents, includes: $"{nameof(Document.Lessons)}", customUpsert: SyncDocumentLessonsAsync);
+                await SyncEntityAsync(LearningPaths, includes: $"{nameof(LearningPath.Items)}");
+                await SyncEntityAsync(
+                    PhysicsSections
+                        .Union(MechanicsKinematicsItems)
+                            .Union(ForcesAndNewtownsLawsItems)
+                                .Union(ForcesItems)
+                                .Union(NewtonsLawsItems)
+                        .Union(ElectrostaticsItems)
+                        .Union(ElectricCircuitsItems)
+                        .Union(ElectromagnetismElectrodynamicsItems)
+                    .Union(ChemistrySections)
+                        .Union(ChemicalBondingMolecularShapeAndIntermolecularForcesItems)
+                        .Union(StoichiometryQuantitativeAspectsOfChemicalChangeItems)
+                        .Union(RedoxReactionsElectrochemistryItems)
+                        .Union(AcidsAndBasesItems)
+                        .Union(OrganicChemistryItems)
+                    , includes: $"{nameof(LearningPath.Items)},{nameof(LearningPath)},{nameof(Lesson)}", SyncLearningPathItemRelatedEntities);
+                        
                 Console.WriteLine("Committing transaction.");
                 await transaction.CommitAsync();
             }
@@ -513,7 +640,7 @@ namespace TTV.DatabaseDeploy
             await dataContext.Database.ExecuteSqlRawAsync(sql);
         }
 
-        private async Task SyncEntityAsync<TEntity>(IEnumerable<TEntity> source, string? include = null, Func<TEntity, TEntity?, Task>? customUpsert = null) where TEntity : BaseEntity
+        private async Task SyncEntityAsync<TEntity>(IEnumerable<TEntity> source, string? includes = null, Func<TEntity, TEntity?, Task>? customUpsert = null) where TEntity : BaseEntity
         {
             Console.WriteLine($"\tSyncing {typeof(TEntity)} entities.");
 
@@ -521,9 +648,12 @@ namespace TTV.DatabaseDeploy
 
             var dbSet = dataContext.Set<TEntity>();
             var query = dbSet.TagWithCallSite();
-            if (!string.IsNullOrEmpty(include))
+            if (!string.IsNullOrEmpty(includes))
             {
-                query = query.Include(include);
+                foreach (var include in includes.Split(','))
+                {
+                    query = query.Include(include);
+                }
             }
             var existing = await query.ToListAsync();
 
@@ -620,6 +750,26 @@ namespace TTV.DatabaseDeploy
 
             var existingTagCategories = await dataContext.TagCategories.ToListAsync();
             source.Category = existingTagCategories.Single(x => x.Id == source.Category.Id);
+        }
+
+        private async Task SyncLearningPathItemRelatedEntities(LearningPathItem source, LearningPathItem? target)
+        {
+            target ??= source;
+
+            var existingLearningPaths = await dataContext.LearningPaths.ToListAsync();
+            target.LearningPath = existingLearningPaths.Single(x => x.Id == source.LearningPath.Id);
+
+            if (source.Lesson is not null)
+            {
+                var existingLessons = await dataContext.Lessons.ToListAsync();
+                target.Lesson = existingLessons.Single(x => x.Id == source.Lesson.Id);
+            }
+
+            var existingLearningPathItems = await dataContext.LearningPathItems.ToListAsync();
+            if (source.Parent is not null)
+            {
+                target.Parent = existingLearningPathItems.SingleOrDefault(x => x.Id == source.Parent.Id) ?? source.Parent;
+            }
         }
     }
 }

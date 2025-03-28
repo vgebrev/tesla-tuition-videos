@@ -1,12 +1,8 @@
 ﻿namespace TTV.Domain.Entities;
 
-public class LearningPathItem : BaseEntity
+public class LearningPathItem(IEnumerable<Curriculum> curricula) : BaseEntity
 {
-    public LearningPathItem()
-    {
-        Items = [];
-        //Curricula = [];
-    }
+    public LearningPathItem() : this([]) { }
 
     public string Name { get; set; } = default!;
     public string Description { get; set; } = default!;
@@ -14,6 +10,6 @@ public class LearningPathItem : BaseEntity
     public LearningPathItem? Parent { get; set; }
     public LearningPath LearningPath { get; set; } = new();
     public Lesson? Lesson { get; set; }
-    public virtual ICollection<LearningPathItem> Items { get; private set; }
-    //public virtual ICollection<Curriculum> Curricula { get; private set; }
+    public virtual ICollection<LearningPathItem> Items { get; private set; } = [];
+    public virtual ICollection<Curriculum> Curricula { get; private set; } = new HashSet<Curriculum>(curricula);
 }

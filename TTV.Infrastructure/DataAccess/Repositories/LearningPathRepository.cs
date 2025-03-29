@@ -6,14 +6,15 @@ namespace TTV.Infrastructure.DataAccess.Repositories;
 public class LearningPathRepository(DataContext dataContext) : ILearningPathRepository
 {
     private readonly DataContext dataContext = dataContext;
-    public async Task<IEnumerable<LearningPath>> GetAllAsync(CancellationToken cancellationToken = default)
+    public async Task<IEnumerable<LearningPath>> GetListAsync(CancellationToken cancellationToken = default)
     {
         var result = await dataContext.LearningPaths.TagWithCallSite()
-           .AsNoTracking()
-           .Include(p => p.Items)
-           .ToListAsync(cancellationToken);
+            .Include(p => p.Items)
+            .ThenInclude(i => i.Lesson)
+            .ToListAsync(cancellationToken);
 
-        foreach (var item in result.SelectMany(p => p.Items.OfType<LearningPathItem>()))
+        var items = result.SelectMany(p => p.Items.OfType<LearningPathItem>()).ToList();
+        foreach (var item in items)
         {
             await LoadItems(item);
         }
@@ -24,7 +25,7 @@ public class LearningPathRepository(DataContext dataContext) : ILearningPathRepo
     {
         await dataContext.Entry(item)
             .Collection(i => i.Items)
-            .Query().TagWithCallSite().AsNoTracking()
+            .Query().TagWithCallSite()
             .Include(i => i.Lesson)
             .Include(i => i.Items)
             .LoadAsync();

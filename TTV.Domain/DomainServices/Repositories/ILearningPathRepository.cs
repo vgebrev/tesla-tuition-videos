@@ -3,5 +3,5 @@
 namespace TTV.Domain.DomainServices.Repositories;
 public interface ILearningPathRepository
 {
-    Task<IEnumerable<LearningPath>> GetAllAsync(CancellationToken cancellationToken = default);
+    Task<IEnumerable<LearningPath>> GetListAsync(CancellationToken cancellationToken = default);
 }

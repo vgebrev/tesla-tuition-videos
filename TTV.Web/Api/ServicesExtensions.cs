@@ -33,6 +33,7 @@ public static class ServicesExtensions
         services.AddScoped<IDocumentManager, DocumentManager>();
         services.AddScoped<IDocumentStreamLoader, DocumentStreamLoader>();
         services.AddScoped<IEmailSender, EmailSender>();
+        services.AddScoped<ILearningPathManager, LearningPathManager>();
         services.AddScoped<ILessonManager, LessonManager>();
         services.AddScoped<INotificationBuilder, NotificationBuilder>();
         services.AddScoped<INotificationManager, NotificationManager>();

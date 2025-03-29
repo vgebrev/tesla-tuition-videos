@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.Linq;
 using System.Reflection;
 using TTV.Web.Shared;
 
@@ -16,4 +17,6 @@ internal static class EnumMappings
                 .GetCustomAttribute<DisplayAttribute>()?.Name ?? value.ToString()
         };
 
+    public static IEnumerable<LookupDto> ToLookupDtoEnumerable<TEnum>(this IEnumerable<TEnum> values) where TEnum : Enum =>
+        values.Select(ToLookupDto);
 }

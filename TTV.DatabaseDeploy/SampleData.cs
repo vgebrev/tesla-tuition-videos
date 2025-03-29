@@ -474,6 +474,8 @@ namespace TTV.DatabaseDeploy
             new Document() { Id = 36, DocumentType = DocumentType.ExercisePdf, Title = "Redox Reactions (IEB) [Draft]", Filename = "Redox Reactions (IEB).pdf", RelativePath = "ExercisePdfs", Lessons = [Lessons[31]] },
         ];
 
+        #region Learning Paths
+
         private static LearningPath[] LearningPaths { get; set; } = 
         [
             new LearningPath([Curriculum.CAPS, Curriculum.IEB]) { Id = 1, Name = "Physics (Paper 1)", Description = "Lessons on topics examinable in Paper 1 (Physics)."},
@@ -588,6 +590,8 @@ namespace TTV.DatabaseDeploy
             new LearningPathItem([Curriculum.CAPS,Curriculum.IEB]){ Id = 51, Sequence = 1, Name = "Organic Chemistry Part 1", Description = "Lesson on Organic Chemistry.", LearningPath = LearningPaths[1], Parent = ChemistrySections[7], Lesson = Lessons[38] },
             new LearningPathItem([Curriculum.CAPS,Curriculum.IEB]){ Id = 52, Sequence = 2, Name = "Organic Chemistry Part 2", Description = "Lesson on Organic Chemistry.", LearningPath = LearningPaths[1], Parent = ChemistrySections[7], Lesson = Lessons[39] },
         ];
+
+        #endregion
 
         public async Task<SampleData> PopulateAsync()
         {
@@ -740,9 +744,8 @@ namespace TTV.DatabaseDeploy
             {
                 target.Lessons.Add(existingLessons.Single(existingLesson => existingLesson.Id == lesson.Id));
             }
-
-
         }
+
         private async Task SyncTagCategories(Tag source, Tag? target)
         {
             if (target != null)

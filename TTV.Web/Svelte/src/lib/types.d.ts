@@ -54,6 +54,25 @@ export type Document = {
   documentType: Lookup;
 };
 
+export type LearningPath = {
+  id: number;
+  name: string;
+  description: string;
+  curricula: Lookup[];
+  items: LearningPathItem[];
+};
+
+export type LearningPathItem = {
+  id: number;
+  name: string;
+  description: string;
+  sequence: number;
+  parent: ?LearningPathItem;
+  lesson: ?Lesson;
+  learningPath: LearningPath;
+  curricula: Lookup[];
+};
+
 export type Lesson = {
   id: number;
   title: string;
@@ -195,6 +214,12 @@ export type CheckoutStoreState = {
   initiatePaymentResult: ?ResultOf<?Payment>;
   order: ?Order;
   error: ErrorState;
+};
+
+export type LearningPathsStoreState = {
+  isLoading: boolean;
+  error: ErrorState;
+  learningPaths: ?LearningPath[];
 };
 
 export type LessonDetailStoreState = {

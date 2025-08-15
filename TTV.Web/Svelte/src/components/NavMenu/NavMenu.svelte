@@ -51,7 +51,8 @@
       class="collapse navbar-collapse"
       id="navbar">
       <div class="navbar-nav ms-md-auto">
-        <NavLink href="/lessons"><i class="bi bi-book"></i> Lessons</NavLink>
+        <NavLink href="/learning-paths"><i class="bi bi-book"></i> Study Guide</NavLink>
+        <NavLink href="/lessons"><i class="bi bi-play-btn"></i> Lessons</NavLink>
         <ShoppingCartNavLink />
         <AdminNavLink />
         <NavLink href="/contact-us"><i class="bi bi-envelope-open"></i> Contact us</NavLink>

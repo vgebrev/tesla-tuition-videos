@@ -67,10 +67,9 @@ export type LearningPathItem = {
   name: string;
   description: string;
   sequence: number;
-  parent: ?LearningPathItem;
-  lesson: ?Lesson;
-  learningPath: LearningPath;
+  lessonId: ?number;
   curricula: Lookup[];
+  items: LearningPathItem[];
 };
 
 export type Lesson = {
@@ -220,6 +219,7 @@ export type LearningPathsStoreState = {
   isLoading: boolean;
   error: ErrorState;
   learningPaths: ?LearningPath[];
+  loadedLessons: ?Lesson[];
 };
 
 export type LessonDetailStoreState = {

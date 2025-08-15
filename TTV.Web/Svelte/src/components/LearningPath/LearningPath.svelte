@@ -1,5 +1,5 @@
 <script>
-  import { learningPathsActions, learningPathsState } from './learning-paths';
+  import { learningPathsActions, learningPathsState } from './learning-path.js';
   import LearningPathItem from './LearningPathItem.svelte';
   import ErrorCard from '$components/common/ErrorCard.svelte';
   import ProgressLoader from '$components/common/ProgressLoader.svelte';
@@ -54,7 +54,7 @@
 
 <div class="row justify-content-center">
   <div class="col text-center">
-    <h1 class="header-white">Study Guide</h1>
+    <h1 class="header-white">Learning Path</h1>
   </div>
 </div>
 

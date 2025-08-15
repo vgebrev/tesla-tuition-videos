@@ -47,7 +47,7 @@ npm run test             # Run vitest tests
 ### State Management
 
 - **Svelte stores** for component state (no external state library)
-- Store patterns defined in component-specific `.js` files (e.g., `learning-paths.js`)
+- Store patterns defined in component-specific `.js` files (e.g., `learning-path.js`)
 - Authentication state centralized in `authStore`
 
 ### Key Architectural Patterns

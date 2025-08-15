@@ -1,6 +1,6 @@
 <script>
   import LessonCard from '$components/common/LessonCard.svelte';
-  import { learningPathsActions, learningPathsState } from './learning-paths';
+  import { learningPathsActions, learningPathsState } from './learning-path.js';
 
   /**
    * @typedef {Object} LearningPathItem

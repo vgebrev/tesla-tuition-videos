@@ -8,6 +8,27 @@ body {
 	height: 100vh;
 }
 
+/* Fix navbar and test banner z-index to appear above radio button groups */
+.navbar.fixed-top {
+	z-index: 1060;
+}
+
+/* Override Bootstrap's button group z-index to stay below navbar */
+.btn-group > .btn-check:checked + .btn,
+.btn-group > .btn-check:focus + .btn,
+.btn-group > .btn.active,
+.btn-group > .btn:active,
+.btn-group > .btn:focus,
+.btn-group > .btn:hover,
+.btn-group-vertical > .btn-check:checked + .btn,
+.btn-group-vertical > .btn-check:focus + .btn,
+.btn-group-vertical > .btn.active,
+.btn-group-vertical > .btn:active,
+.btn-group-vertical > .btn:focus,
+.btn-group-vertical > .btn:hover {
+	z-index: 0 !important;
+}
+
 .app-container {
 	height: 100%;
 	display: flex;

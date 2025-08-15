@@ -110,18 +110,12 @@
       <div class="d-flex align-items-center w-100 overflow-hidden">
         <div class="d-flex align-items-center justify-content-center flex-shrink-0 me-2">
           {#if isLessonItem}
-            <i class="bi bi bi-play-btn text-primary ms-2"></i>
+            <i class="bi bi bi-play-btn text-primary"></i>
           {:else}
             <i class="bi bi-folder text-white-50"></i>
           {/if}
         </div>
         <span class="text-white text-truncate me-2">{item.name}</span>
-        <!--{#if isLessonItem}-->
-        <!--  <button class="btn btn-outline-primary btn-sm ms-auto flex-shrink-0">-->
-        <!--    <i class="bi bi-cart-plus me-1"></i>-->
-        <!--    Buy-->
-        <!--  </button>-->
-        <!--{/if}-->
       </div>
     </div>
 

@@ -76,9 +76,8 @@
   <div class="row justify-content-center">
     <div class="col-12 col-lg-10 col-xl-8">
       <div class="mb-4">
-        <small
-          >Designed for both CAPS and IEB, our lessons can be followed in our recommended order or adapted to your
-          school’s pace.</small>
+        Designed for both CAPS and IEB, our lessons can be followed in our suggested order or adapted to your school’s
+        pace.
       </div>
       <!-- Curriculum Selection -->
       <div class="mb-4">

@@ -72,6 +72,11 @@ namespace TTV.DatabaseDeploy
             new Tag() { Id = 37, Name = "Hydrocarbon", Category = TagCategories[3] },
             new Tag() { Id = 38, Name = "Alkanes", Category = TagCategories[3] },
             new Tag() { Id = 39, Name = "Haloalkanes", Category = TagCategories[3] },
+
+            //Update 2025-08-15
+            new Tag() { Id = 40, Name = "Alkenes", Category = TagCategories[3] },
+            new Tag() { Id = 41, Name = "Alkynes", Category = TagCategories[3] },
+            new Tag() { Id = 42, Name = "Alcohols", Category = TagCategories[3] },
         ];
 
         private static Lesson[] Lessons { get; } =
@@ -161,6 +166,9 @@ namespace TTV.DatabaseDeploy
                 Tags = [Tags[1], Tags[11], Tags[12], Tags[15], Tags[31], Tags[32], Tags[33], Tags[34], Tags[35], Tags[36]] },
             new Lesson() { Id = 40, Sequence = 40, Title = "Organic Chemistry Part 2", Description = "In this lesson we focus on two homologous series known as the alkanes and the haloalkanes. We will cover how to draw their structural formulae (including their condensed structural formulae) as well as how to correctly name them.  We will also learn the system for naming carbon branches (which are called alkyl groups).", LessonType = LessonType.Video,
                 Tags = [Tags[1], Tags[11], Tags[12], Tags[15], Tags[31], Tags[32], Tags[34], Tags[35], Tags[36], Tags[37], Tags[38]] },
+            new Lesson() { Id = 41, Sequence = 41, Title = "Organic Chemistry Part 3 (CAPS)", Description = "In this lesson we focus on the following three homologous series: Alkenes, Alkynes and Alcohols. We will cover how to draw their structural formulae (including their condensed structural formulae) as well as how to correctly name them.  We will also look at the difference between primary, secondary and tertiary alcohols.", LessonType = LessonType.Video,
+                Tags = [Tags[1], Tags[12], Tags[15], Tags[31], Tags[32], Tags[34], Tags[35], Tags[36], Tags[39], Tags[40], Tags[41]] },
+
         ];
 
         private static Video[] IntroVideos { get; } =
@@ -210,6 +218,7 @@ namespace TTV.DatabaseDeploy
             new Video() { Id = 75, Filename = $"{Lessons[37].Title}.mp4", Thumbnail = $"{Lessons[37].Title}.jpg", RelativePath = "LimitedAccess", VideoType = VideoType.Intro, Lesson = Lessons[37] },
             new Video() { Id = 77, Filename = $"{Lessons[38].Title}.mp4", Thumbnail = $"{Lessons[38].Title}.jpg", RelativePath = "LimitedAccess", VideoType = VideoType.Intro, Lesson = Lessons[38] },
             new Video() { Id = 79, Filename = $"{Lessons[39].Title}.mp4", Thumbnail = $"{Lessons[39].Title}.jpg", RelativePath = "LimitedAccess", VideoType = VideoType.Intro, Lesson = Lessons[39] },
+            new Video() { Id = 81, Filename = $"{Lessons[40].Title}.mp4", Thumbnail = $"{Lessons[40].Title}.jpg", RelativePath = "LimitedAccess", VideoType = VideoType.Intro, Lesson = Lessons[40] },
         ];
 
         private static Video[] LessonVideos { get; } =
@@ -258,6 +267,7 @@ namespace TTV.DatabaseDeploy
             new Video() { Id = 76, Filename = $"{Lessons[37].Title}.mp4", Thumbnail = $"{Lessons[37].Title}.jpg", VideoType = VideoType.FullLesson, Lesson = Lessons[37], Duration = new TimeSpan(1,8,21) },
             new Video() { Id = 78, Filename = $"{Lessons[38].Title}.mp4", Thumbnail = $"{Lessons[38].Title}.jpg", VideoType = VideoType.FullLesson, Lesson = Lessons[38], Duration = new TimeSpan(0,51,39) },
             new Video() { Id = 80, Filename = $"{Lessons[39].Title}.mp4", Thumbnail = $"{Lessons[39].Title}.jpg", VideoType = VideoType.FullLesson, Lesson = Lessons[39], Duration = new TimeSpan(1,25,06) },
+            new Video() { Id = 82, Filename = $"{Lessons[40].Title}.mp4", Thumbnail = $"{Lessons[40].Title}.jpg", VideoType = VideoType.FullLesson, Lesson = Lessons[40], Duration = new TimeSpan(1,31,06) },
         ];
 
         private static Price[] Prices { get; } =
@@ -430,7 +440,8 @@ namespace TTV.DatabaseDeploy
 
             new Price() { Id = 147, Amount = 90, EffectiveDate = new DateOnly(2025, 02, 17), Lesson = Lessons[37] },
             new Price() { Id = 148, Amount = 90, EffectiveDate = new DateOnly(2025, 02, 17), Lesson = Lessons[38] },
-            new Price() { Id = 149, Amount = 90, EffectiveDate = new DateOnly(2025, 02, 17), Lesson = Lessons[39] }
+            new Price() { Id = 149, Amount = 90, EffectiveDate = new DateOnly(2025, 02, 17), Lesson = Lessons[39] },
+            new Price() { Id = 150, Amount = 90, EffectiveDate = new DateOnly(2025, 02, 17), Lesson = Lessons[40] }
         ];
 
         private static Document[] Documents { get; set; } =
@@ -589,6 +600,7 @@ namespace TTV.DatabaseDeploy
         [
             new LearningPathItem([Curriculum.CAPS,Curriculum.IEB]){ Id = 51, Sequence = 1, Name = "Organic Chemistry Part 1", Description = "Lesson on Organic Chemistry.", LearningPath = LearningPaths[1], Parent = ChemistrySections[7], Lesson = Lessons[38] },
             new LearningPathItem([Curriculum.CAPS,Curriculum.IEB]){ Id = 52, Sequence = 2, Name = "Organic Chemistry Part 2", Description = "Lesson on Organic Chemistry.", LearningPath = LearningPaths[1], Parent = ChemistrySections[7], Lesson = Lessons[39] },
+            new LearningPathItem([Curriculum.CAPS]) { Id = 53, Sequence = 3, Name = "Organic Chemistry Part 3 (CAPS)", Description = "Lesson on Organic Chemistry.", LearningPath = LearningPaths[1], Parent = ChemistrySections[7], Lesson = Lessons[40] }
         ];
 
         #endregion

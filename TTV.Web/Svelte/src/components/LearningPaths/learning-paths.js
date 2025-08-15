@@ -32,9 +32,6 @@ async function getLearningPaths() {
   });
   try {
     const response = await api.get('/learning-paths');
-    if (!response.ok) {
-      throw new Error(`HTTP error! status: ${response.status}`);
-    }
     const learningPaths = await response.json();
     learningPathsState.update((state) => {
       state.learningPaths = learningPaths;
@@ -71,9 +68,6 @@ async function getLessonDetails(lessonId) {
 
   try {
     const response = await api.get(`/lessons/${lessonId}`);
-    if (!response.ok) {
-      throw new Error(`HTTP error! status: ${response.status}`);
-    }
     const lesson = await response.json();
 
     learningPathsState.update((state) => {

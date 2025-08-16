@@ -9,10 +9,11 @@ namespace TTV.Web.Auth.Pages.Account.PasswordReset;
 
 [SecurityHeaders]
 [AllowAnonymous]
-public class New(UserManager<ApplicationUser> userManager, IClientStore clientStore) : PageModel
+public class New(UserManager<ApplicationUser> userManager, IClientStore clientStore, Config config) : PageModel
 {
     private readonly UserManager<ApplicationUser> userManager = userManager;
     private readonly IClientStore clientStore = clientStore;
+    private readonly Config config = config;
 
     [BindProperty]
     public NewInputModel Input { get; set; }
@@ -29,7 +30,7 @@ public class New(UserManager<ApplicationUser> userManager, IClientStore clientSt
     private async Task GetClientDetails()
     {
 
-       var client = await clientStore.FindClientByIdAsync(Config.Clients.First().ClientId);
+       var client = await clientStore.FindClientByIdAsync(config.GetClients().First().ClientId);
         var redirectUri = new Uri(client.RedirectUris.Last());
         View.ClientUri = new Uri(redirectUri.GetLeftPart(UriPartial.Authority)).ToString();
         View.ClientName = client.ClientName;

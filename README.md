@@ -241,3 +241,6 @@ PUBLIC_BANKACCOUNT_BRANCHCODE="123456" # Branch code for Manual Bank payment inf
 - Use environment variables for production secrets.
 - Rotate credentials regularly.
 - Restrict access to `.NET Secret Manager`.
+
+## License
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.

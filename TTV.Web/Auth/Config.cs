@@ -1,64 +1,76 @@
 ﻿using Duende.IdentityModel;
 using Duende.IdentityServer;
 using Duende.IdentityServer.Models;
+using Microsoft.Extensions.Options;
 
 namespace TTV.Web.Auth;
 
-public static class Config
+public class Config(IOptionsSnapshot<IdentityServerSettings> config)
 {
-    public static IEnumerable<IdentityResource> IdentityResources =>
-        [
-            new IdentityResources.OpenId(),
-            new IdentityResources.Profile(),
-            new IdentityResources.Email(),
-            new IdentityResource()
-            {
-                Name = "role",
-                DisplayName ="Your roles and permissions",
-                ShowInDiscoveryDocument = true,
-                UserClaims =
-                [
-                    JwtClaimTypes.Role,
-                    "permission",
-                ],
-            }
-        ];
+    private readonly IdentityServerSettings settings = config.Value;
 
-    public static IEnumerable<ApiScope> ApiScopes =>
-        [
-            new ApiScope(name: "ttv_web_api", displayName: "Tesla Tuition Videos API", userClaims:
-            [
-                JwtClaimTypes.Email,
-                JwtClaimTypes.Subject,
-                JwtClaimTypes.Role,
-                "permission",
-            ])
-        ];
+    public IEnumerable<IdentityResource> GetIdentityResources()
+    {
+        var resources = new List<IdentityResource>();
 
-    public static IEnumerable<Client> Clients =>
-        [
-            new Client
+        foreach (var resource in settings.IdentityResources)
+        {
+            if (resource.IsBuiltIn)
             {
-                ClientId = "ttv_web_blazor",
-                ClientName = "Tesla Tuition Videos",
-                RequireClientSecret = false,
-                AllowedGrantTypes = GrantTypes.CodeAndClientCredentials,
-                RedirectUris = { 
-                    //"https://localhost:5003/authentication/login-callback"
-                    "https://teslatuition.video/authentication/login-callback"
-                    },
-                PostLogoutRedirectUris = { 
-                    //"https://localhost:5003/authentication/logout-callback"
-                    "https://teslatuition.video/authentication/logout-callback"
-                },
-                AllowOfflineAccess = true,
-                AllowedScopes =
-                [
-                    IdentityServerConstants.StandardScopes.OpenId,
-                    IdentityServerConstants.StandardScopes.Profile,
-                    IdentityServerConstants.StandardScopes.Email,
-                    "ttv_web_api",
-                ],
+                resources.Add(resource.BuiltInType switch
+                {
+                    "OpenId" => new IdentityResources.OpenId(),
+                    "Profile" => new IdentityResources.Profile(),
+                    "Email" => new IdentityResources.Email(),
+                    _ => throw new InvalidOperationException($"Unknown built-in identity resource type: {resource.BuiltInType}")
+                });
             }
-        ];
+            else
+            {
+                resources.Add(new IdentityResource
+                {
+                    Name = resource.Name,
+                    DisplayName = resource.DisplayName,
+                    ShowInDiscoveryDocument = resource.ShowInDiscoveryDocument,
+                    UserClaims = resource.UserClaims.ToList()
+                });
+            }
+        }
+
+        return resources;
+    }
+
+    public IEnumerable<ApiScope> GetApiScopes()
+    {
+        return settings.ApiScopes.Select(scope => new ApiScope(
+            name: scope.Name,
+            displayName: scope.DisplayName,
+            userClaims: scope.UserClaims
+        ));
+    }
+
+    public IEnumerable<Client> GetClients()
+    {
+        return settings.Clients.Select(client => new Client
+        {
+            ClientId = client.ClientId,
+            ClientName = client.ClientName,
+            RequireClientSecret = client.RequireClientSecret,
+            AllowedGrantTypes = client.AllowedGrantTypes.ToList(),
+            RedirectUris = client.RedirectUris.ToList(),
+            PostLogoutRedirectUris = client.PostLogoutRedirectUris.ToList(),
+            AllowOfflineAccess = client.AllowOfflineAccess,
+            AllowedScopes = client.AllowedScopes.ToList()
+        });
+    }
+
+    public IEnumerable<RoleSettings> GetRoles()
+    {
+        return settings.Roles;
+    }
+
+    public IEnumerable<UserSettings> GetUsers()
+    {
+        return settings.Users;
+    }
 }

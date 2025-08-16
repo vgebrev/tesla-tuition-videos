@@ -25,6 +25,10 @@ internal static class HostingExtensions
         var migrationsAssembly = typeof(Program).Assembly.GetName().Name;
         var connectionString = builder.Configuration.GetConnectionString("IdentityServer");
 
+        // Configure Identity Server settings
+        builder.Services.Configure<IdentityServerSettings>(builder.Configuration.GetSection("IdentityServerSettings"));
+        builder.Services.AddScoped<Config>();
+
         builder.Services.AddSingleton<ICorsPolicyService>((container) =>
         {
             var logger = container.GetRequiredService<ILogger<DefaultCorsPolicyService>>();

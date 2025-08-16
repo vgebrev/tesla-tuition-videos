@@ -4,6 +4,7 @@ using TTV.Web.Auth.Data;
 using TTV.Web.Auth.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Options;
 using Serilog;
 using System.Security.Claims;
 using System.Runtime.CompilerServices;
@@ -17,7 +18,7 @@ public class SeedData
     {
         using var scope = app.Services.GetRequiredService<IServiceScopeFactory>().CreateScope();
         AddConfigurationAndOperationalData(scope);
-        AddUsers(scope);
+        AddRolesAndUsers(scope);
     }
 
     private static void AddConfigurationAndOperationalData(IServiceScope scope)
@@ -25,10 +26,13 @@ public class SeedData
         scope.ServiceProvider.GetRequiredService<PersistedGrantDbContext>().Database.Migrate();
 
         var context = scope.ServiceProvider.GetRequiredService<ConfigurationDbContext>();
+        var config = scope.ServiceProvider.GetRequiredService<Config>();
+        
         context.Database.Migrate();
+        
         if (!context.Clients.Any())
         {
-            foreach (var client in Config.Clients)
+            foreach (var client in config.GetClients())
             {
                 context.Clients.Add(client.ToEntity());
             }
@@ -37,7 +41,7 @@ public class SeedData
 
         if (!context.IdentityResources.Any())
         {
-            foreach (var resource in Config.IdentityResources)
+            foreach (var resource in config.GetIdentityResources())
             {
                 context.IdentityResources.Add(resource.ToEntity());
             }
@@ -46,7 +50,7 @@ public class SeedData
 
         if (!context.ApiScopes.Any())
         {
-            foreach (var resource in Config.ApiScopes)
+            foreach (var resource in config.GetApiScopes())
             {
                 context.ApiScopes.Add(resource.ToEntity());
             }
@@ -54,214 +58,87 @@ public class SeedData
         }
     }
 
-    private static void AddRoles(IServiceScope scope)
-    {
-        var roleMgr = scope.ServiceProvider.GetRequiredService<RoleManager<ApplicationRole>>();
-        if (!roleMgr.RoleExistsAsync("admin").Result)
-        {
-            var role = new ApplicationRole { Name = "admin" };
-            var result = roleMgr.CreateAsync(role).Result;
-            if (!result.Succeeded)
-            {
-                throw new Exception(result.Errors.First().Description);
-            }
-
-            result = roleMgr.AddClaimAsync(role, new Claim("permission", "vouchers.issue")).Result;
-            if (!result.Succeeded)
-            {
-                throw new Exception(result.Errors.First().Description);
-            }
-
-            Log.Debug("'admin' role created");
-        }
-        else
-        {
-            Log.Debug("'admin' role already exists");
-        }
-    }
-
-    private static void AddUsers(IServiceScope scope)
+    private static void AddRolesAndUsers(IServiceScope scope)
     {
         var context = scope.ServiceProvider.GetService<ApplicationDbContext>();
         context.Database.Migrate();
 
-        AddRoles(scope);
-
+        var config = scope.ServiceProvider.GetRequiredService<Config>();
+        var roleMgr = scope.ServiceProvider.GetRequiredService<RoleManager<ApplicationRole>>();
         var userMgr = scope.ServiceProvider.GetRequiredService<UserManager<ApplicationUser>>();
 
-        #region Dev Users
-        //var admin = userMgr.FindByNameAsync("admin@email.com").Result;
-        //if (admin == null)
-        //{
-        //    admin = new ApplicationUser
-        //    {
-        //        UserName = "admin@email.com",
-        //        Email = "admin@email.com",
-        //        EmailConfirmed = true,
-        //    };
-        //    var result = userMgr.CreateAsync(admin, "Pass123$").Result;
-        //    if (!result.Succeeded)
-        //    {
-        //        throw new Exception(result.Errors.First().Description);
-        //    }
-
-        //    result = userMgr.AddClaimsAsync(admin, [
-        //                    new Claim(JwtClaimTypes.Name, "Admin User"),
-        //                    new Claim(JwtClaimTypes.GivenName, "Admin"),
-        //                ]).Result;
-        //    if (!result.Succeeded)
-        //    {
-        //        throw new Exception(result.Errors.First().Description);
-        //    }
-
-        //    result = userMgr.AddToRoleAsync(admin, "admin").Result;
-        //    if (!result.Succeeded)
-        //    {
-        //        throw new Exception(result.Errors.First().Description);
-        //    }
-        //    Log.Debug("admin created");
-        //}
-        //else
-        //{
-        //    Log.Debug("admin already exists");
-        //}
-
-        //var alice = userMgr.FindByNameAsync("alice@email.com").Result;
-        //if (alice == null)
-        //{
-        //    alice = new ApplicationUser
-        //    {
-        //        UserName = "alice@email.com",
-        //        Email = "AliceSmith@email.com",
-        //        EmailConfirmed = true,
-        //    };
-        //    var result = userMgr.CreateAsync(alice, "Pass123$").Result;
-        //    if (!result.Succeeded)
-        //    {
-        //        throw new Exception(result.Errors.First().Description);
-        //    }
-
-        //    result = userMgr.AddClaimsAsync(alice, [
-        //                    new Claim(JwtClaimTypes.Name, "Alice Smith"),
-        //                    new Claim(JwtClaimTypes.GivenName, "Alice"),
-        //                ]).Result;
-        //    if (!result.Succeeded)
-        //    {
-        //        throw new Exception(result.Errors.First().Description);
-        //    }
-        //    Log.Debug("alice created");
-        //}
-        //else
-        //{
-        //    Log.Debug("alice already exists");
-        //}
-
-        //var bob = userMgr.FindByNameAsync("bob@email.com").Result;
-        //if (bob == null)
-        //{
-        //    bob = new ApplicationUser
-        //    {
-        //        UserName = "bob@email.com",
-        //        Email = "BobSmith@email.com",
-        //        EmailConfirmed = true,
-        //    };
-        //    var result = userMgr.CreateAsync(bob, "Pass123$").Result;
-        //    if (!result.Succeeded)
-        //    {
-        //        throw new Exception(result.Errors.First().Description);
-        //    }
-
-        //    result = userMgr.AddClaimsAsync(bob, [
-        //                    new Claim(JwtClaimTypes.Name, "Bob Smith"),
-        //                    new Claim(JwtClaimTypes.GivenName, "Bob"),
-        //                    new Claim(JwtClaimTypes.FamilyName, "Smith"),
-        //                ]).Result;
-        //    if (!result.Succeeded)
-        //    {
-        //        throw new Exception(result.Errors.First().Description);
-        //    }
-        //    Log.Debug("bob created");
-        //}
-        //else
-        //{
-        //    Log.Debug("bob already exists");
-        //}
-        #endregion
-
-        #region Demo/Test users
-        var admin = userMgr.FindByNameAsync("admin@example.com").Result;
-        if (admin == null)
+        // Create roles
+        foreach (var roleConfig in config.GetRoles())
         {
-            admin = new ApplicationUser
+            if (!roleMgr.RoleExistsAsync(roleConfig.Name).Result)
             {
-                UserName = "admin@example.com",
-                Email = "admin@example.com",
-                EmailConfirmed = true,
-            };
-            var result = userMgr.CreateAsync(admin, "SecurePassword123!").Result;
-            if (!result.Succeeded)
-            {
-                throw new Exception(result.Errors.First().Description);
-            }
+                var role = new ApplicationRole { Name = roleConfig.Name };
+                var result = roleMgr.CreateAsync(role).Result;
+                if (!result.Succeeded)
+                {
+                    throw new Exception(result.Errors.First().Description);
+                }
 
-            result = userMgr.AddClaimsAsync(admin, [
-                            new Claim(JwtClaimTypes.Name, "Admin User"),
-                            new Claim(JwtClaimTypes.GivenName, "Admin"),
-                            new Claim(JwtClaimTypes.FamilyName, "User")
-                        ]).Result;
-            if (!result.Succeeded)
-            {
-                throw new Exception(result.Errors.First().Description);
-            }
+                foreach (var claim in roleConfig.Claims)
+                {
+                    result = roleMgr.AddClaimAsync(role, new Claim(claim.Type, claim.Value)).Result;
+                    if (!result.Succeeded)
+                    {
+                        throw new Exception(result.Errors.First().Description);
+                    }
+                }
 
-            result = userMgr.AddToRoleAsync(admin, "admin").Result;
-            if (!result.Succeeded)
-            {
-                throw new Exception(result.Errors.First().Description);
+                Log.Debug($"'{roleConfig.Name}' role created");
             }
-            Log.Debug("Admin created");
-        }
-        else
-        {
-            Log.Debug("Admin already exists");
+            else
+            {
+                Log.Debug($"'{roleConfig.Name}' role already exists");
+            }
         }
 
-        var demo = userMgr.FindByNameAsync("demo@example.com").Result;
-        if (demo == null)
+        // Create users
+        foreach (var userConfig in config.GetUsers())
         {
-            demo = new ApplicationUser
+            var user = userMgr.FindByNameAsync(userConfig.UserName).Result;
+            if (user == null)
             {
-                UserName = "demo@example.com",
-                Email = "demo@example.com",
-                EmailConfirmed = true,
-            };
-            var result = userMgr.CreateAsync(demo, "SecurePassword123!").Result;
-            if (!result.Succeeded)
-            {
-                throw new Exception(result.Errors.First().Description);
-            }
+                user = new ApplicationUser
+                {
+                    UserName = userConfig.UserName,
+                    Email = userConfig.Email,
+                    EmailConfirmed = userConfig.EmailConfirmed,
+                };
+                var result = userMgr.CreateAsync(user, userConfig.Password).Result;
+                if (!result.Succeeded)
+                {
+                    throw new Exception(result.Errors.First().Description);
+                }
 
-            result = userMgr.AddClaimsAsync(demo, [
-                            new Claim(JwtClaimTypes.Name, "Demo User"),
-                            new Claim(JwtClaimTypes.GivenName, "Demo"),
-                            new Claim(JwtClaimTypes.FamilyName, "User")
-                        ]).Result;
-            if (!result.Succeeded)
-            {
-                throw new Exception(result.Errors.First().Description);
-            }
+                if (userConfig.Claims.Length > 0)
+                {
+                    var claims = userConfig.Claims.Select(c => new Claim(c.Type, c.Value)).ToArray();
+                    result = userMgr.AddClaimsAsync(user, claims).Result;
+                    if (!result.Succeeded)
+                    {
+                        throw new Exception(result.Errors.First().Description);
+                    }
+                }
 
-            result = userMgr.AddToRoleAsync(demo, "admin").Result;
-            if (!result.Succeeded)
-            {
-                throw new Exception(result.Errors.First().Description);
+                foreach (var roleName in userConfig.Roles)
+                {
+                    result = userMgr.AddToRoleAsync(user, roleName).Result;
+                    if (!result.Succeeded)
+                    {
+                        throw new Exception(result.Errors.First().Description);
+                    }
+                }
+
+                Log.Debug($"'{userConfig.UserName}' user created");
             }
-            Log.Debug("Demo created");
+            else
+            {
+                Log.Debug($"'{userConfig.UserName}' user already exists");
+            }
         }
-        else
-        {
-            Log.Debug("Demo already exists");
-        }
-        #endregion
     }
 }

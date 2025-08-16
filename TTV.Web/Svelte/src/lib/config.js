@@ -7,7 +7,7 @@ export const config = {
   },
   oidc: {
     authority: env.PUBLIC_OIDC_AUTHORITY,
-    client_id: 'ttv_web_blazor',
+    client_id: 'ttv_web_frontend',
     redirect_uri: `${window.location.origin}/authentication/login-callback`,
     response_type: 'code',
     scope: 'openid profile email ttv_web_api',

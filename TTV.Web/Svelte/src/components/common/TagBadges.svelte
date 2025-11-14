@@ -13,6 +13,6 @@
   }
 </script>
 
-{#each tags as tag}
+{#each tags as tag (tag.name)}
   <span class="badge {getTagBackground(tag.priority)} mx-1">{tag.name}</span>
 {/each}

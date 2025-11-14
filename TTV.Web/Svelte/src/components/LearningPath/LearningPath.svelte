@@ -4,8 +4,9 @@
   import ErrorCard from '$components/common/ErrorCard.svelte';
   import ProgressLoader from '$components/common/ProgressLoader.svelte';
   import { onMount } from 'svelte';
+  import { SvelteSet } from 'svelte/reactivity';
 
-  let expandedSections = new Set();
+  let expandedSections = new SvelteSet();
   let selectedLearningPath = '';
   let selectedCurriculum = '1'; // Default to CAPS
 
@@ -32,7 +33,7 @@
   }
 
   function expandAllSections() {
-    const allSections = new Set();
+    const allSections = new SvelteSet();
 
     function addItemsToExpanded(items, parentPath) {
       items.forEach((item) => {

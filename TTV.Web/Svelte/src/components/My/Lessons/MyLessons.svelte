@@ -6,6 +6,7 @@
   import LessonCard from '$components/common/LessonCard.svelte';
   import { onMount } from 'svelte';
   import Pagination from '$components/common/Pagination.svelte';
+  import { resolve } from '$app/paths';
 
   onMount(async () => {
     await myLessonsActions.getOwnedLessonsPage(state.pageInfo?.skip || 0, state.pageInfo?.take || defaultPageSize);
@@ -57,7 +58,7 @@
         <div class="col text-center d-flex flex-column gap-3 mt-3">
           Your lesson library is empty.
           <a
-            href="/lessons"
+            href={resolve('/lessons')}
             class="card-link">Find some lessons.</a>
         </div>
       </div>

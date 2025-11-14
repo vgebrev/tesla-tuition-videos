@@ -103,7 +103,7 @@
       class="carousel slide h-100-6rem"
       data-bs-ride="carousel">
       <div class="carousel-indicators">
-        {#each testimonials as testimonial, i}
+        {#each testimonials as testimonial, i (testimonial.seq)}
           <button
             type="button"
             data-bs-target="#testimonialsCarousel"
@@ -113,7 +113,7 @@
         {/each}
       </div>
       <div class="carousel-inner h-100 d-flex align-items-center">
-        {#each testimonials as testimonial, i}
+        {#each testimonials as testimonial, i (testimonial.seq)}
           <div
             class="carousel-item"
             class:active={i === 0}>

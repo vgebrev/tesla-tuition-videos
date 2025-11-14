@@ -1,5 +1,6 @@
 <script>
   import { updated } from '$app/stores';
+  import { resolve } from '$app/paths';
 </script>
 
 {#if $updated}
@@ -14,7 +15,7 @@
         aria-label="Close alert"></button>
       We've made some improvements to our website. Please
       <a
-        href="/"
+        href={resolve('/')}
         class="alert-link"
         on:click|preventDefault={() => window.location.reload()}>reload</a> to update.
     </div>

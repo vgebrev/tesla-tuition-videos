@@ -3,6 +3,7 @@
   import { myOrdersActions, myOrdersStore } from '$components/My/Orders/my-orders.js';
   import OrderDetail from '$components/My/Orders/OrderDetail.svelte';
   import Pagination from '$components/common/Pagination.svelte';
+  import { resolve } from '$app/paths';
 
   onMount(async () => {
     await myOrdersActions.getOrders();
@@ -14,8 +15,9 @@
    * @param {number} take
    */
   async function onPageChange(skip, take) {
-    state.pageInfo.skip = skip;
-    state.pageInfo.take = take;
+    const pageInfo = state.pageInfo;
+    pageInfo.skip = skip;
+    pageInfo.take = take;
     await myOrdersActions.getOrders();
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }
@@ -45,7 +47,7 @@
         <div class="col text-center d-flex flex-column gap-3 mt-3">
           Your order history is empty.
           <a
-            href="/lessons"
+            href={resolve('/lessons')}
             class="card-link">Order some lessons.</a>
         </div>
       </div>

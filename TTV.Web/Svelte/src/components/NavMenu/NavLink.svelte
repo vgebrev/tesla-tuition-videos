@@ -1,5 +1,6 @@
 <script>
   import { goto } from '$app/navigation';
+  import { resolve } from '$app/paths';
 
   export let href = '/';
   export let cssClass = 'nav-link';
@@ -7,13 +8,13 @@
   export let target = '.navbar-collapse.show';
 
   function navigate() {
-    goto(href);
+    goto(resolve(href));
   }
 </script>
 
 <a
   class={cssClass}
-  {href}
+  href={resolve(href)}
   data-bs-toggle={toggle}
   data-bs-target={target}
   {...$$restProps}

@@ -2,6 +2,7 @@ import { writable } from 'svelte/store';
 import { UserManager } from 'oidc-client';
 import { config } from '$lib/config';
 import { goto } from '$app/navigation';
+import { resolve } from '$app/paths';
 
 /** OIDC user manager
  * @type {UserManager} */
@@ -95,7 +96,7 @@ async function fullSignin() {
         state.isLoading = false;
         return state;
       });
-      await goto('/authentication/error', { replaceState: true });
+      await goto(resolve('/authentication/error'), { replaceState: true });
     }
   }
 }

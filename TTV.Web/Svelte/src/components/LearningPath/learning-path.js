@@ -56,7 +56,7 @@ async function getLearningPaths() {
 async function getLessonDetails(lessonId) {
   // Check if lesson is already loaded
   const currentState = get(learningPathsState);
-  if (currentState.loadedLessons.find((lesson) => lesson.id === lessonId)) {
+  if (currentState.loadedLessons && currentState.loadedLessons.find((lesson) => lesson.id === lessonId)) {
     return; // Already loaded
   }
 
@@ -71,7 +71,7 @@ async function getLessonDetails(lessonId) {
     const lesson = await response.json();
 
     learningPathsState.update((state) => {
-      state.loadedLessons = [...state.loadedLessons, lesson];
+      state.loadedLessons = [...(state.loadedLessons || []), lesson];
       state.isLoading = false;
       return state;
     });

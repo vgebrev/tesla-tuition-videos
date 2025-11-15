@@ -71,8 +71,8 @@ export const api = {
 
   /**
    * Generic fetch from the API
-   * @param url
-   * @param options
+   * @param {RequestInfo | URL} url
+   * @param {RequestInit} [options]
    * @returns {Promise<Response>}
    */
   fetch: (url, options = {}) => apiFetch(url, { ...options })

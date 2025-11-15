@@ -7,6 +7,7 @@
    * @returns {string}
    */
   function getProviderIconClass(provider) {
+    /** @type {Record<string, string>} */
     const icons = {
       'TTV Account': 'bi bi-person',
       Google: 'bi bi-google'

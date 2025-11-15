@@ -1,6 +1,6 @@
 import { sveltekit } from '@sveltejs/kit/vite';
 import { defineConfig } from 'vitest/config';
-import fs from 'fs';
+import fs from 'node:fs';
 
 export default defineConfig({
   plugins: [sveltekit()],

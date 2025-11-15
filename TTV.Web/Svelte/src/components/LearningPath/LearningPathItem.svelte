@@ -9,7 +9,7 @@
    * @property {string} description
    * @property {number} sequence
    * @property {number|null} lessonId
-   * @property {Lookup[]} curricula
+   * @property {import('$lib/types').Lookup[]} curricula
    * @property {LearningPathItem[]} [items]
    */
 
@@ -50,7 +50,7 @@
     } else {
       expandedSections.add(id);
       // If this is a lesson item and we don't have lesson data, fetch it
-      if (isLessonItem && !lessonData) {
+      if (isLessonItem && !lessonData && item.lessonId !== null) {
         learningPathsActions.getLessonDetails(item.lessonId);
       }
     }

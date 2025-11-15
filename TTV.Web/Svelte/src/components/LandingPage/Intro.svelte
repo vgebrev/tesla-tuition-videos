@@ -58,7 +58,7 @@
         </div>
         <div class="col-12 col-md-6 my-1">
           <a
-            href={resolve('/lesson/37')}
+            href={resolve('/lesson/[lessonId]', { lessonId: '37' })}
             class="btn btn-lg btn-outline-primary p-3 flex-fill w-75">Try a Free Lesson</a>
         </div>
       </div>

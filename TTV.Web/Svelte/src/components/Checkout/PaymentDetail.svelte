@@ -23,7 +23,7 @@
   }
 
   function completeOrder() {
-    goto(resolve(`/order-complete/${order.id}`));
+    goto(resolve('/order-complete/[orderId]', { orderId: String(order.id) }));
   }
 
   async function orderPayment() {

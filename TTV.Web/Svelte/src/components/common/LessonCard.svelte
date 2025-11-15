@@ -18,7 +18,7 @@
   <div class="card-body">
     <div class="row">
       <div class="col-12">
-        <a href={resolve(`/lesson/${lesson.id}`)}
+        <a href={resolve('/lesson/[lessonId]', { lessonId: String(lesson.id) })}
           ><img
             class="rounded-4 w-100"
             src={thumbnailUri}
@@ -31,7 +31,7 @@
   </div>
   <div class="card-footer d-flex justify-content-between align-items-baseline">
     <a
-      href={resolve(`/lesson/${lesson.id}`)}
+      href={resolve('/lesson/[lessonId]', { lessonId: String(lesson.id) })}
       class="card-link">View Lesson</a>
     <LessonOwnView {lesson}>
       <div slot="owned">

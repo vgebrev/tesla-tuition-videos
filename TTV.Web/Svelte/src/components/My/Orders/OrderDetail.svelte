@@ -8,7 +8,7 @@
   export let order;
 
   function checkout() {
-    goto(resolve(`/checkout/${order.id}`));
+    goto(resolve('/checkout/[orderId]', { orderId: String(order.id) }));
   }
 
   /** Get the thumbnail URI for a lesson
@@ -30,7 +30,7 @@
     {#each order.lessons as lesson (lesson.id)}
       <div class="row align-items-start mb-2">
         <div class="col-3 text-end">
-          <a href={resolve(`/lesson/${lesson.id}`)}
+          <a href={resolve('/lesson/[lessonId]', { lessonId: String(lesson.id) })}
             ><img
               class="rounded-2 icon-lg"
               src={getThumbnailUri(lesson.id)}
@@ -39,7 +39,7 @@
         </div>
         <div class="col-6">
           <small>
-            <a href={resolve(`/lesson/${lesson.id}`)}>{lesson.title}</a>
+            <a href={resolve('/lesson/[lessonId]', { lessonId: String(lesson.id) })}>{lesson.title}</a>
           </small>
         </div>
         <div class="col-3">R{lesson.currentPrice.effectiveAmount.toFixed(0)}</div>

@@ -15,7 +15,7 @@
     <div class="col text-center d-flex flex-column gap-3 mt-3">
       The payment for Order #{orderId} was cancelled.
       <a
-        href={resolve(`/checkout/${orderId}`)}
+        href={resolve('/checkout/[orderId]', { orderId: String(orderId) })}
         title="Contact us"
         class="card-link">Try again.</a>
     </div>

@@ -117,5 +117,5 @@ async function confirmOrder() {
     state.isLoading = false;
     return state;
   });
-  if (order) await goto(resolve(`/checkout/${order.id}`));
+  if (order) await goto(resolve('/checkout/[orderId]', { orderId: String(order.id) }));
 }

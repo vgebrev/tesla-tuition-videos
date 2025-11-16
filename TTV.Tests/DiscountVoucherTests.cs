@@ -1,4 +1,4 @@
-﻿using FluentAssertions;
+﻿using Shouldly;
 using TTV.Domain.Entities;
 
 namespace TTV.Tests;
@@ -13,8 +13,8 @@ public class DiscountVoucherTests
 
         var result = discountVoucher.ClaimBy(user);
 
-        result.IsSuccess.Should().BeTrue();
-        discountVoucher.ClaimedBy.Should().Be(user);
+        result.IsSuccess.ShouldBeTrue();
+        discountVoucher.ClaimedBy.ShouldBe(user);
     }
 
     [Fact]
@@ -27,9 +27,9 @@ public class DiscountVoucherTests
         var user2 = new User() { Id = Guid.NewGuid() };
         var result = discountVoucher.ClaimBy(user2);
 
-        result.IsSuccess.Should().BeFalse();
-        result.Message.Should().Be("The voucher has been used by someone else");
-        discountVoucher.ClaimedBy.Should().Be(user1);
+        result.IsSuccess.ShouldBeFalse();
+        result.Message.ShouldBe("The voucher has been used by someone else");
+        discountVoucher.ClaimedBy.ShouldBe(user1);
     }
 
     [Fact]
@@ -41,7 +41,7 @@ public class DiscountVoucherTests
 
         var result = discountVoucher.ClaimBy(user);
 
-        result.IsSuccess.Should().BeTrue();
-        discountVoucher.ClaimedBy.Should().Be(user);
+        result.IsSuccess.ShouldBeTrue();
+        discountVoucher.ClaimedBy.ShouldBe(user);
     }
 }

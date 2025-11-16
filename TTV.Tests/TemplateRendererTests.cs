@@ -1,4 +1,4 @@
-﻿using FluentAssertions;
+﻿using Shouldly;
 using Microsoft.Extensions.Logging.Abstractions;
 using TTV.Infrastructure.Notifications.Templates;
 
@@ -14,6 +14,6 @@ public class TemplateRendererTests
 
         var result = await renderer.RenderAsync(order);
 
-        result.Should().NotBeNullOrEmpty();
+        result.ShouldNotBeNullOrEmpty();
     }
 }

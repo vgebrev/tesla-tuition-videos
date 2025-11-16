@@ -1,5 +1,5 @@
 using FakeItEasy;
-using FluentAssertions;
+using Shouldly;
 using Microsoft.Extensions.Options;
 using TTV.Application;
 using TTV.Domain.Entities;
@@ -18,6 +18,6 @@ public class DiscountVoucherCodeGeneratorTests
         var voucher = new DiscountVoucher();
         var generator = new DiscountVoucherCodeGenerator(fakeOptions);
 
-        generator.Generate(voucher).Length.Should().Be(12);
+        generator.Generate(voucher).Length.ShouldBe(12);
     }
 }

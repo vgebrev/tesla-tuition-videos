@@ -1,4 +1,4 @@
-﻿using FluentAssertions;
+﻿using Shouldly;
 using TTV.Domain.Entities;
 
 namespace TTV.Tests;
@@ -21,12 +21,12 @@ public  class ApplyDiscountVoucherTests(ApplyDiscountVoucherTestsContext context
 
         var result = order.ApplyDiscountVoucher(discountVoucher);
 
-        result.IsSuccess.Should().BeTrue();
-        discountVoucher.RemainingAmount.Should().Be(voucherAmount - expectedDiscountAmount);
-        discountVoucher.ClaimedBy.Should().Be(order.PlacedBy);
-        discountVoucher.OrdersAppliedTo.Single().Order.Should().Be(order);
-        order.TotalAmount.Should().Be(lessonPrice - expectedDiscountAmount);
-        order.AppliedVouchers.Single().Voucher.Should().Be(discountVoucher);
+        result.IsSuccess.ShouldBeTrue();
+        discountVoucher.RemainingAmount.ShouldBe(voucherAmount - expectedDiscountAmount);
+        discountVoucher.ClaimedBy.ShouldBe(order.PlacedBy);
+        discountVoucher.OrdersAppliedTo.Single().Order.ShouldBe(order);
+        order.TotalAmount.ShouldBe(lessonPrice - expectedDiscountAmount);
+        order.AppliedVouchers.Single().Voucher.ShouldBe(discountVoucher);
     }
 
     [Theory]
@@ -42,7 +42,7 @@ public  class ApplyDiscountVoucherTests(ApplyDiscountVoucherTestsContext context
 
         var result = order.ApplyDiscountVoucher(context.Voucher);
 
-        result.IsSuccess.Should().Be(expectedIsSuccess);
+        result.IsSuccess.ShouldBe(expectedIsSuccess);
     }
 
     [Theory]
@@ -56,7 +56,7 @@ public  class ApplyDiscountVoucherTests(ApplyDiscountVoucherTestsContext context
 
         var result = order.ApplyDiscountVoucher(context.Voucher);
 
-        result.IsSuccess.Should().Be(expectedIsSuccess);
+        result.IsSuccess.ShouldBe(expectedIsSuccess);
     }
 
     [Fact]
@@ -68,7 +68,7 @@ public  class ApplyDiscountVoucherTests(ApplyDiscountVoucherTestsContext context
 
         var result = context.Order.ApplyDiscountVoucher(discountVoucher);
 
-        result.IsSuccess.Should().BeFalse();
+        result.IsSuccess.ShouldBeFalse();
     }
 
     [Theory]
@@ -83,7 +83,7 @@ public  class ApplyDiscountVoucherTests(ApplyDiscountVoucherTestsContext context
 
         var result = context.Order.ApplyDiscountVoucher(discountVoucher);
 
-        result.IsSuccess.Should().Be(expectedIsSuccess);
+        result.IsSuccess.ShouldBe(expectedIsSuccess);
     }
 
     [Theory]
@@ -97,6 +97,6 @@ public  class ApplyDiscountVoucherTests(ApplyDiscountVoucherTestsContext context
 
         var result = context.Order.ApplyDiscountVoucher(discountVoucher);
 
-        result.IsSuccess.Should().Be(expectedIsSuccess);
+        result.IsSuccess.ShouldBe(expectedIsSuccess);
     }
 }

@@ -3,6 +3,7 @@
   import Modal from '$components/common/Modal.svelte';
   import PayByBankTransfer from '$components/Checkout/PayByBankTransfer.svelte';
   import { goto } from '$app/navigation';
+  import { resolve } from '$app/paths';
   import PayfastPaymentMethodsPopover from '$components/Checkout/PayfastPaymentMethodsPopover.svelte';
 
   /** @type {import('$lib/types').Order} */
@@ -22,7 +23,7 @@
   }
 
   function completeOrder() {
-    goto(`/order-complete/${order.id}`);
+    goto(resolve('/order-complete/[orderId]', { orderId: String(order.id) }));
   }
 
   async function orderPayment() {

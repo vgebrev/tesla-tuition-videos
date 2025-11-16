@@ -1,6 +1,7 @@
 <script>
   import { onMount, onDestroy } from 'svelte';
   import { observer } from '$lib/intersection-observer';
+  import { resolve } from '$app/paths';
 
   /** @type {HTMLElement} */
   let headerElem;
@@ -52,12 +53,12 @@
       <div class="container row text-center">
         <div class="col-12 col-md-6 my-1">
           <a
-            href="/lessons"
+            href={resolve('/lessons')}
             class="btn btn-lg btn-outline-primary p-3 flex-fill w-75">Browse Lessons</a>
         </div>
         <div class="col-12 col-md-6 my-1">
           <a
-            href="/lesson/37"
+            href={resolve('/lesson/[lessonId]', { lessonId: '37' })}
             class="btn btn-lg btn-outline-primary p-3 flex-fill w-75">Try a Free Lesson</a>
         </div>
       </div>

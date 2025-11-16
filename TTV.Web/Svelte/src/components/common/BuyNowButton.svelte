@@ -1,6 +1,7 @@
 <script>
   import { shoppingCartActions, shoppingCartStore } from '$components/ShoppingCart/shopping-cart.js';
   import PriceDisplay from '$components/common/PriceDisplay.svelte';
+  import { resolve } from '$app/paths';
 
   /** @type {import('$lib/types').Lesson} */
   export let lesson;
@@ -24,7 +25,7 @@
   <span class="text-primary">
     <i class="bi bi-cart-check"></i> Added to
     <a
-      href="/shopping-cart"
+      href={resolve('/shopping-cart')}
       class="card-link">cart</a
     >.
   </span>

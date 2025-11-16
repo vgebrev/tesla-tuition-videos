@@ -18,8 +18,7 @@
    */
   async function setPage(page) {
     if (page < 1 || page > totalPages) return;
-    currentPage = page;
-    const skip = (currentPage - 1) * pageInfo.take;
+    const skip = (page - 1) * pageInfo.take;
     isLoading = true;
     onPageChange && (await onPageChange(skip, pageInfo.take));
     isLoading = false;
@@ -41,7 +40,7 @@
     </li>
 
     <!-- eslint-disable-next-line no-unused-vars -->
-    {#each Array(totalPages) as _, i}
+    {#each Array(totalPages) as _, i (i)}
       <li
         class="page-item"
         class:active={currentPage === i + 1}>

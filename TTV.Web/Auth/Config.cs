@@ -56,6 +56,7 @@ public class Config(IOptionsSnapshot<IdentityServerSettings> config)
             ClientId = client.ClientId,
             ClientName = client.ClientName,
             RequireClientSecret = client.RequireClientSecret,
+            RequirePkce = client.RequirePkce,
             AllowedGrantTypes = client.AllowedGrantTypes.ToList(),
             RedirectUris = client.RedirectUris.ToList(),
             PostLogoutRedirectUris = client.PostLogoutRedirectUris.ToList(),

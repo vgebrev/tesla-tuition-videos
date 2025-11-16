@@ -3,6 +3,7 @@
   import AuthorizeView from '$components/common/AuthorizeView.svelte';
   import LoginLink from '$components/common/LoginLink.svelte';
   import NavLink from '$components/NavMenu/NavLink.svelte';
+  import { resolve } from '$app/paths';
 
   async function logout() {
     authStore.update((state) => {
@@ -20,7 +21,7 @@
     let:user>
     <div class="nav-item dropdown">
       <a
-        href="/"
+        href={resolve('/')}
         class="nav-link dropdown-toggle"
         data-bs-toggle="dropdown"
         role="button"

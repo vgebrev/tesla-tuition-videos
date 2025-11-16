@@ -7,6 +7,7 @@
   import { formatDate, isPast } from '$lib/util.js';
   import Pagination from '$components/common/Pagination.svelte';
   import { defaultPageSize } from '$lib/config.js';
+  import { resolve } from '$app/paths';
 
   onMount(async () => {
     await myDiscountVouchersActions.getDiscountVouchers(
@@ -77,7 +78,7 @@
           We didn't find any vouchers in your name.
           <span
             ><a
-              href="/contact-us"
+              href={resolve('/contact-us')}
               title="Contact us"
               class="card-link">Contact us</a> to find out more.</span>
         </div>

@@ -4,6 +4,7 @@
   import ProgressLoader from '$components/common/ProgressLoader.svelte';
   import ErrorCard from '$components/common/ErrorCard.svelte';
   import LessonCard from '$components/common/LessonCard.svelte';
+  import { resolve } from '$app/paths';
 
   /** @type {number} */
   export let orderId;
@@ -33,7 +34,7 @@
           <div class="card-body">
             <p class="card-text">
               Thank you! You've successfully added the lessons below to <a
-                href="/my/library"
+                href={resolve('/my/library')}
                 title="your library">your library</a>
             </p>
           </div>

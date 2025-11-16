@@ -2,6 +2,7 @@ import { get, writable } from 'svelte/store';
 import { defaultErrorMessage } from '$lib/config.js';
 import { api } from '$lib/api.js';
 import { goto } from '$app/navigation';
+import { resolve } from '$app/paths';
 import { checkoutStore } from '$components/Checkout/checkout.js';
 
 /** @type {import('$lib/types').ShoppingCartStoreState} */
@@ -116,5 +117,5 @@ async function confirmOrder() {
     state.isLoading = false;
     return state;
   });
-  if (order) await goto(`/checkout/${order.id}`);
+  if (order) await goto(resolve('/checkout/[orderId]', { orderId: String(order.id) }));
 }

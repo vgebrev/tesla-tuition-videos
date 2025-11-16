@@ -33,6 +33,7 @@ public record ClientSettings
     public string ClientId { get; init; } = string.Empty;
     public string ClientName { get; init; } = string.Empty;
     public bool RequireClientSecret { get; init; } = false;
+    public bool RequirePkce { get; init; } = true;
     public string[] AllowedGrantTypes { get; init; } = [];
     public string[] RedirectUris { get; init; } = [];
     public string[] PostLogoutRedirectUris { get; init; } = [];

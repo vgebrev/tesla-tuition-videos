@@ -3,6 +3,11 @@ import { api } from '$lib/api.js';
 
 export const aiTutorAnswer = writable('');
 
+/**
+ * Ask the AI tutor a question
+ * @param {string} question
+ * @returns {Promise<void>}
+ */
 export async function askAiTutor(question) {
   aiTutorAnswer.set('Thinking...');
 
@@ -11,6 +16,10 @@ export async function askAiTutor(question) {
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ userInput: question })
   });
+
+  if (!response.body) {
+    throw new Error('Response body is null');
+  }
 
   const reader = response.body.getReader();
   const decoder = new TextDecoder();

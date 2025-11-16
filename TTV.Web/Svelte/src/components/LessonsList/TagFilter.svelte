@@ -69,7 +69,7 @@
           class="btn btn-sm btn-outline-primary m-1"
           on:click={clearFilter}><i class="bi bi-x me-1"></i> Clear</button>
       </div>
-      {#each Object.entries(groupBy(state.tags, (tag) => tag.category.name)) as [category, tags]}
+      {#each Object.entries(groupBy(state.tags, (tag) => tag.category.name)) as [category, tags] (category)}
         <h5 class="card-title">{category}</h5>
         <ul class="list-group list-group-flush">
           {#each tags as tag (tag.id)}

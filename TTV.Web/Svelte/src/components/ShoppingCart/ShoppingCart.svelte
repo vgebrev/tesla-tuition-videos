@@ -7,6 +7,7 @@
   import ProgressLoader from '$components/common/ProgressLoader.svelte';
   import { shoppingCartActions, shoppingCartStore } from '$components/ShoppingCart/shopping-cart.js';
   import { sum } from '$lib/util.js';
+  import { resolve } from '$app/paths';
 
   function confirmOrder() {
     shoppingCartActions.confirmOrder();
@@ -68,7 +69,7 @@
       <div class="col text-center d-flex flex-column gap-3 mt-3">
         Your shopping cart is empty.
         <a
-          href="/lessons"
+          href={resolve('/lessons')}
           class="card-link">Find some lessons.</a>
       </div>
     </div>

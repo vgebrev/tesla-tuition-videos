@@ -1,5 +1,6 @@
 <script>
   import { config } from '$lib/config.js';
+  import { resolve } from '$app/paths';
 
   const mailtoLink = `mailto:${config.contactInfo.supportEmail}`;
 </script>
@@ -61,7 +62,9 @@
               purposes.
             </p>
             <p>
-              For further information, please refer to our detailed <a href="cookies-policy">Cookies Policy</a>.
+              For further information, please refer to our detailed <a href={resolve('/cookies-policy')}
+                >Cookies Policy</a
+              >.
             </p>
           </li>
         </ol>

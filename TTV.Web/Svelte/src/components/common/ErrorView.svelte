@@ -1,8 +1,11 @@
 <script>
+  import { resolve } from '$app/paths';
+
   export let showStatus = false;
   export let status = 500;
   export let errorMessage = 'Unexpected Error';
 
+  /** @type {Record<number, string[]>} */
   const errorMessages = {
     404: [
       "Experiment Failed! We lost this page in a lab explosion. Let's try a different formula!",
@@ -46,6 +49,6 @@
   </h3>
   <p class="lead">{message}</p>
   <a
-    href="/"
+    href={resolve('/')}
     class="mt-4">Back to Home</a>
 </main>

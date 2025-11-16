@@ -1,5 +1,6 @@
 <script>
   import { config } from '$lib/config';
+  import { resolve } from '$app/paths';
 
   const mailtoLink = `mailto:${config.contactInfo.supportEmail}`;
 </script>
@@ -108,7 +109,8 @@
             <strong>Third-Party Sharing:</strong> Data is not shared with third parties, except as required by law.
           </li>
           <li>
-            For further information, please refer to our detailed <a href="privacy-policy">Privacy Policy.</a>
+            For further information, please refer to our detailed <a href={resolve('/privacy-policy')}
+              >Privacy Policy.</a>
           </li>
         </ul>
       </li>
@@ -128,7 +130,7 @@
             make every effort to keep the Content current and free of errors, we are human and mistakes happen. We
             welcome all feedback and encourage you to
             <a
-              href="/contact-us"
+              href={resolve('/contact-us')}
               title="get in touch">get in touch</a> with any corrections and inaccuracies you may find while using the Site.
           </li>
           <li>

@@ -51,7 +51,9 @@
     <PackageReference Include="Serilog.Sinks.File" Version="7.0.0" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="10.0.1" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="10.0.0" />
-
+    <!-- Pins a transitive dependency of Swashbuckle.AspNetCore.Swagger. 2.3.0 is flagged
+         by NuGet audit (GHSA-v5pm-xwqc-g5wc); fixed in 2.7.5. -->
+    <PackageReference Include="Microsoft.OpenApi" Version="2.11.0" />
   </ItemGroup>
 
   <ItemGroup>

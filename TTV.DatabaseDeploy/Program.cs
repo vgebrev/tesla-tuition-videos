@@ -7,7 +7,15 @@ using TTV.DatabaseDeploy;
 using TTV.Infrastructure.DataAccess;
 
 using IHost host = Host.CreateDefaultBuilder(args)
-    .ConfigureAppConfiguration(configure => configure.AddUserSecrets(Assembly.GetExecutingAssembly()))
+    // This host defaults to the Production environment, so CreateDefaultBuilder does not add user
+    // secrets itself and they have to be added explicitly. Anything appended here lands at the end
+    // of the provider chain and therefore wins, so re-add environment variables and command line
+    // afterwards to restore the conventional precedence — otherwise the connection string cannot be
+    // overridden for a one-off run against a different database.
+    .ConfigureAppConfiguration(configure => configure
+        .AddUserSecrets(Assembly.GetExecutingAssembly())
+        .AddEnvironmentVariables()
+        .AddCommandLine(args))
     .ConfigureServices((context, services) =>
     {
         services.AddDbContext<DataContext>(options => {

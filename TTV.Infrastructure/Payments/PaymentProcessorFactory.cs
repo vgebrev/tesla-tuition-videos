@@ -19,6 +19,6 @@ public class PaymentProcessorFactory(ILoggerFactory loggerFactory, IOptionsSnaps
             PaymentType.Payfast => new PayfastPaymentProcessor(loggerFactory.CreateLogger<PayfastPaymentProcessor>(), settings.PayfastSettings, httpClientFactory),
             PaymentType.PayPal => new PayPalPaymentProcessor(),
             _ => throw new NotImplementedException(),
-        }; ;
+        };
     }
 }

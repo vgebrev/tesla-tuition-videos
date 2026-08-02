@@ -607,12 +607,17 @@ namespace TTV.DatabaseDeploy
 
         public async Task<SampleData> PopulateAsync()
         {
+            // Migrations run outside the seeding transaction, for two reasons:
+            // EF manages its own transaction and migration lock per migration (and warns if it
+            // finds an ambient one), and opening a transaction first requires the database to
+            // already exist — which prevents bootstrapping a fresh server, where MigrateAsync
+            // is what creates it.
+            Console.WriteLine("Running migrations.");
+            await dataContext.Database.MigrateAsync();
+
             await using var transaction = await dataContext.Database.BeginTransactionAsync();
             try
             {
-                Console.WriteLine("Running migrations.");
-                await dataContext.Database.MigrateAsync();
-
                 Console.WriteLine("Syncing Data.");
                 await SyncEntityAsync(TagCategories);
                 await SyncEntityAsync(Tags, includes: $"{nameof(Tag.Category)}", SyncTagCategories);

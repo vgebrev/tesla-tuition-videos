@@ -33,6 +33,12 @@
       <PrivateAssets>all</PrivateAssets>
     </PackageReference>
     <PackageReference Include="Microsoft.Extensions.Hosting" Version="10.0.0" />
+    <!-- Pins a transitive design-time dependency of Microsoft.EntityFrameworkCore.Design
+         (via Microsoft.CodeAnalysis.Workspaces.MSBuild -> Microsoft.Build.Tasks.Core).
+         9.0.0 is flagged by NuGet audit (GHSA-w3x6-4m5h-cxqf et al.); fixed in 10.0.6. -->
+    <PackageReference Include="System.Security.Cryptography.Xml" Version="10.0.10">
+      <PrivateAssets>all</PrivateAssets>
+    </PackageReference>
   </ItemGroup>
 
   <ItemGroup>

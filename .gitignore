@@ -282,3 +282,6 @@ Workspace/**
 /TTV.Web/Api/Videos/Thumbnails
 /TTV.Web/Api/Videos/LimitedAccess/**
 /TTV.Web/Api/Documents
+
+# Local docker-compose environment (holds MSSQL_SA_PASSWORD)
+/.env

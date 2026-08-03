@@ -10,7 +10,7 @@ export const config = {
     client_id: 'ttv_web_frontend',
     redirect_uri: `${window.location.origin}/authentication/login-callback`,
     response_type: 'code',
-    scope: 'openid profile email ttv_web_api',
+    scope: 'openid profile email role ttv_web_api',
     post_logout_redirect_uri: `${window.location.origin}/authentication/logout-callback`,
     automaticSilentRenew: true,
     silent_redirect_uri: `${window.location.origin}/authentication/silent-renew.html`,

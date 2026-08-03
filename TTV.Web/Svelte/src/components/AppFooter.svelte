@@ -1,5 +1,7 @@
 <script>
   import { resolve } from '$app/paths';
+
+  const currentYear = new Date().getFullYear();
 </script>
 
 <footer
@@ -7,8 +9,8 @@
   data-bs-theme="dark">
   <div class="d-flex justify-content-center">
     <div class="text-center p-3">
-      Copyright &copy; 2024-2025 Tesla Tuition Videos | All Rights Reserved | <a href={resolve('/terms-and-conditions')}
-        >Terms and Conditions</a>
+      Copyright &copy; 2024-{currentYear} Tesla Tuition Videos | All Rights Reserved |
+      <a href={resolve('/terms-and-conditions')}>Terms and Conditions</a>
       | <a href={resolve('/privacy-policy')}>Privacy Policy</a> |
       <a href={resolve('/cookies-policy')}>Cookies Policy</a>
       <br />
